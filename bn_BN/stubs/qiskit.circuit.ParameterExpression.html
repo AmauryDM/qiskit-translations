@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.ParameterExpression &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.circuit.ParameterExpression &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -398,16 +398,19 @@ serving as their placeholder in expr.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.gradient" title="qiskit.circuit.ParameterExpression.gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gradient</span></code></a>(param)</p></td>
 <td><p>Get the derivative of a parameter expression w.r.t.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.log" title="qiskit.circuit.ParameterExpression.log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.is_real" title="qiskit.circuit.ParameterExpression.is_real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_real</span></code></a>()</p></td>
+<td><p>Return whether the expression is real</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.log" title="qiskit.circuit.ParameterExpression.log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log</span></code></a>()</p></td>
 <td><p>Logarithm of a ParameterExpression</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.sin" title="qiskit.circuit.ParameterExpression.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sin</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.sin" title="qiskit.circuit.ParameterExpression.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sin</span></code></a>()</p></td>
 <td><p>Sine of a ParameterExpression</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.subs" title="qiskit.circuit.ParameterExpression.subs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subs</span></code></a>(parameter_map)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.subs" title="qiskit.circuit.ParameterExpression.subs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subs</span></code></a>(parameter_map)</p></td>
 <td><p>Returns a new Expression with replacement Parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.tan" title="qiskit.circuit.ParameterExpression.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tan</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.ParameterExpression.tan" title="qiskit.circuit.ParameterExpression.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tan</span></code></a>()</p></td>
 <td><p>Tangent of a ParameterExpression</p></td>
 </tr>
 </tbody>
@@ -451,7 +454,7 @@ expression.</p>
 <dt class="field-odd">প্যারামিটার</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parameter</strong> (<a class="reference internal" href="qiskit.circuit.Parameter.html#qiskit.circuit.Parameter" title="qiskit.circuit.Parameter"><em>Parameter</em></a>) -- A parameter in this expression whose value will be updated.</p></li>
-<li><p><strong>value</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) -- The new value to bind to.</p></li>
+<li><p><strong>value</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) -- The new value to bind to.</p></li>
 </ul>
 </dd>
 <dt class="field-even">রিটার্ন টাইপ</dt>
@@ -533,6 +536,12 @@ parameter_values.</p>
 <dd class="field-odd"><p>ParameterExpression representing the gradient of param_expr w.r.t. param</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.circuit.ParameterExpression.is_real">
+<code class="sig-name descname">is_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/circuit/parameterexpression.html#ParameterExpression.is_real"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.circuit.ParameterExpression.is_real" title="এই সংজ্ঞার পার্মালিঙ্ক">¶</a></dt>
+<dd><p>Return whether the expression is real</p>
 </dd></dl>
 
 <dl class="py method">
@@ -619,7 +628,7 @@ instances with which they should be replaced.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -657,7 +666,7 @@ instances with which they should be replaced.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

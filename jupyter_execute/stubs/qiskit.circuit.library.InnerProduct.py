@@ -6,20 +6,11 @@
 
 from qiskit.circuit.library import InnerProduct
 import qiskit.tools.jupyter
-circuit = InnerProduct(5)
+circuit = InnerProduct(4)
 get_ipython().run_line_magic('circuit_library_info', 'circuit')
 
 
 # In[2]:
-
-
-from qiskit.circuit.library import InnerProduct
-import qiskit.tools.jupyter
-circuit = InnerProduct(5)
-get_ipython().run_line_magic('circuit_library_info', 'circuit')
-
-
-# In[3]:
 
 
 from qiskit.circuit import QuantumCircuit, Parameter
@@ -38,7 +29,7 @@ print('Assigned in-place:')
 print(circuit.draw())
 
 
-# In[4]:
+# In[3]:
 
 
 from qiskit.circuit import QuantumCircuit, ParameterVector
@@ -56,7 +47,7 @@ print('The original circuit is unchanged:')
 print(circuit.draw())
 
 
-# In[5]:
+# In[4]:
 
 
 from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
@@ -69,7 +60,7 @@ qc.measure(q, c)
 qc.draw(output='mpl', style={'backgroundcolor': '#EEEEEE'})
 
 
-# In[6]:
+# In[5]:
 
 
 import numpy as np
@@ -80,7 +71,7 @@ circuit.initialize([1/np.sqrt(2), -1/np.sqrt(2)], 0)
 circuit.draw()
 
 
-# In[7]:
+# In[6]:
 
 
 import numpy as np
@@ -91,7 +82,7 @@ circuit.initialize('01', circuit.qubits)
 circuit.draw()
 
 
-# In[8]:
+# In[7]:
 
 
 from qiskit import QuantumCircuit

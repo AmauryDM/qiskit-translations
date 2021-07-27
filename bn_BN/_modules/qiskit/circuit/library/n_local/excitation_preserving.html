@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.n_local.excitation_preserving &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.circuit.library.n_local.excitation_preserving &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -408,17 +408,19 @@
 <span class="sd">             └──────────┘ ░ └────────────┘└────────────┘        ░ └──────────┘</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ExcitationPreserving.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.ExcitationPreserving.html#qiskit.circuit.library.ExcitationPreserving.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;iswap&#39;</span><span class="p">,</span>
-                 <span class="n">entanglement</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span>
-                 <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-                 <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;θ&#39;</span><span class="p">,</span>
-                 <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="ExcitationPreserving.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.ExcitationPreserving.html#qiskit.circuit.library.ExcitationPreserving.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;iswap&quot;</span><span class="p">,</span>
+        <span class="n">entanglement</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>
+        <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;θ&quot;</span><span class="p">,</span>
+        <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ExcitationPreserving&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a new ExcitationPreserving 2-local circuit.</span>
 
 <span class="sd">        Args:</span>
@@ -449,28 +451,31 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the selected mode is not supported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">supported_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;iswap&#39;</span><span class="p">,</span> <span class="s1">&#39;fsim&#39;</span><span class="p">]</span>
+        <span class="n">supported_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iswap&quot;</span><span class="p">,</span> <span class="s2">&quot;fsim&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_modes</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported mode </span><span class="si">{}</span><span class="s1">, choose one of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">supported_modes</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">, choose one of </span><span class="si">{</span><span class="n">supported_modes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
-        <span class="n">swap</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Interaction&#39;</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;θ&quot;</span><span class="p">)</span>
+        <span class="n">swap</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Interaction&quot;</span><span class="p">)</span>
         <span class="n">swap</span><span class="o">.</span><span class="n">rxx</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">swap</span><span class="o">.</span><span class="n">ryy</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;fsim&#39;</span><span class="p">:</span>
-            <span class="n">phi</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;φ&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fsim&quot;</span><span class="p">:</span>
+            <span class="n">phi</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;φ&quot;</span><span class="p">)</span>
             <span class="n">swap</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
-                         <span class="n">rotation_blocks</span><span class="o">=</span><span class="n">RZGate</span><span class="p">,</span>
-                         <span class="n">entanglement_blocks</span><span class="o">=</span><span class="n">swap</span><span class="p">,</span>
-                         <span class="n">entanglement</span><span class="o">=</span><span class="n">entanglement</span><span class="p">,</span>
-                         <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">,</span>
-                         <span class="n">skip_unentangled_qubits</span><span class="o">=</span><span class="n">skip_unentangled_qubits</span><span class="p">,</span>
-                         <span class="n">skip_final_rotation_layer</span><span class="o">=</span><span class="n">skip_final_rotation_layer</span><span class="p">,</span>
-                         <span class="n">parameter_prefix</span><span class="o">=</span><span class="n">parameter_prefix</span><span class="p">,</span>
-                         <span class="n">insert_barriers</span><span class="o">=</span><span class="n">insert_barriers</span><span class="p">,</span>
-                         <span class="n">initial_state</span><span class="o">=</span><span class="n">initial_state</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+            <span class="n">rotation_blocks</span><span class="o">=</span><span class="n">RZGate</span><span class="p">,</span>
+            <span class="n">entanglement_blocks</span><span class="o">=</span><span class="n">swap</span><span class="p">,</span>
+            <span class="n">entanglement</span><span class="o">=</span><span class="n">entanglement</span><span class="p">,</span>
+            <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">,</span>
+            <span class="n">skip_unentangled_qubits</span><span class="o">=</span><span class="n">skip_unentangled_qubits</span><span class="p">,</span>
+            <span class="n">skip_final_rotation_layer</span><span class="o">=</span><span class="n">skip_final_rotation_layer</span><span class="p">,</span>
+            <span class="n">parameter_prefix</span><span class="o">=</span><span class="n">parameter_prefix</span><span class="p">,</span>
+            <span class="n">insert_barriers</span><span class="o">=</span><span class="n">insert_barriers</span><span class="p">,</span>
+            <span class="n">initial_state</span><span class="o">=</span><span class="n">initial_state</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parameter_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
@@ -497,7 +502,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -532,7 +537,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

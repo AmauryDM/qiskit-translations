@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.UnitarySynthesis &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.transpiler.passes.UnitarySynthesis &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -330,32 +330,78 @@
 <h1>qiskit.transpiler.passes.UnitarySynthesis<a class="headerlink" href="#qiskit-transpiler-passes-unitarysynthesis" title="এই শিরোনামের পার্মালিঙ্ক">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.transpiler.passes.UnitarySynthesis">
-<em class="property">class </em><code class="sig-name descname">UnitarySynthesis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">basis_gates</span></em>, <em class="sig-param"><span class="n">approximation_degree</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/synthesis/unitary_synthesis.html#UnitarySynthesis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.UnitarySynthesis" title="এই সংজ্ঞার পার্মালিঙ্ক">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">UnitarySynthesis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">basis_gates</span></em>, <em class="sig-param"><span class="n">approximation_degree</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_props</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pulse_optimize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">natural_direction</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">synth_gates</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/synthesis/unitary_synthesis.html#UnitarySynthesis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.UnitarySynthesis" title="এই সংজ্ঞার পার্মালিঙ্ক">¶</a></dt>
 <dd><p>Synthesize gates according to their basis gates.</p>
 <p>Synthesize unitaries over some basis gates.</p>
-<p>This pass can approximate 2-qubit unitaries given some approximation
-closeness measure (expressed as approximation_degree). Other unitaries
-are synthesized exactly.</p>
+<p>This pass can approximate 2-qubit unitaries given some
+approximation closeness measure (expressed as
+approximation_degree). Other unitaries are synthesized
+exactly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">প্যারামিটার</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>basis_gates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) -- List of gate names to target.</p></li>
-<li><p><strong>approximation_degree</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- closeness of approximation (0: lowest, 1: highest).</p></li>
+<li><p><strong>approximation_degree</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- Closeness of approximation
+(0: lowest, 1: highest).</p></li>
+<li><p><strong>backend_props</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BackendProperties</span></code>]) -- Properties of a backend to synthesize for
+(e.g. gate fidelities).</p></li>
+<li><p><strong>pulse_optimize</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Whether to optimize pulses during
+synthesis. A value of None will attempt it but fall
+back if it doesn't succeed.</p></li>
+<li><p><strong>natural_direction</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Whether to apply synthesis considering
+directionality of 2-qubit gates. Only applies when
+<cite>pulse_optimize</cite> == True. The natural direction is
+determined by first checking to see whether the
+coupling map is unidirectional.  If there is no
+coupling map or the coupling map is bidirectional,
+the gate direction with the shorter
+duration from the backend properties will be used. If
+set to True, and a natural direction can not be
+determined, raises TranspileError. If set to None, no
+exception will be raised if a natural direction can
+not be determined.</p></li>
+<li><p><strong>synth_gates</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) -- List of gates to synthesize. If None and
+<cite>pulse_optimize</cite> is False or None, default to
+['unitary']. If None and <cite>pulse_optimzie</cite> == True,
+default to ['unitary', 'swap']</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.transpiler.passes.UnitarySynthesis.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">basis_gates</span></em>, <em class="sig-param"><span class="n">approximation_degree</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/synthesis/unitary_synthesis.html#UnitarySynthesis.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.UnitarySynthesis.__init__" title="এই সংজ্ঞার পার্মালিঙ্ক">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">basis_gates</span></em>, <em class="sig-param"><span class="n">approximation_degree</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_props</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pulse_optimize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">natural_direction</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">synth_gates</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/synthesis/unitary_synthesis.html#UnitarySynthesis.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.UnitarySynthesis.__init__" title="এই সংজ্ঞার পার্মালিঙ্ক">¶</a></dt>
 <dd><p>Synthesize unitaries over some basis gates.</p>
-<p>This pass can approximate 2-qubit unitaries given some approximation
-closeness measure (expressed as approximation_degree). Other unitaries
-are synthesized exactly.</p>
+<p>This pass can approximate 2-qubit unitaries given some
+approximation closeness measure (expressed as
+approximation_degree). Other unitaries are synthesized
+exactly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">প্যারামিটার</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>basis_gates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) -- List of gate names to target.</p></li>
-<li><p><strong>approximation_degree</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- closeness of approximation (0: lowest, 1: highest).</p></li>
+<li><p><strong>approximation_degree</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- Closeness of approximation
+(0: lowest, 1: highest).</p></li>
+<li><p><strong>backend_props</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BackendProperties</span></code>]) -- Properties of a backend to synthesize for
+(e.g. gate fidelities).</p></li>
+<li><p><strong>pulse_optimize</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Whether to optimize pulses during
+synthesis. A value of None will attempt it but fall
+back if it doesn't succeed.</p></li>
+<li><p><strong>natural_direction</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Whether to apply synthesis considering
+directionality of 2-qubit gates. Only applies when
+<cite>pulse_optimize</cite> == True. The natural direction is
+determined by first checking to see whether the
+coupling map is unidirectional.  If there is no
+coupling map or the coupling map is bidirectional,
+the gate direction with the shorter
+duration from the backend properties will be used. If
+set to True, and a natural direction can not be
+determined, raises TranspileError. If set to None, no
+exception will be raised if a natural direction can
+not be determined.</p></li>
+<li><p><strong>synth_gates</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) -- List of gates to synthesize. If None and
+<cite>pulse_optimize</cite> is False or None, default to
+['unitary']. If None and <cite>pulse_optimzie</cite> == True,
+default to ['unitary', 'swap']</p></li>
 </ul>
 </dd>
 </dl>
@@ -368,7 +414,7 @@ are synthesized exactly.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.UnitarySynthesis.__init__" title="qiskit.transpiler.passes.UnitarySynthesis.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(basis_gates[, approximation_degree])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.UnitarySynthesis.__init__" title="qiskit.transpiler.passes.UnitarySynthesis.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(basis_gates[, ...])</p></td>
 <td><p>Synthesize unitaries over some basis gates.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.UnitarySynthesis.name" title="qiskit.transpiler.passes.UnitarySynthesis.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
@@ -431,6 +477,16 @@ but cannot modify the property set (but it can be read).</p>
 <dt class="field-odd">রিটার্নস</dt>
 <dd class="field-odd"><p>Output dag with UnitaryGates synthesized to target basis.</p>
 </dd>
+<dt class="field-even">রেইজেস</dt>
+<dd class="field-even"><p><a class="reference internal" href="qiskit.transpiler.TranspilerError.html#qiskit.transpiler.TranspilerError" title="qiskit.transpiler.TranspilerError"><strong>TranspilerError</strong></a> -- <ol class="arabic simple">
+<li><p>pulse_optimize is True but pulse optimal decomposition is not known
+       for requested basis.
+    2. pulse_optimize is True and natural_direction is True but a preferred
+       gate direction can't be determined from the coupling map or the
+       relative gate lengths.</p></li>
+</ol>
+</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -463,7 +519,7 @@ but cannot modify the property set (but it can be read).</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -501,7 +557,7 @@ but cannot modify the property set (but it can be read).</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

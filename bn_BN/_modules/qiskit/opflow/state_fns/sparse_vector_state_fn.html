@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.state_fns.sparse_vector_state_fn &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.opflow.state_fns.sparse_vector_state_fn &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -353,13 +353,16 @@
 
 <span class="sd">    This class uses ``scipy.sparse.spmatrix`` for the internal representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">primitive</span><span class="p">:</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span>
 
     <span class="c1"># TODO allow normalization somehow?</span>
-<div class="viewcode-block" id="SparseVectorStateFn.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">primitive</span><span class="p">:</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">,</span>
-                 <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-                 <span class="n">is_measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="SparseVectorStateFn.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">primitive</span><span class="p">:</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">,</span>
+        <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">is_measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            primitive: The underlying sparse vector.</span>
@@ -372,17 +375,17 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">primitive</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The primitive must be a row vector of shape (x, 1).&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The primitive must be a row vector of shape (x, 1).&quot;</span><span class="p">)</span>
 
         <span class="c1"># check if the primitive is a statevector of 2^n elements</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">primitive</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">primitive</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of vector elements must be a power of 2.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of vector elements must be a power of 2.&quot;</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="n">is_measurement</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SparseVectorStateFn.primitive_strings"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.primitive_strings">[docs]</a>    <span class="k">def</span> <span class="nf">primitive_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;SparseVector&#39;</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;SparseVector&quot;</span><span class="p">}</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -391,8 +394,9 @@
 <div class="viewcode-block" id="SparseVectorStateFn.add"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Sum over statefns with different numbers of qubits, </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">, is not well &#39;</span>
-                <span class="s1">&#39;defined&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="s2">&quot;Sum over statefns with different numbers of qubits, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">, is not well &quot;</span>
+                <span class="s2">&quot;defined&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Right now doesn&#39;t make sense to add a StateFn to a Measurement</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SparseVectorStateFn</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">:</span>
@@ -403,9 +407,11 @@
         <span class="k">return</span> <span class="n">SummedOp</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="SparseVectorStateFn.adjoint"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SparseVectorStateFn&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">SparseVectorStateFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span>
-                                   <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span>
-                                   <span class="n">is_measurement</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">SparseVectorStateFn</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span>
+            <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span>
+            <span class="n">is_measurement</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">),</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="SparseVectorStateFn.equals"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SparseVectorStateFn</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">:</span>
@@ -430,11 +436,11 @@
 
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span>
         <span class="n">dok</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">todok</span><span class="p">()</span>
-        <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dok</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dok</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="n">DictStateFn</span><span class="p">(</span><span class="n">new_dict</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SparseVectorStateFn.to_matrix"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.to_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s1">&#39;to_matrix&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
+        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s2">&quot;to_matrix&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
         <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">vec</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="n">vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
@@ -448,19 +454,23 @@
         <span class="sd">&quot;&quot;&quot;Convert this state function to a ``CircuitStateFn``.&quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">.circuit_state_fn</span> <span class="kn">import</span> <span class="n">CircuitStateFn</span>
+
         <span class="n">csfn</span> <span class="o">=</span> <span class="n">CircuitStateFn</span><span class="o">.</span><span class="n">from_vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">csfn</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="n">csfn</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">prim_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;SparseVectorStateFn&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span>
-                                   <span class="k">else</span> <span class="s1">&#39;MeasurementSparseVector&#39;</span><span class="p">,</span> <span class="n">prim_str</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;SparseVectorStateFn&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="s2">&quot;MeasurementSparseVector&quot;</span><span class="p">,</span>
+                <span class="n">prim_str</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">) * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;SparseVectorStateFn&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span>
-                                        <span class="k">else</span> <span class="s1">&#39;SparseMeasurementVector&#39;</span><span class="p">,</span>
-                                        <span class="n">prim_str</span><span class="p">,</span>
-                                        <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">) * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;SparseVectorStateFn&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="s2">&quot;SparseMeasurementVector&quot;</span><span class="p">,</span>
+                <span class="n">prim_str</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+            <span class="p">)</span>
 
     <span class="c1"># pylint: disable=too-many-return-statements</span>
 <div class="viewcode-block" id="SparseVectorStateFn.eval"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span>
@@ -473,12 +483,15 @@
             <span class="k">return</span> <span class="bp">self</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot compute overlap with StateFn or Operator if not Measurement. &#39;</span>
-                             <span class="s1">&#39;Try taking sf.adjoint() first to convert to measurement.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot compute overlap with StateFn or Operator if not Measurement. &quot;</span>
+                <span class="s2">&quot;Try taking sf.adjoint() first to convert to measurement.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">front</span><span class="o">.</span><span class="n">distributive</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span>
-                                   <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">):</span>
             <span class="n">front</span> <span class="o">=</span> <span class="n">StateFn</span><span class="p">(</span><span class="n">front</span><span class="p">)</span>
@@ -488,15 +501,22 @@
         <span class="kn">from</span> <span class="nn">.operator_state_fn</span> <span class="kn">import</span> <span class="n">OperatorStateFn</span>
         <span class="kn">from</span> <span class="nn">.circuit_state_fn</span> <span class="kn">import</span> <span class="n">CircuitStateFn</span>
         <span class="kn">from</span> <span class="nn">.dict_state_fn</span> <span class="kn">import</span> <span class="n">DictStateFn</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">DictStateFn</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">v</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="n">front</span><span class="o">.</span><span class="n">coeff</span>
-                                 <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
-                            <span class="n">decimals</span><span class="o">=</span><span class="n">EVAL_SIG_DIGITS</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+                <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">v</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="n">front</span><span class="o">.</span><span class="n">coeff</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+                <span class="n">decimals</span><span class="o">=</span><span class="n">EVAL_SIG_DIGITS</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">VectorStateFn</span><span class="p">):</span>
             <span class="c1"># Need to extract the element or np.array([1]) is returned.</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="n">front</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span>
-                            <span class="n">decimals</span><span class="o">=</span><span class="n">EVAL_SIG_DIGITS</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="n">front</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="n">decimals</span><span class="o">=</span><span class="n">EVAL_SIG_DIGITS</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">):</span>
             <span class="c1"># Don&#39;t reimplement logic from CircuitStateFn</span>
@@ -507,20 +527,20 @@
 
         <span class="k">return</span> <span class="n">front</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="SparseVectorStateFn.sample"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-               <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
-               <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-               <span class="n">reverse_endianness</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="SparseVectorStateFn.sample"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.SparseVectorStateFn.html#qiskit.opflow.state_fns.SparseVectorStateFn.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">reverse_endianness</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">as_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict_fn</span><span class="p">()</span><span class="o">.</span><span class="n">primitive</span>
         <span class="n">all_states</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">as_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">deterministic_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="o">/</span> <span class="n">all_states</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">as_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="c1"># Don&#39;t need to square because probabilities_dict already does.</span>
         <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">deterministic_counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
         <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
-            <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">deterministic_counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-                                            <span class="n">size</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                                            <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">probs</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">))),</span>
-            <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">deterministic_counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">size</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">probs</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">))</span>
+            <span class="p">),</span>
+            <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">counts</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">reverse_endianness</span><span class="p">:</span>
             <span class="n">scaled_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">bstr</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="p">(</span><span class="n">prob</span> <span class="o">/</span> <span class="n">shots</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">bstr</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -544,7 +564,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -579,7 +599,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

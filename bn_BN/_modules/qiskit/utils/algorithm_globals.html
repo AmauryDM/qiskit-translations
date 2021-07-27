@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.utils.algorithm_globals &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.utils.algorithm_globals &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -348,7 +348,7 @@
 <span class="k">class</span> <span class="nc">QiskitAlgorithmGlobals</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class for global properties.&quot;&quot;&quot;</span>
 
-    <span class="n">CPU_COUNT</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s1">&#39;cpus&#39;</span><span class="p">]</span>
+    <span class="n">CPU_COUNT</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s2">&quot;cpus&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
@@ -357,10 +357,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_massive</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">settings</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_processes&#39;</span><span class="p">,</span>
-                                              <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_processes&quot;</span><span class="p">,</span> <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;User Config read error </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;User Config read error </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">random_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -381,23 +380,29 @@
     <span class="nd">@num_processes</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">num_processes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_processes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set num processes.</span>
-<span class="sd">           If &#39;None&#39; is passed, it resets to QiskitAlgorithmGlobals.CPU_COUNT</span>
+<span class="sd">        If &#39;None&#39; is passed, it resets to QiskitAlgorithmGlobals.CPU_COUNT</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">num_processes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">num_processes</span> <span class="o">=</span> <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span>
         <span class="k">elif</span> <span class="n">num_processes</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Invalid Number of Processes </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_processes</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid Number of Processes </span><span class="si">{</span><span class="n">num_processes</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">num_processes</span> <span class="o">&gt;</span> <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Number of Processes </span><span class="si">{}</span><span class="s1"> cannot be greater than cpu count </span><span class="si">{}</span><span class="s1">.&#39;</span>
-                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_processes</span><span class="p">,</span> <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Number of Processes </span><span class="si">{}</span><span class="s2"> cannot be greater than cpu count </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">num_processes</span><span class="p">,</span> <span class="n">QiskitAlgorithmGlobals</span><span class="o">.</span><span class="n">CPU_COUNT</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_processes</span> <span class="o">=</span> <span class="n">num_processes</span>
         <span class="c1"># TODO: change Terra CPU_COUNT until issue</span>
         <span class="c1"># gets resolved: https://github.com/Qiskit/qiskit-terra/issues/1963</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">parallel</span><span class="o">.</span><span class="n">CPU_COUNT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to set qiskit.tools.parallel.CPU_COUNT &quot;</span>
-                           <span class="s2">&quot;to value: &#39;</span><span class="si">%s</span><span class="s2">&#39;: Error: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Failed to set qiskit.tools.parallel.CPU_COUNT &quot;</span> <span class="s2">&quot;to value: &#39;</span><span class="si">%s</span><span class="s2">&#39;: Error: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">),</span>
+            <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
@@ -418,7 +423,7 @@
 
 
 <span class="c1"># Global instance to be used as the entry point for globals.</span>
-<span class="n">algorithm_globals</span> <span class="o">=</span> <span class="n">QiskitAlgorithmGlobals</span><span class="p">()</span>  <span class="c1"># pylint: disable=invalid-name</span>
+<span class="n">algorithm_globals</span> <span class="o">=</span> <span class="n">QiskitAlgorithmGlobals</span><span class="p">()</span>
 </pre></div>
 
              </article>
@@ -436,7 +441,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -471,7 +476,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.synthesis.unitary_synthesis &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.transpiler.passes.synthesis.unitary_synthesis &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -332,28 +332,31 @@
 
 <span class="sd">&quot;&quot;&quot;Synthesize UnitaryGates.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">inf</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.converters</span> <span class="kn">import</span> <span class="n">circuit_to_dag</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.basepasses</span> <span class="kn">import</span> <span class="n">TransformationPass</span>
+<span class="kn">from</span> <span class="nn">qiskit.transpiler.exceptions</span> <span class="kn">import</span> <span class="n">TranspilerError</span>
 <span class="kn">from</span> <span class="nn">qiskit.dagcircuit.dagcircuit</span> <span class="kn">import</span> <span class="n">DAGCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.extensions.quantum_initializer</span> <span class="kn">import</span> <span class="n">isometry</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.synthesis</span> <span class="kn">import</span> <span class="n">one_qubit_decompose</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.synthesis.two_qubit_decompose</span> <span class="kn">import</span> <span class="n">TwoQubitBasisDecomposer</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="p">(</span><span class="n">iSwapGate</span><span class="p">,</span> <span class="n">CXGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span>
-                                                   <span class="n">RXXGate</span><span class="p">,</span> <span class="n">ECRGate</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="n">iSwapGate</span><span class="p">,</span> <span class="n">CXGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span> <span class="n">RXXGate</span><span class="p">,</span> <span class="n">ECRGate</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.models</span> <span class="kn">import</span> <span class="n">BackendProperties</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.exceptions</span> <span class="kn">import</span> <span class="n">BackendPropertyError</span>
 
 
 <span class="k">def</span> <span class="nf">_choose_kak_gate</span><span class="p">(</span><span class="n">basis_gates</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Choose the first available 2q gate to use in the KAK decomposition.&quot;&quot;&quot;</span>
 
     <span class="n">kak_gate_names</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;cx&#39;</span><span class="p">:</span> <span class="n">CXGate</span><span class="p">(),</span>
-        <span class="s1">&#39;cz&#39;</span><span class="p">:</span> <span class="n">CZGate</span><span class="p">(),</span>
-        <span class="s1">&#39;iswap&#39;</span><span class="p">:</span> <span class="n">iSwapGate</span><span class="p">(),</span>
-        <span class="s1">&#39;rxx&#39;</span><span class="p">:</span> <span class="n">RXXGate</span><span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;ecr&#39;</span><span class="p">:</span> <span class="n">ECRGate</span><span class="p">()</span>
+        <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">CXGate</span><span class="p">(),</span>
+        <span class="s2">&quot;cz&quot;</span><span class="p">:</span> <span class="n">CZGate</span><span class="p">(),</span>
+        <span class="s2">&quot;iswap&quot;</span><span class="p">:</span> <span class="n">iSwapGate</span><span class="p">(),</span>
+        <span class="s2">&quot;rxx&quot;</span><span class="p">:</span> <span class="n">RXXGate</span><span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;ecr&quot;</span><span class="p">:</span> <span class="n">ECRGate</span><span class="p">(),</span>
     <span class="p">}</span>
 
     <span class="n">kak_gate</span> <span class="o">=</span> <span class="kc">None</span>
@@ -365,7 +368,7 @@
 
 
 <span class="k">def</span> <span class="nf">_choose_euler_basis</span><span class="p">(</span><span class="n">basis_gates</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;&quot;Choose the first available 1q basis to use in the Euler decomposition.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; &quot;Choose the first available 1q basis to use in the Euler decomposition.&quot;&quot;&quot;</span>
     <span class="n">basis_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">basis_gates</span> <span class="ow">or</span> <span class="p">[])</span>
 
     <span class="k">for</span> <span class="n">basis</span><span class="p">,</span> <span class="n">gates</span> <span class="ow">in</span> <span class="n">one_qubit_decompose</span><span class="o">.</span><span class="n">ONE_QUBIT_EULER_BASIS_GATES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -378,23 +381,64 @@
 <div class="viewcode-block" id="UnitarySynthesis"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.UnitarySynthesis.html#qiskit.transpiler.passes.UnitarySynthesis">[docs]</a><span class="k">class</span> <span class="nc">UnitarySynthesis</span><span class="p">(</span><span class="n">TransformationPass</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Synthesize gates according to their basis gates.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="UnitarySynthesis.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.UnitarySynthesis.html#qiskit.transpiler.passes.UnitarySynthesis.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">basis_gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-                 <span class="n">approximation_degree</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Synthesize unitaries over some basis gates.</span>
+<div class="viewcode-block" id="UnitarySynthesis.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.UnitarySynthesis.html#qiskit.transpiler.passes.UnitarySynthesis.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">basis_gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">approximation_degree</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">coupling_map</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend_props</span><span class="p">:</span> <span class="n">BackendProperties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pulse_optimize</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">natural_direction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">synth_gates</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Synthesize unitaries over some basis gates.</span>
 
-<span class="sd">        This pass can approximate 2-qubit unitaries given some approximation</span>
-<span class="sd">        closeness measure (expressed as approximation_degree). Other unitaries</span>
-<span class="sd">        are synthesized exactly.</span>
+<span class="sd">        This pass can approximate 2-qubit unitaries given some</span>
+<span class="sd">        approximation closeness measure (expressed as</span>
+<span class="sd">        approximation_degree). Other unitaries are synthesized</span>
+<span class="sd">        exactly.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            basis_gates: List of gate names to target.</span>
-<span class="sd">            approximation_degree: closeness of approximation (0: lowest, 1: highest).</span>
+<span class="sd">            approximation_degree: Closeness of approximation</span>
+<span class="sd">                (0: lowest, 1: highest).</span>
+<span class="sd">            backend_props: Properties of a backend to synthesize for</span>
+<span class="sd">                (e.g. gate fidelities).</span>
+<span class="sd">            pulse_optimize: Whether to optimize pulses during</span>
+<span class="sd">                synthesis. A value of None will attempt it but fall</span>
+<span class="sd">                back if it doesn&#39;t succeed.</span>
+<span class="sd">            natural_direction: Whether to apply synthesis considering</span>
+<span class="sd">                directionality of 2-qubit gates. Only applies when</span>
+<span class="sd">                `pulse_optimize` == True. The natural direction is</span>
+<span class="sd">                determined by first checking to see whether the</span>
+<span class="sd">                coupling map is unidirectional.  If there is no</span>
+<span class="sd">                coupling map or the coupling map is bidirectional,</span>
+<span class="sd">                the gate direction with the shorter</span>
+<span class="sd">                duration from the backend properties will be used. If</span>
+<span class="sd">                set to True, and a natural direction can not be</span>
+<span class="sd">                determined, raises TranspileError. If set to None, no</span>
+<span class="sd">                exception will be raised if a natural direction can</span>
+<span class="sd">                not be determined.</span>
+<span class="sd">            synth_gates: List of gates to synthesize. If None and</span>
+<span class="sd">                `pulse_optimize` is False or None, default to</span>
+<span class="sd">                [&#39;unitary&#39;]. If None and `pulse_optimzie` == True,</span>
+<span class="sd">                default to [&#39;unitary&#39;, &#39;swap&#39;]</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_basis_gates</span> <span class="o">=</span> <span class="n">basis_gates</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_approximation_degree</span> <span class="o">=</span> <span class="n">approximation_degree</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_approximation_degree</span> <span class="o">=</span> <span class="n">approximation_degree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coupling_map</span> <span class="o">=</span> <span class="n">coupling_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_props</span> <span class="o">=</span> <span class="n">backend_props</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pulse_optimize</span> <span class="o">=</span> <span class="n">pulse_optimize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_natural_direction</span> <span class="o">=</span> <span class="n">natural_direction</span>
+        <span class="k">if</span> <span class="n">synth_gates</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_synth_gates</span> <span class="o">=</span> <span class="n">synth_gates</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pulse_optimize</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_synth_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;unitary&quot;</span><span class="p">,</span> <span class="s2">&quot;swap&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_synth_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;unitary&quot;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="UnitarySynthesis.run"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.UnitarySynthesis.html#qiskit.transpiler.passes.UnitarySynthesis.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">DAGCircuit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DAGCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Run the UnitarySynthesis pass on `dag`.</span>
@@ -404,19 +448,31 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Output dag with UnitaryGates synthesized to target basis.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            TranspilerError:</span>
+<span class="sd">                1. pulse_optimize is True but pulse optimal decomposition is not known</span>
+<span class="sd">                   for requested basis.</span>
+<span class="sd">                2. pulse_optimize is True and natural_direction is True but a preferred</span>
+<span class="sd">                   gate direction can&#39;t be determined from the coupling map or the</span>
+<span class="sd">                   relative gate lengths.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">euler_basis</span> <span class="o">=</span> <span class="n">_choose_euler_basis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_basis_gates</span><span class="p">)</span>
         <span class="n">kak_gate</span> <span class="o">=</span> <span class="n">_choose_kak_gate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_basis_gates</span><span class="p">)</span>
-
         <span class="n">decomposer1q</span><span class="p">,</span> <span class="n">decomposer2q</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">euler_basis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">decomposer1q</span> <span class="o">=</span> <span class="n">one_qubit_decompose</span><span class="o">.</span><span class="n">OneQubitEulerDecomposer</span><span class="p">(</span><span class="n">euler_basis</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">kak_gate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">decomposer2q</span> <span class="o">=</span> <span class="n">TwoQubitBasisDecomposer</span><span class="p">(</span><span class="n">kak_gate</span><span class="p">,</span> <span class="n">euler_basis</span><span class="o">=</span><span class="n">euler_basis</span><span class="p">)</span>
+            <span class="n">decomposer2q</span> <span class="o">=</span> <span class="n">TwoQubitBasisDecomposer</span><span class="p">(</span>
+                <span class="n">kak_gate</span><span class="p">,</span> <span class="n">euler_basis</span><span class="o">=</span><span class="n">euler_basis</span><span class="p">,</span> <span class="n">pulse_optimize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pulse_optimize</span>
+            <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">named_nodes</span><span class="p">(</span><span class="s1">&#39;unitary&#39;</span><span class="p">):</span>
-
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">named_nodes</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_synth_gates</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basis_gates</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basis_gates</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="n">synth_dag</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">wires</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">decomposer1q</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
@@ -424,15 +480,91 @@
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">decomposer2q</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">synth_dag</span> <span class="o">=</span> <span class="n">circuit_to_dag</span><span class="p">(</span><span class="n">decomposer2q</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-                                                        <span class="n">basis_fidelity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_approximation_degree</span><span class="p">))</span>
+                <span class="n">synth_dag</span><span class="p">,</span> <span class="n">wires</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synth_natural_direction</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">dag</span><span class="p">,</span> <span class="n">decomposer2q</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">synth_dag</span> <span class="o">=</span> <span class="n">circuit_to_dag</span><span class="p">(</span>
-                    <span class="n">isometry</span><span class="o">.</span><span class="n">Isometry</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
+                <span class="n">synth_dag</span> <span class="o">=</span> <span class="n">circuit_to_dag</span><span class="p">(</span><span class="n">isometry</span><span class="o">.</span><span class="n">Isometry</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
 
-            <span class="n">dag</span><span class="o">.</span><span class="n">substitute_node_with_dag</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">synth_dag</span><span class="p">)</span>
+            <span class="n">dag</span><span class="o">.</span><span class="n">substitute_node_with_dag</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">synth_dag</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">dag</span></div></div>
+        <span class="k">return</span> <span class="n">dag</span></div>
+
+    <span class="k">def</span> <span class="nf">_synth_natural_direction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">dag</span><span class="p">,</span> <span class="n">decomposer2q</span><span class="p">):</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">]</span>
+        <span class="n">preferred_direction</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">synth_direction</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">physical_gate_fidelity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">wires</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dag_qubit_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">qubits</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_natural_direction</span> <span class="ow">in</span> <span class="p">{</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">}</span> <span class="ow">and</span> <span class="n">layout</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coupling_map</span><span class="p">:</span>
+            <span class="n">neighbors0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coupling_map</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">zero_one</span> <span class="o">=</span> <span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="ow">in</span> <span class="n">neighbors0</span>
+            <span class="n">neighbors1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coupling_map</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">one_zero</span> <span class="o">=</span> <span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">in</span> <span class="n">neighbors1</span>
+            <span class="k">if</span> <span class="n">zero_one</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">one_zero</span><span class="p">:</span>
+                <span class="n">preferred_direction</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">one_zero</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">zero_one</span><span class="p">:</span>
+                <span class="n">preferred_direction</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_natural_direction</span> <span class="ow">in</span> <span class="p">{</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="ow">and</span> <span class="n">preferred_direction</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">layout</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_props</span>
+        <span class="p">):</span>
+            <span class="n">len_0_1</span> <span class="o">=</span> <span class="n">inf</span>
+            <span class="n">len_1_0</span> <span class="o">=</span> <span class="n">inf</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">len_0_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_props</span><span class="o">.</span><span class="n">gate_length</span><span class="p">(</span>
+                    <span class="n">decomposer2q</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]],</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">BackendPropertyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">len_1_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_props</span><span class="o">.</span><span class="n">gate_length</span><span class="p">(</span>
+                    <span class="n">decomposer2q</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]],</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">BackendPropertyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+            <span class="k">if</span> <span class="n">len_0_1</span> <span class="o">&lt;</span> <span class="n">len_1_0</span><span class="p">:</span>
+                <span class="n">preferred_direction</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">len_1_0</span> <span class="o">&lt;</span> <span class="n">len_0_1</span><span class="p">:</span>
+                <span class="n">preferred_direction</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">preferred_direction</span><span class="p">:</span>
+                <span class="n">physical_gate_fidelity</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_props</span><span class="o">.</span><span class="n">gate_error</span><span class="p">(</span>
+                    <span class="s2">&quot;cx&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dag_qubit_index</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">preferred_direction</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_natural_direction</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">preferred_direction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No preferred direction of </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> gate &quot;</span>
+                <span class="s2">&quot;could be determined from coupling map or &quot;</span>
+                <span class="s2">&quot;gate lengths.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">basis_fidelity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_approximation_degree</span> <span class="ow">or</span> <span class="n">physical_gate_fidelity</span>
+        <span class="n">su4_mat</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span>
+        <span class="n">synth_circ</span> <span class="o">=</span> <span class="n">decomposer2q</span><span class="p">(</span><span class="n">su4_mat</span><span class="p">,</span> <span class="n">basis_fidelity</span><span class="o">=</span><span class="n">basis_fidelity</span><span class="p">)</span>
+        <span class="n">synth_dag</span> <span class="o">=</span> <span class="n">circuit_to_dag</span><span class="p">(</span><span class="n">synth_circ</span><span class="p">)</span>
+
+        <span class="c1"># if a natural direction exists but the synthesis is in the opposite direction,</span>
+        <span class="c1"># resynthesize a new operator which is the original conjugated by swaps.</span>
+        <span class="c1"># this new operator is doubly mirrored from the original and is locally equivalent.</span>
+        <span class="n">synth_dag_qubit_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">synth_dag</span><span class="o">.</span><span class="n">qubits</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="n">synth_dag</span><span class="o">.</span><span class="n">two_qubit_ops</span><span class="p">():</span>
+            <span class="n">synth_direction</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">synth_dag_qubit_index</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">synth_dag</span><span class="o">.</span><span class="n">two_qubit_ops</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">qargs</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">preferred_direction</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pulse_optimize</span> <span class="ow">in</span> <span class="p">{</span><span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="ow">and</span> <span class="n">synth_direction</span> <span class="o">!=</span> <span class="n">preferred_direction</span>
+        <span class="p">):</span>
+            <span class="n">su4_mat_mm</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">su4_mat</span><span class="p">)</span>
+            <span class="n">su4_mat_mm</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">su4_mat_mm</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">su4_mat_mm</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">su4_mat_mm</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">synth_dag</span> <span class="o">=</span> <span class="n">circuit_to_dag</span><span class="p">(</span><span class="n">decomposer2q</span><span class="p">(</span><span class="n">su4_mat_mm</span><span class="p">,</span> <span class="n">basis_fidelity</span><span class="o">=</span><span class="n">basis_fidelity</span><span class="p">))</span>
+            <span class="n">wires</span> <span class="o">=</span> <span class="n">synth_dag</span><span class="o">.</span><span class="n">wires</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">synth_dag</span><span class="p">,</span> <span class="n">wires</span></div>
 </pre></div>
 
              </article>
@@ -450,7 +582,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -485,7 +617,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

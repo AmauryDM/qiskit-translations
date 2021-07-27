@@ -43,5 +43,6 @@
       ~IMFIL.is_initial_point_required
       ~IMFIL.is_initial_point_supported
       ~IMFIL.setting
+      ~IMFIL.settings
    
    

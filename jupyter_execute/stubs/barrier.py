@@ -28,7 +28,9 @@ with pulse.build(backend) as aligned_pulse_prog:
         pulse.play(pulse.Constant(10, 1.0), d0)
         pulse.play(pulse.Constant(10, 1.0), d1)
 
-barrier_pulse_prog = transforms.remove_directives(barrier_pulse_prog)
+barrier_pulse_prog = transforms.target_qobj_transform(barrier_pulse_prog)
+aligned_pulse_prog = transforms.target_qobj_transform(aligned_pulse_prog)
+
 assert barrier_pulse_prog == aligned_pulse_prog
 
 

@@ -58,6 +58,7 @@
       ~ZFeatureMap.from_qasm_file
       ~ZFeatureMap.from_qasm_str
       ~ZFeatureMap.get_entangler_map
+      ~ZFeatureMap.get_instructions
       ~ZFeatureMap.get_unentangled_qubits
       ~ZFeatureMap.h
       ~ZFeatureMap.hamiltonian

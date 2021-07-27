@@ -15,6 +15,7 @@ with pulse.build() as pulse_prog:
         pulse.play(pulse.Constant(100, 1.0), d0)
         # this pulse will also start at t=100
         pulse.play(pulse.Constant(20, 1.0), d1)
+pulse_prog = pulse.transforms.block_to_schedule(pulse_prog)
 
 assert pulse_prog.ch_stop_time(d0) == pulse_prog.ch_start_time(d1)
 

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.spsa &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.algorithms.optimizers.spsa &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -330,7 +330,10 @@
 <span class="c1"># copyright notice, and modified files need to carry a notice indicating</span>
 <span class="c1"># that they have been altered from the originals.</span>
 
-<span class="sd">&quot;&quot;&quot;Simultaneous Perturbation Stochastic Approximation (SPSA) optimizer.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Simultaneous Perturbation Stochastic Approximation (SPSA) optimizer.</span>
+
+<span class="sd">This implementation allows both, standard first-order as well as second-order SPSA.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -338,6 +341,7 @@
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">algorithm_globals</span>
@@ -353,7 +357,7 @@
 <div class="viewcode-block" id="SPSA"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA">[docs]</a><span class="k">class</span> <span class="nc">SPSA</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Simultaneous Perturbation Stochastic Approximation (SPSA) optimizer.</span>
 
-<span class="sd">    SPSA [1] is an algorithmic method for optimizing systems with multiple unknown parameters.</span>
+<span class="sd">    SPSA [1] is an gradient descent method for optimizing systems with multiple unknown parameters.</span>
 <span class="sd">    As an optimization method, it is appropriately suited to large-scale population models,</span>
 <span class="sd">    adaptive modeling, and simulation optimization.</span>
 
@@ -361,11 +365,17 @@
 
 <span class="sd">        Many examples are presented at the `SPSA Web site &lt;http://www.jhuapl.edu/SPSA&gt;`__.</span>
 
-<span class="sd">    SPSA is a descent method capable of finding global minima,</span>
-<span class="sd">    sharing this property with other methods as simulated annealing.</span>
-<span class="sd">    Its main feature is the gradient approximation, which requires only two</span>
+<span class="sd">    The main feature of SPSA is the stochastic gradient approximation, which requires only two</span>
 <span class="sd">    measurements of the objective function, regardless of the dimension of the optimization</span>
 <span class="sd">    problem.</span>
+
+<span class="sd">    Additionally to standard, first-order SPSA, where only gradient information is used, this</span>
+<span class="sd">    implementation also allows second-order SPSA (2-SPSA) [2]. In 2-SPSA we also estimate the</span>
+<span class="sd">    Hessian of the loss with a stochastic approximation and multiply the gradient with the</span>
+<span class="sd">    inverse Hessian to take local curvature into account and improve convergence.</span>
+<span class="sd">    Notably this Hessian estimate requires only a constant number of function evaluations</span>
+<span class="sd">    unlike an exact evaluation of the Hessian, which scales quadratically in the number of</span>
+<span class="sd">    function evaluations.</span>
 
 <span class="sd">    .. note::</span>
 
@@ -378,92 +388,181 @@
 <span class="sd">    The optimization process can includes a calibration phase if neither the ``learning_rate`` nor</span>
 <span class="sd">    ``perturbation`` is provided, which requires additional functional evaluations.</span>
 <span class="sd">    (Note that either both or none must be set.) For further details on the automatic calibration,</span>
-<span class="sd">    please refer to the supplementary information section IV. of [2].</span>
+<span class="sd">    please refer to the supplementary information section IV. of [3].</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        This component has some function that is normally random. If you want to reproduce behavior</span>
+<span class="sd">        then you should set the random number generator seed in the algorithm_globals</span>
+<span class="sd">        (``qiskit.utils.algorithm_globals.random_seed = seed``).</span>
+
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">        This short example runs SPSA for the ground state calculation of the ``Z ^ Z``</span>
+<span class="sd">        observable where the ansatz is a ``PauliTwoDesign`` circuit.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from qiskit.algorithms.optimizers import SPSA</span>
+<span class="sd">            from qiskit.circuit.library import PauliTwoDesign</span>
+<span class="sd">            from qiskit.opflow import Z, StateFn</span>
+
+<span class="sd">            ansatz = PauliTwoDesign(2, reps=1, seed=2)</span>
+<span class="sd">            observable = Z ^ Z</span>
+<span class="sd">            initial_point = np.random.random(ansatz.num_parameters)</span>
+
+<span class="sd">            def loss(x):</span>
+<span class="sd">                bound = ansatz.bind_parameters(x)</span>
+<span class="sd">                return np.real((StateFn(observable, is_measurement=True) @ StateFn(bound)).eval())</span>
+
+<span class="sd">            spsa = SPSA(maxiter=300)</span>
+<span class="sd">            result = spsa.optimize(ansatz.num_parameters, loss, initial_point=initial_point)</span>
+
+<span class="sd">        To use the Hessian information, i.e. 2-SPSA, you can add `second_order=True` to the</span>
+<span class="sd">        initializer of the `SPSA` class, the rest of the code remains the same.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            two_spsa = SPSA(maxiter=300, second_order=True)</span>
+<span class="sd">            result = two_spsa.optimize(ansatz.num_parameters, loss, initial_point=initial_point)</span>
+
 
 <span class="sd">    References:</span>
 
 <span class="sd">        [1]: J. C. Spall (1998). An Overview of the Simultaneous Perturbation Method for Efficient</span>
 <span class="sd">        Optimization, Johns Hopkins APL Technical Digest, 19(4), 482–492.</span>
-<span class="sd">        `Online. &lt;https://www.jhuapl.edu/SPSA/PDF-SPSA/Spall_An_Overview.PDF&gt;`_</span>
+<span class="sd">        `Online at jhuapl.edu. &lt;https://www.jhuapl.edu/SPSA/PDF-SPSA/Spall_An_Overview.PDF&gt;`_</span>
 
-<span class="sd">        [2]: A. Kandala et al. (2017). Hardware-efficient Variational Quantum Eigensolver for</span>
+<span class="sd">        [2]: J. C. Spall (1997). Accelerated second-order stochastic optimization using only</span>
+<span class="sd">        function measurements, Proceedings of the 36th IEEE Conference on Decision and Control,</span>
+<span class="sd">        1417-1424 vol.2. `Online at IEEE.org. &lt;https://ieeexplore.ieee.org/document/657661&gt;`_</span>
+
+<span class="sd">        [3]: A. Kandala et al. (2017). Hardware-efficient Variational Quantum Eigensolver for</span>
 <span class="sd">        Small Molecules and Quantum Magnets. Nature 549, pages242–246(2017).</span>
 <span class="sd">        `arXiv:1704.05018v2 &lt;https://arxiv.org/pdf/1704.05018v2.pdf#section*.11&gt;`_</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SPSA.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-                 <span class="n">blocking</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">allowed_increase</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">trust_region</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Iterator</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">perturbation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Iterator</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">last_avg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">resamplings</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">perturbation_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CALLBACK</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="SPSA.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">blocking</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">allowed_increase</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">trust_region</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Iterator</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">perturbation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Iterator</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_avg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">resamplings</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">perturbation_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">second_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">regularization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">hessian_delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">lse_solver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_hessian</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CALLBACK</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            maxiter: The maximum number of iterations.</span>
-<span class="sd">            blocking: If True, only accepts updates that improve the loss (minus some allowed</span>
+<span class="sd">            maxiter: The maximum number of iterations. Note that this is not the maximal number</span>
+<span class="sd">                of function evaluations.</span>
+<span class="sd">            blocking: If True, only accepts updates that improve the loss (up to some allowed</span>
 <span class="sd">                increase, see next argument).</span>
-<span class="sd">            allowed_increase: If blocking is True, this sets by how much the loss can increase</span>
-<span class="sd">                and still be accepted. If None, calibrated automatically to be twice the</span>
-<span class="sd">                standard deviation of the loss function.</span>
-<span class="sd">            trust_region: If True, restricts norm of the random direction to be :math:`\leq 1`.</span>
-<span class="sd">            learning_rate: A generator yielding learning rates for the parameter updates,</span>
-<span class="sd">                :math:`a_k`. If set, also ``perturbation`` must be provided.</span>
-<span class="sd">            perturbation: A generator yielding the perturbation magnitudes :math:`c_k`. If set,</span>
-<span class="sd">                also ``learning_rate`` must be provided.</span>
+<span class="sd">            allowed_increase: If ``blocking`` is ``True``, this argument determines by how much</span>
+<span class="sd">                the loss can increase with the proposed parameters and still be accepted.</span>
+<span class="sd">                If ``None``, the allowed increases is calibrated automatically to be twice the</span>
+<span class="sd">                approximated standard deviation of the loss function.</span>
+<span class="sd">            trust_region: If ``True``, restricts the norm of the update step to be :math:`\leq 1`.</span>
+<span class="sd">            learning_rate: The update step is the learning rate is multiplied with the gradient.</span>
+<span class="sd">                If the learning rate is a float, it remains constant over the course of the</span>
+<span class="sd">                optimization. If a NumPy array, the :math:`i`-th element is the learning rate for</span>
+<span class="sd">                the :math:`i`-th iteration. It can also be a callable returning an iterator which</span>
+<span class="sd">                yields the learning rates for each optimization step.</span>
+<span class="sd">                If ``learning_rate`` is set ``perturbation`` must also be provided.</span>
+<span class="sd">            perturbation: Specifies the magnitude of the perturbation for the finite difference</span>
+<span class="sd">                approximation of the gradients. See ``learning_rate`` for the supported types.</span>
+<span class="sd">                If ``perturbation`` is set ``learning_rate`` must also be provided.</span>
 <span class="sd">            last_avg: Return the average of the ``last_avg`` parameters instead of just the</span>
 <span class="sd">                last parameter values.</span>
-<span class="sd">            resamplings: The number of times the gradient is sampled using a random direction to</span>
-<span class="sd">                construct a gradient estimate. Per default the gradient is estimated using only</span>
-<span class="sd">                one random direction. If an integer, all iterations use the same number of</span>
-<span class="sd">                resamplings. If a dictionary, this is interpreted as</span>
+<span class="sd">            resamplings: The number of times the gradient (and Hessian) is sampled using a random</span>
+<span class="sd">                direction to construct a gradient estimate. Per default the gradient is estimated</span>
+<span class="sd">                using only one random direction. If an integer, all iterations use the same number</span>
+<span class="sd">                of resamplings. If a dictionary, this is interpreted as</span>
 <span class="sd">                ``{iteration: number of resamplings per iteration}``.</span>
 <span class="sd">            perturbation_dims: The number of perturbed dimensions. Per default, all dimensions</span>
 <span class="sd">                are perturbed, but a smaller, fixed number can be perturbed. If set, the perturbed</span>
 <span class="sd">                dimensions are chosen uniformly at random.</span>
+<span class="sd">            second_order: If True, use 2-SPSA instead of SPSA. In 2-SPSA, the Hessian is estimated</span>
+<span class="sd">                additionally to the gradient, and the gradient is preconditioned with the inverse</span>
+<span class="sd">                of the Hessian to improve convergence.</span>
+<span class="sd">            regularization: To ensure the preconditioner is symmetric and positive definite, the</span>
+<span class="sd">                identity times a small coefficient is added to it. This generator yields that</span>
+<span class="sd">                coefficient.</span>
+<span class="sd">            hessian_delay: Start multiplying the gradient with the inverse Hessian only after a</span>
+<span class="sd">                certain number of iterations. The Hessian is still evaluated and therefore this</span>
+<span class="sd">                argument can be useful to first get a stable average over the last iterations before</span>
+<span class="sd">                using it as preconditioner.</span>
+<span class="sd">            lse_solver: The method to solve for the inverse of the Hessian. Per default an</span>
+<span class="sd">                exact LSE solver is used, but can e.g. be overwritten by a minimization routine.</span>
+<span class="sd">            initial_hessian: The initial guess for the Hessian. By default the identity matrix</span>
+<span class="sd">                is used.</span>
 <span class="sd">            callback: A callback function passed information in each iteration step. The</span>
 <span class="sd">                information is, in this order: the number of function evaluations, the parameters,</span>
 <span class="sd">                the function value, the stepsize, whether the step was accepted.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If ``learning_rate`` or ``perturbation`` is an array with less elements</span>
+<span class="sd">                than the number of iterations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">constant</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">perturbation</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">constant</span><span class="p">(</span><span class="n">perturbation</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="n">perturbation</span>
-
+        <span class="c1"># general optimizer arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocking</span> <span class="o">=</span> <span class="n">blocking</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span> <span class="o">=</span> <span class="n">allowed_increase</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trust_region</span> <span class="o">=</span> <span class="n">trust_region</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
+
+        <span class="c1"># if learning rate and perturbation are arrays, check they are sufficiently long</span>
+        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">perturbation</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">,</span> <span class="s2">&quot;perturbation&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Length of </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is smaller than maxiter (</span><span class="si">{</span><span class="n">maxiter</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="o">=</span> <span class="n">perturbation</span>
+
+        <span class="c1"># SPSA specific arguments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocking</span> <span class="o">=</span> <span class="n">blocking</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span> <span class="o">=</span> <span class="n">allowed_increase</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_avg</span> <span class="o">=</span> <span class="n">last_avg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span> <span class="o">=</span> <span class="n">resamplings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">perturbation_dims</span> <span class="o">=</span> <span class="n">perturbation_dims</span>
 
+        <span class="c1"># 2-SPSA specific arguments</span>
+        <span class="k">if</span> <span class="n">regularization</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">regularization</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span> <span class="o">=</span> <span class="n">second_order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hessian_delay</span> <span class="o">=</span> <span class="n">hessian_delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lse_solver</span> <span class="o">=</span> <span class="n">lse_solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regularization</span> <span class="o">=</span> <span class="n">regularization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_hessian</span> <span class="o">=</span> <span class="n">initial_hessian</span>
+
         <span class="c1"># runtime arguments</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># the number of function evaluations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smoothed_hessian</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># smoothed average of the Hessians</span></div>
 
 <div class="viewcode-block" id="SPSA.calibrate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.calibrate">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="n">loss</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
-                  <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-                  <span class="n">c</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-                  <span class="n">stability_constant</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-                  <span class="n">target_magnitude</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># 2 pi / 10</span>
-                  <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.602</span><span class="p">,</span>
-                  <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.101</span><span class="p">,</span>
-                  <span class="n">modelspace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span>
+        <span class="n">loss</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">stability_constant</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">target_magnitude</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># 2 pi / 10</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.602</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.101</span><span class="p">,</span>
+        <span class="n">modelspace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calibrate SPSA parameters with a powerseries as learning rate and perturbation coeffs.</span>
 
 <span class="sd">        The powerseries are:</span>
@@ -512,7 +611,7 @@
 
         <span class="c1"># compute the rescaling factor for correct first learning rate</span>
         <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Calibration failed, using </span><span class="si">{</span><span class="n">target_magnitude</span><span class="si">}</span><span class="s1"> for `a`&#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calibration failed, using </span><span class="si">{</span><span class="n">target_magnitude</span><span class="si">}</span><span class="s2"> for `a`&quot;</span><span class="p">)</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">target_magnitude</span>
 
         <span class="c1"># set up the powerseries</span>
@@ -525,54 +624,122 @@
         <span class="k">return</span> <span class="n">learning_rate</span><span class="p">,</span> <span class="n">perturbation</span></div>
 
 <div class="viewcode-block" id="SPSA.estimate_stddev"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.estimate_stddev">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">estimate_stddev</span><span class="p">(</span><span class="n">loss</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
-                        <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-                        <span class="n">avg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">estimate_stddev</span><span class="p">(</span>
+        <span class="n">loss</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">avg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Estimate the standard deviation of the loss function.&quot;&quot;&quot;</span>
         <span class="n">losses</span> <span class="o">=</span> <span class="p">[</span><span class="n">loss</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">avg</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_point_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A single sample of the gradient at position ``x`` in direction ``delta``.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_evals_grouped</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">plus</span><span class="p">,</span> <span class="n">minus</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)))</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># if learning rate or perturbation are custom iterators expand them</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
+            <span class="n">iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">()</span>
+            <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">plus</span><span class="p">,</span> <span class="n">minus</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta</span><span class="p">),</span> <span class="n">loss</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)</span>
+            <span class="n">learning_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span>
 
-        <span class="n">gradient_sample</span> <span class="o">=</span> <span class="p">(</span><span class="n">plus</span> <span class="o">-</span> <span class="n">minus</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">):</span>
+            <span class="n">iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">()</span>
+            <span class="n">perturbation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">perturbation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">,</span>
+            <span class="s2">&quot;learning_rate&quot;</span><span class="p">:</span> <span class="n">learning_rate</span><span class="p">,</span>
+            <span class="s2">&quot;perturbation&quot;</span><span class="p">:</span> <span class="n">perturbation</span><span class="p">,</span>
+            <span class="s2">&quot;trust_region&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">trust_region</span><span class="p">,</span>
+            <span class="s2">&quot;blocking&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocking</span><span class="p">,</span>
+            <span class="s2">&quot;allowed_increase&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span><span class="p">,</span>
+            <span class="s2">&quot;resamplings&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span><span class="p">,</span>
+            <span class="s2">&quot;perturbation_dims&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation_dims</span><span class="p">,</span>
+            <span class="s2">&quot;second_order&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">,</span>
+            <span class="s2">&quot;hessian_delay&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hessian_delay</span><span class="p">,</span>
+            <span class="s2">&quot;regularization&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularization</span><span class="p">,</span>
+            <span class="s2">&quot;lse_solver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lse_solver</span><span class="p">,</span>
+            <span class="s2">&quot;initial_hessian&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_hessian</span><span class="p">,</span>
+            <span class="s2">&quot;callback&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_point_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A single sample of the gradient at position ``x`` in direction ``delta``.&quot;&quot;&quot;</span>
+        <span class="c1"># points to evaluate</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta1</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">delta1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">+=</span> <span class="mi">2</span>
 
-        <span class="k">return</span> <span class="n">gradient_sample</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">:</span>
+            <span class="n">points</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="p">(</span><span class="n">delta1</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">),</span> <span class="n">x</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">delta1</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">+=</span> <span class="mi">2</span>
 
-    <span class="k">def</span> <span class="nf">_point_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">deltas</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;The gradient estimate at point ``x`` consisting as average of all directions ``delta``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># number of samples</span>
-        <span class="n">resamplings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+        <span class="c1"># batch evaluate the points (if possible)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">_batch_evaluate</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_evals_grouped</span><span class="p">)</span>
 
+        <span class="n">plus</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">minus</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">gradient_sample</span> <span class="o">=</span> <span class="p">(</span><span class="n">plus</span> <span class="o">-</span> <span class="n">minus</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta1</span>
+
+        <span class="n">hessian_sample</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">:</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">plus</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">minus</span><span class="p">)</span>
+            <span class="n">diff</span> <span class="o">/=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span>
+
+            <span class="n">rank_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="p">)</span>
+            <span class="n">hessian_sample</span> <span class="o">=</span> <span class="n">diff</span> <span class="o">*</span> <span class="p">(</span><span class="n">rank_one</span> <span class="o">+</span> <span class="n">rank_one</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">gradient_sample</span><span class="p">,</span> <span class="n">hessian_sample</span>
+
+    <span class="k">def</span> <span class="nf">_point_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The gradient estimate at point x.&quot;&quot;&quot;</span>
         <span class="c1"># set up variables to store averages</span>
         <span class="n">gradient_estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">hessian_estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
 
         <span class="c1"># iterate over the directions</span>
-        <span class="k">for</span> <span class="n">delta</span> <span class="ow">in</span> <span class="n">deltas</span><span class="p">:</span>
-            <span class="n">gradient_sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_point_sample</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+        <span class="n">deltas1</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">bernoulli_perturbation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation_dims</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">:</span>
+            <span class="n">deltas2</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">bernoulli_perturbation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation_dims</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">deltas2</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+            <span class="n">delta1</span> <span class="o">=</span> <span class="n">deltas1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">delta2</span> <span class="o">=</span> <span class="n">deltas2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span> <span class="k">else</span> <span class="kc">None</span>
+
+            <span class="n">gradient_sample</span><span class="p">,</span> <span class="n">hessian_sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_point_sample</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="p">)</span>
             <span class="n">gradient_estimate</span> <span class="o">+=</span> <span class="n">gradient_sample</span>
 
-        <span class="k">return</span> <span class="n">gradient_estimate</span> <span class="o">/</span> <span class="n">resamplings</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">:</span>
+                <span class="n">hessian_estimate</span> <span class="o">+=</span> <span class="n">hessian_sample</span>
 
-    <span class="k">def</span> <span class="nf">_compute_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">gradient_estimate</span> <span class="o">/</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">hessian_estimate</span> <span class="o">/</span> <span class="n">num_samples</span>
+
+    <span class="k">def</span> <span class="nf">_compute_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">lse_solver</span><span class="p">):</span>
         <span class="c1"># compute the perturbations</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">avg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">num_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">avg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span>
-
-        <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">num_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resamplings</span>
 
         <span class="c1"># accumulate the number of samples</span>
-        <span class="n">deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">bernoulli_perturbation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation_dims</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">avg</span><span class="p">)]</span>
+        <span class="n">gradient</span><span class="p">,</span> <span class="n">hessian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_point_estimate</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
 
-        <span class="n">gradient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_point_estimate</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">deltas</span><span class="p">)</span>
+        <span class="c1"># precondition gradient with inverse Hessian, if specified</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">second_order</span><span class="p">:</span>
+            <span class="n">smoothed</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smoothed_hessian</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">hessian</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_smoothed_hessian</span> <span class="o">=</span> <span class="n">smoothed</span>
+
+            <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">hessian_delay</span><span class="p">:</span>
+                <span class="n">spd_hessian</span> <span class="o">=</span> <span class="n">_make_spd</span><span class="p">(</span><span class="n">smoothed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularization</span><span class="p">)</span>
+
+                <span class="c1"># solve for the gradient update</span>
+                <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">lse_solver</span><span class="p">(</span><span class="n">spd_hessian</span><span class="p">,</span> <span class="n">gradient</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">gradient</span>
 
@@ -580,19 +747,24 @@
         <span class="c1"># ensure learning rate and perturbation are correctly set: either none or both</span>
         <span class="c1"># this happens only here because for the calibration the loss function is required</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">get_learning_rate</span><span class="p">,</span> <span class="n">get_perturbation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
-            <span class="c1"># get iterator</span>
-            <span class="n">eta</span> <span class="o">=</span> <span class="n">get_learning_rate</span><span class="p">()</span>
-            <span class="n">eps</span> <span class="o">=</span> <span class="n">get_perturbation</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;If one of learning rate or perturbation is set, both must be set.&#39;</span><span class="p">)</span>
+            <span class="n">get_eta</span><span class="p">,</span> <span class="n">get_eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># get iterator</span>
-            <span class="n">eta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">()</span>
-            <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">()</span>
+            <span class="n">get_eta</span><span class="p">,</span> <span class="n">get_eps</span> <span class="o">=</span> <span class="n">_validate_pert_and_learningrate</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">perturbation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span>
+            <span class="p">)</span>
+        <span class="n">eta</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="n">get_eta</span><span class="p">(),</span> <span class="n">get_eps</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lse_solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lse_solver</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lse_solver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lse_solver</span>
 
         <span class="c1"># prepare some initials</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_hessian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_smoothed_hessian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_smoothed_hessian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_hessian</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -604,8 +776,8 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_stddev</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Starting SPSA optimization&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting SPSA optimization&quot;</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 
         <span class="c1"># keep track of the last few steps to return their average</span>
@@ -614,7 +786,7 @@
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">iteration_start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
             <span class="c1"># compute update</span>
-            <span class="n">update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_update</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">eps</span><span class="p">))</span>
+            <span class="n">update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_update</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">eps</span><span class="p">),</span> <span class="n">lse_solver</span><span class="p">)</span>
 
             <span class="c1"># trust region</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trust_region</span><span class="p">:</span>
@@ -633,19 +805,26 @@
 
                 <span class="k">if</span> <span class="n">fx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_increase</span> <span class="o">&lt;=</span> <span class="n">fx_next</span><span class="p">:</span>  <span class="c1"># accept only if loss improved</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span><span class="p">,</span>  <span class="c1"># number of function evals</span>
-                                      <span class="n">x_next</span><span class="p">,</span>  <span class="c1"># next parameters</span>
-                                      <span class="n">fx_next</span><span class="p">,</span>  <span class="c1"># loss at next parameters</span>
-                                      <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">update</span><span class="p">),</span>  <span class="c1"># size of the update step</span>
-                                      <span class="kc">False</span><span class="p">)</span>  <span class="c1"># not accepted</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span><span class="p">,</span>  <span class="c1"># number of function evals</span>
+                            <span class="n">x_next</span><span class="p">,</span>  <span class="c1"># next parameters</span>
+                            <span class="n">fx_next</span><span class="p">,</span>  <span class="c1"># loss at next parameters</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">update</span><span class="p">),</span>  <span class="c1"># size of the update step</span>
+                            <span class="kc">False</span><span class="p">,</span>
+                        <span class="p">)</span>  <span class="c1"># not accepted</span>
 
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Iteration </span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1"> rejected in </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="p">,</span>
-                                <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">iteration_start</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Iteration </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2"> rejected in </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+                        <span class="n">k</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">iteration_start</span><span class="p">,</span>
+                    <span class="p">)</span>
                     <span class="k">continue</span>
                 <span class="n">fx</span> <span class="o">=</span> <span class="n">fx_next</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Iteration </span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1"> done in </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="p">,</span>
-                        <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">iteration_start</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Iteration </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2"> done in </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">iteration_start</span>
+            <span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># if we didn&#39;t evaluate the function yet, do it now</span>
@@ -653,11 +832,13 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="n">fx_next</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">x_next</span><span class="p">)</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span><span class="p">,</span>  <span class="c1"># number of function evals</span>
-                              <span class="n">x_next</span><span class="p">,</span>  <span class="c1"># next parameters</span>
-                              <span class="n">fx_next</span><span class="p">,</span>  <span class="c1"># loss at next parameters</span>
-                              <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">update</span><span class="p">),</span>  <span class="c1"># size of the update step</span>
-                              <span class="kc">True</span><span class="p">)</span>  <span class="c1"># accepted</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_nfev</span><span class="p">,</span>  <span class="c1"># number of function evals</span>
+                    <span class="n">x_next</span><span class="p">,</span>  <span class="c1"># next parameters</span>
+                    <span class="n">fx_next</span><span class="p">,</span>  <span class="c1"># loss at next parameters</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">update</span><span class="p">),</span>  <span class="c1"># size of the update step</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>  <span class="c1"># accepted</span>
 
             <span class="c1"># update parameters</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x_next</span>
@@ -668,8 +849,8 @@
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">last_steps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_avg</span><span class="p">:</span>
                     <span class="n">last_steps</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;SPSA finished in </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SPSA finished in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_avg</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">last_steps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -679,13 +860,19 @@
 <div class="viewcode-block" id="SPSA.get_support_level"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.get_support_level">[docs]</a>    <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the support level dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
+            <span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;initial_point&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="SPSA.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="SPSA.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SPSA.html#qiskit.algorithms.optimizers.SPSA.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minimize</span><span class="p">(</span><span class="n">objective_function</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span></div></div>
 
 
@@ -695,8 +882,9 @@
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
 
     <span class="n">pert</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">perturbation_dims</span><span class="p">)</span>
-    <span class="n">indices</span> <span class="o">=</span> <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="n">perturbation_dims</span><span class="p">,</span>
-                                              <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="n">perturbation_dims</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
     <span class="n">result</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">pert</span>
 
@@ -717,6 +905,70 @@
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">eta</span>
+
+
+<span class="k">def</span> <span class="nf">_batch_evaluate</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">max_evals_grouped</span><span class="p">):</span>
+    <span class="c1"># if the function cannot handle lists of points as input, cover this case immediately</span>
+    <span class="k">if</span> <span class="n">max_evals_grouped</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># support functions with multiple arguments where the points are given in a tuple</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">point</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">function</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span>
+        <span class="p">]</span>
+
+    <span class="n">num_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+    <span class="c1"># get the number of batches</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="n">num_points</span> <span class="o">//</span> <span class="n">max_evals_grouped</span>
+    <span class="k">if</span> <span class="n">num_points</span> <span class="o">%</span> <span class="n">max_evals_grouped</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">num_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># split the points</span>
+    <span class="n">batched_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">),</span> <span class="n">num_batches</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batched_points</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">+=</span> <span class="n">function</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+
+<span class="k">def</span> <span class="nf">_make_spd</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">identity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">psd</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">psd</span> <span class="o">+</span> <span class="n">bias</span> <span class="o">*</span> <span class="n">identity</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_pert_and_learningrate</span><span class="p">(</span><span class="n">perturbation</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">perturbation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If one of learning rate or perturbation is set, both must be set.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">perturbation</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">get_eps</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">constant</span><span class="p">(</span><span class="n">perturbation</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">perturbation</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+
+        <span class="k">def</span> <span class="nf">get_eps</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">perturbation</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">get_eps</span> <span class="o">=</span> <span class="n">perturbation</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">get_eta</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">constant</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+
+        <span class="k">def</span> <span class="nf">get_eta</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">get_eta</span> <span class="o">=</span> <span class="n">learning_rate</span>
+
+    <span class="k">return</span> <span class="n">get_eta</span><span class="p">,</span> <span class="n">get_eps</span>
 </pre></div>
 
              </article>
@@ -734,7 +986,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      2021/07/12 সর্বশেষ পরিবর্তন করা হয়েছে।
+      2021/07/27 সর্বশেষ পরিবর্তন করা হয়েছে।
 
     </p>
   </div>
@@ -769,7 +1021,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
