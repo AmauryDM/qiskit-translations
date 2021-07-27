@@ -56,6 +56,7 @@
       ~GraphState.fredkin
       ~GraphState.from_qasm_file
       ~GraphState.from_qasm_str
+      ~GraphState.get_instructions
       ~GraphState.h
       ~GraphState.hamiltonian
       ~GraphState.has_register

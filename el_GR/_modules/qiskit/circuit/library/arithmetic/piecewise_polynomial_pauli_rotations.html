@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.arithmetic.piecewise_polynomial_pauli_rotations &mdash; Τεκμηρίωση του Qiskit - 0.27.0</title>
+  <title>qiskit.circuit.library.arithmetic.piecewise_polynomial_pauli_rotations &mdash; Τεκμηρίωση του Qiskit - 0.28.0</title>
   
 
   
@@ -335,7 +335,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">AncillaRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">AncillaRegister</span><span class="p">,</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.exceptions</span> <span class="kn">import</span> <span class="n">CircuitError</span>
 
 <span class="kn">from</span> <span class="nn">.functional_pauli_rotations</span> <span class="kn">import</span> <span class="n">FunctionalPauliRotations</span>
@@ -366,6 +366,7 @@
 <span class="sd">    :math:`x_{J+1} = 2^n`.</span>
 
 <span class="sd">    .. note::</span>
+
 <span class="sd">        Note the :math:`1/2` factor in the coefficients of :math:`f(x)`, this is consistent with</span>
 <span class="sd">        Qiskit&#39;s Pauli rotations.</span>
 
@@ -378,10 +379,8 @@
 <span class="sd">        ...breakpoints=breakpoints, coeffs=coeffs)</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; qc = QuantumCircuit(poly_r.num_qubits)</span>
-<span class="sd">        &gt;&gt;&gt; qc.h(list(range(qubits)))</span>
-<span class="sd">        &lt;qiskit.circuit.instructionset.InstructionSet object at 0x0000027AA5EDC9E8&gt;</span>
-<span class="sd">        &gt;&gt;&gt; qc.append(poly_r.to_instruction(), list(range(qc.num_qubits)))</span>
-<span class="sd">        &lt;qiskit.circuit.instructionset.InstructionSet object at 0x0000027AFF183C50&gt;</span>
+<span class="sd">        &gt;&gt;&gt; qc.h(list(range(qubits)));</span>
+<span class="sd">        &gt;&gt;&gt; qc.append(poly_r.to_instruction(), list(range(qc.num_qubits)));</span>
 <span class="sd">        &gt;&gt;&gt; qc.draw()</span>
 <span class="sd">             ┌───┐┌──────────┐</span>
 <span class="sd">        q_0: ┤ H ├┤0         ├</span>
@@ -407,12 +406,14 @@
 <span class="sd">             `arXiv:2009.04484 &lt;http://arxiv.org/abs/2009.04484&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PiecewisePolynomialPauliRotations.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.PiecewisePolynomialPauliRotations.html#qiskit.circuit.library.PiecewisePolynomialPauliRotations.__init__">[τεκμηρίωση]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_state_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">coeffs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pw_poly&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PiecewisePolynomialPauliRotations.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.PiecewisePolynomialPauliRotations.html#qiskit.circuit.library.PiecewisePolynomialPauliRotations.__init__">[τεκμηρίωση]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_state_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coeffs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pw_poly&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_state_qubits: The number of qubits representing the state.</span>
@@ -447,8 +448,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of breakpoints.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">)</span> <span class="ow">and</span>\
-                <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_breakpoints</span>
@@ -508,8 +512,8 @@
         <span class="n">mapped_coeffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">)):</span>
             <span class="n">mapped_coeffs</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-                <span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hom_coeffs</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">mapped_coeffs</span>
 
@@ -544,18 +548,20 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;The number of qubits has not been set.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The number of qubits has not been set.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Not enough qubits in the circuit, need at least &#39;</span>
-                                   <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not enough qubits in the circuit, need at least &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mismatching number of breakpoints and polynomials.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mismatching number of breakpoints and polynomials.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">valid</span>
 
@@ -594,19 +600,22 @@
         <span class="c1"># check whether the configuration is valid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_configuration</span><span class="p">()</span>
 
-        <span class="n">qr_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]</span>
-        <span class="n">qr_target</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]]</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">qr_state</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]</span>
+        <span class="n">qr_target</span> <span class="o">=</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]]</span>
         <span class="c1"># Ancilla for the comparator circuit</span>
-        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span>
 
         <span class="c1"># apply comparators and controlled linear rotations</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_zero_breakpoint</span><span class="p">:</span>
                 <span class="c1"># apply rotation</span>
-                <span class="n">poly_r</span> <span class="o">=</span> <span class="n">PolynomialPauliRotations</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
-                                                  <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                                  <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
+                <span class="n">poly_r</span> <span class="o">=</span> <span class="n">PolynomialPauliRotations</span><span class="p">(</span>
+                    <span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
+                    <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># apply Comparator</span>
@@ -614,19 +623,27 @@
                 <span class="n">qr_state_full</span> <span class="o">=</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">qr_ancilla</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># add compare qubit</span>
                 <span class="n">qr_remaining_ancilla</span> <span class="o">=</span> <span class="n">qr_ancilla</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># take remaining ancillas</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span>
-                            <span class="n">qr_state_full</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_remaining_ancilla</span><span class="p">[:</span><span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr_state_full</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_remaining_ancilla</span><span class="p">[:</span> <span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">]</span>
+                <span class="p">)</span>
 
                 <span class="c1"># apply controlled rotation</span>
-                <span class="n">poly_r</span> <span class="o">=</span> <span class="n">PolynomialPauliRotations</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
-                                                  <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                                  <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span>
-                            <span class="p">[</span><span class="n">qr_ancilla</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
+                <span class="n">poly_r</span> <span class="o">=</span> <span class="n">PolynomialPauliRotations</span><span class="p">(</span>
+                    <span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
+                    <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">poly_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span> <span class="p">[</span><span class="n">qr_ancilla</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span>
+                <span class="p">)</span>
 
                 <span class="c1"># uncompute comparator</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span>
-                            <span class="n">qr_state_full</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_remaining_ancilla</span><span class="p">[:</span><span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span></div>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span>
+                    <span class="n">qr_state_full</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_remaining_ancilla</span><span class="p">[:</span> <span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">],</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -644,7 +661,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Τελευταία ενημέρωση στις 2021/07/12.
+      Τελευταία ενημέρωση στις 2021/07/27.
 
     </p>
   </div>
@@ -679,7 +696,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

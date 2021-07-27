@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.library.discrete &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.pulse.library.discrete &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -330,7 +330,7 @@
 <span class="c1"># copyright notice, and modified files need to carry a notice indicating</span>
 <span class="c1"># that they have been altered from the originals.</span>
 
-<span class="c1"># pylint: disable=missing-return-doc, invalid-name</span>
+<span class="c1"># pylint: disable=missing-return-doc</span>
 
 <span class="sd">&quot;&quot;&quot;Module for builtin discrete pulses.</span>
 
@@ -386,8 +386,9 @@
 <span class="n">_sampled_square_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">square</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="square"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.square">[документация]</a><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-           <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="square"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.square">[документация]</a><span class="k">def</span> <span class="nf">square</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates square wave :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp``, :math:`T=` ``period``, and :math:`\phi=` ``phase``,</span>
@@ -409,7 +410,7 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">duration</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">duration</span>
 
     <span class="k">return</span> <span class="n">_sampled_square_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -417,8 +418,9 @@
 <span class="n">_sampled_sawtooth_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">sawtooth</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="sawtooth"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sawtooth">[документация]</a><span class="k">def</span> <span class="nf">sawtooth</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="sawtooth"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sawtooth">[документация]</a><span class="k">def</span> <span class="nf">sawtooth</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates sawtooth wave :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp``, :math:`T=` ``period``, and :math:`\phi=` ``phase``,</span>
@@ -452,7 +454,7 @@
 <span class="sd">            plt.plot(range(duration), sawtooth_wave)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">duration</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">duration</span>
 
     <span class="k">return</span> <span class="n">_sampled_sawtooth_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -460,8 +462,9 @@
 <span class="n">_sampled_triangle_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">triangle</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="triangle"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.triangle">[документация]</a><span class="k">def</span> <span class="nf">triangle</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="triangle"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.triangle">[документация]</a><span class="k">def</span> <span class="nf">triangle</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates triangle wave :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp``, :math:`T=` ``period``, and :math:`\phi=` ``phase``,</span>
@@ -495,7 +498,7 @@
 <span class="sd">            plt.plot(range(duration), triangle_wave)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">duration</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">duration</span>
 
     <span class="k">return</span> <span class="n">_sampled_triangle_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -503,8 +506,9 @@
 <span class="n">_sampled_cos_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">cos</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="cos"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.cos">[документация]</a><span class="k">def</span> <span class="nf">cos</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="cos"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.cos">[документация]</a><span class="k">def</span> <span class="nf">cos</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates cosine wave :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp``, :math:`\omega=` ``freq``, and :math:`\phi=` ``phase``,</span>
@@ -523,7 +527,7 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">duration</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">duration</span>
 
     <span class="k">return</span> <span class="n">_sampled_cos_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -531,8 +535,9 @@
 <span class="n">_sampled_sin_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">sin</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="sin"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sin">[документация]</a><span class="k">def</span> <span class="nf">sin</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="sin"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sin">[документация]</a><span class="k">def</span> <span class="nf">sin</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates sine wave :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp``, :math:`\omega=` ``freq``, and :math:`\phi=` ``phase``,</span>
@@ -551,7 +556,7 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">freq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">duration</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">duration</span>
 
     <span class="k">return</span> <span class="n">_sampled_sin_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -559,8 +564,9 @@
 <span class="n">_sampled_gaussian_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">gaussian</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="gaussian"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian">[документация]</a><span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="gaussian"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian">[документация]</a><span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates unnormalized gaussian :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp`` and :math:`\sigma=` ``sigma``, applies the ``midpoint`` sampling strategy</span>
@@ -591,19 +597,20 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">        zero_ends: If True, zero ends at ``x = -1, x = duration + 1``, but rescale to preserve amp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">zeroed_width</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">zero_ends</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">rescale_amp</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">zero_ends</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_sampled_gaussian_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span>
-                                   <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span>
-                                   <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_sampled_gaussian_pulse</span><span class="p">(</span>
+        <span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+    <span class="p">)</span></div>
 
 
 <span class="n">_sampled_gaussian_deriv_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">gaussian_deriv</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="gaussian_deriv"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian_deriv">[документация]</a><span class="k">def</span> <span class="nf">gaussian_deriv</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                   <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="gaussian_deriv"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian_deriv">[документация]</a><span class="k">def</span> <span class="nf">gaussian_deriv</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates unnormalized gaussian derivative :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp`` and :math:`\sigma=` ``sigma`` applies the `midpoint` sampling strategy</span>
@@ -621,15 +628,16 @@
 <span class="sd">        sigma: Width (standard deviation) of pulse.</span>
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">_sampled_gaussian_deriv_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <span class="n">_sampled_sech_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">sech</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="sech"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sech">[документация]</a><span class="k">def</span> <span class="nf">sech</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="sech"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.sech">[документация]</a><span class="k">def</span> <span class="nf">sech</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates unnormalized sech :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`A=` ``amp`` and :math:`\sigma=` ``sigma``, applies the ``midpoint`` sampling strategy</span>
@@ -658,12 +666,12 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">        zero_ends: If True, zero ends at ``x = -1, x = duration + 1``, but rescale to preserve amp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">zeroed_width</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">zero_ends</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">rescale_amp</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">zero_ends</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_sampled_sech_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span>
-                               <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_sampled_sech_pulse</span><span class="p">(</span>
+        <span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+    <span class="p">)</span></div>
 
 
 <span class="n">_sampled_sech_deriv_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">sech_deriv</span><span class="p">)</span>
@@ -687,16 +695,22 @@
 <span class="sd">        sigma: Width (standard deviation) of pulse.</span>
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">_sampled_sech_deriv_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <span class="n">_sampled_gaussian_square_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">gaussian_square</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="gaussian_square"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian_square">[документация]</a><span class="k">def</span> <span class="nf">gaussian_square</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                    <span class="n">risefall</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="gaussian_square"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.gaussian_square">[документация]</a><span class="k">def</span> <span class="nf">gaussian_square</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">risefall</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates gaussian square :class:`~qiskit.pulse.Waveform`.</span>
 
 <span class="sd">    For :math:`d=` ``duration``, :math:`A=` ``amp``, :math:`\sigma=` ``sigma``,</span>
@@ -739,20 +753,29 @@
         <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">width</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">risefall</span>
         <span class="k">elif</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">risefall</span> <span class="o">+</span> <span class="n">width</span> <span class="o">!=</span> <span class="n">duration</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;Both width and risefall were specified, and they are &quot;</span>
-                             <span class="s2">&quot;inconsistent: 2 * risefall + width == </span><span class="si">{}</span><span class="s2"> != &quot;</span>
-                             <span class="s2">&quot;duration == </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">risefall</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">duration</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span>
+                <span class="s2">&quot;Both width and risefall were specified, and they are &quot;</span>
+                <span class="s2">&quot;inconsistent: 2 * risefall + width == </span><span class="si">{}</span><span class="s2"> != &quot;</span>
+                <span class="s2">&quot;duration == </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">risefall</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+            <span class="p">)</span>
     <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">zeroed_width</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">zero_ends</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">_sampled_gaussian_square_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span>
-                                          <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_sampled_gaussian_square_pulse</span><span class="p">(</span>
+        <span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+    <span class="p">)</span></div>
 
 
 <span class="n">_sampled_drag_pulse</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">continuous</span><span class="o">.</span><span class="n">drag</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="drag"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.drag">[документация]</a><span class="k">def</span> <span class="nf">drag</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-         <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
+<div class="viewcode-block" id="drag"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.library.discrete.html#qiskit.pulse.library.discrete.drag">[документация]</a><span class="k">def</span> <span class="nf">drag</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">amp</span><span class="p">:</span> <span class="nb">complex</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">zero_ends</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Waveform</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates Y-only correction DRAG :class:`~qiskit.pulse.Waveform` for standard nonlinear</span>
 <span class="sd">    oscillator (SNO) [1].</span>
 
@@ -789,12 +812,19 @@
 <span class="sd">        name: Name of pulse.</span>
 <span class="sd">        zero_ends: If True, zero ends at ``x = -1, x = duration + 1``, but rescale to preserve amp.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">zeroed_width</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">zero_ends</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">rescale_amp</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">zero_ends</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_sampled_drag_pulse</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span>
-                               <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span> <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span>
-                               <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_sampled_drag_pulse</span><span class="p">(</span>
+        <span class="n">duration</span><span class="p">,</span>
+        <span class="n">amp</span><span class="p">,</span>
+        <span class="n">center</span><span class="p">,</span>
+        <span class="n">sigma</span><span class="p">,</span>
+        <span class="n">beta</span><span class="p">,</span>
+        <span class="n">zeroed_width</span><span class="o">=</span><span class="n">zeroed_width</span><span class="p">,</span>
+        <span class="n">rescale_amp</span><span class="o">=</span><span class="n">rescale_amp</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+    <span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -812,7 +842,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -847,7 +877,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

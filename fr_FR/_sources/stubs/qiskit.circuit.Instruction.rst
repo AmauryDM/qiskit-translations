@@ -39,6 +39,7 @@
       ~Instruction.decompositions
       ~Instruction.definition
       ~Instruction.duration
+      ~Instruction.label
       ~Instruction.params
       ~Instruction.unit
    

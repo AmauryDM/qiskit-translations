@@ -40,6 +40,7 @@
       ~Initialize.decompositions
       ~Initialize.definition
       ~Initialize.duration
+      ~Initialize.label
       ~Initialize.params
       ~Initialize.unit
    

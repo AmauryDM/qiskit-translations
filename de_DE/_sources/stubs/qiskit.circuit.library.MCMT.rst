@@ -56,6 +56,7 @@
       ~MCMT.fredkin
       ~MCMT.from_qasm_file
       ~MCMT.from_qasm_str
+      ~MCMT.get_instructions
       ~MCMT.h
       ~MCMT.hamiltonian
       ~MCMT.has_register

@@ -39,6 +39,7 @@
       ~SetUnitary.decompositions
       ~SetUnitary.definition
       ~SetUnitary.duration
+      ~SetUnitary.label
       ~SetUnitary.params
       ~SetUnitary.unit
    

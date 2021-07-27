@@ -54,5 +54,6 @@
       ~SparseVectorStateFn.num_qubits
       ~SparseVectorStateFn.parameters
       ~SparseVectorStateFn.primitive
+      ~SparseVectorStateFn.settings
    
    

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.basicaer.unitary_simulator &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.providers.basicaer.unitary_simulator &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -377,95 +377,72 @@
 <div class="viewcode-block" id="UnitarySimulatorPy"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.basicaer.UnitarySimulatorPy.html#qiskit.providers.basicaer.UnitarySimulatorPy">[documentos]</a><span class="k">class</span> <span class="nc">UnitarySimulatorPy</span><span class="p">(</span><span class="n">BackendV1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Python implementation of a unitary simulator.&quot;&quot;&quot;</span>
 
-    <span class="n">MAX_QUBITS_MEMORY</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s1">&#39;memory&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)))</span>
+    <span class="n">MAX_QUBITS_MEMORY</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s2">&quot;memory&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)))</span>
 
     <span class="n">DEFAULT_CONFIGURATION</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="s1">&#39;unitary_simulator&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;backend_version&#39;</span><span class="p">:</span> <span class="s1">&#39;1.1.0&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;n_qubits&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">MAX_QUBITS_MEMORY</span><span class="p">),</span>
-        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://github.com/Qiskit/qiskit-terra&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;conditional&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s1">&#39;open_pulse&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s1">&#39;max_shots&#39;</span><span class="p">:</span> <span class="mi">65536</span><span class="p">,</span>
-        <span class="s1">&#39;coupling_map&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;A python simulator for unitary matrix corresponding to a circuit&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;basis_gates&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;u1&#39;</span><span class="p">,</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span> <span class="s1">&#39;u3&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="s1">&#39;sx&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;unitary&#39;</span><span class="p">],</span>
-        <span class="s1">&#39;gates&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;backend_name&quot;</span><span class="p">:</span> <span class="s2">&quot;unitary_simulator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;backend_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_qubits&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">MAX_QUBITS_MEMORY</span><span class="p">),</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/Qiskit/qiskit-terra&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conditional&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;open_pulse&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;max_shots&quot;</span><span class="p">:</span> <span class="mi">65536</span><span class="p">,</span>
+        <span class="s2">&quot;coupling_map&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A python simulator for unitary matrix corresponding to a circuit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;basis_gates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;u1&quot;</span><span class="p">,</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span> <span class="s2">&quot;u3&quot;</span><span class="p">,</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;sx&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;cx&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;unitary&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;gates&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u1&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u1(lambda) q { U(0,0,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u1(lambda) q { U(0,0,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u2(phi,lambda) q { U(pi/2,phi,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u2(phi,lambda) q { U(pi/2,phi,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u3&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u3(theta,phi,lambda) q { U(theta,phi,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u3(theta,phi,lambda) q { U(theta,phi,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate rz(phi) q { U(0,0,phi) q; }&quot;</span><span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate rz(phi) q { U(0,0,phi) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sx&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate sx(phi) q { U(pi/2,7*pi/2,pi/2) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;sx&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate sx(phi) q { U(pi/2,7*pi/2,pi/2) q; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate x q { U(pi,7*pi/2,pi/2) q; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate cx c,t { CX c,t; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate id a { U(0,0,0) a; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;unitary&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;unitary(matrix) q1, q2,...&#39;</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate x q { U(pi,7*pi/2,pi/2) q; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;cx&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate cx c,t { CX c,t; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate id a { U(0,0,0) a; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unitary&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;unitary(matrix) q1, q2,...&quot;</span><span class="p">},</span>
+        <span class="p">],</span>
     <span class="p">}</span>
 
-    <span class="n">DEFAULT_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;initial_unitary&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;chop_threshold&quot;</span><span class="p">:</span> <span class="mf">1e-15</span>
-    <span class="p">}</span>
+    <span class="n">DEFAULT_OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;initial_unitary&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;chop_threshold&quot;</span><span class="p">:</span> <span class="mf">1e-15</span><span class="p">}</span>
 
 <div class="viewcode-block" id="UnitarySimulatorPy.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.basicaer.UnitarySimulatorPy.html#qiskit.providers.basicaer.UnitarySimulatorPy.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">configuration</span><span class="o">=</span><span class="p">(</span><span class="n">configuration</span> <span class="ow">or</span> <span class="n">QasmBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_CONFIGURATION</span><span class="p">)),</span>
+            <span class="n">configuration</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">configuration</span> <span class="ow">or</span> <span class="n">QasmBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_CONFIGURATION</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">fields</span><span class="p">)</span>
+            <span class="o">**</span><span class="n">fields</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Define attributes inside __init__.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_global_phase</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;chop_threshold&#39;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chop_threshold&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_default_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Options</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                       <span class="n">initial_unitary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chop_threshold</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">,</span>
-                       <span class="n">parameter_binds</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Options</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">initial_unitary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chop_threshold</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">,</span> <span class="n">parameter_binds</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_add_unitary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">,</span> <span class="n">qubits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Apply an N-qubit unitary matrix.</span>
@@ -479,11 +456,9 @@
         <span class="c1"># Compute einsum index string for 1-qubit matrix multiplication</span>
         <span class="n">indexes</span> <span class="o">=</span> <span class="n">einsum_matmul_index</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">)</span>
         <span class="c1"># Convert to complex rank-2N tensor</span>
-        <span class="n">gate_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-                                 <span class="n">num_qubits</span> <span class="o">*</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">gate_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span> <span class="n">num_qubits</span> <span class="o">*</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
         <span class="c1"># Apply matrix multiplication</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">gate_tensor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span><span class="p">,</span>
-                                  <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">gate_tensor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s2">&quot;no&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_validate_initial_unitary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Validate an initial unitary matrix&quot;&quot;&quot;</span>
@@ -492,36 +467,33 @@
             <span class="k">return</span>
         <span class="c1"># Check unitary is correct length for number of qubits</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="p">)</span>
-        <span class="n">required_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">,</span>
-                          <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">)</span>
+        <span class="n">required_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">shape</span> <span class="o">!=</span> <span class="n">required_shape</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s1">&#39;initial unitary is incorrect shape: &#39;</span> <span class="o">+</span>
-                                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> != 2 ** </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">required_shape</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;initial unitary is incorrect shape: </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2"> != 2 ** </span><span class="si">{</span><span class="n">required_shape</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_set_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qobj_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend_options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the backend options for all experiments in a qobj&quot;&quot;&quot;</span>
         <span class="c1"># Reset default options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;initial_unitary&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chop_threshold&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;backend_options&#39;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
-            <span class="n">backend_options</span> <span class="o">=</span> <span class="n">backend_options</span><span class="p">[</span><span class="s1">&#39;backend_options&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;backend_options&quot;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
+            <span class="n">backend_options</span> <span class="o">=</span> <span class="n">backend_options</span><span class="p">[</span><span class="s2">&quot;backend_options&quot;</span><span class="p">]</span>
 
         <span class="c1"># Check for custom initial statevector in backend_options first,</span>
         <span class="c1"># then config second</span>
-        <span class="k">if</span> <span class="s1">&#39;initial_unitary&#39;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">backend_options</span><span class="p">[</span><span class="s1">&#39;initial_unitary&#39;</span><span class="p">],</span>
-                                             <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj_config</span><span class="p">,</span> <span class="s1">&#39;initial_unitary&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qobj_config</span><span class="o">.</span><span class="n">initial_unitary</span><span class="p">,</span>
-                                             <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;initial_unitary&quot;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">backend_options</span><span class="p">[</span><span class="s2">&quot;initial_unitary&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj_config</span><span class="p">,</span> <span class="s2">&quot;initial_unitary&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qobj_config</span><span class="o">.</span><span class="n">initial_unitary</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Check the initial unitary is actually unitary</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s2">&quot;initial unitary is not a square matrix&quot;</span><span class="p">)</span>
             <span class="n">iden</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="p">))</span>
-            <span class="n">u_dagger_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="p">)</span>
+            <span class="n">u_dagger_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="p">)</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_dagger_u</span> <span class="o">-</span> <span class="n">iden</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s2">&quot;initial unitary is not unitary&quot;</span><span class="p">)</span>
@@ -529,9 +501,9 @@
 
         <span class="c1"># Check for custom chop threshold</span>
         <span class="c1"># Replace with custom options</span>
-        <span class="k">if</span> <span class="s1">&#39;chop_threshold&#39;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="n">backend_options</span><span class="p">[</span><span class="s1">&#39;chop_threshold&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj_config</span><span class="p">,</span> <span class="s1">&#39;chop_threshold&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;chop_threshold&quot;</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="n">backend_options</span><span class="p">[</span><span class="s2">&quot;chop_threshold&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj_config</span><span class="p">,</span> <span class="s2">&quot;chop_threshold&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_chop_threshold</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">chop_threshold</span>
 
     <span class="k">def</span> <span class="nf">_initialize_unitary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -539,13 +511,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_initial_unitary</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Set to identity matrix</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">,</span>
-                                   <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_unitary</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1"># Reshape to rank-N tensor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span><span class="p">,</span>
-                                   <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span> <span class="o">*</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unitary</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_qubits</span> <span class="o">*</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_get_unitary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the current unitary&quot;&quot;&quot;</span>
@@ -592,20 +562,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qobj</span><span class="p">,</span> <span class="p">(</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">assemble</span>
+
             <span class="n">out_options</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">backend_options</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="s2">&quot;Option </span><span class="si">%s</span><span class="s2"> is not used by this backend&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">,</span>
-                        <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="s2">&quot;Option </span><span class="si">%s</span><span class="s2"> is not used by this backend&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">out_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">backend_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="n">qobj</span> <span class="o">=</span> <span class="n">assemble</span><span class="p">(</span><span class="n">qobj</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">out_options</span><span class="p">)</span>
             <span class="n">qobj_options</span> <span class="o">=</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qobj_options</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_options</span><span class="p">(</span><span class="n">qobj_config</span><span class="o">=</span><span class="n">qobj_options</span><span class="p">,</span>
-                          <span class="n">backend_options</span><span class="o">=</span><span class="n">backend_options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_options</span><span class="p">(</span><span class="n">qobj_config</span><span class="o">=</span><span class="n">qobj_options</span><span class="p">,</span> <span class="n">backend_options</span><span class="o">=</span><span class="n">backend_options</span><span class="p">)</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
         <span class="n">job</span> <span class="o">=</span> <span class="n">BasicAerJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span> <span class="n">qobj</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">job</span></div>
@@ -626,15 +596,17 @@
         <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">qobj</span><span class="o">.</span><span class="n">experiments</span><span class="p">:</span>
             <span class="n">result_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">))</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
-                  <span class="s1">&#39;backend_version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">backend_version</span><span class="p">,</span>
-                  <span class="s1">&#39;qobj_id&#39;</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span>
-                  <span class="s1">&#39;job_id&#39;</span><span class="p">:</span> <span class="n">job_id</span><span class="p">,</span>
-                  <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="n">result_list</span><span class="p">,</span>
-                  <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;COMPLETED&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                  <span class="s1">&#39;time_taken&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span>
-                  <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;backend_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+            <span class="s2">&quot;backend_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">backend_version</span><span class="p">,</span>
+            <span class="s2">&quot;qobj_id&quot;</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span>
+            <span class="s2">&quot;job_id&quot;</span><span class="p">:</span> <span class="n">job_id</span><span class="p">,</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">result_list</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;COMPLETED&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;time_taken&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span>
+            <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">Result</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
@@ -674,41 +646,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_unitary</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;unitary&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;unitary&quot;</span><span class="p">:</span>
                 <span class="n">qubits</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">qubits</span>
                 <span class="n">gate</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_unitary</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">qubits</span><span class="p">)</span>
             <span class="c1"># Check if single  gate</span>
             <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">SINGLE_QUBIT_GATES</span><span class="p">:</span>
-                <span class="n">params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="n">qubit</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">gate</span> <span class="o">=</span> <span class="n">single_gate_matrix</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_unitary</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;u0&#39;</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;u0&quot;</span><span class="p">):</span>
                 <span class="k">pass</span>
             <span class="c1"># Check if CX gate</span>
-            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;CX&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;CX&quot;</span><span class="p">,</span> <span class="s2">&quot;cx&quot;</span><span class="p">):</span>
                 <span class="n">qubit0</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">qubit1</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">gate</span> <span class="o">=</span> <span class="n">cx_gate_matrix</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_unitary</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit0</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">])</span>
             <span class="c1"># Check if barrier</span>
-            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;barrier&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;barrier&quot;</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">backend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
                 <span class="n">err_msg</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> encountered unrecognized operation &quot;</span><span class="si">{1}</span><span class="s1">&quot;&#39;</span>
                 <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="n">err_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
         <span class="c1"># Add final state to data</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unitary&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_unitary</span><span class="p">()}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;unitary&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_unitary</span><span class="p">()}</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="s1">&#39;shots&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
-                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;DONE&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s1">&#39;time_taken&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span>
-                <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}</span></div>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;shots&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;DONE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;time_taken&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span>
+            <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span></div>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qobj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Semantic validations of the qobj which cannot be done via schemas.</span>
@@ -719,25 +693,30 @@
         <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span>
         <span class="n">max_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">n_qubits</span>
         <span class="k">if</span> <span class="n">n_qubits</span> <span class="o">&gt;</span> <span class="n">max_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s1">&#39;Number of qubits </span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span> <span class="o">+</span>
-                                <span class="s1">&#39;is greater than maximum (</span><span class="si">{}</span><span class="s1">) &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_qubits</span><span class="p">)</span> <span class="o">+</span>
-                                <span class="s1">&#39;for &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()))</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;shots&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. Setting shots=1.&#39;</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Number of qubits </span><span class="si">{</span><span class="n">n_qubits</span><span class="si">}</span><span class="s2"> is greater than maximum (</span><span class="si">{</span><span class="n">max_qubits</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;for &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s1">&quot;.&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;shots&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. Setting shots=1.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
             <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">qobj</span><span class="o">.</span><span class="n">experiments</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;shots&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. &#39;</span>
-                            <span class="s1">&#39;Setting shots=1 for circuit &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;shots&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. &#39;</span> <span class="s1">&#39;Setting shots=1 for circuit &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+                    <span class="n">name</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;measure&#39;</span><span class="p">,</span> <span class="s1">&#39;reset&#39;</span><span class="p">]:</span>
-                    <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s1">&#39;Unsupported &quot;</span><span class="si">%s</span><span class="s1">&quot; instruction &quot;</span><span class="si">%s</span><span class="s1">&quot; &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;in circuit &quot;</span><span class="si">%s</span><span class="s1">&quot; &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
-                                        <span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+                <span class="k">if</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="s2">&quot;reset&quot;</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span>
+                        <span class="s1">&#39;Unsupported &quot;</span><span class="si">%s</span><span class="s1">&quot; instruction &quot;</span><span class="si">%s</span><span class="s1">&quot; &#39;</span> <span class="o">+</span> <span class="s1">&#39;in circuit &quot;</span><span class="si">%s</span><span class="s1">&quot; &#39;</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+                        <span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">name</span><span class="p">,</span>
+                    <span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -755,7 +734,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -790,7 +769,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

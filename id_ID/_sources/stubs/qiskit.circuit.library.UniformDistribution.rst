@@ -56,6 +56,7 @@
       ~UniformDistribution.fredkin
       ~UniformDistribution.from_qasm_file
       ~UniformDistribution.from_qasm_str
+      ~UniformDistribution.get_instructions
       ~UniformDistribution.h
       ~UniformDistribution.hamiltonian
       ~UniformDistribution.has_register

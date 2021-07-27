@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Qiskit’e Giriş &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>Qiskit’e Giriş &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -365,7 +365,7 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="c1"># Returns counts</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">compiled_circuit</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total count for 00 and 11 are:&quot;</span><span class="p">,</span><span class="n">counts</span><span class="p">)</span>
 
 <span class="c1"># Draw the circuit</span>
@@ -375,7 +375,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;11&#39;: 514, &#39;00&#39;: 486}
+Total count for 00 and 11 are: {&#39;00&#39;: 497, &#39;11&#39;: 503}
 </pre></div>
 </div>
 <div class="output text_html"><pre style="word-wrap: normal;white-space: pre;background: #fff0;line-height: 1.1;font-family: &quot;Courier New&quot;,Courier,monospace">     ┌───┐     ┌─┐   
@@ -507,7 +507,7 @@ from qiskit.providers.basicaer import QasmSimulatorPy
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;11&#39;: 502, &#39;00&#39;: 498}
+Total count for 00 and 11 are: {&#39;11&#39;: 509, &#39;00&#39;: 491}
 </pre></div>
 </div>
 </div>
@@ -533,7 +533,7 @@ Total count for 00 and 11 are: {&#39;11&#39;: 502, &#39;00&#39;: 498}
 <p>Gözlemlenen <span class="math notranslate nohighlight">\(Pr(00)\)</span> ve <span class="math notranslate nohighlight">\(Pr(11)\)</span> olasılıkları, durumların gözlemlenme miktarlarının toplam deneme miktarına bölünmesiyle hesaplanır.</p>
 <div class="admonition note">
 <p class="admonition-title">Not</p>
-<p>Tahmini olasılıkların nasıl değiştiği görmek için <code class="docutils literal notranslate"><span class="pre">execute</span></code> metodu içerisindeki <code class="docutils literal notranslate"><span class="pre">shots</span></code> anahtar sözcüğünü değiştirmeyi deneyin.</p>
+<p>Tahmini olasılıkların nasıl değişeceğini görmek için ` ` run () ` ` yöntemindeki ` ` shots ` ` anahtar sözcüğünü değiştirmeyi deneyin.</p>
 </div>
 </section>
 </section>
@@ -573,7 +573,7 @@ Total count for 00 and 11 are: {&#39;11&#39;: 502, &#39;00&#39;: 498}
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -623,7 +623,7 @@ Total count for 00 and 11 are: {&#39;11&#39;: 502, &#39;00&#39;: 498}
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -37,6 +37,7 @@
 
    .. autosummary::
    
+      ~IBMQBackend.id_warning_issued
       ~IBMQBackend.options
       ~IBMQBackend.qobj_warning_issued
       ~IBMQBackend.version

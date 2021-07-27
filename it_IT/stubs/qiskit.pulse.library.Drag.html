@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.library.Drag &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.pulse.library.Drag &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -231,7 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -430,10 +430,13 @@ in the class docstring.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.library.Drag.id" title="qiskit.pulse.library.Drag.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
 <td><p>Unique identifier for this pulse.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.library.Drag.parameters" title="qiskit.pulse.library.Drag.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">limit_amplitude</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.library.Drag.parameters" title="qiskit.pulse.library.Drag.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
 <td><p>Return a dictionary containing the pulse’s parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.library.Drag.sigma" title="qiskit.pulse.library.Drag.sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigma</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.library.Drag.sigma" title="qiskit.pulse.library.Drag.sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigma</span></code></a></p></td>
 <td><p>The Gaussian standard deviation of the pulse width.</p></td>
 </tr>
 </tbody>
@@ -467,7 +470,7 @@ expression.</p>
 <dd><p>Return a new ParametricPulse with parameters assigned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
-<dd class="field-odd"><p><strong>value_dict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – A mapping from Parameters to either numeric values or another
+<dd class="field-odd"><p><strong>value_dict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]) – A mapping from Parameters to either numeric values or another
 Parameter expression.</p>
 </dd>
 <dt class="field-even">Tipo di ritorno</dt>
@@ -639,7 +642,7 @@ represents and the parameter values it contains.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -677,7 +680,7 @@ represents and the parameter values it contains.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

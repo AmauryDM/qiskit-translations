@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.states.quantum_state &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.quantum_info.states.quantum_state &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -381,7 +381,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng_generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng_generator</span>
 
     <span class="k">def</span> <span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -468,8 +468,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotImplementedError: if subclass does not support addition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not support addition&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not support addition&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_multiply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the scalar multipled state other * self.</span>
@@ -484,8 +483,7 @@
 <span class="sd">            NotImplementedError: if subclass does not support scala</span>
 <span class="sd">                                 multiplication.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not support scalar multiplication&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not support scalar multiplication&quot;</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -557,9 +555,8 @@
 <span class="sd">            dict: The measurement probabilities in dict (ket) form.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_to_dict</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">(</span><span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span>
-            <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">(</span><span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">sample_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sample a list of qubit measurement outcomes in the computational basis.</span>
@@ -588,7 +585,8 @@
 
         <span class="c1"># Generate list of possible outcome string labels</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">sample_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -644,8 +642,7 @@
         <span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="c1"># Format outcome</span>
-        <span class="n">outcome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span>
-            <span class="n">sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">outcome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">),</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># Convert to projector for state update</span>
         <span class="n">proj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
@@ -654,9 +651,7 @@
         <span class="c1"># Update state object</span>
         <span class="c1"># TODO: implement a more efficient state update method for</span>
         <span class="c1"># diagonal matrix multiplication</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span>
-            <span class="n">Operator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">proj</span><span class="p">),</span> <span class="n">input_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">),</span>
-            <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">proj</span><span class="p">),</span> <span class="n">input_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">outcome</span><span class="p">,</span> <span class="n">ret</span>
 
@@ -685,7 +680,7 @@
             <span class="n">str_kets</span> <span class="o">=</span> <span class="n">char_kets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">char_kets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                 <span class="k">if</span> <span class="n">max_dim</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-                    <span class="n">str_kets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">str_kets</span><span class="p">)</span>
+                    <span class="n">str_kets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">str_kets</span><span class="p">)</span>
                 <span class="n">str_kets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">str_kets</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">str_kets</span><span class="o">.</span><span class="n">T</span>
 
@@ -711,11 +706,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get indices of non-zero elements</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="n">vec</span> <span class="k">if</span> <span class="n">decimals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vec</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
-        <span class="n">inds</span><span class="p">,</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">inds</span><span class="p">,)</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
 
         <span class="c1"># Convert to ket tuple based on subsystem dimensions</span>
-        <span class="n">kets</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span>
-            <span class="n">inds</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
+        <span class="n">kets</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span><span class="n">inds</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
 
         <span class="c1"># Make dict of tuples</span>
         <span class="k">if</span> <span class="n">string_labels</span><span class="p">:</span>
@@ -743,21 +737,25 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get indices of non-zero elements</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="n">mat</span> <span class="k">if</span> <span class="n">decimals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">mat</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
-        <span class="n">inds_row</span><span class="p">,</span> <span class="n">inds_col</span><span class="p">,</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+        <span class="p">(</span>
+            <span class="n">inds_row</span><span class="p">,</span>
+            <span class="n">inds_col</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
 
         <span class="c1"># Convert to ket tuple based on subsystem dimensions</span>
-        <span class="n">bras</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span>
-            <span class="n">inds_row</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
-        <span class="n">kets</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span>
-            <span class="n">inds_col</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
+        <span class="n">bras</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span><span class="n">inds_row</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
+        <span class="n">kets</span> <span class="o">=</span> <span class="n">QuantumState</span><span class="o">.</span><span class="n">_index_to_ket_array</span><span class="p">(</span><span class="n">inds_col</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="n">string_labels</span><span class="p">)</span>
 
         <span class="c1"># Make dict of tuples</span>
         <span class="k">if</span> <span class="n">string_labels</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">|</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ket</span><span class="p">,</span> <span class="n">bra</span><span class="p">):</span> <span class="n">val</span> <span class="k">for</span> <span class="n">ket</span><span class="p">,</span> <span class="n">bra</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-                <span class="n">kets</span><span class="p">,</span> <span class="n">bras</span><span class="p">,</span> <span class="n">vals</span><span class="p">[</span><span class="n">inds_row</span><span class="p">,</span> <span class="n">inds_col</span><span class="p">])}</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ket</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">bra</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">ket</span><span class="p">,</span> <span class="n">bra</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kets</span><span class="p">,</span> <span class="n">bras</span><span class="p">,</span> <span class="n">vals</span><span class="p">[</span><span class="n">inds_row</span><span class="p">,</span> <span class="n">inds_col</span><span class="p">])</span>
+            <span class="p">}</span>
 
-        <span class="k">return</span> <span class="p">{(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ket</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bra</span><span class="p">)):</span> <span class="n">val</span> <span class="k">for</span> <span class="n">ket</span><span class="p">,</span> <span class="n">bra</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-            <span class="n">kets</span><span class="p">,</span> <span class="n">bras</span><span class="p">,</span> <span class="n">vals</span><span class="p">[</span><span class="n">inds_row</span><span class="p">,</span> <span class="n">inds_col</span><span class="p">])}</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ket</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">bra</span><span class="p">)):</span> <span class="n">val</span>
+            <span class="k">for</span> <span class="n">ket</span><span class="p">,</span> <span class="n">bra</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kets</span><span class="p">,</span> <span class="n">bras</span><span class="p">,</span> <span class="n">vals</span><span class="p">[</span><span class="n">inds_row</span><span class="p">,</span> <span class="n">inds_col</span><span class="p">])</span>
+        <span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_subsystem_probabilities</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -795,10 +793,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;Using `psi @ U` as shorthand for `psi.evolve(U)` is deprecated&#39;</span>
-        <span class="s1">&#39; as of version 0.17.0 and will be removed no earlier than 3 months&#39;</span>
-        <span class="s1">&#39; after the release date. It has been superceded by the `&amp;` operator&#39;</span>
-        <span class="s1">&#39; (`psi &amp; U == psi.evolve(U)`) instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;Using `psi @ U` as shorthand for `psi.evolve(U)` is deprecated&quot;</span>
+        <span class="s2">&quot; as of version 0.17.0 and will be removed no earlier than 3 months&quot;</span>
+        <span class="s2">&quot; after the release date. It has been superceded by the `&amp;` operator&quot;</span>
+        <span class="s2">&quot; (`psi &amp; U == psi.evolve(U)`) instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="c1"># Check for subsystem case return by __call__ method</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -842,7 +841,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -877,7 +876,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

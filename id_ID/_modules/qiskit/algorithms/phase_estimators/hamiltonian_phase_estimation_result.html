@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.phase_estimators.hamiltonian_phase_estimation_result &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.phase_estimators.hamiltonian_phase_estimation_result &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -334,6 +334,7 @@
 
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_function</span>
 <span class="kn">from</span> <span class="nn">qiskit.algorithms.algorithm_result</span> <span class="kn">import</span> <span class="n">AlgorithmResult</span>
 <span class="kn">from</span> <span class="nn">.phase_estimation_result</span> <span class="kn">import</span> <span class="n">PhaseEstimationResult</span>
 <span class="kn">from</span> <span class="nn">.phase_estimation_scale</span> <span class="kn">import</span> <span class="n">PhaseEstimationScale</span>
@@ -351,11 +352,12 @@
 <span class="sd">    This class is meant to be instantiated via `HamiltonianPhaseEstimation.estimate`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="HamiltonianPhaseEstimationResult.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HamiltonianPhaseEstimationResult.html#qiskit.algorithms.HamiltonianPhaseEstimationResult.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">phase_estimation_result</span><span class="p">:</span> <span class="n">PhaseEstimationResult</span><span class="p">,</span>
-                 <span class="n">phase_estimation_scale</span><span class="p">:</span> <span class="n">PhaseEstimationScale</span><span class="p">,</span>
-                 <span class="n">id_coefficient</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="HamiltonianPhaseEstimationResult.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HamiltonianPhaseEstimationResult.html#qiskit.algorithms.HamiltonianPhaseEstimationResult.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">phase_estimation_result</span><span class="p">:</span> <span class="n">PhaseEstimationResult</span><span class="p">,</span>
+        <span class="n">phase_estimation_scale</span><span class="p">:</span> <span class="n">PhaseEstimationScale</span><span class="p">,</span>
+        <span class="n">id_coefficient</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            phase_estimation_result: The result object returned by PhaseEstimation.estimate.</span>
@@ -371,8 +373,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_result</span> <span class="o">=</span> <span class="n">phase_estimation_result</span></div>
 
     <span class="c1"># pylint: disable=arguments-differ</span>
-<div class="viewcode-block" id="HamiltonianPhaseEstimationResult.filter_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HamiltonianPhaseEstimationResult.html#qiskit.algorithms.HamiltonianPhaseEstimationResult.filter_phases">[docs]</a>    <span class="k">def</span> <span class="nf">filter_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                      <span class="n">as_float</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="HamiltonianPhaseEstimationResult.filter_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HamiltonianPhaseEstimationResult.html#qiskit.algorithms.HamiltonianPhaseEstimationResult.filter_phases">[docs]</a>    <span class="k">def</span> <span class="nf">filter_phases</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">scaled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">as_float</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Filter phases as does `PhaseEstimatorResult.filter_phases`, with</span>
 <span class="sd">        the addition that `phi` is shifted and translated to return eigenvalues</span>
 <span class="sd">        of the Hamiltonian.</span>
@@ -392,23 +395,38 @@
 <span class="sd">            A dict of filtered phases.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">scaled</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">as_float</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`as_float` must be `True` if `scaled` is `True`.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`as_float` must be `True` if `scaled` is `True`.&quot;</span><span class="p">)</span>
 
         <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_result</span><span class="o">.</span><span class="n">filter_phases</span><span class="p">(</span><span class="n">cutoff</span><span class="p">,</span> <span class="n">as_float</span><span class="o">=</span><span class="n">as_float</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">scaled</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_scale</span><span class="o">.</span><span class="n">scale_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span>
-                                                                        <span class="bp">self</span><span class="o">.</span><span class="n">_id_coefficient</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+                <span class="n">Dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_scale</span><span class="o">.</span><span class="n">scale_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id_coefficient</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">,</span> <span class="n">phases</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
+    <span class="nd">@deprecate_function</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;The &#39;HamiltonianPhaseEstimationResult.most_likely_phase&#39; attribute</span>
+<span class="sd">                        is deprecated as of 0.18.0 and will be removed no earlier than 3 months</span>
+<span class="sd">                        after the release date. It has been renamed as the &#39;phase&#39; attribute.&quot;&quot;&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">most_likely_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;DEPRECATED - The most likely phase of the unitary corresponding to the Hamiltonian.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The most likely phase.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The most likely phase of the unitary corresponding to the Hamiltonian.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The most likely phase.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_result</span><span class="o">.</span><span class="n">most_likely_phase</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_result</span><span class="o">.</span><span class="n">phase</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">most_likely_eigenvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -420,7 +438,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The most likely eigenvalue of the Hamiltonian.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_result</span><span class="o">.</span><span class="n">most_likely_phase</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase_estimation_scale</span><span class="o">.</span><span class="n">scale_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id_coefficient</span><span class="p">)</span></div>
 </pre></div>
 
@@ -439,7 +457,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -474,7 +492,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

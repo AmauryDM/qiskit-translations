@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.PhaseEstimationResult &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.algorithms.PhaseEstimationResult &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="../_static/panels-variables.ade9f9d55df9d2893fc676ecd59723a1.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="qiskit.algorithms.AlgorithmError" href="qiskit.algorithms.AlgorithmError.html" />
+    <link rel="next" title="qiskit.algorithms.IterativePhaseEstimation" href="qiskit.algorithms.IterativePhaseEstimation.html" />
     <link rel="prev" title="qiskit.algorithms.PhaseEstimation" href="qiskit.algorithms.PhaseEstimation.html" /> 
 
   
@@ -332,10 +332,12 @@
 <dt id="qiskit.algorithms.PhaseEstimationResult">
 <em class="property">class </em><code class="sig-name descname">PhaseEstimationResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_evaluation_qubits</span></em>, <em class="sig-param"><span class="n">circuit_result</span></em>, <em class="sig-param"><span class="n">phases</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/phase_estimators/phase_estimation_result.html#PhaseEstimationResult"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#qiskit.algorithms.PhaseEstimationResult" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Store and manipulate results from running <cite>PhaseEstimation</cite>.</p>
-<p>This class is instantiated by the <cite>PhaseEstimation</cite> class, not via user code.
-The <cite>PhaseEstimation</cite> class generates a list of phases and corresponding weights. Upon
+<p>This class is instantiated by the <code class="docutils literal notranslate"><span class="pre">PhaseEstimation</span></code> class, not via user code.
+The <code class="docutils literal notranslate"><span class="pre">PhaseEstimation</span></code> class generates a list of phases and corresponding weights. Upon
 completion it returns the results as an instance of this class. The main method for
 accessing the results is <cite>filter_phases</cite>.</p>
+<p>The canonical phase satisfying the <code class="docutils literal notranslate"><span class="pre">PhaseEstimator</span></code> interface, returned by the
+attribute <cite>phase</cite>, is the most likely phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>
 <dd class="field-odd"><ul class="simple">
@@ -393,9 +395,12 @@ accessing the results is <cite>filter_phases</cite>.</p>
 <td><p>Return the result object returned by running the QPE circuit (on hardware or simulator).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.PhaseEstimationResult.most_likely_phase" title="qiskit.algorithms.PhaseEstimationResult.most_likely_phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">most_likely_phase</span></code></a></p></td>
-<td><p>Return the estimated phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p></td>
+<td><p>DEPRECATED - Return the most likely phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.PhaseEstimationResult.phases" title="qiskit.algorithms.PhaseEstimationResult.phases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phases</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.PhaseEstimationResult.phase" title="qiskit.algorithms.PhaseEstimationResult.phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase</span></code></a></p></td>
+<td><p>Return the most likely phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.PhaseEstimationResult.phases" title="qiskit.algorithms.PhaseEstimationResult.phases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phases</span></code></a></p></td>
 <td><p>Return all phases and their frequencies computed by QPE.</p></td>
 </tr>
 </tbody>
@@ -461,10 +466,22 @@ returned keys are bit strings.</p></li>
 <dl class="py method">
 <dt id="qiskit.algorithms.PhaseEstimationResult.most_likely_phase">
 <em class="property">property </em><code class="sig-name descname">most_likely_phase</code><a class="headerlink" href="#qiskit.algorithms.PhaseEstimationResult.most_likely_phase" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Return the estimated phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p>
-<p>1.0 corresponds to a phase of <span class="math notranslate nohighlight">\(2\pi\)</span>. It is assumed that the input vector is an
-eigenvector of the unitary so that the peak of the probability density occurs at the bit
-string that most closely approximates the true phase.</p>
+<dd><p>DEPRECATED - Return the most likely phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p>
+<p>1.0 corresponds to a phase of <span class="math notranslate nohighlight">\(2\pi\)</span>. This selects the phase corresponding
+to the bit string with the highesest probability. This is the most likely phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.algorithms.PhaseEstimationResult.phase">
+<em class="property">property </em><code class="sig-name descname">phase</code><a class="headerlink" href="#qiskit.algorithms.PhaseEstimationResult.phase" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Return the most likely phase as a number in <span class="math notranslate nohighlight">\([0.0, 1.0)\)</span>.</p>
+<p>1.0 corresponds to a phase of <span class="math notranslate nohighlight">\(2\pi\)</span>. This selects the phase corresponding
+to the bit string with the highesest probability. This is the most likely phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値の型</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
@@ -496,7 +513,7 @@ string that most closely approximates the true phase.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="qiskit.algorithms.AlgorithmError.html" class="btn btn-neutral float-right" title="qiskit.algorithms.AlgorithmError" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="qiskit.algorithms.IterativePhaseEstimation.html" class="btn btn-neutral float-right" title="qiskit.algorithms.IterativePhaseEstimation" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
         <a href="qiskit.algorithms.PhaseEstimation.html" class="btn btn-neutral" title="qiskit.algorithms.PhaseEstimation" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
@@ -513,7 +530,7 @@ string that most closely approximates the true phase.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -551,7 +568,7 @@ string that most closely approximates the true phase.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

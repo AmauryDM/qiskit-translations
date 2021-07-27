@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.library.pulse &mdash; Documentation Qiskit 0.27.0</title>
+  <title>qiskit.pulse.library.pulse &mdash; Documentation Qiskit 0.28.0</title>
   
 
   
@@ -219,36 +219,36 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Page d'accueil de la documentation</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Avant propos</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">L’informatique quantique en bref</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction à Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuer à Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration locale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Questions fréquentes</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Bibliothèques</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Bibliothèque de circuits</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Références de l'API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Simulateur Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Expériences Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Modules d'applications Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Fournisseur)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Guide de migration des applications Qiskit (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Guide de migration des applications Qiskit (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Déboggage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Codes d'erreur de l'API IBM Quantum</a></li>
 </ul>
 
             
@@ -346,12 +346,30 @@
 <span class="sd">    modulation phase and frequency are specified separately from ``Pulse``s.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">limit_amplitude</span> <span class="o">=</span> <span class="kc">True</span>
+
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">duration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">duration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit_amplitude</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Abstract base class for pulses</span>
+<span class="sd">        Args:</span>
+<span class="sd">            duration: Duration of the pulse</span>
+<span class="sd">            name: Optional name for the pulse</span>
+<span class="sd">            limit_amplitude: If ``True``, then limit the amplitude of the waveform to 1.</span>
+<span class="sd">                             The default value of ``None`` causes the flag value to be</span>
+<span class="sd">                             derived from :py:attr:`~limit_amplitude` which is ``True``</span>
+<span class="sd">                             by default but may be set by the user to disable amplitude</span>
+<span class="sd">                             checks globally.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">limit_amplitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limit_amplitude</span> <span class="o">=</span> <span class="n">limit_amplitude</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># pylint: disable=invalid-name</span>
@@ -370,9 +388,9 @@
 
     <span class="nd">@deprecated_functionality</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Pulse&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Pulse&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a new pulse with parameters assigned.</span>
 
 <span class="sd">        Args:</span>
@@ -384,20 +402,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-             <span class="n">dt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">filename</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">interp_method</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">scale</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">interactive</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">draw_title</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
-             <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># importing backend causes cyclic import</span>
-             <span class="n">time_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">time_unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;dt&#39;</span><span class="p">,</span>
-             <span class="n">show_waveform_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-             <span class="n">plotter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mpl2d&#39;</span><span class="p">,</span>
-             <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dt</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">interp_method</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">scale</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">interactive</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">draw_title</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># importing backend causes cyclic import</span>
+        <span class="n">time_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dt&quot;</span><span class="p">,</span>
+        <span class="n">show_waveform_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plotter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mpl2d&quot;</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot the interpolated envelope of pulse.</span>
 
 <span class="sd">        Args:</span>
@@ -442,12 +462,14 @@
         <span class="c1"># pylint: disable=cyclic-import, missing-return-type-doc</span>
         <span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">pulse_drawer_v2</span><span class="p">,</span> <span class="n">PulseStyle</span>
 
-        <span class="n">legacy_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="p">,</span>
-                       <span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
-                       <span class="s1">&#39;interp_method&#39;</span><span class="p">:</span> <span class="n">interp_method</span><span class="p">,</span>
-                       <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">scale</span><span class="p">,</span>
-                       <span class="s1">&#39;interactive&#39;</span><span class="p">:</span> <span class="n">interactive</span><span class="p">,</span>
-                       <span class="s1">&#39;draw_title&#39;</span><span class="p">:</span> <span class="n">draw_title</span><span class="p">}</span>
+        <span class="n">legacy_args</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;dt&quot;</span><span class="p">:</span> <span class="n">dt</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;interp_method&quot;</span><span class="p">:</span> <span class="n">interp_method</span><span class="p">,</span>
+            <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">scale</span><span class="p">,</span>
+            <span class="s2">&quot;interactive&quot;</span><span class="p">:</span> <span class="n">interactive</span><span class="p">,</span>
+            <span class="s2">&quot;draw_title&quot;</span><span class="p">:</span> <span class="n">draw_title</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="n">active_legacy_args</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">legacy_arg</span> <span class="ow">in</span> <span class="n">legacy_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -455,35 +477,43 @@
                 <span class="n">active_legacy_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">active_legacy_args</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Legacy pulse drawer is deprecated. &#39;</span>
-                          <span class="s1">&#39;Specified arguments </span><span class="si">{dep_args}</span><span class="s1"> are deprecated. &#39;</span>
-                          <span class="s1">&#39;Please check the API document of new pulse drawer &#39;</span>
-                          <span class="s1">&#39;`qiskit.visualization.pulse_drawer_v2`.&#39;</span>
-                          <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dep_args</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">active_legacy_args</span><span class="p">)),</span>
-                          <span class="ne">DeprecationWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Legacy pulse drawer is deprecated. &quot;</span>
+                <span class="s2">&quot;Specified arguments </span><span class="si">{dep_args}</span><span class="s2"> are deprecated. &quot;</span>
+                <span class="s2">&quot;Please check the API document of new pulse drawer &quot;</span>
+                <span class="s2">&quot;`qiskit.visualization.pulse_drawer_v2`.&quot;</span>
+                <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dep_args</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">active_legacy_args</span><span class="p">)),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;File saving is delegated to the plotter software in new drawer. &#39;</span>
-                          <span class="s1">&#39;If you specify matplotlib plotter family to `plotter` argument, &#39;</span>
-                          <span class="s1">&#39;you can call `savefig` method with the returned Figure object.&#39;</span><span class="p">,</span>
-                          <span class="ne">DeprecationWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;File saving is delegated to the plotter software in new drawer. &quot;</span>
+                <span class="s2">&quot;If you specify matplotlib plotter family to `plotter` argument, &quot;</span>
+                <span class="s2">&quot;you can call `savefig` method with the returned Figure object.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">style</span><span class="p">,</span> <span class="n">PulseStyle</span><span class="p">):</span>
             <span class="n">style</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Legacy stylesheet is specified. This is ignored in the new drawer. &#39;</span>
-                          <span class="s1">&#39;Please check the API documentation for this method.&#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Legacy stylesheet is specified. This is ignored in the new drawer. &quot;</span>
+                <span class="s2">&quot;Please check the API documentation for this method.&quot;</span>
+            <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">pulse_drawer_v2</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-                               <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span>
-                               <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
-                               <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span>
-                               <span class="n">time_unit</span><span class="o">=</span><span class="n">time_unit</span><span class="p">,</span>
-                               <span class="n">show_waveform_info</span><span class="o">=</span><span class="n">show_waveform_info</span><span class="p">,</span>
-                               <span class="n">plotter</span><span class="o">=</span><span class="n">plotter</span><span class="p">,</span>
-                               <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pulse_drawer_v2</span><span class="p">(</span>
+            <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+            <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span>
+            <span class="n">time_unit</span><span class="o">=</span><span class="n">time_unit</span><span class="p">,</span>
+            <span class="n">show_waveform_info</span><span class="o">=</span><span class="n">show_waveform_info</span><span class="p">,</span>
+            <span class="n">plotter</span><span class="o">=</span><span class="n">plotter</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Pulse&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Pulse&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
     <span class="nd">@abstractmethod</span>
@@ -510,7 +540,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Mis à jour le 2021/07/12.
+      Mis à jour le 2021/07/27.
 
     </p>
   </div>
@@ -545,7 +575,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Transpiler Passes (qiskit.transpiler.passes) &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>Transpiler Passes (qiskit.transpiler.passes) &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -387,6 +387,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.SabreSwap.html#qiskit.transpiler.passes.SabreSwap" title="qiskit.transpiler.passes.SabreSwap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SabreSwap</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Map input circuit onto a backend topology via insertion of SWAPs.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.BIPMapping.html#qiskit.transpiler.passes.BIPMapping" title="qiskit.transpiler.passes.BIPMapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BIPMapping</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Map a DAGCircuit onto a given <code class="docutils literal notranslate"><span class="pre">coupling_map</span></code>, allocating qubits and adding swap gates.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -468,13 +471,28 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.ALAPSchedule.html#qiskit.transpiler.passes.ALAPSchedule" title="qiskit.transpiler.passes.ALAPSchedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALAPSchedule</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.TimeUnitConversion.html#qiskit.transpiler.passes.TimeUnitConversion" title="qiskit.transpiler.passes.TimeUnitConversion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeUnitConversion</span></code></a>(inst_durations)</p></td>
+<td><p>Choose a time unit to be used in the following time-aware passes, and make all circuit time units consistent with that.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.ALAPSchedule.html#qiskit.transpiler.passes.ALAPSchedule" title="qiskit.transpiler.passes.ALAPSchedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALAPSchedule</span></code></a>(*args, **kwargs)</p></td>
 <td><p>ALAP Scheduling.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.ASAPSchedule.html#qiskit.transpiler.passes.ASAPSchedule" title="qiskit.transpiler.passes.ASAPSchedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASAPSchedule</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.ASAPSchedule.html#qiskit.transpiler.passes.ASAPSchedule" title="qiskit.transpiler.passes.ASAPSchedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASAPSchedule</span></code></a>(*args, **kwargs)</p></td>
 <td><p>ASAP Scheduling.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.DynamicalDecoupling.html#qiskit.transpiler.passes.DynamicalDecoupling" title="qiskit.transpiler.passes.DynamicalDecoupling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicalDecoupling</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Dynamical decoupling insertion pass.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.AlignMeasures.html#qiskit.transpiler.passes.AlignMeasures" title="qiskit.transpiler.passes.AlignMeasures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlignMeasures</span></code></a>([alignment])</p></td>
+<td><p>Measurement alignment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.ValidatePulseGates.html#qiskit.transpiler.passes.ValidatePulseGates" title="qiskit.transpiler.passes.ValidatePulseGates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValidatePulseGates</span></code></a>([granularity, min_length])</p></td>
+<td><p>Check custom gate length.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.RZXCalibrationBuilder.html#qiskit.transpiler.passes.RZXCalibrationBuilder" title="qiskit.transpiler.passes.RZXCalibrationBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RZXCalibrationBuilder</span></code></a>(backend)</p></td>
+<td><p>Creates calibrations for RZXGate(theta) by stretching and compressing Gaussian square pulses in the CX gate.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.RZXCalibrationBuilderNoEcho.html#qiskit.transpiler.passes.RZXCalibrationBuilderNoEcho" title="qiskit.transpiler.passes.RZXCalibrationBuilderNoEcho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RZXCalibrationBuilderNoEcho</span></code></a>(backend)</p></td>
 <td><p>Creates calibrations for RZXGate(theta) by stretching and compressing Gaussian square pulses in the CX gate.</p></td>
 </tr>
 </tbody>
@@ -552,16 +570,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.MergeAdjacentBarriers.html#qiskit.transpiler.passes.MergeAdjacentBarriers" title="qiskit.transpiler.passes.MergeAdjacentBarriers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MergeAdjacentBarriers</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Return a circuit with any adjacent barriers merged together.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.BarrierBeforeFinalMeasurements.html#qiskit.transpiler.passes.BarrierBeforeFinalMeasurements" title="qiskit.transpiler.passes.BarrierBeforeFinalMeasurements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BarrierBeforeFinalMeasurements</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.RemoveBarriers.html#qiskit.transpiler.passes.RemoveBarriers" title="qiskit.transpiler.passes.RemoveBarriers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RemoveBarriers</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Return a circuit with any barrier removed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.BarrierBeforeFinalMeasurements.html#qiskit.transpiler.passes.BarrierBeforeFinalMeasurements" title="qiskit.transpiler.passes.BarrierBeforeFinalMeasurements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BarrierBeforeFinalMeasurements</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Add a barrier before final measurements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.RemoveFinalMeasurements.html#qiskit.transpiler.passes.RemoveFinalMeasurements" title="qiskit.transpiler.passes.RemoveFinalMeasurements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RemoveFinalMeasurements</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.RemoveFinalMeasurements.html#qiskit.transpiler.passes.RemoveFinalMeasurements" title="qiskit.transpiler.passes.RemoveFinalMeasurements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RemoveFinalMeasurements</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Remove final measurements and barriers at the end of a circuit.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.DAGFixedPoint.html#qiskit.transpiler.passes.DAGFixedPoint" title="qiskit.transpiler.passes.DAGFixedPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DAGFixedPoint</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.DAGFixedPoint.html#qiskit.transpiler.passes.DAGFixedPoint" title="qiskit.transpiler.passes.DAGFixedPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DAGFixedPoint</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Check if the DAG has reached a fixed point.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.FixedPoint.html#qiskit.transpiler.passes.FixedPoint" title="qiskit.transpiler.passes.FixedPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FixedPoint</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.transpiler.passes.FixedPoint.html#qiskit.transpiler.passes.FixedPoint" title="qiskit.transpiler.passes.FixedPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FixedPoint</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Check if a property reached a fixed point.</p></td>
 </tr>
 </tbody>
@@ -594,7 +615,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -643,7 +664,7 @@
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.scalar_op &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.quantum_info.operators.scalar_op &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -228,7 +228,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -354,6 +354,7 @@
 <span class="sd">    kinds of operator subclasses by using the :meth:`compose`, :meth:`dot`,</span>
 <span class="sd">    :meth:`tensor`, :meth:`expand` methods.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="ScalarOp.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp.__init__">[documenti]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize an operator object.</span>
 
@@ -366,7 +367,7 @@
 <span class="sd">            QiskitError: If the optional coefficient is invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
-            <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;coeff </span><span class="si">{}</span><span class="s2"> must be a number.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coeff</span><span class="p">))</span>
+            <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;coeff </span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> must be a number.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coeff</span> <span class="o">=</span> <span class="n">coeff</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">)</span></div>
 
@@ -376,8 +377,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;ScalarOp(</span><span class="si">{}</span><span class="s1">, coeff=</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;ScalarOp(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">()</span><span class="si">}</span><span class="s2">, coeff=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coeff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -408,13 +408,13 @@
 
 <div class="viewcode-block" id="ScalarOp.to_operator"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp.to_operator">[documenti]</a>    <span class="k">def</span> <span class="nf">to_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert to an Operator object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Operator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-                        <span class="n">input_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span>
-                        <span class="n">output_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dims</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">Operator</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="n">input_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span> <span class="n">output_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dims</span><span class="p">()</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ScalarOp.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp.compose">[documenti]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BaseOperator</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -447,8 +447,7 @@
         <span class="c1"># Note that this will raise an error if the other operator does</span>
         <span class="c1"># not support initialization from a ScalarOp or the ScalarOps</span>
         <span class="c1"># `to_operator` method).</span>
-        <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
-            <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="n">front</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="n">front</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ScalarOp.power"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp.power">[documenti]</a>    <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the power of the ScalarOp.</span>
@@ -506,7 +505,7 @@
 <span class="sd">            QiskitError: if other has incompatible dimensions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BaseOperator</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -515,7 +514,7 @@
 
         <span class="c1"># Next if we are adding two ScalarOps we return a ScalarOp</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">ScalarOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">ScalarOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ScalarOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
 
         <span class="c1"># If qargs are specified we have to pad the other BaseOperator</span>
         <span class="c1"># with identities on remaining subsystems. We do this by</span>
@@ -547,7 +546,7 @@
 <span class="sd">            QiskitError: if other is not a valid complex number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;other (</span><span class="si">{}</span><span class="s2">) is not a number&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;other (</span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2">) is not a number&quot;</span><span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_coeff</span> <span class="o">=</span> <span class="n">other</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">ret</span>
@@ -588,7 +587,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -623,7 +622,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

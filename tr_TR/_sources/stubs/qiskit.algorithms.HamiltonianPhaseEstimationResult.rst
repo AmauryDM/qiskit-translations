@@ -27,5 +27,6 @@
    
       ~HamiltonianPhaseEstimationResult.most_likely_eigenvalue
       ~HamiltonianPhaseEstimationResult.most_likely_phase
+      ~HamiltonianPhaseEstimationResult.phase
    
    

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.builder.align_equispaced &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>qiskit.pulse.builder.align_equispaced &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -365,7 +365,10 @@ the Hahn echo sequence.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parametreler</dt>
-<dd class="field-odd"><p><strong>duration</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Duration of this context. This should be larger than the schedule duration.</p>
+<dd class="field-odd"><p><strong>duration</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>]) – Duration of this context. This should be larger than the schedule duration.</p>
+</dd>
+<dt class="field-even">Getiriler</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 <p class="rubric">Notlar</p>
@@ -374,7 +377,7 @@ channel-wise. If you want to apply the equispaced context for each channel,
 you should use the context independently for channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Dönüş türü</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractContextManager</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AlignmentKind</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -406,7 +409,7 @@ you should use the context independently for channels.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -444,7 +447,7 @@ you should use the context independently for channels.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -39,6 +39,7 @@
       ~SetStabilizer.decompositions
       ~SetStabilizer.definition
       ~SetStabilizer.duration
+      ~SetStabilizer.label
       ~SetStabilizer.params
       ~SetStabilizer.unit
    

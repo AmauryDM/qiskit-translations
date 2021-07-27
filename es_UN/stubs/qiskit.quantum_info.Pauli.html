@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.Pauli &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.quantum_info.Pauli &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -416,7 +416,12 @@ label, Pauli operator, or ScalarOp input data.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>str</em><em> or </em><em>tuple</em><em> or </em><a class="reference internal" href="#qiskit.quantum_info.Pauli" title="qiskit.quantum_info.Pauli"><em>Pauli</em></a><em> or </em><a class="reference internal" href="qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp" title="qiskit.quantum_info.ScalarOp"><em>ScalarOp</em></a>) – input data for Pauli. If input is
 a tuple it must be of the form <code class="docutils literal notranslate"><span class="pre">(z,</span> <span class="pre">x)</span></code> or (z, x, phase)`` where
-<code class="docutils literal notranslate"><span class="pre">z</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> are boolean Numpy arrays, and phase is an integer from Z_4.</p></li>
+<code class="docutils literal notranslate"><span class="pre">z</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> are boolean Numpy arrays, and phase is an integer from Z_4.
+If input is a string, it must be a concatenation of a phase and a Pauli string
+(e.g. “XYZ”, “-iZIZ”) where a phase string is a combination of at most three
+characters from [“+”, “-”, “”], [“1”, “”], and [“i”, “j”, “”] in this order,
+e.g. “”, “-1j” while a Pauli string is 1 or more characters of “I”, “X”, “Y” or “Z”,
+e.g. “Z”, “XIYY”.</p></li>
 <li><p><strong>x</strong> (<em>np.ndarray</em>) – DEPRECATED, symplectic x vector.</p></li>
 <li><p><strong>z</strong> (<em>np.ndarray</em>) – DEPRECATED, symplectic z vector.</p></li>
 <li><p><strong>label</strong> (<em>str</em>) – DEPRECATED, string label.</p></li>
@@ -438,7 +443,12 @@ label, Pauli operator, or ScalarOp input data.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>str</em><em> or </em><em>tuple</em><em> or </em><a class="reference internal" href="#qiskit.quantum_info.Pauli" title="qiskit.quantum_info.Pauli"><em>Pauli</em></a><em> or </em><a class="reference internal" href="qiskit.quantum_info.ScalarOp.html#qiskit.quantum_info.ScalarOp" title="qiskit.quantum_info.ScalarOp"><em>ScalarOp</em></a>) – input data for Pauli. If input is
 a tuple it must be of the form <code class="docutils literal notranslate"><span class="pre">(z,</span> <span class="pre">x)</span></code> or (z, x, phase)`` where
-<code class="docutils literal notranslate"><span class="pre">z</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> are boolean Numpy arrays, and phase is an integer from Z_4.</p></li>
+<code class="docutils literal notranslate"><span class="pre">z</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> are boolean Numpy arrays, and phase is an integer from Z_4.
+If input is a string, it must be a concatenation of a phase and a Pauli string
+(e.g. “XYZ”, “-iZIZ”) where a phase string is a combination of at most three
+characters from [“+”, “-”, “”], [“1”, “”], and [“i”, “j”, “”] in this order,
+e.g. “”, “-1j” while a Pauli string is 1 or more characters of “I”, “X”, “Y” or “Z”,
+e.g. “Z”, “XIYY”.</p></li>
 <li><p><strong>x</strong> (<em>np.ndarray</em>) – DEPRECATED, symplectic x vector.</p></li>
 <li><p><strong>z</strong> (<em>np.ndarray</em>) – DEPRECATED, symplectic z vector.</p></li>
 <li><p><strong>label</strong> (<em>str</em>) – DEPRECATED, string label.</p></li>
@@ -583,10 +593,13 @@ a tuple it must be of the form <code class="docutils literal notranslate"><span 
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.qargs" title="qiskit.quantum_info.Pauli.qargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qargs</span></code></a></p></td>
 <td><p>Return the qargs for the operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.x" title="qiskit.quantum_info.Pauli.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.settings" title="qiskit.quantum_info.Pauli.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Return settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.x" title="qiskit.quantum_info.Pauli.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></p></td>
 <td><p>The x vector for the Pauli.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.z" title="qiskit.quantum_info.Pauli.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.quantum_info.Pauli.z" title="qiskit.quantum_info.Pauli.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
 <td><p>The z vector for the Pauli.</p></td>
 </tr>
 </tbody>
@@ -644,7 +657,7 @@ a tuple it must be of the form <code class="docutils literal notranslate"><span 
 <dl class="field-list simple">
 <dt class="field-odd">Parámetros</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>other</strong> (<a class="reference internal" href="#qiskit.quantum_info.Pauli" title="qiskit.quantum_info.Pauli"><em>Pauli</em></a><em> or </em><em>PauliList</em>) – another Pauli operator.</p></li>
+<li><p><strong>other</strong> (<a class="reference internal" href="#qiskit.quantum_info.Pauli" title="qiskit.quantum_info.Pauli"><em>Pauli</em></a><em> or </em><a class="reference internal" href="qiskit.quantum_info.PauliList.html#qiskit.quantum_info.PauliList" title="qiskit.quantum_info.PauliList"><em>PauliList</em></a>) – another Pauli operator.</p></li>
 <li><p><strong>qargs</strong> (<em>list</em>) – qubits to apply dot product on (default: None).</p></li>
 </ul>
 </dd>
@@ -1082,6 +1095,17 @@ If None the original output dims will be preserved [Default: None].</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.quantum_info.Pauli.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.quantum_info.Pauli.settings" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Return settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.quantum_info.Pauli.sgn_prod">
 <em class="property">static </em><code class="sig-name descname">sgn_prod</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/quantum_info/operators/symplectic/pauli.html#Pauli.sgn_prod"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#qiskit.quantum_info.Pauli.sgn_prod" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>DEPRECATED: Multiply two Paulis and track the phase.</p>
@@ -1286,7 +1310,7 @@ represents the pauli.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -1324,7 +1348,7 @@ represents the pauli.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

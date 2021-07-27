@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.symplectic.pauli_table &mdash; Qiskit 0.27.0 Dokumentation</title>
+  <title>qiskit.quantum_info.operators.symplectic.pauli_table &mdash; Qiskit 0.28.0 Dokumentation</title>
   
 
   
@@ -334,6 +334,8 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=invalid-name</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
@@ -470,8 +472,7 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ScalarOp</span><span class="p">):</span>
             <span class="c1"># Initialize an N-qubit identity</span>
             <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">num_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not an N-qubit identity&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2"> is not an N-qubit identity&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Invalid input data for PauliTable.&quot;</span><span class="p">)</span>
@@ -489,19 +490,23 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Display representation.&quot;&quot;&quot;</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;PauliTable(&#39;</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">))</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;PauliTable(&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;String representation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s1">&#39;PauliTable: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_labels</span><span class="p">())</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PauliTable: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_labels</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if two Pauli tables are equal.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PauliTable</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_array</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">}</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Direct array access</span>
@@ -522,20 +527,20 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The X block of the :attr:`array`.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="mi">0</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span>
 
     <span class="nd">@X</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="mi">0</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">Z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The Z block of the :attr:`array`.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span>
 
     <span class="nd">@Z</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">Z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Size Properties</span>
@@ -598,14 +603,18 @@
         <span class="c1"># Row deletion</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">qubit</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Indices </span><span class="si">{}</span><span class="s2"> are not all less than the size&quot;</span>
-                                  <span class="s2">&quot; of the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Indices </span><span class="si">{}</span><span class="s2"> are not all less than the size&quot;</span>
+                    <span class="s2">&quot; of the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
         <span class="c1"># Column (qubit) deletion</span>
         <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Indices </span><span class="si">{}</span><span class="s2"> are not all less than the number of&quot;</span>
-                              <span class="s2">&quot; qubits in the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Indices </span><span class="si">{}</span><span class="s2"> are not all less than the number of&quot;</span>
+                <span class="s2">&quot; qubits in the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="n">ind</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span></div>
 
@@ -636,14 +645,18 @@
         <span class="c1"># Row insertion</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">qubit</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ind</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Index </span><span class="si">{}</span><span class="s2"> is larger than the number of rows in the&quot;</span>
-                                  <span class="s2">&quot; PauliTable (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Index </span><span class="si">{}</span><span class="s2"> is larger than the number of rows in the&quot;</span>
+                    <span class="s2">&quot; PauliTable (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
         <span class="c1"># Column insertion</span>
         <span class="k">if</span> <span class="n">ind</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Index </span><span class="si">{}</span><span class="s2"> is greater than number of qubits&quot;</span>
-                              <span class="s2">&quot; in the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Index </span><span class="si">{}</span><span class="s2"> is greater than number of qubits&quot;</span>
+                <span class="s2">&quot; in the PauliTable (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Pad blocks to correct size</span>
             <span class="n">value_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">X</span><span class="p">])</span>
@@ -654,12 +667,24 @@
             <span class="n">value_z</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">Z</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Blocks are incorrect size</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input PauliTable must have a single row, or&quot;</span>
-                              <span class="s2">&quot; the same number of rows as the Pauli Table&quot;</span>
-                              <span class="s2">&quot; (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Input PauliTable must have a single row, or&quot;</span>
+                <span class="s2">&quot; the same number of rows as the Pauli Table&quot;</span>
+                <span class="s2">&quot; (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="c1"># Build new array by blocks</span>
-        <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[:,</span> <span class="p">:</span><span class="n">ind</span><span class="p">],</span> <span class="n">value_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">:],</span>
-                                     <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[:,</span> <span class="p">:</span><span class="n">ind</span><span class="p">],</span> <span class="n">value_z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">:])))</span></div>
+        <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[:,</span> <span class="p">:</span><span class="n">ind</span><span class="p">],</span>
+                    <span class="n">value_x</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">:],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[:,</span> <span class="p">:</span><span class="n">ind</span><span class="p">],</span>
+                    <span class="n">value_z</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">:],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="PauliTable.argsort"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable.argsort">[Doku]</a>    <span class="k">def</span> <span class="nf">argsort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return indices for sorting the rows of the table.</span>
@@ -690,7 +715,7 @@
         <span class="c1"># are use the &#39;stable&#39; sort method</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">):</span>
-            <span class="n">sort_inds</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stable&#39;</span><span class="p">)</span>
+            <span class="n">sort_inds</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">)</span>
             <span class="n">order</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">sort_inds</span><span class="p">]</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">sort_inds</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">weight</span><span class="p">:</span>
@@ -699,7 +724,7 @@
         <span class="c1"># If using weights we implement a final sort by total number</span>
         <span class="c1"># of non-identity Paulis</span>
         <span class="k">if</span> <span class="n">weight</span><span class="p">:</span>
-            <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">weights</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stable&#39;</span><span class="p">)]</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">weights</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stable&quot;</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">indices</span></div>
 
 <div class="viewcode-block" id="PauliTable.sort"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable.sort">[Doku]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -779,8 +804,7 @@
 <span class="sd">                original array. Only provided if ``return_counts`` is True.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">return_counts</span><span class="p">:</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                         <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="c1"># Sort the index so we return unique rows in the original array order</span>
@@ -788,11 +812,11 @@
         <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">sort_inds</span><span class="p">]</span>
         <span class="n">unique</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="c1"># Concatenate return tuples</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">unique</span><span class="p">,)</span>
         <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">+=</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="p">)</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="p">(</span><span class="n">index</span><span class="p">,)</span>
         <span class="k">if</span> <span class="n">return_counts</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">+=</span> <span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">sort_inds</span><span class="p">],</span> <span class="p">)</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">sort_inds</span><span class="p">],)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ret</span></div>
@@ -894,7 +918,7 @@
 <span class="sd">            QiskitError: if other cannot be converted to a PauliTable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PauliTable</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
@@ -968,36 +992,32 @@
 <span class="sd">            PauliTable: the concatenated table self + other.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PauliTable</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">_validate_add</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_op_shape</span><span class="p">,</span> <span class="n">qargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="n">qargs</span>
-                             <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="n">qargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_array</span><span class="p">)))</span>
 
         <span class="c1"># Pad other with identity and then add</span>
-        <span class="n">padded</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+        <span class="n">padded</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
         <span class="n">padded</span> <span class="o">=</span> <span class="n">padded</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">,</span> <span class="n">padded</span><span class="o">.</span><span class="n">_array</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PauliTable.conjugate"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable.conjugate">[Doku]</a>    <span class="k">def</span> <span class="nf">conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Not implemented.&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not support conjugatge&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not support conjugatge&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PauliTable.transpose"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable.transpose">[Doku]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Not implemented.&quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not support transpose&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not support transpose&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Utility methods</span>
@@ -1070,10 +1090,10 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PauliTable</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="n">comms</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="o">.</span><span class="n">_commutes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">inds</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">comms</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">anti</span><span class="p">))</span>
+        <span class="p">(</span><span class="n">inds</span><span class="p">,)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">comms</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">anti</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="n">comms</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="o">.</span><span class="n">_commutes</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">inds</span><span class="p">],</span> <span class="n">pauli</span><span class="p">)</span>
-            <span class="n">new_inds</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">comms</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">anti</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">new_inds</span><span class="p">,)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">comms</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">anti</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">new_inds</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c1"># No commuting rows</span>
                 <span class="k">return</span> <span class="n">new_inds</span>
@@ -1097,8 +1117,8 @@
         <span class="c1"># Multiply array by Pauli, and set entries where inputs</span>
         <span class="c1"># where I to I</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">PauliTable</span><span class="p">(</span><span class="n">pauli_table</span><span class="o">.</span><span class="n">array</span> <span class="o">^</span> <span class="n">pauli</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
-        <span class="n">tmp</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">X</span> <span class="o">&amp;</span> <span class="n">non_iden</span><span class="p">)</span>
-        <span class="n">tmp</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">Z</span> <span class="o">&amp;</span> <span class="n">non_iden</span><span class="p">)</span>
+        <span class="n">tmp</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">X</span> <span class="o">&amp;</span> <span class="n">non_iden</span>
+        <span class="n">tmp</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">Z</span> <span class="o">&amp;</span> <span class="n">non_iden</span>
         <span class="c1"># Find total number of non I Pauli&#39;s remaining in table</span>
         <span class="c1"># if there are an even number the row commutes with the</span>
         <span class="c1"># input Pauli, otherwise it anti-commutes</span>
@@ -1109,12 +1129,11 @@
         <span class="sd">&quot;&quot;&quot;Stack two arrays along their first axis.&quot;&quot;&quot;</span>
         <span class="n">sz1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span>
         <span class="n">sz2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array2</span><span class="p">)</span>
-        <span class="n">out_shape1</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz1</span> <span class="o">*</span> <span class="n">sz2</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">array1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="n">out_shape2</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz1</span> <span class="o">*</span> <span class="n">sz2</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">array2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">out_shape1</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz1</span> <span class="o">*</span> <span class="n">sz2</span><span class="p">,)</span> <span class="o">+</span> <span class="n">array1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">out_shape2</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz1</span> <span class="o">*</span> <span class="n">sz2</span><span class="p">,)</span> <span class="o">+</span> <span class="n">array2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">if</span> <span class="n">sz2</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Stack blocks for output table</span>
-            <span class="n">ret1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sz2</span> <span class="o">*</span> <span class="p">[</span><span class="n">array1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                              <span class="n">out_shape1</span><span class="p">)</span>
+            <span class="n">ret1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sz2</span> <span class="o">*</span> <span class="p">[</span><span class="n">array1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">out_shape1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret1</span> <span class="o">=</span> <span class="n">array1</span>
         <span class="k">if</span> <span class="n">sz1</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -1186,7 +1205,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list or array: The rows of the PauliTable in label form.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;U</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;U</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
             <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_array</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">array</span><span class="p">:</span>
@@ -1245,21 +1264,23 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the symplectic representation of a Pauli string&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span><span class="p">:</span>
             <span class="c1"># We allow +1 phase sign so we can convert back from positive</span>
             <span class="c1"># stabilizer strings</span>
             <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
         <span class="n">symp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">xs</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">num_qubits</span><span class="p">]</span>
-        <span class="n">zs</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">num_qubits</span><span class="p">]</span>
+        <span class="n">zs</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Pauli string contains invalid character:&quot;</span>
-                                  <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> not in [&#39;I&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;].&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">char</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Pauli string contains invalid character:&quot;</span>
+                    <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> not in [&#39;I&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;].&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">]:</span>
                 <span class="n">xs</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">]:</span>
                 <span class="n">zs</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">symp</span>
 
@@ -1272,19 +1293,19 @@
         <span class="n">symp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pauli</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">symp</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">num_qubits</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">num_qubits</span><span class="p">]</span>
-        <span class="n">paulis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;U1&#39;</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">]</span>
+        <span class="n">paulis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;&lt;U1&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                    <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span>
+                    <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+                    <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Z&#39;</span>
+                <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paulis</span><span class="p">)</span>
+                <span class="n">paulis</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paulis</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_to_matrix</span><span class="p">(</span><span class="n">pauli</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">real_valued</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1305,12 +1326,12 @@
             <span class="sd">&quot;&quot;&quot;Count number of set bits in int or array&quot;&quot;&quot;</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="p">((</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x55555555</span><span class="p">)</span>
             <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">&amp;</span> <span class="mh">0x33333333</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x33333333</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">(((</span><span class="n">i</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xF0F0F0F</span><span class="p">)</span> <span class="o">*</span> <span class="mh">0x1010101</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span>
+            <span class="k">return</span> <span class="p">(((</span><span class="n">i</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xF0F0F0F</span><span class="p">)</span> <span class="o">*</span> <span class="mh">0x1010101</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFFFF</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span>
 
         <span class="n">symp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pauli</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">symp</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">num_qubits</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">num_qubits</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">symp</span><span class="p">[</span><span class="n">num_qubits</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">]</span>
 
         <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">num_qubits</span>
         <span class="n">twos_array</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
@@ -1329,13 +1350,13 @@
         <span class="k">if</span> <span class="n">sparse</span><span class="p">:</span>
             <span class="c1"># Return sparse matrix</span>
             <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span>
-            <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indptr</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span>
-                              <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indptr</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="c1"># Build dense matrix using csr format</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
-            <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
         <span class="k">return</span> <span class="n">mat</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
@@ -1352,13 +1373,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            LabelIterator: label iterator object for the PauliTable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">class</span> <span class="nc">LabelIterator</span><span class="p">(</span><span class="n">CustomIterator</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Label representation iteration and item access.&quot;&quot;&quot;</span>
+
             <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;&lt;PauliTable_label_iterator at </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;PauliTable_label_iterator at </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
 
             <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">_to_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
         <span class="k">return</span> <span class="n">LabelIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PauliTable.matrix_iter"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable.matrix_iter">[Doku]</a>    <span class="k">def</span> <span class="nf">matrix_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1376,13 +1400,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            MatrixIterator: matrix iterator object for the PauliTable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">class</span> <span class="nc">MatrixIterator</span><span class="p">(</span><span class="n">CustomIterator</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Matrix representation iteration and item access.&quot;&quot;&quot;</span>
+
             <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;&lt;PauliTable_matrix_iterator at </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;PauliTable_matrix_iterator at </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
 
             <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">_to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">sparse</span><span class="o">=</span><span class="n">sparse</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">MatrixIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
 
@@ -1405,7 +1432,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Zuletzt aktualisiert am 2021/07/12.
+      Zuletzt aktualisiert am 2021/07/27.
 
     </p>
   </div>
@@ -1440,7 +1467,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.compiler.assembler &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.compiler.assembler &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -331,24 +331,25 @@
 <span class="c1"># that they have been altered from the originals.</span>
 
 <span class="sd">&quot;&quot;&quot;Assemble function for converting a list of circuits into a qobj&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">qiskit.assembler</span> <span class="kn">import</span> <span class="n">assemble_circuits</span><span class="p">,</span> <span class="n">assemble_schedules</span>
+<span class="kn">from</span> <span class="nn">qiskit.assembler.run_config</span> <span class="kn">import</span> <span class="n">RunConfig</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Parameter</span>
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers</span> <span class="kn">import</span> <span class="n">BaseBackend</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.backend</span> <span class="kn">import</span> <span class="n">Backend</span>
 <span class="kn">from</span> <span class="nn">qiskit.pulse</span> <span class="kn">import</span> <span class="n">LoConfig</span><span class="p">,</span> <span class="n">Instruction</span>
-<span class="kn">from</span> <span class="nn">qiskit.assembler.run_config</span> <span class="kn">import</span> <span class="n">RunConfig</span>
-<span class="kn">from</span> <span class="nn">qiskit.assembler</span> <span class="kn">import</span> <span class="n">assemble_circuits</span><span class="p">,</span> <span class="n">assemble_schedules</span>
+<span class="kn">from</span> <span class="nn">qiskit.pulse</span> <span class="kn">import</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span>
+<span class="kn">from</span> <span class="nn">qiskit.pulse.channels</span> <span class="kn">import</span> <span class="n">PulseChannel</span>
 <span class="kn">from</span> <span class="nn">qiskit.qobj</span> <span class="kn">import</span> <span class="n">QobjHeader</span><span class="p">,</span> <span class="n">Qobj</span>
 <span class="kn">from</span> <span class="nn">qiskit.qobj.utils</span> <span class="kn">import</span> <span class="n">MeasLevel</span><span class="p">,</span> <span class="n">MeasReturnType</span>
 <span class="kn">from</span> <span class="nn">qiskit.validation.jsonschema</span> <span class="kn">import</span> <span class="n">SchemaValidationError</span>
-<span class="kn">from</span> <span class="nn">qiskit.providers</span> <span class="kn">import</span> <span class="n">BaseBackend</span>
-<span class="kn">from</span> <span class="nn">qiskit.providers.backend</span> <span class="kn">import</span> <span class="n">Backend</span>
-<span class="kn">from</span> <span class="nn">qiskit.pulse.channels</span> <span class="kn">import</span> <span class="n">PulseChannel</span>
-<span class="kn">from</span> <span class="nn">qiskit.pulse</span> <span class="kn">import</span> <span class="n">Schedule</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -359,29 +360,43 @@
 
 
 <span class="c1"># TODO: parallelize over the experiments (serialize each separately, then add global header/config)</span>
-<div class="viewcode-block" id="assemble"><a class="viewcode-back" href="../../../stubs/qiskit.compiler.assemble.html#qiskit.compiler.assemble">[ドキュメント]</a><span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="n">experiments</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]],</span>
-             <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">qobj_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">qobj_header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QobjHeader</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">shots</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-             <span class="n">max_credits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">seed_simulator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">qubit_lo_freq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">meas_lo_freq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">qubit_lo_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">meas_lo_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">schedule_los</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">LoConfig</span><span class="p">]],</span>
-                                          <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">LoConfig</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">meas_level</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">MeasLevel</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span><span class="p">,</span>
-             <span class="n">meas_return</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MeasReturnType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasReturnType</span><span class="o">.</span><span class="n">AVERAGE</span><span class="p">,</span>
-             <span class="n">meas_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Qubit</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">memory_slot_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-             <span class="n">rep_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">rep_delay</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">parameter_binds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">parametric_pulses</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">init_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-             <span class="o">**</span><span class="n">run_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Qobj</span><span class="p">:</span>
+<div class="viewcode-block" id="assemble"><a class="viewcode-back" href="../../../stubs/qiskit.compiler.assemble.html#qiskit.compiler.assemble">[ドキュメント]</a><span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span>
+    <span class="n">experiments</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="n">QuantumCircuit</span><span class="p">,</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
+        <span class="n">Schedule</span><span class="p">,</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">Schedule</span><span class="p">],</span>
+        <span class="n">ScheduleBlock</span><span class="p">,</span>
+        <span class="n">Union</span><span class="p">[</span><span class="n">ScheduleBlock</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">qobj_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">qobj_header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QobjHeader</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">shots</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">memory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_credits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed_simulator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">qubit_lo_freq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_lo_freq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">qubit_lo_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_lo_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">schedule_los</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">LoConfig</span><span class="p">]],</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">LoConfig</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_level</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">MeasLevel</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span><span class="p">,</span>
+    <span class="n">meas_return</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MeasReturnType</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasReturnType</span><span class="o">.</span><span class="n">AVERAGE</span><span class="p">,</span>
+    <span class="n">meas_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Qubit</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">memory_slot_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">rep_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rep_delay</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">parameter_binds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">parametric_pulses</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">init_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">run_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Qobj</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Assemble a list of circuits or pulse schedules into a ``Qobj``.</span>
 
 <span class="sd">    This function serializes the payloads, which could be either circuits or schedules,</span>
@@ -406,15 +421,19 @@
 <span class="sd">            measurement level 2 supports this option.</span>
 <span class="sd">        max_credits: Maximum credits to spend on job. Default: 10</span>
 <span class="sd">        seed_simulator: Random seed to control sampling, for when backend is a simulator</span>
-<span class="sd">        qubit_lo_freq: List of default qubit LO frequencies in Hz. Will be overridden by</span>
-<span class="sd">            ``schedule_los`` if set.</span>
-<span class="sd">        meas_lo_freq: List of default measurement LO frequencies in Hz. Will be overridden</span>
-<span class="sd">            by ``schedule_los`` if set.</span>
-<span class="sd">        qubit_lo_range: List of drive LO ranges each of form ``[range_min, range_max]`` in Hz.</span>
-<span class="sd">            Used to validate the supplied qubit frequencies.</span>
-<span class="sd">        meas_lo_range: List of measurement LO ranges each of form ``[range_min, range_max]`` in Hz.</span>
-<span class="sd">            Used to validate the supplied qubit frequencies.</span>
-<span class="sd">        schedule_los: Experiment LO configurations, frequencies are given in Hz.</span>
+<span class="sd">        qubit_lo_freq: List of job level qubit drive LO frequencies in Hz. Overridden by</span>
+<span class="sd">            ``schedule_los`` if specified. Must have length ``n_qubits.``</span>
+<span class="sd">        meas_lo_freq: List of measurement LO frequencies in Hz. Overridden by ``schedule_los`` if</span>
+<span class="sd">            specified. Must have length ``n_qubits.``</span>
+<span class="sd">        qubit_lo_range: List of job level drive LO ranges each of form ``[range_min, range_max]``</span>
+<span class="sd">            in Hz. Used to validate ``qubit_lo_freq``. Must have length ``n_qubits.``</span>
+<span class="sd">        meas_lo_range: List of job level measurement LO ranges each of form</span>
+<span class="sd">            ``[range_min, range_max]`` in Hz. Used to validate ``meas_lo_freq``. Must have length</span>
+<span class="sd">            ``n_qubits.``</span>
+<span class="sd">        schedule_los: Experiment level (ie circuit or schedule) LO frequency configurations for</span>
+<span class="sd">            qubit drive and measurement channels. These values override the job level values from</span>
+<span class="sd">            ``default_qubit_los`` and ``default_meas_los``. Frequencies are in Hz. Settable for qasm</span>
+<span class="sd">            and pulse jobs.</span>
 <span class="sd">        meas_level: Set the appropriate level of the measurement output for pulse experiments.</span>
 <span class="sd">        meas_return: Level of measurement data for the backend to return.</span>
 
@@ -455,47 +474,90 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">experiments</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">experiments</span><span class="p">]</span>
-    <span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config_common_dict</span> <span class="o">=</span> <span class="n">_parse_common_args</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">,</span>
-                                                                      <span class="n">shots</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span> <span class="n">max_credits</span><span class="p">,</span>
-                                                                      <span class="n">seed_simulator</span><span class="p">,</span> <span class="n">init_qubits</span><span class="p">,</span>
-                                                                      <span class="n">rep_delay</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="p">)</span>
+    <span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config_common_dict</span> <span class="o">=</span> <span class="n">_parse_common_args</span><span class="p">(</span>
+        <span class="n">backend</span><span class="p">,</span>
+        <span class="n">qobj_id</span><span class="p">,</span>
+        <span class="n">qobj_header</span><span class="p">,</span>
+        <span class="n">shots</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">,</span>
+        <span class="n">max_credits</span><span class="p">,</span>
+        <span class="n">seed_simulator</span><span class="p">,</span>
+        <span class="n">init_qubits</span><span class="p">,</span>
+        <span class="n">rep_delay</span><span class="p">,</span>
+        <span class="n">qubit_lo_freq</span><span class="p">,</span>
+        <span class="n">meas_lo_freq</span><span class="p">,</span>
+        <span class="n">qubit_lo_range</span><span class="p">,</span>
+        <span class="n">meas_lo_range</span><span class="p">,</span>
+        <span class="n">schedule_los</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># assemble either circuits or schedules</span>
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">):</span>
-        <span class="n">run_config</span> <span class="o">=</span> <span class="n">_parse_circuit_args</span><span class="p">(</span><span class="n">parameter_binds</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span>
-                                         <span class="n">meas_return</span><span class="p">,</span> <span class="n">parametric_pulses</span><span class="p">,</span>
-                                         <span class="o">**</span><span class="n">run_config_common_dict</span><span class="p">)</span>
+        <span class="n">run_config</span> <span class="o">=</span> <span class="n">_parse_circuit_args</span><span class="p">(</span>
+            <span class="n">parameter_binds</span><span class="p">,</span>
+            <span class="n">backend</span><span class="p">,</span>
+            <span class="n">meas_level</span><span class="p">,</span>
+            <span class="n">meas_return</span><span class="p">,</span>
+            <span class="n">parametric_pulses</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">run_config_common_dict</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># If circuits are parameterized, bind parameters and remove from run_config</span>
-        <span class="n">bound_experiments</span><span class="p">,</span> <span class="n">run_config</span> <span class="o">=</span> <span class="n">_expand_parameters</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span>
-                                                           <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span><span class="p">)</span>
+        <span class="n">bound_experiments</span><span class="p">,</span> <span class="n">run_config</span> <span class="o">=</span> <span class="n">_expand_parameters</span><span class="p">(</span>
+            <span class="n">circuits</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span>
+        <span class="p">)</span>
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">_log_assembly_time</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">assemble_circuits</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">bound_experiments</span><span class="p">,</span> <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
-                                 <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">assemble_circuits</span><span class="p">(</span>
+            <span class="n">circuits</span><span class="o">=</span><span class="n">bound_experiments</span><span class="p">,</span>
+            <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
+            <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span>
+            <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="p">(</span><span class="n">Schedule</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">))</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">):</span>
-        <span class="n">run_config</span> <span class="o">=</span> <span class="n">_parse_pulse_args</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qubit_lo_freq</span><span class="p">,</span> <span class="n">meas_lo_freq</span><span class="p">,</span>
-                                       <span class="n">qubit_lo_range</span><span class="p">,</span> <span class="n">meas_lo_range</span><span class="p">,</span>
-                                       <span class="n">schedule_los</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span> <span class="n">meas_return</span><span class="p">,</span>
-                                       <span class="n">meas_map</span><span class="p">,</span> <span class="n">memory_slot_size</span><span class="p">,</span>
-                                       <span class="n">rep_time</span><span class="p">,</span> <span class="n">parametric_pulses</span><span class="p">,</span>
-                                       <span class="o">**</span><span class="n">run_config_common_dict</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="p">(</span><span class="n">ScheduleBlock</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">))</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">):</span>
+        <span class="n">run_config</span> <span class="o">=</span> <span class="n">_parse_pulse_args</span><span class="p">(</span>
+            <span class="n">backend</span><span class="p">,</span>
+            <span class="n">meas_level</span><span class="p">,</span>
+            <span class="n">meas_return</span><span class="p">,</span>
+            <span class="n">meas_map</span><span class="p">,</span>
+            <span class="n">memory_slot_size</span><span class="p">,</span>
+            <span class="n">rep_time</span><span class="p">,</span>
+            <span class="n">parametric_pulses</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">run_config_common_dict</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">_log_assembly_time</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">assemble_schedules</span><span class="p">(</span><span class="n">schedules</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
-                                  <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">assemble_schedules</span><span class="p">(</span>
+            <span class="n">schedules</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config</span><span class="o">=</span><span class="n">run_config</span>
+        <span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;bad input to assemble() function; &quot;</span>
-                          <span class="s2">&quot;must be either circuits or schedules&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;bad input to assemble() function; &quot;</span> <span class="s2">&quot;must be either circuits or schedules&quot;</span>
+        <span class="p">)</span></div>
 
 
 <span class="c1"># TODO: rework to return a list of RunConfigs (one for each experiments), and a global one</span>
-<span class="k">def</span> <span class="nf">_parse_common_args</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span>
-                       <span class="n">memory</span><span class="p">,</span> <span class="n">max_credits</span><span class="p">,</span> <span class="n">seed_simulator</span><span class="p">,</span>
-                       <span class="n">init_qubits</span><span class="p">,</span> <span class="n">rep_delay</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_parse_common_args</span><span class="p">(</span>
+    <span class="n">backend</span><span class="p">,</span>
+    <span class="n">qobj_id</span><span class="p">,</span>
+    <span class="n">qobj_header</span><span class="p">,</span>
+    <span class="n">shots</span><span class="p">,</span>
+    <span class="n">memory</span><span class="p">,</span>
+    <span class="n">max_credits</span><span class="p">,</span>
+    <span class="n">seed_simulator</span><span class="p">,</span>
+    <span class="n">init_qubits</span><span class="p">,</span>
+    <span class="n">rep_delay</span><span class="p">,</span>
+    <span class="n">qubit_lo_freq</span><span class="p">,</span>
+    <span class="n">meas_lo_freq</span><span class="p">,</span>
+    <span class="n">qubit_lo_range</span><span class="p">,</span>
+    <span class="n">meas_lo_range</span><span class="p">,</span>
+    <span class="n">schedule_los</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Resolve the various types of args allowed to the assemble() function through</span>
 <span class="sd">    duck typing, overriding args, etc. Refer to the assemble() docstring for details on</span>
 <span class="sd">    what types of inputs are allowed.</span>
@@ -509,18 +571,31 @@
 <span class="sd">            and determines the runtime environment.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        QiskitError: if the memory arg is True and the backend does not support</span>
-<span class="sd">            memory. Also if shots exceeds max_shots for the configured backend. Also if</span>
-<span class="sd">            the type of shots is not int.</span>
+<span class="sd">        QiskitError:</span>
+<span class="sd">            - If the memory arg is True and the backend does not support memory.</span>
+<span class="sd">            - If ``shots`` exceeds ``max_shots`` for the configured backend.</span>
+<span class="sd">            - If ``shots`` are not int type.</span>
+<span class="sd">            - If any of qubit or meas lo&#39;s, or associated ranges do not have length equal to</span>
+<span class="sd">            ``n_qubits``.</span>
+<span class="sd">            - If qubit or meas lo&#39;s do not fit into perscribed ranges.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># grab relevant info from backend if it exists</span>
     <span class="n">backend_config</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">backend_defaults</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n_qubits</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">backend</span><span class="p">:</span>
         <span class="n">backend_config</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span>
+        <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">n_qubits</span>
         <span class="c1"># check for memory flag applied to backend that does not support memory</span>
         <span class="k">if</span> <span class="n">memory</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;memory not supported by backend </span><span class="si">{}</span><span class="s2">&quot;</span>
-                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend_config</span><span class="o">.</span><span class="n">backend_name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;memory not supported by backend </span><span class="si">{</span><span class="n">backend_config</span><span class="o">.</span><span class="n">backend_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># try to set defaults for pulse, other leave as None</span>
+        <span class="k">if</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">open_pulse</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">backend_defaults</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
 
     <span class="c1"># an identifier for the Qobj</span>
     <span class="n">qobj_id</span> <span class="o">=</span> <span class="n">qobj_id</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
@@ -530,27 +605,29 @@
     <span class="n">qobj_header</span> <span class="o">=</span> <span class="n">qobj_header</span> <span class="ow">or</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qobj_header</span><span class="p">,</span> <span class="n">QobjHeader</span><span class="p">):</span>
         <span class="n">qobj_header</span> <span class="o">=</span> <span class="n">qobj_header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-    <span class="n">backend_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;backend_name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">backend_version</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;backend_version&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">qobj_header</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">backend_name</span><span class="o">=</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_version</span><span class="o">=</span><span class="n">backend_version</span><span class="p">),</span>
-                   <span class="o">**</span><span class="n">qobj_header</span><span class="p">}</span>
+    <span class="n">backend_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;backend_name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">backend_version</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;backend_version&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">qobj_header</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">backend_name</span><span class="o">=</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_version</span><span class="o">=</span><span class="n">backend_version</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">qobj_header</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="n">qobj_header</span> <span class="o">=</span> <span class="n">QobjHeader</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">qobj_header</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
 
-    <span class="n">max_shots</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;max_shots&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">max_shots</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;max_shots&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">shots</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">max_shots</span><span class="p">:</span>
             <span class="n">shots</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="n">max_shots</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">shots</span> <span class="o">=</span> <span class="mi">1024</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shots</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-            <span class="s2">&quot;Argument &#39;shots&#39; should be of type &#39;int&#39;&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Argument &#39;shots&#39; should be of type &#39;int&#39;&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">max_shots</span> <span class="ow">and</span> <span class="n">max_shots</span> <span class="o">&lt;</span> <span class="n">shots</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-            <span class="s1">&#39;Number of shots specified: </span><span class="si">%s</span><span class="s1"> exceeds max_shots property of the &#39;</span>
-            <span class="s1">&#39;backend: </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shots</span><span class="p">,</span> <span class="n">max_shots</span><span class="p">))</span>
+            <span class="s2">&quot;Number of shots specified: </span><span class="si">%s</span><span class="s2"> exceeds max_shots property of the &quot;</span>
+            <span class="s2">&quot;backend: </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shots</span><span class="p">,</span> <span class="n">max_shots</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="n">dynamic_reprate_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;dynamic_reprate_enabled&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">dynamic_reprate_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;dynamic_reprate_enabled&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dynamic_reprate_enabled</span><span class="p">:</span>
         <span class="n">default_rep_delay</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;default_rep_delay&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">rep_delay_range</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;rep_delay_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -563,24 +640,92 @@
                 <span class="ne">RuntimeWarning</span><span class="p">,</span>
             <span class="p">)</span>
 
+    <span class="n">qubit_lo_freq</span> <span class="o">=</span> <span class="n">qubit_lo_freq</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_defaults</span><span class="p">,</span> <span class="s2">&quot;qubit_freq_est&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">meas_lo_freq</span> <span class="o">=</span> <span class="n">meas_lo_freq</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_defaults</span><span class="p">,</span> <span class="s2">&quot;meas_freq_est&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">qubit_lo_range</span> <span class="o">=</span> <span class="n">qubit_lo_range</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">meas_lo_range</span> <span class="o">=</span> <span class="n">meas_lo_range</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;meas_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># check that LO frequencies are in the perscribed range</span>
+    <span class="n">_check_lo_freqs</span><span class="p">(</span><span class="n">qubit_lo_freq</span><span class="p">,</span> <span class="n">qubit_lo_range</span><span class="p">,</span> <span class="s2">&quot;qubit&quot;</span><span class="p">)</span>
+    <span class="n">_check_lo_freqs</span><span class="p">(</span><span class="n">meas_lo_freq</span><span class="p">,</span> <span class="n">meas_lo_range</span><span class="p">,</span> <span class="s2">&quot;meas&quot;</span><span class="p">)</span>
+
+    <span class="c1"># configure experiment level LO frequencies</span>
+    <span class="n">schedule_los</span> <span class="o">=</span> <span class="n">schedule_los</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schedule_los</span><span class="p">,</span> <span class="p">(</span><span class="n">LoConfig</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="n">schedule_los</span> <span class="o">=</span> <span class="p">[</span><span class="n">schedule_los</span><span class="p">]</span>
+
+    <span class="c1"># Convert to LoConfig if LO configuration supplied as dictionary</span>
+    <span class="n">schedule_los</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">lo_config</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lo_config</span><span class="p">,</span> <span class="n">LoConfig</span><span class="p">)</span> <span class="k">else</span> <span class="n">LoConfig</span><span class="p">(</span><span class="n">lo_config</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lo_config</span> <span class="ow">in</span> <span class="n">schedule_los</span>
+    <span class="p">]</span>
+
     <span class="c1"># create run configuration and populate</span>
-    <span class="n">run_config_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                           <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
-                           <span class="n">max_credits</span><span class="o">=</span><span class="n">max_credits</span><span class="p">,</span>
-                           <span class="n">seed_simulator</span><span class="o">=</span><span class="n">seed_simulator</span><span class="p">,</span>
-                           <span class="n">init_qubits</span><span class="o">=</span><span class="n">init_qubits</span><span class="p">,</span>
-                           <span class="n">rep_delay</span><span class="o">=</span><span class="n">rep_delay</span><span class="p">,</span>
-                           <span class="o">**</span><span class="n">run_config</span><span class="p">)</span>
+    <span class="n">run_config_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
+        <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
+        <span class="n">max_credits</span><span class="o">=</span><span class="n">max_credits</span><span class="p">,</span>
+        <span class="n">seed_simulator</span><span class="o">=</span><span class="n">seed_simulator</span><span class="p">,</span>
+        <span class="n">init_qubits</span><span class="o">=</span><span class="n">init_qubits</span><span class="p">,</span>
+        <span class="n">rep_delay</span><span class="o">=</span><span class="n">rep_delay</span><span class="p">,</span>
+        <span class="n">qubit_lo_freq</span><span class="o">=</span><span class="n">qubit_lo_freq</span><span class="p">,</span>
+        <span class="n">meas_lo_freq</span><span class="o">=</span><span class="n">meas_lo_freq</span><span class="p">,</span>
+        <span class="n">qubit_lo_range</span><span class="o">=</span><span class="n">qubit_lo_range</span><span class="p">,</span>
+        <span class="n">meas_lo_range</span><span class="o">=</span><span class="n">meas_lo_range</span><span class="p">,</span>
+        <span class="n">schedule_los</span><span class="o">=</span><span class="n">schedule_los</span><span class="p">,</span>
+        <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">qobj_id</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">,</span> <span class="n">run_config_dict</span>
 
 
-<span class="k">def</span> <span class="nf">_parse_pulse_args</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qubit_lo_freq</span><span class="p">,</span> <span class="n">meas_lo_freq</span><span class="p">,</span> <span class="n">qubit_lo_range</span><span class="p">,</span>
-                      <span class="n">meas_lo_range</span><span class="p">,</span> <span class="n">schedule_los</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span>
-                      <span class="n">meas_return</span><span class="p">,</span> <span class="n">meas_map</span><span class="p">,</span>
-                      <span class="n">memory_slot_size</span><span class="p">,</span>
-                      <span class="n">rep_time</span><span class="p">,</span> <span class="n">parametric_pulses</span><span class="p">,</span>
-                      <span class="o">**</span><span class="n">run_config</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_check_lo_freqs</span><span class="p">(</span>
+    <span class="n">lo_freq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">lo_range</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">lo_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check that LO frequencies are within the perscribed LO range.</span>
+
+<span class="sd">    NOTE: Only checks if frequency/range lists have equal length. And does not check that the lists</span>
+<span class="sd">    have length ``n_qubits``. This is because some backends, like simulator backends, do not</span>
+<span class="sd">    require these constraints. For real hardware, these parameters will be validated on the backend.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lo_freq: List of LO frequencies.</span>
+<span class="sd">        lo_range: Nested list of LO frequency ranges. Inner list is of the form</span>
+<span class="sd">            ``[lo_min, lo_max]``.</span>
+<span class="sd">        lo_type: The type of LO value--&quot;qubit&quot; or &quot;meas&quot;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        QiskitError:</span>
+<span class="sd">            - If each element of the LO range is not a 2d list.</span>
+<span class="sd">            - If the LO frequency is not in the LO range for a given qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">lo_freq</span> <span class="ow">and</span> <span class="n">lo_range</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lo_freq</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lo_range</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lo_freq</span><span class="p">):</span>
+            <span class="n">freq_range</span> <span class="o">=</span> <span class="n">lo_range</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">freq_range</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Each element of </span><span class="si">{</span><span class="n">lo_type</span><span class="si">}</span><span class="s2"> LO range must be a 2d list.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">freq</span> <span class="o">&lt;</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">freq</span> <span class="o">&gt;</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Qubit </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> LO frequency is </span><span class="si">{}</span><span class="s2">. The range is [</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">].&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">lo_type</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_pulse_args</span><span class="p">(</span>
+    <span class="n">backend</span><span class="p">,</span>
+    <span class="n">meas_level</span><span class="p">,</span>
+    <span class="n">meas_return</span><span class="p">,</span>
+    <span class="n">meas_map</span><span class="p">,</span>
+    <span class="n">memory_slot_size</span><span class="p">,</span>
+    <span class="n">rep_time</span><span class="p">,</span>
+    <span class="n">parametric_pulses</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Build a pulse RunConfig replacing unset arguments with defaults derived from the `backend`.</span>
 <span class="sd">    See `assemble` for more information on the required arguments.</span>
 
@@ -592,68 +737,51 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># grab relevant info from backend if it exists</span>
     <span class="n">backend_config</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">backend_default</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">backend</span><span class="p">:</span>
-        <span class="n">backend_default</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span>
         <span class="n">backend_config</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">meas_level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;meas_levels&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">meas_level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;meas_levels&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="n">SchemaValidationError</span><span class="p">(</span>
-                <span class="p">(</span><span class="s1">&#39;meas_level = </span><span class="si">{}</span><span class="s1"> not supported for backend </span><span class="si">{}</span><span class="s1">, only </span><span class="si">{}</span><span class="s1"> is supported&#39;</span>
-                 <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">meas_level</span><span class="p">,</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">meas_levels</span><span class="p">)</span>
+                <span class="p">(</span><span class="s2">&quot;meas_level = </span><span class="si">{}</span><span class="s2"> not supported for backend </span><span class="si">{}</span><span class="s2">, only </span><span class="si">{}</span><span class="s2"> is supported&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">meas_level</span><span class="p">,</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_config</span><span class="o">.</span><span class="n">meas_levels</span>
+                <span class="p">)</span>
             <span class="p">)</span>
 
-    <span class="n">meas_map</span> <span class="o">=</span> <span class="n">meas_map</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;meas_map&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">meas_map</span> <span class="o">=</span> <span class="n">meas_map</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;meas_map&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">dynamic_reprate_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;dynamic_reprate_enabled&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">schedule_los</span> <span class="o">=</span> <span class="n">schedule_los</span> <span class="ow">or</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schedule_los</span><span class="p">,</span> <span class="p">(</span><span class="n">LoConfig</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
-        <span class="n">schedule_los</span> <span class="o">=</span> <span class="p">[</span><span class="n">schedule_los</span><span class="p">]</span>
-
-    <span class="c1"># Convert to LoConfig if LO configuration supplied as dictionary</span>
-    <span class="n">schedule_los</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_config</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lo_config</span><span class="p">,</span> <span class="n">LoConfig</span><span class="p">)</span> <span class="k">else</span> <span class="n">LoConfig</span><span class="p">(</span><span class="n">lo_config</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">lo_config</span> <span class="ow">in</span> <span class="n">schedule_los</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">qubit_lo_freq</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend_default</span><span class="p">,</span> <span class="s1">&#39;qubit_freq_est&#39;</span><span class="p">):</span>
-        <span class="n">qubit_lo_freq</span> <span class="o">=</span> <span class="n">backend_default</span><span class="o">.</span><span class="n">qubit_freq_est</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">meas_lo_freq</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend_default</span><span class="p">,</span> <span class="s1">&#39;meas_freq_est&#39;</span><span class="p">):</span>
-        <span class="n">meas_lo_freq</span> <span class="o">=</span> <span class="n">backend_default</span><span class="o">.</span><span class="n">meas_freq_est</span>
-
-    <span class="n">qubit_lo_range</span> <span class="o">=</span> <span class="n">qubit_lo_range</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">meas_lo_range</span> <span class="o">=</span> <span class="n">meas_lo_range</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;meas_lo_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-    <span class="n">dynamic_reprate_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;dynamic_reprate_enabled&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-
-    <span class="n">rep_time</span> <span class="o">=</span> <span class="n">rep_time</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;rep_times&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">rep_time</span> <span class="o">=</span> <span class="n">rep_time</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;rep_times&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rep_time</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">dynamic_reprate_enabled</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Dynamic rep rates are supported on this backend. &#39;rep_delay&#39; will be &quot;</span>
-                          <span class="s2">&quot;used instead of &#39;rep_time&#39;.&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Dynamic rep rates are supported on this backend. &#39;rep_delay&#39; will be &quot;</span>
+                <span class="s2">&quot;used instead of &#39;rep_time&#39;.&quot;</span><span class="p">,</span>
+                <span class="ne">RuntimeWarning</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rep_time</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">rep_time</span> <span class="o">=</span> <span class="n">rep_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">rep_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rep_time</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">)</span>  <span class="c1"># convert sec to μs</span>
 
-    <span class="n">parametric_pulses</span> <span class="o">=</span> <span class="n">parametric_pulses</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s1">&#39;parametric_pulses&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">parametric_pulses</span> <span class="o">=</span> <span class="n">parametric_pulses</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend_config</span><span class="p">,</span> <span class="s2">&quot;parametric_pulses&quot;</span><span class="p">,</span> <span class="p">[])</span>
 
     <span class="c1"># create run configuration and populate</span>
-    <span class="n">run_config_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">qubit_lo_freq</span><span class="o">=</span><span class="n">qubit_lo_freq</span><span class="p">,</span>
-                           <span class="n">meas_lo_freq</span><span class="o">=</span><span class="n">meas_lo_freq</span><span class="p">,</span>
-                           <span class="n">qubit_lo_range</span><span class="o">=</span><span class="n">qubit_lo_range</span><span class="p">,</span>
-                           <span class="n">meas_lo_range</span><span class="o">=</span><span class="n">meas_lo_range</span><span class="p">,</span>
-                           <span class="n">schedule_los</span><span class="o">=</span><span class="n">schedule_los</span><span class="p">,</span>
-                           <span class="n">meas_level</span><span class="o">=</span><span class="n">meas_level</span><span class="p">,</span>
-                           <span class="n">meas_return</span><span class="o">=</span><span class="n">meas_return</span><span class="p">,</span>
-                           <span class="n">meas_map</span><span class="o">=</span><span class="n">meas_map</span><span class="p">,</span>
-                           <span class="n">memory_slot_size</span><span class="o">=</span><span class="n">memory_slot_size</span><span class="p">,</span>
-                           <span class="n">rep_time</span><span class="o">=</span><span class="n">rep_time</span><span class="p">,</span>
-                           <span class="n">parametric_pulses</span><span class="o">=</span><span class="n">parametric_pulses</span><span class="p">,</span>
-                           <span class="o">**</span><span class="n">run_config</span><span class="p">)</span>
+    <span class="n">run_config_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">meas_level</span><span class="o">=</span><span class="n">meas_level</span><span class="p">,</span>
+        <span class="n">meas_return</span><span class="o">=</span><span class="n">meas_return</span><span class="p">,</span>
+        <span class="n">meas_map</span><span class="o">=</span><span class="n">meas_map</span><span class="p">,</span>
+        <span class="n">memory_slot_size</span><span class="o">=</span><span class="n">memory_slot_size</span><span class="p">,</span>
+        <span class="n">rep_time</span><span class="o">=</span><span class="n">rep_time</span><span class="p">,</span>
+        <span class="n">parametric_pulses</span><span class="o">=</span><span class="n">parametric_pulses</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">run_config</span> <span class="o">=</span> <span class="n">RunConfig</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">run_config_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">run_config</span>
 
 
-<span class="k">def</span> <span class="nf">_parse_circuit_args</span><span class="p">(</span><span class="n">parameter_binds</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span> <span class="n">meas_return</span><span class="p">,</span>
-                        <span class="n">parametric_pulses</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_parse_circuit_args</span><span class="p">(</span>
+    <span class="n">parameter_binds</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span> <span class="n">meas_return</span><span class="p">,</span> <span class="n">parametric_pulses</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Build a circuit RunConfig replacing unset arguments with defaults derived from the `backend`.</span>
 <span class="sd">    See `assemble` for more information on the required arguments.</span>
 
@@ -665,27 +793,26 @@
     <span class="c1"># create run configuration and populate</span>
     <span class="n">run_config_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parameter_binds</span><span class="o">=</span><span class="n">parameter_binds</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">backend</span><span class="p">:</span>
-        <span class="n">run_config_dict</span><span class="p">[</span><span class="s1">&#39;parametric_pulses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">(),</span> <span class="s1">&#39;parametric_pulses&#39;</span><span class="p">,</span>
-                                                       <span class="p">[])</span>
+        <span class="n">run_config_dict</span><span class="p">[</span><span class="s2">&quot;parametric_pulses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">(),</span> <span class="s2">&quot;parametric_pulses&quot;</span><span class="p">,</span> <span class="p">[]</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">parametric_pulses</span><span class="p">:</span>
-        <span class="n">run_config_dict</span><span class="p">[</span><span class="s1">&#39;parametric_pulses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parametric_pulses</span>
+        <span class="n">run_config_dict</span><span class="p">[</span><span class="s2">&quot;parametric_pulses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parametric_pulses</span>
 
     <span class="k">if</span> <span class="n">meas_level</span><span class="p">:</span>
-        <span class="n">run_config_dict</span><span class="p">[</span><span class="s1">&#39;meas_level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_level</span>
+        <span class="n">run_config_dict</span><span class="p">[</span><span class="s2">&quot;meas_level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_level</span>
         <span class="c1"># only enable `meas_return` if `meas_level` isn&#39;t classified</span>
         <span class="k">if</span> <span class="n">meas_level</span> <span class="o">!=</span> <span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span><span class="p">:</span>
-            <span class="n">run_config_dict</span><span class="p">[</span><span class="s1">&#39;meas_return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_return</span>
+            <span class="n">run_config_dict</span><span class="p">[</span><span class="s2">&quot;meas_return&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_return</span>
 
-    <span class="n">run_config</span> <span class="o">=</span> <span class="n">RunConfig</span><span class="p">(</span>
-        <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span>
-           <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">run_config_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
+    <span class="n">run_config</span> <span class="o">=</span> <span class="n">RunConfig</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">run_config_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">run_config</span>
 
 
-<span class="k">def</span> <span class="nf">_parse_rep_delay</span><span class="p">(</span><span class="n">rep_delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                     <span class="n">default_rep_delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                     <span class="n">rep_delay_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_parse_rep_delay</span><span class="p">(</span>
+    <span class="n">rep_delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">default_rep_delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rep_delay_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Parse and set ``rep_delay`` parameter in runtime config.</span>
 
 <span class="sd">    Args:</span>
@@ -739,33 +866,40 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parameter_binds</span> <span class="o">=</span> <span class="n">run_config</span><span class="o">.</span><span class="n">parameter_binds</span>
 
-    <span class="k">if</span> <span class="n">parameter_binds</span> <span class="ow">or</span> \
-       <span class="nb">any</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span> <span class="k">for</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="n">circuits</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">parameter_binds</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span> <span class="k">for</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="n">circuits</span><span class="p">):</span>
 
         <span class="c1"># Unroll params here in order to handle ParamVects</span>
-        <span class="n">all_bind_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">()</span><span class="o">.</span><span class="n">_unroll_param_dict</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-                               <span class="k">for</span> <span class="n">bind</span> <span class="ow">in</span> <span class="n">parameter_binds</span><span class="p">]</span>
+        <span class="n">all_bind_parameters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">QuantumCircuit</span><span class="p">()</span><span class="o">.</span><span class="n">_unroll_param_dict</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">bind</span> <span class="ow">in</span> <span class="n">parameter_binds</span>
+        <span class="p">]</span>
 
         <span class="n">all_circuit_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span> <span class="k">for</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="n">circuits</span><span class="p">]</span>
 
         <span class="c1"># Collect set of all unique parameters across all circuits and binds</span>
-        <span class="n">unique_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="n">param</span>
-                             <span class="k">for</span> <span class="n">param_list</span> <span class="ow">in</span> <span class="n">all_bind_parameters</span> <span class="o">+</span> <span class="n">all_circuit_parameters</span>
-                             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_list</span><span class="p">}</span>
+        <span class="n">unique_parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">param</span>
+            <span class="k">for</span> <span class="n">param_list</span> <span class="ow">in</span> <span class="n">all_bind_parameters</span> <span class="o">+</span> <span class="n">all_circuit_parameters</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_list</span>
+        <span class="p">}</span>
 
         <span class="c1"># Check that all parameters are common to all circuits and binds</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_bind_parameters</span> \
-           <span class="ow">or</span> <span class="ow">not</span> <span class="n">all_circuit_parameters</span> \
-           <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">unique_parameters</span> <span class="o">!=</span> <span class="n">bind_params</span> <span class="k">for</span> <span class="n">bind_params</span> <span class="ow">in</span> <span class="n">all_bind_parameters</span><span class="p">)</span> \
-           <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">unique_parameters</span> <span class="o">!=</span> <span class="n">parameters</span> <span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">all_circuit_parameters</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">all_bind_parameters</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">all_circuit_parameters</span>
+            <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">unique_parameters</span> <span class="o">!=</span> <span class="n">bind_params</span> <span class="k">for</span> <span class="n">bind_params</span> <span class="ow">in</span> <span class="n">all_bind_parameters</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">unique_parameters</span> <span class="o">!=</span> <span class="n">parameters</span> <span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">all_circuit_parameters</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="p">(</span><span class="s1">&#39;Mismatch between run_config.parameter_binds and all circuit parameters. &#39;</span> <span class="o">+</span>
-                 <span class="s1">&#39;Parameter binds: </span><span class="si">{}</span><span class="s1"> &#39;</span> <span class="o">+</span>
-                 <span class="s1">&#39;Circuit parameters: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">all_bind_parameters</span><span class="p">,</span> <span class="n">all_circuit_parameters</span><span class="p">))</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Mismatch between run_config.parameter_binds and all circuit parameters. &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;Parameter binds: </span><span class="si">{}</span><span class="s2"> &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;Circuit parameters: </span><span class="si">{}</span><span class="s2">&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">all_bind_parameters</span><span class="p">,</span> <span class="n">all_circuit_parameters</span><span class="p">)</span>
+            <span class="p">)</span>
 
-        <span class="n">circuits</span> <span class="o">=</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">bind_parameters</span><span class="p">(</span><span class="n">binds</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="n">circuits</span>
-                    <span class="k">for</span> <span class="n">binds</span> <span class="ow">in</span> <span class="n">parameter_binds</span><span class="p">]</span>
+        <span class="n">circuits</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">bind_parameters</span><span class="p">(</span><span class="n">binds</span><span class="p">)</span> <span class="k">for</span> <span class="n">circuit</span> <span class="ow">in</span> <span class="n">circuits</span> <span class="k">for</span> <span class="n">binds</span> <span class="ow">in</span> <span class="n">parameter_binds</span>
+        <span class="p">]</span>
 
         <span class="c1"># All parameters have been expanded and bound, so remove from run_config</span>
         <span class="n">run_config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">run_config</span><span class="p">)</span>
@@ -789,7 +923,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -824,7 +958,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

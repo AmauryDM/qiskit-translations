@@ -56,6 +56,7 @@
       ~QuadraticForm.fredkin
       ~QuadraticForm.from_qasm_file
       ~QuadraticForm.from_qasm_str
+      ~QuadraticForm.get_instructions
       ~QuadraticForm.h
       ~QuadraticForm.hamiltonian
       ~QuadraticForm.has_register

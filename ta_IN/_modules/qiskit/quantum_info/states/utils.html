@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.states.utils &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.quantum_info.states.utils &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -376,21 +376,18 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">):</span>
         <span class="n">trace_systems</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">)</span>
-        <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span>
-                           <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="n">trace_systems</span><span class="p">,</span> <span class="n">trace_systems</span><span class="p">))</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="n">trace_systems</span><span class="p">,</span> <span class="n">trace_systems</span><span class="p">))</span>
         <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">traced_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DensityMatrix</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">traced_shape</span><span class="o">.</span><span class="n">_dims_l</span><span class="p">)</span>
 
     <span class="c1"># Density matrix case</span>
     <span class="c1"># Trace first subsystem to avoid coping whole density matrix</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">dims</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
-    <span class="n">tr_op</span> <span class="o">=</span> <span class="n">SuperOp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
-                    <span class="n">input_dims</span><span class="o">=</span><span class="p">[</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">output_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">tr_op</span> <span class="o">=</span> <span class="n">SuperOp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="n">input_dims</span><span class="o">=</span><span class="p">[</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">output_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">tr_op</span><span class="p">,</span> <span class="p">[</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
     <span class="c1"># Trace over remaining subsystems</span>
     <span class="k">for</span> <span class="n">qarg</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qargs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="n">tr_op</span> <span class="o">=</span> <span class="n">SuperOp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
-                        <span class="n">input_dims</span><span class="o">=</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> <span class="n">output_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">tr_op</span> <span class="o">=</span> <span class="n">SuperOp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="n">input_dims</span><span class="o">=</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> <span class="n">output_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">tr_op</span><span class="p">,</span> <span class="p">[</span><span class="n">qarg</span><span class="p">])</span>
     <span class="c1"># Remove traced over subsystems which are listed as dimension 1</span>
     <span class="n">ret</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">traced_shape</span>
@@ -418,16 +415,21 @@
 <span class="sd">        float: The Shannon entropy H(pvec).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">logfn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="k">return</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">logfn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="k">return</span> <span class="o">-</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">logfn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 
-    <span class="n">h_val</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">h_val</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvec</span><span class="p">:</span>
         <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">h_val</span> <span class="o">+=</span> <span class="n">logfn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -486,7 +488,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -521,7 +523,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

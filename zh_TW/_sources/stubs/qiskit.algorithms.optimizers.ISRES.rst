@@ -44,5 +44,6 @@
       ~ISRES.is_initial_point_required
       ~ISRES.is_initial_point_supported
       ~ISRES.setting
+      ~ISRES.settings
    
    

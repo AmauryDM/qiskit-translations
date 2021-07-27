@@ -39,6 +39,7 @@
       ~SaveMatrixProductState.decompositions
       ~SaveMatrixProductState.definition
       ~SaveMatrixProductState.duration
+      ~SaveMatrixProductState.label
       ~SaveMatrixProductState.params
       ~SaveMatrixProductState.unit
    

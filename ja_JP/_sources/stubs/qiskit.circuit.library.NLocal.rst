@@ -58,6 +58,7 @@
       ~NLocal.from_qasm_file
       ~NLocal.from_qasm_str
       ~NLocal.get_entangler_map
+      ~NLocal.get_instructions
       ~NLocal.get_unentangled_qubits
       ~NLocal.h
       ~NLocal.hamiltonian

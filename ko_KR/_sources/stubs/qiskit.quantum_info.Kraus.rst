@@ -47,5 +47,6 @@
       ~Kraus.num_qubits
       ~Kraus.qargs
       ~Kraus.rtol
+      ~Kraus.settings
    
    

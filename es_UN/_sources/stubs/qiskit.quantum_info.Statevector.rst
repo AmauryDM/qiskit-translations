@@ -53,5 +53,6 @@
       ~Statevector.dim
       ~Statevector.num_qubits
       ~Statevector.rtol
+      ~Statevector.settings
    
    

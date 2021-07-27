@@ -23,6 +23,7 @@
       ~ScheduleBlock.exclude
       ~ScheduleBlock.filter
       ~ScheduleBlock.get_parameters
+      ~ScheduleBlock.initialize_from
       ~ScheduleBlock.insert
       ~ScheduleBlock.is_parameterized
       ~ScheduleBlock.is_schedulable
@@ -38,6 +39,7 @@
    .. autosummary::
    
       ~ScheduleBlock.alignment_context
+      ~ScheduleBlock.blocks
       ~ScheduleBlock.channels
       ~ScheduleBlock.duration
       ~ScheduleBlock.instances_counter

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.n_local.efficient_su2 &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.circuit.library.n_local.efficient_su2 &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -394,20 +394,27 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EfficientSU2.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.EfficientSU2.html#qiskit.circuit.library.EfficientSU2.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">su2_gates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span>
-                     <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-                     <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">]]</span>
-                 <span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">entanglement</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span>
-                 <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-                 <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;θ&#39;</span><span class="p">,</span>
-                 <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="EfficientSU2.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.EfficientSU2.html#qiskit.circuit.library.EfficientSU2.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">su2_gates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span>
+                <span class="nb">str</span><span class="p">,</span>
+                <span class="nb">type</span><span class="p">,</span>
+                <span class="n">Instruction</span><span class="p">,</span>
+                <span class="n">QuantumCircuit</span><span class="p">,</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">]],</span>
+            <span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">entanglement</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span>
+        <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;θ&quot;</span><span class="p">,</span>
+        <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;EfficientSU2&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a new EfficientSU2 2-local circuit.</span>
 
 <span class="sd">        Args:</span>
@@ -438,16 +445,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">su2_gates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">su2_gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">RYGate</span><span class="p">,</span> <span class="n">RZGate</span><span class="p">]</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
-                         <span class="n">rotation_blocks</span><span class="o">=</span><span class="n">su2_gates</span><span class="p">,</span>
-                         <span class="n">entanglement_blocks</span><span class="o">=</span><span class="n">CXGate</span><span class="p">,</span>
-                         <span class="n">entanglement</span><span class="o">=</span><span class="n">entanglement</span><span class="p">,</span>
-                         <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">,</span>
-                         <span class="n">skip_unentangled_qubits</span><span class="o">=</span><span class="n">skip_unentangled_qubits</span><span class="p">,</span>
-                         <span class="n">skip_final_rotation_layer</span><span class="o">=</span><span class="n">skip_final_rotation_layer</span><span class="p">,</span>
-                         <span class="n">parameter_prefix</span><span class="o">=</span><span class="n">parameter_prefix</span><span class="p">,</span>
-                         <span class="n">insert_barriers</span><span class="o">=</span><span class="n">insert_barriers</span><span class="p">,</span>
-                         <span class="n">initial_state</span><span class="o">=</span><span class="n">initial_state</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+            <span class="n">rotation_blocks</span><span class="o">=</span><span class="n">su2_gates</span><span class="p">,</span>
+            <span class="n">entanglement_blocks</span><span class="o">=</span><span class="n">CXGate</span><span class="p">,</span>
+            <span class="n">entanglement</span><span class="o">=</span><span class="n">entanglement</span><span class="p">,</span>
+            <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">,</span>
+            <span class="n">skip_unentangled_qubits</span><span class="o">=</span><span class="n">skip_unentangled_qubits</span><span class="p">,</span>
+            <span class="n">skip_final_rotation_layer</span><span class="o">=</span><span class="n">skip_final_rotation_layer</span><span class="p">,</span>
+            <span class="n">parameter_prefix</span><span class="o">=</span><span class="n">parameter_prefix</span><span class="p">,</span>
+            <span class="n">insert_barriers</span><span class="o">=</span><span class="n">insert_barriers</span><span class="p">,</span>
+            <span class="n">initial_state</span><span class="o">=</span><span class="n">initial_state</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parameter_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
@@ -474,7 +484,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -510,7 +520,7 @@
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.list_ops.tensored_op &mdash; documentação Qiskit 0.27.0</title>
+  <title>qiskit.opflow.list_ops.tensored_op &mdash; documentação Qiskit 0.28.0</title>
   
 
   
@@ -219,16 +219,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Página de documentação</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Índice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Quantum computing in a nutshell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introdução ao Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuindo para o Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuração local</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Perguntas Frequentes</a></li>
 </ul>
 <p><span class="caption-text">Libraries</span></p>
 <ul>
@@ -237,14 +237,14 @@
 <p><span class="caption-text">API References</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Simulador do Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Experimentos Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Módulos De Aplicação Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provedor)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Aplicações do Qiskit (Aqua) Guia de Migração</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Aplicações do Qiskit (Aqua) Guia de Migração</a></li>
 </ul>
 <p><span class="caption-text">Troubleshooting</span></p>
 <ul>
@@ -333,7 +333,7 @@
 <span class="sd">&quot;&quot;&quot; TensoredOp Class &quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -345,35 +345,40 @@
 
 
 <div class="viewcode-block" id="TensoredOp"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.list_ops.TensoredOp.html#qiskit.opflow.list_ops.TensoredOp">[documentos]</a><span class="k">class</span> <span class="nc">TensoredOp</span><span class="p">(</span><span class="n">ListOp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;  A class for lazily representing tensor products of Operators. Often Operators cannot be</span>
+    <span class="sd">&quot;&quot;&quot;A class for lazily representing tensor products of Operators. Often Operators cannot be</span>
 <span class="sd">    efficiently tensored to one another, but may be manipulated further so that they can be</span>
 <span class="sd">    later. This class holds logic to indicate that the Operators in ``oplist`` are meant to</span>
 <span class="sd">    be tensored together, and therefore if they reach a point in which they can be, such as after</span>
-<span class="sd">    conversion to QuantumCircuits, they can be reduced by tensor product. &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="TensoredOp.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.list_ops.TensoredOp.html#qiskit.opflow.list_ops.TensoredOp.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">oplist</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OperatorBase</span><span class="p">],</span>
-                 <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-                 <span class="n">abelian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="sd">    conversion to QuantumCircuits, they can be reduced by tensor product.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TensoredOp.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.list_ops.TensoredOp.html#qiskit.opflow.list_ops.TensoredOp.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">oplist</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OperatorBase</span><span class="p">],</span>
+        <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">abelian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            oplist: The Operators being tensored.</span>
 <span class="sd">            coeff: A coefficient multiplying the operator</span>
 <span class="sd">            abelian: Indicates whether the Operators in ``oplist`` are known to mutually commute.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oplist</span><span class="p">,</span>
-                         <span class="n">combo_fn</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">reduce</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">),</span>
-                         <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">,</span>
-                         <span class="n">abelian</span><span class="o">=</span><span class="n">abelian</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">reduce</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">),</span> <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">,</span> <span class="n">abelian</span><span class="o">=</span><span class="n">abelian</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">oplist</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">distributive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TensoredOp&#39;</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;oplist&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oplist</span><span class="p">,</span> <span class="s2">&quot;coeff&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coeff</span><span class="p">,</span> <span class="s2">&quot;abelian&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_abelian</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;TensoredOp&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Appends I ^ num_qubits to ``oplist``. Choice of PauliOp as</span>
 <span class="sd">        identity is arbitrary and can be substituted for other PrimitiveOp identity.</span>
 
@@ -382,6 +387,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">..operator_globals</span> <span class="kn">import</span> <span class="n">I</span>
+
         <span class="k">return</span> <span class="n">TensoredOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oplist</span> <span class="o">+</span> <span class="p">[</span><span class="n">I</span> <span class="o">^</span> <span class="n">num_qubits</span><span class="p">],</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TensoredOp.tensor"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.list_ops.TensoredOp.html#qiskit.opflow.list_ops.TensoredOp.tensor">[documentos]</a>    <span class="k">def</span> <span class="nf">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
@@ -423,10 +429,13 @@
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">..state_fns.circuit_state_fn</span> <span class="kn">import</span> <span class="n">CircuitStateFn</span>
         <span class="kn">from</span> <span class="nn">..primitive_ops.primitive_op</span> <span class="kn">import</span> <span class="n">PrimitiveOp</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">circuit_op</span><span class="p">,</span> <span class="p">(</span><span class="n">PrimitiveOp</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">circuit_op</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Conversion to_circuit supported only for operators, where a single &#39;</span>
-                          <span class="s1">&#39;underlying circuit can be produced.&#39;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
+            <span class="s2">&quot;Conversion to_circuit supported only for operators, where a single &quot;</span>
+            <span class="s2">&quot;underlying circuit can be produced.&quot;</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -444,7 +453,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Última atualização em 2021/07/12.
+      Última atualização em 2021/07/27.
 
     </p>
   </div>
@@ -480,7 +489,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -39,6 +39,7 @@
       ~SaveAmplitudes.decompositions
       ~SaveAmplitudes.definition
       ~SaveAmplitudes.duration
+      ~SaveAmplitudes.label
       ~SaveAmplitudes.params
       ~SaveAmplitudes.unit
    

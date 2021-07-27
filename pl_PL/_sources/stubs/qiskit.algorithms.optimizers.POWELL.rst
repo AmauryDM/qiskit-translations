@@ -43,5 +43,6 @@
       ~POWELL.is_initial_point_required
       ~POWELL.is_initial_point_supported
       ~POWELL.setting
+      ~POWELL.settings
    
    

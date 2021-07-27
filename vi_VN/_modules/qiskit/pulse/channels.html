@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.channels &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.pulse.channels &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -379,7 +379,7 @@
                 <span class="s2">&quot;See Channel documentation for more information.&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Channel</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Channel class.</span>
@@ -419,20 +419,21 @@
                 <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span> <span class="ow">and</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s1">&#39;Channel index must be a nonnegative integer&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;Channel index must be a nonnegative integer&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="nd">@deprecated_functionality</span>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Parameters which determine the channel index.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Channel.is_parameterized"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.Channel.is_parameterized">[docs]</a>    <span class="k">def</span> <span class="nf">is_parameterized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return True iff the channel is parameterized.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Channel.assign"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.Channel.assign">[docs]</a>    <span class="nd">@deprecated_functionality</span>
-    <span class="k">def</span> <span class="nf">assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Channel&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Channel&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a new channel with the input Parameter assigned to value.</span>
 
 <span class="sd">        Args:</span>
@@ -446,8 +447,9 @@
 <span class="sd">            PulseError: If the parameter is not present in the channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">parameter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s1">&#39;Cannot bind parameters (</span><span class="si">{}</span><span class="s1">) not present in the channel.&#39;</span>
-                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parameter</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot bind parameters (</span><span class="si">{}</span><span class="s2">) not present in the channel.&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">new_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">new_index</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
@@ -459,12 +461,12 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the shorthand alias for this channel, which is based on its type and index.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">prefix</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="si">}</span><span class="s2">)&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Channel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Channel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return True iff self and other are equal, specifically, iff they have the same type</span>
 <span class="sd">        and the same index.</span>
 
@@ -482,17 +484,20 @@
 
 <div class="viewcode-block" id="PulseChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.PulseChannel">[docs]</a><span class="k">class</span> <span class="nc">PulseChannel</span><span class="p">(</span><span class="n">Channel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class of transmit Channels. Pulses can be played on these channels.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="DriveChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.DriveChannel">[docs]</a><span class="k">class</span> <span class="nc">DriveChannel</span><span class="p">(</span><span class="n">PulseChannel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Drive channels transmit signals to qubits which enact gate operations.&quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;d&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span></div>
 
 
 <div class="viewcode-block" id="MeasureChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.MeasureChannel">[docs]</a><span class="k">class</span> <span class="nc">MeasureChannel</span><span class="p">(</span><span class="n">PulseChannel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Measure channels transmit measurement stimulus pulses for readout.&quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span></div>
 
 
 <div class="viewcode-block" id="ControlChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.ControlChannel">[docs]</a><span class="k">class</span> <span class="nc">ControlChannel</span><span class="p">(</span><span class="n">PulseChannel</span><span class="p">):</span>
@@ -500,17 +505,20 @@
 <span class="sd">    These are often associated with multi-qubit gate operations. They may not map trivially</span>
 <span class="sd">    to a particular qubit index.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;u&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;u&quot;</span></div>
 
 
 <div class="viewcode-block" id="AcquireChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.AcquireChannel">[docs]</a><span class="k">class</span> <span class="nc">AcquireChannel</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Acquire channels are used to collect data.&quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span></div>
 
 
 <div class="viewcode-block" id="SnapshotChannel"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.SnapshotChannel">[docs]</a><span class="k">class</span> <span class="nc">SnapshotChannel</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Snapshot channels are used to specify instructions for simulators.&quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create new snapshot channel.&quot;&quot;&quot;</span>
@@ -519,14 +527,16 @@
 
 <div class="viewcode-block" id="MemorySlot"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.MemorySlot">[docs]</a><span class="k">class</span> <span class="nc">MemorySlot</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Memory slot channels represent classical memory storage.&quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span></div>
 
 
 <div class="viewcode-block" id="RegisterSlot"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.channels.html#qiskit.pulse.RegisterSlot">[docs]</a><span class="k">class</span> <span class="nc">RegisterSlot</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Classical resister slot channels represent classical registers (low-latency classical</span>
 <span class="sd">    memory).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span></div>
+
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;c&quot;</span></div>
 </pre></div>
 
              </article>
@@ -544,7 +554,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -579,7 +589,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.states.statevector &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.quantum_info.states.statevector &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -337,6 +337,7 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -415,8 +416,7 @@
                 <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">shape</span>
             <span class="k">elif</span> <span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Invalid input: not a vector or column-vector.&quot;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">op_shape</span><span class="o">=</span><span class="n">OpShape</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span>
-            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">dims_l</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">num_qubits_r</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">op_shape</span><span class="o">=</span><span class="n">OpShape</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">dims_l</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">num_qubits_r</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">dtype</span><span class="p">:</span>
@@ -425,15 +425,23 @@
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">atol</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">atol</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;Statevector(&#39;</span>
-        <span class="n">pad</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="s1">&#39; &#39;</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">,</span><span class="se">\n</span><span class="si">{}</span><span class="s1">dims=</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">prefix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">),</span>
-            <span class="n">pad</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">())</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;Statevector(&quot;</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">,</span><span class="se">\n</span><span class="si">{}</span><span class="s2">dims=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">prefix</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">),</span>
+            <span class="n">pad</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="s2">&quot;dims&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="Statevector.draw"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Statevector.html#qiskit.quantum_info.Statevector.draw">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">drawer_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a visualization of the Statevector.</span>
@@ -452,11 +460,15 @@
 
 <span class="sd">        **bloch**: Matplotlib figure, rendering of statevector using `plot_bloch_multivector()`.</span>
 
+<span class="sd">        **city**: Matplotlib figure, rendering of statevector using `plot_state_city()`.</span>
+
+<span class="sd">        **paulivec**: Matplotlib figure, rendering of statevector using `plot_state_paulivec()`.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            output (str): Select the output method to use for drawing the</span>
 <span class="sd">                state. Valid choices are `repr`, `text`, `latex`, `latex_source`,</span>
-<span class="sd">                `qsphere`, `hinton`, or `bloch`. Default is `repr`. Default can</span>
-<span class="sd">                be changed by adding the line ``state_drawer = &lt;default&gt;`` to</span>
+<span class="sd">                `qsphere`, `hinton`, `bloch`, `city`, or `paulivec`. Default is `repr`.</span>
+<span class="sd">                Default can be changed by adding the line ``state_drawer = &lt;default&gt;`` to</span>
 <span class="sd">                ``~/.qiskit/settings.conf`` under ``[default]``.</span>
 <span class="sd">            drawer_args: Arguments to be passed directly to the relevant drawing</span>
 <span class="sd">                function or constructor (`TextMatrix()`, `array_to_latex()`,</span>
@@ -474,6 +486,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">qiskit.visualization.state_visualization</span> <span class="kn">import</span> <span class="n">state_drawer</span>
+
         <span class="k">return</span> <span class="n">state_drawer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="o">**</span><span class="n">drawer_args</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_ipython_display_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -482,6 +495,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
             <span class="n">display</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -611,7 +625,7 @@
 <span class="sd">                         specified Statevector subsystem dimensions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="c1"># Get return vector</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -663,8 +677,7 @@
             <span class="n">atol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atol</span>
         <span class="k">if</span> <span class="n">rtol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">rtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rtol</span>
-        <span class="k">return</span> <span class="n">matrix_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ignore_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                            <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">matrix_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ignore_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Statevector.reverse_qargs"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Statevector.html#qiskit.quantum_info.Statevector.reverse_qargs">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">reverse_qargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a Statevector with reversed subsystem ordering.</span>
@@ -680,21 +693,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">_num_qargs_l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">ret</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span> <span class="n">axes</span><span class="p">),</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span> <span class="n">axes</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
     <span class="k">def</span> <span class="nf">_expectation_value_pauli</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pauli</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the expectation value of a Pauli.</span>
 
-<span class="sd">            Args:</span>
-<span class="sd">                pauli (Pauli): a Pauli operator to evaluate expval of.</span>
-<span class="sd">                qargs (None or list): subsystems to apply operator on.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            pauli (Pauli): a Pauli operator to evaluate expval of.</span>
+<span class="sd">            qargs (None or list): subsystems to apply operator on.</span>
 
-<span class="sd">            Returns:</span>
-<span class="sd">                complex: the expectation value.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            complex: the expectation value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_pauli</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -716,7 +730,8 @@
         <span class="n">y_phase</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pauli</span><span class="o">.</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">pauli</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pauli_phase</span> <span class="o">*</span> <span class="n">expval_pauli_with_x</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">z_mask</span><span class="p">,</span> <span class="n">x_mask</span><span class="p">,</span> <span class="n">y_phase</span><span class="p">,</span> <span class="n">x_max</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">z_mask</span><span class="p">,</span> <span class="n">x_mask</span><span class="p">,</span> <span class="n">y_phase</span><span class="p">,</span> <span class="n">x_max</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="Statevector.expectation_value"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Statevector.html#qiskit.quantum_info.Statevector.expectation_value">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">expectation_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oper</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the expectation value of an operator.</span>
@@ -732,8 +747,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expectation_value_pauli</span><span class="p">(</span><span class="n">oper</span><span class="p">,</span> <span class="n">qargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">oper</span><span class="p">,</span> <span class="n">SparsePauliOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expectation_value_pauli</span><span class="p">(</span><span class="n">Pauli</span><span class="p">((</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">)),</span> <span class="n">qargs</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">oper</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">oper</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">oper</span><span class="o">.</span><span class="n">coeffs</span><span class="p">)])</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expectation_value_pauli</span><span class="p">(</span><span class="n">Pauli</span><span class="p">((</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">)),</span> <span class="n">qargs</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">oper</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">oper</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">oper</span><span class="o">.</span><span class="n">coeffs</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">oper</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
         <span class="n">conj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span>
@@ -796,7 +813,8 @@
 <span class="sd">                print(&#39;Swapped probs: {}&#39;.format(probs_swapped))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subsystem_probabilities</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">(),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">(),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">decimals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">probs</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">probs</span></div>
@@ -845,9 +863,7 @@
 
         <span class="c1"># compose with reset projection</span>
         <span class="n">reset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reset</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">proj</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span>
-            <span class="n">Operator</span><span class="p">(</span><span class="n">reset</span><span class="p">,</span> <span class="n">input_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">),</span>
-            <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="n">reset</span><span class="p">,</span> <span class="n">input_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="n">dims</span><span class="p">),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Statevector.from_label"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Statevector.html#qiskit.quantum_info.Statevector.from_label">[dokumentacja]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_label</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
@@ -884,22 +900,22 @@
 <span class="sd">                         specified num_qubits.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check label is valid</span>
-        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[01rl\-+]+$&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Label contains invalid characters.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[01rl\-+]+$&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Label contains invalid characters.&quot;</span><span class="p">)</span>
         <span class="c1"># We can prepare Z-eigenstates by converting the computational</span>
         <span class="c1"># basis bit-string to an integer and preparing that unit vector</span>
         <span class="c1"># However, for X-basis states, we will prepare a Z-eigenstate first</span>
         <span class="c1"># then apply Hadamard gates to rotate 0 and 1s to + and -.</span>
         <span class="n">z_label</span> <span class="o">=</span> <span class="n">label</span>
         <span class="n">xy_states</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[01]+$&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^[01]+$&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># We have X or Y eigenstates so replace +,r with 0 and</span>
             <span class="c1"># -,l with 1 and prepare the corresponding Z state</span>
             <span class="n">xy_states</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
-            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
-            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
-            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">z_label</span> <span class="o">=</span> <span class="n">z_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
         <span class="c1"># Initialize Z eigenstate vector</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
@@ -912,9 +928,9 @@
             <span class="c1"># Apply S.H to qubits in Y eigenstates</span>
             <span class="n">y_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">]),</span> <span class="n">x_mat</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">label</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">]:</span>
                     <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">x_mat</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="p">[</span><span class="n">qubit</span><span class="p">])</span>
-                <span class="k">elif</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">]:</span>
+                <span class="k">elif</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">]:</span>
                     <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">y_mat</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="p">[</span><span class="n">qubit</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">state</span></div>
 
@@ -1030,10 +1046,9 @@
 <span class="sd">                psi = Statevector(vec, dims=(2, 10))</span>
 <span class="sd">                print(psi.to_dict())</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                                    <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">(),</span>
-                                    <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">,</span>
-                                    <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_to_dict</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">dims_l</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">,</span> <span class="n">string_labels</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_evolve_operator</span><span class="p">(</span><span class="n">statevec</span><span class="p">,</span> <span class="n">oper</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1057,13 +1072,12 @@
 
         <span class="c1"># Reshape input for contraction</span>
         <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">statevec</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">statevec</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span>
-                         <span class="n">axes</span><span class="p">),</span> <span class="n">contract_shape</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">statevec</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">statevec</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span> <span class="n">axes</span><span class="p">),</span>
+            <span class="n">contract_shape</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="c1"># Contract and reshape output</span>
-        <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">oper</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span>
-                                    <span class="n">new_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">)</span>
-        <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">statevec</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">axes_inv</span><span class="p">),</span>
-                                    <span class="n">new_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">oper</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span><span class="p">),</span> <span class="n">new_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">)</span>
+        <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">statevec</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">axes_inv</span><span class="p">),</span> <span class="n">new_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Update dimension</span>
         <span class="n">statevec</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">new_shape</span>
@@ -1092,18 +1106,21 @@
         <span class="c1"># circuit decomposition definition if it exists, otherwise we</span>
         <span class="c1"># cannot compose this gate and raise an error.</span>
         <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Cannot apply Instruction: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot apply Instruction: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> instruction definition is </span><span class="si">{}</span><span class="s1">; expected QuantumCircuit&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> instruction definition is </span><span class="si">{}</span><span class="s2">; expected QuantumCircuit&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">global_phase</span><span class="p">:</span>
             <span class="n">statevec</span><span class="o">.</span><span class="n">_data</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">global_phase</span><span class="p">))</span>
         <span class="n">qubits</span> <span class="o">=</span> <span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">qubits</span><span class="p">)}</span>
         <span class="k">for</span> <span class="n">instr</span><span class="p">,</span> <span class="n">qregs</span><span class="p">,</span> <span class="n">cregs</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cregs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s1">&#39;Cannot apply instruction with classical registers: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot apply instruction with classical registers: </span><span class="si">{</span><span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
             <span class="c1"># Get the integer position of the flat register</span>
             <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">new_qargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">qubits</span><span class="p">[</span><span class="n">tup</span><span class="p">]</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">qregs</span><span class="p">]</span>
@@ -1128,7 +1145,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -1163,7 +1180,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

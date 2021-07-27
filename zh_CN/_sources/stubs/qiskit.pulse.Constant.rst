@@ -31,6 +31,7 @@
    
       ~Constant.amp
       ~Constant.id
+      ~Constant.limit_amplitude
       ~Constant.parameters
    
    

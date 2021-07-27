@@ -39,6 +39,7 @@
       ~Barrier.decompositions
       ~Barrier.definition
       ~Barrier.duration
+      ~Barrier.label
       ~Barrier.params
       ~Barrier.unit
    

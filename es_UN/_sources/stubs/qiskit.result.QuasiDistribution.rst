@@ -14,10 +14,12 @@
    .. autosummary::
    
       ~QuasiDistribution.__init__
+      ~QuasiDistribution.binary_probabilities
       ~QuasiDistribution.clear
       ~QuasiDistribution.copy
       ~QuasiDistribution.fromkeys
       ~QuasiDistribution.get
+      ~QuasiDistribution.hex_probabilities
       ~QuasiDistribution.items
       ~QuasiDistribution.keys
       ~QuasiDistribution.nearest_probability_distribution

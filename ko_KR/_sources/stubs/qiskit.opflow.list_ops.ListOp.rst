@@ -20,6 +20,7 @@
       ~ListOp.bind_parameters
       ~ListOp.compose
       ~ListOp.copy
+      ~ListOp.default_combo_fn
       ~ListOp.equals
       ~ListOp.eval
       ~ListOp.exp_i
@@ -57,5 +58,6 @@
       ~ListOp.num_qubits
       ~ListOp.oplist
       ~ListOp.parameters
+      ~ListOp.settings
    
    

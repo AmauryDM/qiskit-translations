@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Providers Interface (qiskit.providers) &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>Providers Interface (qiskit.providers) &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -819,6 +819,10 @@ sync job will return with that inner <a class="reference internal" href="../stub
 </section>
 <section id="legacy-provider-interface-base-objects-qiskit-providers">
 <h1>Legacy Provider Interface Base Objects (<a class="reference internal" href="#module-qiskit.providers" title="qiskit.providers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qiskit.providers</span></code></a>)<a class="headerlink" href="#legacy-provider-interface-base-objects-qiskit-providers" title="本標題的永久連結">¶</a></h1>
+<p>These abstract interfaces are deprecated and will be removed in a future
+release. The documentation here is left for reference purposes while they’re
+still supported, but if you’re creating or maintaining a provider you should
+be using the versioned interface.</p>
 <section id="base-objects">
 <h2>Base Objects<a class="headerlink" href="#base-objects" title="本標題的永久連結">¶</a></h2>
 <table class="longtable docutils align-default">
@@ -834,7 +838,7 @@ sync job will return with that inner <a class="reference internal" href="../stub
 <td><p>Legacy Base class for backends.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.providers.BaseJob.html#qiskit.providers.BaseJob" title="qiskit.providers.BaseJob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseJob</span></code></a>(backend, job_id)</p></td>
-<td><p>Legacy Class to handle asynchronous jobs</p></td>
+<td><p>DEPRECATED Legacy Class to handle asynchronous jobs</p></td>
 </tr>
 </tbody>
 </table>
@@ -903,7 +907,7 @@ sync job will return with that inner <a class="reference internal" href="../stub
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -976,7 +980,7 @@ sync job will return with that inner <a class="reference internal" href="../stub
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.SPSA &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.algorithms.optimizers.SPSA &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="../_static/panels-variables.ade9f9d55df9d2893fc676ecd59723a1.css" type="text/css" />
     <link rel="index" title="Indice" href="../genindex.html" />
     <link rel="search" title="Cerca" href="../search.html" />
-    <link rel="next" title="qiskit.algorithms.optimizers.TNC" href="qiskit.algorithms.optimizers.TNC.html" />
+    <link rel="next" title="qiskit.algorithms.optimizers.QNSPSA" href="qiskit.algorithms.optimizers.QNSPSA.html" />
     <link rel="prev" title="qiskit.algorithms.optimizers.SLSQP" href="qiskit.algorithms.optimizers.SLSQP.html" /> 
 
   
@@ -231,7 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -332,20 +332,25 @@
 <h1>qiskit.algorithms.optimizers.SPSA<a class="headerlink" href="#qiskit-algorithms-optimizers-spsa" title="Link a questa intestazione">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.algorithms.optimizers.SPSA">
-<em class="property">class </em><code class="sig-name descname">SPSA</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">blocking</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allowed_increase</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trust_region</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturbation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_avg</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">resamplings</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perturbation_dims</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/spsa.html#SPSA"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA" title="Link a questa definizione">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">SPSA</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">blocking</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allowed_increase</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trust_region</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturbation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_avg</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">resamplings</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perturbation_dims</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">second_order</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">regularization</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hessian_delay</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">lse_solver</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_hessian</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/spsa.html#SPSA"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA" title="Link a questa definizione">¶</a></dt>
 <dd><p>Simultaneous Perturbation Stochastic Approximation (SPSA) optimizer.</p>
-<p>SPSA [1] is an algorithmic method for optimizing systems with multiple unknown parameters.
+<p>SPSA [1] is an gradient descent method for optimizing systems with multiple unknown parameters.
 As an optimization method, it is appropriately suited to large-scale population models,
 adaptive modeling, and simulation optimization.</p>
 <div class="admonition seealso">
 <p class="admonition-title">Vedi anche</p>
 <p>Many examples are presented at the <a class="reference external" href="http://www.jhuapl.edu/SPSA">SPSA Web site</a>.</p>
 </div>
-<p>SPSA is a descent method capable of finding global minima,
-sharing this property with other methods as simulated annealing.
-Its main feature is the gradient approximation, which requires only two
+<p>The main feature of SPSA is the stochastic gradient approximation, which requires only two
 measurements of the objective function, regardless of the dimension of the optimization
 problem.</p>
+<p>Additionally to standard, first-order SPSA, where only gradient information is used, this
+implementation also allows second-order SPSA (2-SPSA) [2]. In 2-SPSA we also estimate the
+Hessian of the loss with a stochastic approximation and multiply the gradient with the
+inverse Hessian to take local curvature into account and improve convergence.
+Notably this Hessian estimate requires only a constant number of function evaluations
+unlike an exact evaluation of the Hessian, which scales quadratically in the number of
+function evaluations.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
 <p>SPSA can be used in the presence of noise, and it is therefore indicated in situations
@@ -357,75 +362,160 @@ provided here.</p>
 <p>The optimization process can includes a calibration phase if neither the <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> nor
 <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> is provided, which requires additional functional evaluations.
 (Note that either both or none must be set.) For further details on the automatic calibration,
-please refer to the supplementary information section IV. of [2].</p>
+please refer to the supplementary information section IV. of [3].</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>This component has some function that is normally random. If you want to reproduce behavior
+then you should set the random number generator seed in the algorithm_globals
+(<code class="docutils literal notranslate"><span class="pre">qiskit.utils.algorithm_globals.random_seed</span> <span class="pre">=</span> <span class="pre">seed</span></code>).</p>
+</div>
+<p class="rubric">Esempi</p>
+<p>This short example runs SPSA for the ground state calculation of the <code class="docutils literal notranslate"><span class="pre">Z</span> <span class="pre">^</span> <span class="pre">Z</span></code>
+observable where the ansatz is a <code class="docutils literal notranslate"><span class="pre">PauliTwoDesign</span></code> circuit.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">qiskit.algorithms.optimizers</span> <span class="kn">import</span> <span class="n">SPSA</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library</span> <span class="kn">import</span> <span class="n">PauliTwoDesign</span>
+<span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">Z</span><span class="p">,</span> <span class="n">StateFn</span>
+
+<span class="n">ansatz</span> <span class="o">=</span> <span class="n">PauliTwoDesign</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">observable</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">^</span> <span class="n">Z</span>
+<span class="n">initial_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">ansatz</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">bind_parameters</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">((</span><span class="n">StateFn</span><span class="p">(</span><span class="n">observable</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">@</span> <span class="n">StateFn</span><span class="p">(</span><span class="n">bound</span><span class="p">))</span><span class="o">.</span><span class="n">eval</span><span class="p">())</span>
+
+<span class="n">spsa</span> <span class="o">=</span> <span class="n">SPSA</span><span class="p">(</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">spsa</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">ansatz</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="n">initial_point</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To use the Hessian information, i.e. 2-SPSA, you can add <cite>second_order=True</cite> to the
+initializer of the <cite>SPSA</cite> class, the rest of the code remains the same.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">two_spsa</span> <span class="o">=</span> <span class="n">SPSA</span><span class="p">(</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">second_order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">two_spsa</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">ansatz</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="n">initial_point</span><span class="p">)</span>
+</pre></div>
+</div>
 <p class="rubric">References</p>
 <p>[1]: J. C. Spall (1998). An Overview of the Simultaneous Perturbation Method for Efficient
 Optimization, Johns Hopkins APL Technical Digest, 19(4), 482–492.
-<a class="reference external" href="https://www.jhuapl.edu/SPSA/PDF-SPSA/Spall_An_Overview.PDF">Online.</a></p>
-<p>[2]: A. Kandala et al. (2017). Hardware-efficient Variational Quantum Eigensolver for
+<a class="reference external" href="https://www.jhuapl.edu/SPSA/PDF-SPSA/Spall_An_Overview.PDF">Online at jhuapl.edu.</a></p>
+<p>[2]: J. C. Spall (1997). Accelerated second-order stochastic optimization using only
+function measurements, Proceedings of the 36th IEEE Conference on Decision and Control,
+1417-1424 vol.2. <a class="reference external" href="https://ieeexplore.ieee.org/document/657661">Online at IEEE.org.</a></p>
+<p>[3]: A. Kandala et al. (2017). Hardware-efficient Variational Quantum Eigensolver for
 Small Molecules and Quantum Magnets. Nature 549, pages242–246(2017).
 <a class="reference external" href="https://arxiv.org/pdf/1704.05018v2.pdf#section*.11">arXiv:1704.05018v2</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>maxiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The maximum number of iterations.</p></li>
-<li><p><strong>blocking</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, only accepts updates that improve the loss (minus some allowed
+<li><p><strong>maxiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The maximum number of iterations. Note that this is not the maximal number
+of function evaluations.</p></li>
+<li><p><strong>blocking</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, only accepts updates that improve the loss (up to some allowed
 increase, see next argument).</p></li>
-<li><p><strong>allowed_increase</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – If blocking is True, this sets by how much the loss can increase
-and still be accepted. If None, calibrated automatically to be twice the
-standard deviation of the loss function.</p></li>
-<li><p><strong>trust_region</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, restricts norm of the random direction to be <span class="math notranslate nohighlight">\(\leq 1\)</span>.</p></li>
-<li><p><strong>learning_rate</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – A generator yielding learning rates for the parameter updates,
-<span class="math notranslate nohighlight">\(a_k\)</span>. If set, also <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> must be provided.</p></li>
-<li><p><strong>perturbation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – A generator yielding the perturbation magnitudes <span class="math notranslate nohighlight">\(c_k\)</span>. If set,
-also <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> must be provided.</p></li>
+<li><p><strong>allowed_increase</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – If <code class="docutils literal notranslate"><span class="pre">blocking</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, this argument determines by how much
+the loss can increase with the proposed parameters and still be accepted.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the allowed increases is calibrated automatically to be twice the
+approximated standard deviation of the loss function.</p></li>
+<li><p><strong>trust_region</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, restricts the norm of the update step to be <span class="math notranslate nohighlight">\(\leq 1\)</span>.</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – The update step is the learning rate is multiplied with the gradient.
+If the learning rate is a float, it remains constant over the course of the
+optimization. If a NumPy array, the <span class="math notranslate nohighlight">\(i\)</span>-th element is the learning rate for
+the <span class="math notranslate nohighlight">\(i\)</span>-th iteration. It can also be a callable returning an iterator which
+yields the learning rates for each optimization step.
+If <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> is set <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> must also be provided.</p></li>
+<li><p><strong>perturbation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Specifies the magnitude of the perturbation for the finite difference
+approximation of the gradients. See <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> for the supported types.
+If <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> is set <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> must also be provided.</p></li>
 <li><p><strong>last_avg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Return the average of the <code class="docutils literal notranslate"><span class="pre">last_avg</span></code> parameters instead of just the
 last parameter values.</p></li>
-<li><p><strong>resamplings</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – The number of times the gradient is sampled using a random direction to
-construct a gradient estimate. Per default the gradient is estimated using only
-one random direction. If an integer, all iterations use the same number of
-resamplings. If a dictionary, this is interpreted as
+<li><p><strong>resamplings</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – The number of times the gradient (and Hessian) is sampled using a random
+direction to construct a gradient estimate. Per default the gradient is estimated
+using only one random direction. If an integer, all iterations use the same number
+of resamplings. If a dictionary, this is interpreted as
 <code class="docutils literal notranslate"><span class="pre">{iteration:</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">resamplings</span> <span class="pre">per</span> <span class="pre">iteration}</span></code>.</p></li>
 <li><p><strong>perturbation_dims</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of perturbed dimensions. Per default, all dimensions
 are perturbed, but a smaller, fixed number can be perturbed. If set, the perturbed
 dimensions are chosen uniformly at random.</p></li>
+<li><p><strong>second_order</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, use 2-SPSA instead of SPSA. In 2-SPSA, the Hessian is estimated
+additionally to the gradient, and the gradient is preconditioned with the inverse
+of the Hessian to improve convergence.</p></li>
+<li><p><strong>regularization</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – To ensure the preconditioner is symmetric and positive definite, the
+identity times a small coefficient is added to it. This generator yields that
+coefficient.</p></li>
+<li><p><strong>hessian_delay</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Start multiplying the gradient with the inverse Hessian only after a
+certain number of iterations. The Hessian is still evaluated and therefore this
+argument can be useful to first get a stable average over the last iterations before
+using it as preconditioner.</p></li>
+<li><p><strong>lse_solver</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]) – The method to solve for the inverse of the Hessian. Per default an
+exact LSE solver is used, but can e.g. be overwritten by a minimization routine.</p></li>
+<li><p><strong>initial_hessian</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – The initial guess for the Hessian. By default the identity matrix
+is used.</p></li>
 <li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]]) – A callback function passed information in each iteration step. The
 information is, in this order: the number of function evaluations, the parameters,
 the function value, the stepsize, whether the step was accepted.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Solleva</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> or <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> is an array with less elements
+    than the number of iterations.</p>
+</dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.SPSA.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">blocking</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allowed_increase</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trust_region</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturbation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_avg</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">resamplings</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perturbation_dims</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/spsa.html#SPSA.__init__"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA.__init__" title="Link a questa definizione">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">blocking</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allowed_increase</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trust_region</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturbation</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_avg</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">resamplings</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perturbation_dims</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">second_order</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">regularization</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hessian_delay</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">lse_solver</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_hessian</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/spsa.html#SPSA.__init__"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA.__init__" title="Link a questa definizione">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>maxiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The maximum number of iterations.</p></li>
-<li><p><strong>blocking</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, only accepts updates that improve the loss (minus some allowed
+<li><p><strong>maxiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The maximum number of iterations. Note that this is not the maximal number
+of function evaluations.</p></li>
+<li><p><strong>blocking</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, only accepts updates that improve the loss (up to some allowed
 increase, see next argument).</p></li>
-<li><p><strong>allowed_increase</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – If blocking is True, this sets by how much the loss can increase
-and still be accepted. If None, calibrated automatically to be twice the
-standard deviation of the loss function.</p></li>
-<li><p><strong>trust_region</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, restricts norm of the random direction to be <span class="math notranslate nohighlight">\(\leq 1\)</span>.</p></li>
-<li><p><strong>learning_rate</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – A generator yielding learning rates for the parameter updates,
-<span class="math notranslate nohighlight">\(a_k\)</span>. If set, also <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> must be provided.</p></li>
-<li><p><strong>perturbation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – A generator yielding the perturbation magnitudes <span class="math notranslate nohighlight">\(c_k\)</span>. If set,
-also <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> must be provided.</p></li>
+<li><p><strong>allowed_increase</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – If <code class="docutils literal notranslate"><span class="pre">blocking</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, this argument determines by how much
+the loss can increase with the proposed parameters and still be accepted.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the allowed increases is calibrated automatically to be twice the
+approximated standard deviation of the loss function.</p></li>
+<li><p><strong>trust_region</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, restricts the norm of the update step to be <span class="math notranslate nohighlight">\(\leq 1\)</span>.</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – The update step is the learning rate is multiplied with the gradient.
+If the learning rate is a float, it remains constant over the course of the
+optimization. If a NumPy array, the <span class="math notranslate nohighlight">\(i\)</span>-th element is the learning rate for
+the <span class="math notranslate nohighlight">\(i\)</span>-th iteration. It can also be a callable returning an iterator which
+yields the learning rates for each optimization step.
+If <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> is set <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> must also be provided.</p></li>
+<li><p><strong>perturbation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Specifies the magnitude of the perturbation for the finite difference
+approximation of the gradients. See <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> for the supported types.
+If <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> is set <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> must also be provided.</p></li>
 <li><p><strong>last_avg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Return the average of the <code class="docutils literal notranslate"><span class="pre">last_avg</span></code> parameters instead of just the
 last parameter values.</p></li>
-<li><p><strong>resamplings</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – The number of times the gradient is sampled using a random direction to
-construct a gradient estimate. Per default the gradient is estimated using only
-one random direction. If an integer, all iterations use the same number of
-resamplings. If a dictionary, this is interpreted as
+<li><p><strong>resamplings</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – The number of times the gradient (and Hessian) is sampled using a random
+direction to construct a gradient estimate. Per default the gradient is estimated
+using only one random direction. If an integer, all iterations use the same number
+of resamplings. If a dictionary, this is interpreted as
 <code class="docutils literal notranslate"><span class="pre">{iteration:</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">resamplings</span> <span class="pre">per</span> <span class="pre">iteration}</span></code>.</p></li>
 <li><p><strong>perturbation_dims</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of perturbed dimensions. Per default, all dimensions
 are perturbed, but a smaller, fixed number can be perturbed. If set, the perturbed
 dimensions are chosen uniformly at random.</p></li>
+<li><p><strong>second_order</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, use 2-SPSA instead of SPSA. In 2-SPSA, the Hessian is estimated
+additionally to the gradient, and the gradient is preconditioned with the inverse
+of the Hessian to improve convergence.</p></li>
+<li><p><strong>regularization</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – To ensure the preconditioner is symmetric and positive definite, the
+identity times a small coefficient is added to it. This generator yields that
+coefficient.</p></li>
+<li><p><strong>hessian_delay</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Start multiplying the gradient with the inverse Hessian only after a
+certain number of iterations. The Hessian is still evaluated and therefore this
+argument can be useful to first get a stable average over the last iterations before
+using it as preconditioner.</p></li>
+<li><p><strong>lse_solver</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]) – The method to solve for the inverse of the Hessian. Per default an
+exact LSE solver is used, but can e.g. be overwritten by a minimization routine.</p></li>
+<li><p><strong>initial_hessian</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – The initial guess for the Hessian. By default the identity matrix
+is used.</p></li>
 <li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]]) – A callback function passed information in each iteration step. The
 information is, in this order: the number of function evaluations, the parameters,
 the function value, the stepsize, whether the step was accepted.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Solleva</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> or <code class="docutils literal notranslate"><span class="pre">perturbation</span></code> is an array with less elements
+    than the number of iterations.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -519,6 +609,9 @@ the function value, the stepsize, whether the step was accepted.</p></li>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.SPSA.setting" title="qiskit.algorithms.optimizers.SPSA.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
 <td><p>Return setting</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.SPSA.settings" title="qiskit.algorithms.optimizers.SPSA.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>The optimizer settings in a dictionary format.</p></td>
 </tr>
 </tbody>
 </table>
@@ -737,6 +830,20 @@ a set of key/values when the given optimizer is constructed.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.algorithms.optimizers.SPSA.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA.settings" title="Link a questa definizione">¶</a></dt>
+<dd><p>The optimizer settings in a dictionary format.</p>
+<p>The settings can for instance be used for JSON-serialization (if all settings are
+serializable, which e.g. doesn’t hold per default for callables), such that the
+optimizer object can be reconstructed as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">settings</span>
+<span class="c1"># JSON serialize and send to another server</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClass</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.algorithms.optimizers.SPSA.wrap_function">
 <em class="property">static </em><code class="sig-name descname">wrap_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.SPSA.wrap_function" title="Link a questa definizione">¶</a></dt>
 <dd><p>Wrap the function to implicitly inject the args at the call of the function.</p>
@@ -768,7 +875,7 @@ a set of key/values when the given optimizer is constructed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="qiskit.algorithms.optimizers.TNC.html" class="btn btn-neutral float-right" title="qiskit.algorithms.optimizers.TNC" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="qiskit.algorithms.optimizers.QNSPSA.html" class="btn btn-neutral float-right" title="qiskit.algorithms.optimizers.QNSPSA" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
         <a href="qiskit.algorithms.optimizers.SLSQP.html" class="btn btn-neutral" title="qiskit.algorithms.optimizers.SLSQP" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
@@ -785,7 +892,7 @@ a set of key/values when the given optimizer is constructed.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -823,7 +930,7 @@ a set of key/values when the given optimizer is constructed.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.Kraus &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.quantum_info.Kraus &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -500,6 +500,9 @@ shape of the input.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.quantum_info.Kraus.rtol" title="qiskit.quantum_info.Kraus.rtol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtol</span></code></a></p></td>
 <td><p>Default relative tolerance parameter for float comparisons.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.quantum_info.Kraus.settings" title="qiskit.quantum_info.Kraus.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Return operator settings.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -747,6 +750,12 @@ If None the original output dims will be preserved [Default: None].</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.quantum_info.Kraus.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.quantum_info.Kraus.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return operator settings.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.quantum_info.Kraus.tensor">
 <code class="sig-name descname">tensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/quantum_info/operators/channel/kraus.html#Kraus.tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.quantum_info.Kraus.tensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the tensor product with another Kraus.</p>
@@ -840,7 +849,7 @@ the transpose channel <span class="math notranslate nohighlight">\(\mathcal{{E}}
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -878,7 +887,7 @@ the transpose channel <span class="math notranslate nohighlight">\(\mathcal{{E}}
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.extensions.quantum_initializer.uc &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.extensions.quantum_initializer.uc &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -369,7 +369,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.synthesis</span> <span class="kn">import</span> <span class="n">OneQubitEulerDecomposer</span>
 
 <span class="n">_EPS</span> <span class="o">=</span> <span class="mf">1e-10</span>  <span class="c1"># global variable used to chop very small numbers to zero</span>
-<span class="n">_DECOMPOSER1Q</span> <span class="o">=</span> <span class="n">OneQubitEulerDecomposer</span><span class="p">(</span><span class="s1">&#39;U3&#39;</span><span class="p">)</span>
+<span class="n">_DECOMPOSER1Q</span> <span class="o">=</span> <span class="n">OneQubitEulerDecomposer</span><span class="p">(</span><span class="s2">&quot;U3&quot;</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">UCGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
@@ -404,8 +404,9 @@
         <span class="c1"># Check if number of gates in gate_list is a positive power of two</span>
         <span class="n">num_contr</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gate_list</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">num_contr</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_contr</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The number of controlled single-qubit gates is not a &quot;</span>
-                              <span class="s2">&quot;non-negative power of 2.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;The number of controlled single-qubit gates is not a &quot;</span> <span class="s2">&quot;non-negative power of 2.&quot;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Check if the single-qubit gates are unitaries</span>
         <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">gate_list</span><span class="p">:</span>
@@ -422,13 +423,14 @@
 <span class="sd">        This does not re-compute the decomposition for the multiplexer with the inverse of the</span>
 <span class="sd">        gates but simply inverts the existing decomposition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">inverse_gate</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_dg&#39;</span><span class="p">,</span>
-                            <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
-                            <span class="n">params</span><span class="o">=</span><span class="p">[])</span>  <span class="c1"># remove parameters since array is deprecated as parameter</span>
+        <span class="n">inverse_gate</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_dg&quot;</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[]</span>
+        <span class="p">)</span>  <span class="c1"># remove parameters since array is deprecated as parameter</span>
 
         <span class="n">inverse_gate</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span>
-        <span class="n">inverse_gate</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">inst</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qargs</span><span class="p">,</span> <span class="p">[])</span>
-                                         <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">)]</span>
+        <span class="n">inverse_gate</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qargs</span><span class="p">,</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_definition</span><span class="p">)</span>
+        <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">inverse_gate</span>
 
@@ -472,14 +474,18 @@
             <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">single_qubit_gates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">squ</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">squ</span> <span class="o">=</span> <span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                    <span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span>
+                <span class="n">squ</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">HGate</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)))</span>
+                    <span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span>
+                <span class="p">)</span>
             <span class="c1"># Add single-qubit gate</span>
             <span class="n">circuit</span><span class="o">.</span><span class="n">squ</span><span class="p">(</span><span class="n">squ</span><span class="p">,</span> <span class="n">q_target</span><span class="p">)</span>
             <span class="c1"># The number of the control qubit is given by the number of zeros at the end</span>
             <span class="c1"># of the binary representation of (i+1)</span>
             <span class="n">binary_rep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">binary_repr</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">num_trailing_zeros</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_rep</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_rep</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">))</span>
+            <span class="n">num_trailing_zeros</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_rep</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary_rep</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">))</span>
             <span class="n">q_contr_index</span> <span class="o">=</span> <span class="n">num_trailing_zeros</span>
             <span class="c1"># Add C-NOT gate</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">single_qubit_gates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
@@ -531,22 +537,29 @@
                         <span class="c1"># merge the UC-Rz rotation with the following UCGate,</span>
                         <span class="c1"># which hasn&#39;t been decomposed yet.</span>
                         <span class="n">k</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">+</span> <span class="n">len_ucg</span> <span class="o">+</span> <span class="n">i</span>
-                        <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> \
-                            <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">*</span> \
-                            <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                        <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                            <span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+                        <span class="p">)</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
                         <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="n">len_ucg</span> <span class="o">//</span> <span class="mi">2</span>
-                        <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> \
-                            <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                        <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">single_qubit_gates</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># Absorb the Rz(pi/2) rotation on the control into the UC-Rz gate and merge</span>
                         <span class="c1"># the trailing UC-Rz rotation into a diagonal gate at the end of the circuit</span>
                         <span class="k">for</span> <span class="n">ucg_index_2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_ucgs</span><span class="p">):</span>
                             <span class="n">shift_2</span> <span class="o">=</span> <span class="n">ucg_index_2</span> <span class="o">*</span> <span class="n">len_ucg</span>
                             <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">shift_2</span><span class="p">)</span>
-                            <span class="n">diag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">*</span> \
-                                <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-                            <span class="n">diag</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">diag</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span>
-                                <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                            <span class="n">diag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">diag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                                <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                                <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                            <span class="p">)</span>
+                            <span class="n">diag</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">diag</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                                <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_ct</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                                <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                            <span class="p">)</span>
                             <span class="n">k</span> <span class="o">=</span> <span class="n">len_ucg</span> <span class="o">+</span> <span class="n">k</span>
                             <span class="n">diag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*=</span> <span class="n">r</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                             <span class="n">diag</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="n">r</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">UCGate</span><span class="o">.</span><span class="n">_rz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -593,8 +606,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">parameter</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;invalid param type </span><span class="si">{0}</span><span class="s2"> in gate &quot;</span>
-                               <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="s2">&quot;invalid param type </span><span class="si">{}</span><span class="s2"> in gate &quot;</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">uc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate_list</span><span class="p">,</span> <span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">up_to_diagonal</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -633,24 +647,29 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_target</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">q_target</span> <span class="o">=</span> <span class="n">q_target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The target qubit is a QuantumRegister containing more than&quot;</span>
-                              <span class="s2">&quot; one qubit.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;The target qubit is a QuantumRegister containing more than&quot;</span> <span class="s2">&quot; one qubit.&quot;</span>
+            <span class="p">)</span>
     <span class="c1"># Check if q_controls has type &quot;list&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The control qubits must be provided as a list&quot;</span>
-                          <span class="s2">&quot; (also if there is only one control qubit).&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;The control qubits must be provided as a list&quot;</span>
+            <span class="s2">&quot; (also if there is only one control qubit).&quot;</span>
+        <span class="p">)</span>
     <span class="c1"># Check if gate_list has type &quot;list&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The single-qubit unitaries are not provided in a list.&quot;</span><span class="p">)</span>
         <span class="c1"># Check if number of gates in gate_list is a positive power of two</span>
     <span class="n">num_contr</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gate_list</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">num_contr</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_contr</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The number of controlled single-qubit gates is not a non negative&quot;</span>
-                          <span class="s2">&quot; power of 2.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;The number of controlled single-qubit gates is not a non negative&quot;</span> <span class="s2">&quot; power of 2.&quot;</span>
+        <span class="p">)</span>
     <span class="c1"># Check if number of control qubits does correspond to the number of single-qubit rotations</span>
     <span class="k">if</span> <span class="n">num_contr</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_controls</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Number of controlled gates does not correspond to the number of&quot;</span>
-                          <span class="s2">&quot; control qubits.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;Number of controlled gates does not correspond to the number of&quot;</span> <span class="s2">&quot; control qubits.&quot;</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">UCGate</span><span class="p">(</span><span class="n">gate_list</span><span class="p">,</span> <span class="n">up_to_diagonal</span><span class="p">),</span> <span class="p">[</span><span class="n">q_target</span><span class="p">]</span> <span class="o">+</span> <span class="n">q_controls</span><span class="p">)</span>
 
 
@@ -672,7 +691,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -707,7 +726,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

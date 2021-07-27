@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Circuit Library &mdash; Qiskit 0.27.0 documentation</title>
+  <title>Circuit Library &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -338,7 +338,7 @@
 <td><p>Barrier instruction.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.C3XGate.html#qiskit.circuit.library.C3XGate" title="qiskit.circuit.library.C3XGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C3XGate</span></code></a>([angle, label, ctrl_state])</p></td>
-<td><p>The 4-qubit controlled X gate.</p></td>
+<td><p>The X gate controlled on 3 qubits.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.C3SXGate.html#qiskit.circuit.library.C3SXGate" title="qiskit.circuit.library.C3SXGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C3SXGate</span></code></a>([label, ctrl_state, angle])</p></td>
 <td><p>The 3-qubit controlled sqrt-X gate.</p></td>
@@ -368,7 +368,7 @@
 <td><p>Controlled-RZ gate.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.CSwapGate.html#qiskit.circuit.library.CSwapGate" title="qiskit.circuit.library.CSwapGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSwapGate</span></code></a>([label, ctrl_state])</p></td>
-<td><p>Controlled-X gate.</p></td>
+<td><p>Controlled-SWAP gate, also known as the Fredkin gate.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.CSXGate.html#qiskit.circuit.library.CSXGate" title="qiskit.circuit.library.CSXGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSXGate</span></code></a>([label, ctrl_state])</p></td>
 <td><p>Controlled-√X gate.</p></td>
@@ -543,6 +543,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.RVGate.html#qiskit.circuit.library.RVGate" title="qiskit.circuit.library.RVGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RVGate</span></code></a>(v_x, v_y, v_z[, basis])</p></td>
 <td><p>Rotation around arbitrary rotation axis <span class="math notranslate nohighlight">\(v\)</span> where <span class="math notranslate nohighlight">\(|v|\)</span> is angle of rotation in radians.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.PauliGate.html#qiskit.circuit.library.PauliGate" title="qiskit.circuit.library.PauliGate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PauliGate</span></code></a>(label)</p></td>
+<td><p>A multi-qubit Pauli gate.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -564,7 +567,7 @@
 <td><p>An n_qubit circuit for bitwise xor-ing the input with some integer <code class="docutils literal notranslate"><span class="pre">amount</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.InnerProduct.html#qiskit.circuit.library.InnerProduct" title="qiskit.circuit.library.InnerProduct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InnerProduct</span></code></a>(num_qubits)</p></td>
-<td><p>An n_qubit circuit that computes the inner product of two registers.</p></td>
+<td><p>A 2n-qubit Boolean function that computes the inner product of two n-qubit vectors over <span class="math notranslate nohighlight">\(F_2\)</span>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -636,8 +639,34 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.WeightedAdder.html#qiskit.circuit.library.WeightedAdder" title="qiskit.circuit.library.WeightedAdder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeightedAdder</span></code></a>([num_state_qubits, weights, name])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.DraperQFTAdder.html#qiskit.circuit.library.DraperQFTAdder" title="qiskit.circuit.library.DraperQFTAdder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DraperQFTAdder</span></code></a>(num_state_qubits[, kind, name])</p></td>
+<td><p>A circuit that uses QFT to perform in-place addition on two qubit registers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.CDKMRippleCarryAdder.html#qiskit.circuit.library.CDKMRippleCarryAdder" title="qiskit.circuit.library.CDKMRippleCarryAdder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDKMRippleCarryAdder</span></code></a>(num_state_qubits[, ...])</p></td>
+<td><p>A ripple-carry circuit to perform in-place addition on two qubit registers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.VBERippleCarryAdder.html#qiskit.circuit.library.VBERippleCarryAdder" title="qiskit.circuit.library.VBERippleCarryAdder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VBERippleCarryAdder</span></code></a>(num_state_qubits[, ...])</p></td>
+<td><p>The VBE ripple carry adder [1].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.WeightedAdder.html#qiskit.circuit.library.WeightedAdder" title="qiskit.circuit.library.WeightedAdder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeightedAdder</span></code></a>([num_state_qubits, weights, name])</p></td>
 <td><p>A circuit to compute the weighted sum of qubit registers.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multipliers">
+<h4>Multipliers<a class="headerlink" href="#multipliers" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.HRSCumulativeMultiplier.html#qiskit.circuit.library.HRSCumulativeMultiplier" title="qiskit.circuit.library.HRSCumulativeMultiplier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HRSCumulativeMultiplier</span></code></a>(num_state_qubits[, ...])</p></td>
+<td><p>A multiplication circuit to store product of two input registers out-of-place.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.RGQFTMultiplier.html#qiskit.circuit.library.RGQFTMultiplier" title="qiskit.circuit.library.RGQFTMultiplier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RGQFTMultiplier</span></code></a>(num_state_qubits[, ...])</p></td>
+<td><p>A QFT multiplication circuit to store product of two input registers out-of-place.</p></td>
 </tr>
 </tbody>
 </table>
@@ -716,6 +745,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.PhaseOracle.html#qiskit.circuit.library.PhaseOracle" title="qiskit.circuit.library.PhaseOracle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PhaseOracle</span></code></a>(expression[, synthesizer])</p></td>
 <td><p>Phase Oracle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.circuit.library.EvolvedOperatorAnsatz.html#qiskit.circuit.library.EvolvedOperatorAnsatz" title="qiskit.circuit.library.EvolvedOperatorAnsatz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvolvedOperatorAnsatz</span></code></a>([operators, reps, ...])</p></td>
+<td><p>The evolved operator ansatz.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1399,7 +1431,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -1428,6 +1460,7 @@
 <li><a class="reference internal" href="#amplitude-functions">Amplitude Functions</a></li>
 <li><a class="reference internal" href="#functional-pauli-rotations">Functional Pauli Rotations</a></li>
 <li><a class="reference internal" href="#adders">Adders</a></li>
+<li><a class="reference internal" href="#multipliers">Multipliers</a></li>
 <li><a class="reference internal" href="#comparators">Comparators</a></li>
 <li><a class="reference internal" href="#functions-on-binary-variables">Functions on binary variables</a></li>
 </ul>
@@ -1462,7 +1495,7 @@
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

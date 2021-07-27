@@ -57,6 +57,7 @@
       ~PiecewisePolynomialPauliRotations.fredkin
       ~PiecewisePolynomialPauliRotations.from_qasm_file
       ~PiecewisePolynomialPauliRotations.from_qasm_str
+      ~PiecewisePolynomialPauliRotations.get_instructions
       ~PiecewisePolynomialPauliRotations.h
       ~PiecewisePolynomialPauliRotations.hamiltonian
       ~PiecewisePolynomialPauliRotations.has_register

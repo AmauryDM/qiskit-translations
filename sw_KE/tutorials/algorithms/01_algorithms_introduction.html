@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utangulizi wa Alogaridhimu katika Qiskit &mdash; Qiskit 0.27.0 documentation</title>
+  <title>Utangulizi wa Alogaridhimu katika Qiskit &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -227,7 +227,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -570,7 +570,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This page was generated from <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/algorithms/01_algorithms_introduction.ipynb">tutorials/algorithms/01_algorithms_introduction.ipynb</a>.</p>
+<p>Ukurasa huu umezalishwa kutoka <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/algorithms/01_algorithms_introduction.ipynb">tutorials/algorithms/01_algorithms_introduction.ipynb</a>.</p>
 </div>
 <section id="Utangulizi-wa-Alogaridhimu-katika-Qiskit">
 <h1>Utangulizi wa Alogaridhimu katika Qiskit<a class="headerlink" href="#Utangulizi-wa-Alogaridhimu-katika-Qiskit" title="Permalink to this headline">¶</a></h1>
@@ -650,8 +650,8 @@ q_1: ┤ RY(θ[1]) ├─■─┤ RY(θ[3]) ├─■─┤ RY(θ[5]) ├─■
 <p>Note: if you provide the backend directly then internally a QuantumInstance will be created from it, with default settings, so at all times the algorithms are working through a QuantumInstance.</p>
 <p>So now we would be able to call the <a class="reference external" href="https://qiskit.org/documentation/stubs/qiskit.algorithms.VQE.html#qiskit.algorithms.VQE.compute_minimum_eigenvalue">compute_mininum_eigenvalue()</a> method. The latter is the interface of choice for the application modules, such as Nature and Optimization, in order that they can work interchangeably with any algorithm within the specific category.</p>
 </section>
-<section id="A-complete-working-example">
-<h2>A complete working example<a class="headerlink" href="#A-complete-working-example" title="Permalink to this headline">¶</a></h2>
+<section id="Mfano-kamili-unaofanya-kazi">
+<h2>Mfano kamili unaofanya kazi<a class="headerlink" href="#Mfano-kamili-unaofanya-kazi" title="Permalink to this headline">¶</a></h2>
 <p>Let’s put what we have learned from above together and create a complete working example. VQE will find the minimum eigenvalue, i.e. minimum energy value of a Hamiltonian operator and hence we need such an operator for VQE to work with. Such an operator is given below. This was originally created by the Nature application module as the Hamiltonian for an H2 molecule at 0.735A interatomic distance. It’s a sum of Pauli terms as below, but for now I am not going to say anything further about it
 since the goal is to run the algorithm, but further information on operators can be found in other tutorials.</p>
 <div class="nbinput nblast docutils container">
@@ -817,7 +817,7 @@ since the goal is to run the algorithm, but further information on operators can
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -839,7 +839,7 @@ since the goal is to run the algorithm, but further information on operators can
 <li><a class="reference internal" href="#">Utangulizi wa Alogaridhimu katika Qiskit</a><ul>
 <li><a class="reference internal" href="#How-is-the-algorithm-library-structured?">How is the algorithm library structured?</a></li>
 <li><a class="reference internal" href="#Jinsi-ya-kutekeleza-alogaridhimu">Jinsi ya kutekeleza alogaridhimu</a></li>
-<li><a class="reference internal" href="#A-complete-working-example">A complete working example</a></li>
+<li><a class="reference internal" href="#Mfano-kamili-unaofanya-kazi">Mfano kamili unaofanya kazi</a></li>
 <li><a class="reference internal" href="#Using-VQE-setting-QuantumInstance-after-Construction">Using VQE setting QuantumInstance after Construction</a></li>
 </ul>
 </li>
@@ -861,7 +861,7 @@ since the goal is to run the algorithm, but further information on operators can
          <script src="../../_static/language_data.js"></script>
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.gradients.qfi_base &mdash; documentação Qiskit 0.27.0</title>
+  <title>qiskit.opflow.gradients.qfi_base &mdash; documentação Qiskit 0.28.0</title>
   
 
   
@@ -219,16 +219,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Página de documentação</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Índice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Quantum computing in a nutshell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introdução ao Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuindo para o Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuração local</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Perguntas Frequentes</a></li>
 </ul>
 <p><span class="caption-text">Libraries</span></p>
 <ul>
@@ -237,14 +237,14 @@
 <p><span class="caption-text">API References</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Simulador do Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Experimentos Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Módulos De Aplicação Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provedor)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Aplicações do Qiskit (Aqua) Guia de Migração</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Aplicações do Qiskit (Aqua) Guia de Migração</a></li>
 </ul>
 <p><span class="caption-text">Troubleshooting</span></p>
 <ul>
@@ -338,7 +338,7 @@
 <span class="kn">from</span> <span class="nn">.circuit_qfis</span> <span class="kn">import</span> <span class="n">CircuitQFI</span>
 
 
-<div class="viewcode-block" id="QFIBase"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.QFIBase.html#qiskit.opflow.gradients.QFIBase">[documentos]</a><span class="k">class</span> <span class="nc">QFIBase</span><span class="p">(</span><span class="n">DerivativeBase</span><span class="p">):</span>  <span class="c1"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="QFIBase"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.QFIBase.html#qiskit.opflow.gradients.QFIBase">[documentos]</a><span class="k">class</span> <span class="nc">QFIBase</span><span class="p">(</span><span class="n">DerivativeBase</span><span class="p">):</span>
 
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Base class for Quantum Fisher Information (QFI).</span>
 
@@ -349,8 +349,7 @@
 <span class="sd">        [QFI]kl= Re[〈∂kψ|∂lψ〉−〈∂kψ|ψ〉〈ψ|∂lψ〉] * 4.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="QFIBase.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.QFIBase.html#qiskit.opflow.gradients.QFIBase.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">qfi_method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CircuitQFI</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lin_comb_full&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="QFIBase.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.QFIBase.html#qiskit.opflow.gradients.QFIBase.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qfi_method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CircuitQFI</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lin_comb_full&quot;</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            qfi_method: The method used to compute the state/probability gradient. Can be either</span>
@@ -364,20 +363,25 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qfi_method</span><span class="p">,</span> <span class="n">CircuitQFI</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_qfi_method</span> <span class="o">=</span> <span class="n">qfi_method</span>
 
-        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s1">&#39;lin_comb_full&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s2">&quot;lin_comb_full&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_qfis</span> <span class="kn">import</span> <span class="n">LinCombFull</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_qfi_method</span> <span class="o">=</span> <span class="n">LinCombFull</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s1">&#39;overlap_block_diag&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s2">&quot;overlap_block_diag&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_qfis</span> <span class="kn">import</span> <span class="n">OverlapBlockDiag</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_qfi_method</span> <span class="o">=</span> <span class="n">OverlapBlockDiag</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s1">&#39;overlap_diag&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">qfi_method</span> <span class="o">==</span> <span class="s2">&quot;overlap_diag&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_qfis</span> <span class="kn">import</span> <span class="n">OverlapDiag</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_qfi_method</span> <span class="o">=</span> <span class="n">OverlapDiag</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized input provided for `qfi_method`. Please provide&quot;</span>
-                             <span class="s2">&quot; a CircuitQFI object or one of the pre-defined string&quot;</span>
-                             <span class="s2">&quot; arguments: {&#39;lin_comb_full&#39;, &#39;overlap_diag&#39;, &quot;</span>
-                             <span class="s2">&quot;&#39;overlap_block_diag&#39;}. &quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized input provided for `qfi_method`. Please provide&quot;</span>
+                <span class="s2">&quot; a CircuitQFI object or one of the pre-defined string&quot;</span>
+                <span class="s2">&quot; arguments: {&#39;lin_comb_full&#39;, &#39;overlap_diag&#39;, &quot;</span>
+                <span class="s2">&quot;&#39;overlap_block_diag&#39;}. &quot;</span>
+            <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">qfi_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CircuitQFI</span><span class="p">:</span>
@@ -404,7 +408,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Última atualização em 2021/07/12.
+      Última atualização em 2021/07/27.
 
     </p>
   </div>
@@ -440,7 +444,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

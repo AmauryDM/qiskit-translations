@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.phase_estimation &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>qiskit.circuit.library.phase_estimation &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -368,11 +368,13 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PhaseEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.library.PhaseEstimation.html#qiskit.circuit.library.PhaseEstimation.__init__">[belgeler]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">unitary</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-                 <span class="n">iqft</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;QPE&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PhaseEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.library.PhaseEstimation.html#qiskit.circuit.library.PhaseEstimation.__init__">[belgeler]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">unitary</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
+        <span class="n">iqft</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;QPE&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_evaluation_qubits: The number of evaluation qubits.</span>
@@ -399,19 +401,22 @@
 <span class="sd">                circuit = PhaseEstimation(3, unitary)</span>
 <span class="sd">                %circuit_library_info circuit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qr_eval</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">)</span>
-        <span class="n">qr_state</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">qr_eval</span><span class="p">,</span> <span class="n">qr_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">qr_eval</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">)</span>
+        <span class="n">qr_state</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">)</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qr_eval</span><span class="p">,</span> <span class="n">qr_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">iqft</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">iqft</span> <span class="o">=</span> <span class="n">QFT</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">do_swaps</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reverse_bits</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qr_eval</span><span class="p">)</span>  <span class="c1"># hadamards on evaluation qubits</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qr_eval</span><span class="p">)</span>  <span class="c1"># hadamards on evaluation qubits</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">):</span>  <span class="c1"># controlled powers</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iqft</span><span class="p">,</span> <span class="n">qr_eval</span><span class="p">[:])</span>  <span class="c1"># final QFT</span></div></div>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">iqft</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qr_eval</span><span class="p">[:],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># final QFT</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -429,7 +434,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -464,7 +469,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -58,6 +58,7 @@
       ~PauliTwoDesign.from_qasm_file
       ~PauliTwoDesign.from_qasm_str
       ~PauliTwoDesign.get_entangler_map
+      ~PauliTwoDesign.get_instructions
       ~PauliTwoDesign.get_unentangled_qubits
       ~PauliTwoDesign.h
       ~PauliTwoDesign.hamiltonian

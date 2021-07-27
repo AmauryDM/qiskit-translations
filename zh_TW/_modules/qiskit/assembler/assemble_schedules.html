@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.assembler.assemble_schedules &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.assembler.assemble_schedules &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -346,11 +346,17 @@
 
 
 <div class="viewcode-block" id="assemble_schedules"><a class="viewcode-back" href="../../../stubs/qiskit.assembler.assemble_schedules.html#qiskit.assembler.assemble_schedules">[文件]</a><span class="k">def</span> <span class="nf">assemble_schedules</span><span class="p">(</span>
-        <span class="n">schedules</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;schedule.ScheduleComponent&#39;</span><span class="p">,</span>
-                              <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;schedule.ScheduleComponent&#39;</span><span class="p">]]],</span>
-        <span class="n">qobj_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">qobj_header</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">QobjHeader</span><span class="p">,</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobj</span><span class="p">:</span>
+    <span class="n">schedules</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="s2">&quot;schedule.ScheduleBlock&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;schedule.ScheduleComponent&quot;</span><span class="p">,</span>
+            <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;schedule.ScheduleComponent&quot;</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">qobj_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">qobj_header</span><span class="p">:</span> <span class="n">qobj</span><span class="o">.</span><span class="n">QobjHeader</span><span class="p">,</span>
+    <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobj</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Assembles a list of schedules into a qobj that can be run on the backend.</span>
 
 <span class="sd">    Args:</span>
@@ -365,29 +371,26 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        QiskitError: when frequency settings are not supplied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s1">&#39;qubit_lo_freq&#39;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;qubit_lo_freq must be supplied.&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s1">&#39;meas_lo_freq&#39;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;meas_lo_freq must be supplied.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;qubit_lo_freq must be supplied.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;meas_lo_freq must be supplied.&quot;</span><span class="p">)</span>
 
-    <span class="n">lo_converter</span> <span class="o">=</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperimentConfig</span><span class="p">,</span>
-                                                <span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
-    <span class="n">experiments</span><span class="p">,</span> <span class="n">experiment_config</span> <span class="o">=</span> <span class="n">_assemble_experiments</span><span class="p">(</span><span class="n">schedules</span><span class="p">,</span>
-                                                           <span class="n">lo_converter</span><span class="p">,</span>
-                                                           <span class="n">run_config</span><span class="p">)</span>
+    <span class="n">lo_converter</span> <span class="o">=</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">(</span>
+        <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperimentConfig</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">experiments</span><span class="p">,</span> <span class="n">experiment_config</span> <span class="o">=</span> <span class="n">_assemble_experiments</span><span class="p">(</span><span class="n">schedules</span><span class="p">,</span> <span class="n">lo_converter</span><span class="p">,</span> <span class="n">run_config</span><span class="p">)</span>
     <span class="n">qobj_config</span> <span class="o">=</span> <span class="n">_assemble_config</span><span class="p">(</span><span class="n">lo_converter</span><span class="p">,</span> <span class="n">experiment_config</span><span class="p">,</span> <span class="n">run_config</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobj</span><span class="p">(</span><span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span>
-                          <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
-                          <span class="n">header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span>
-                          <span class="n">config</span><span class="o">=</span><span class="n">qobj_config</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobj</span><span class="p">(</span>
+        <span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">qobj_config</span>
+    <span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_assemble_experiments</span><span class="p">(</span>
-        <span class="n">schedules</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;schedule.ScheduleComponent&#39;</span><span class="p">,</span>
-                              <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;schedule.ScheduleComponent&#39;</span><span class="p">]]],</span>
-        <span class="n">lo_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">,</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span>
+    <span class="n">schedules</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s2">&quot;schedule.ScheduleComponent&quot;</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;schedule.ScheduleComponent&quot;</span><span class="p">]]],</span>
+    <span class="n">lo_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">,</span>
+    <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperiment</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Assembles a list of schedules into PulseQobjExperiments, and returns related metadata that</span>
 <span class="sd">    will be assembled into the Qobj configuration.</span>
@@ -403,39 +406,29 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        QiskitError: when frequency settings are not compatible with the experiments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">freq_configs</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_converter</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">lo_dict</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s1">&#39;schedule_los&#39;</span><span class="p">,</span> <span class="p">[])]</span>
+    <span class="n">freq_configs</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_converter</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">lo_dict</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;schedule_los&quot;</span><span class="p">,</span> <span class="p">[])]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">schedules</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_configs</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">schedules</span><span class="p">)]:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Invalid frequency setting is specified. If the frequency is specified, &#39;</span>
-                          <span class="s1">&#39;it should be configured the same for all schedules, configured for each &#39;</span>
-                          <span class="s1">&#39;schedule, or a list of frequencies should be provided for a single &#39;</span>
-                          <span class="s1">&#39;frequency sweep schedule.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid &#39;schedule_los&#39; setting specified. If specified, it should be &quot;</span>
+            <span class="s2">&quot;either have a single entry to apply the same LOs for each schedule or &quot;</span>
+            <span class="s2">&quot;have length equal to the number of schedules.&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">instruction_converter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span>
-                                    <span class="s1">&#39;instruction_converter&#39;</span><span class="p">,</span>
-                                    <span class="n">converters</span><span class="o">.</span><span class="n">InstructionToQobjConverter</span><span class="p">)</span>
-    <span class="n">instruction_converter</span> <span class="o">=</span> <span class="n">instruction_converter</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjInstruction</span><span class="p">,</span>
-                                                  <span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+    <span class="n">instruction_converter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+        <span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;instruction_converter&quot;</span><span class="p">,</span> <span class="n">converters</span><span class="o">.</span><span class="n">InstructionToQobjConverter</span>
+    <span class="p">)</span>
+    <span class="n">instruction_converter</span> <span class="o">=</span> <span class="n">instruction_converter</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjInstruction</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
 
-    <span class="n">formatted_schedules</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">sched</span> <span class="ow">in</span> <span class="n">schedules</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sched</span><span class="p">,</span> <span class="n">pulse</span><span class="o">.</span><span class="n">Schedule</span><span class="p">):</span>
-            <span class="n">sched</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">inline_subroutines</span><span class="p">(</span><span class="n">sched</span><span class="p">)</span>
-            <span class="n">sched</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">sched</span><span class="p">)</span>
-            <span class="n">formatted_schedules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sched</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">formatted_schedules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">Schedule</span><span class="p">(</span><span class="n">sched</span><span class="p">))</span>
-
+    <span class="n">formatted_schedules</span> <span class="o">=</span> <span class="p">[</span><span class="n">transforms</span><span class="o">.</span><span class="n">target_qobj_transform</span><span class="p">(</span><span class="n">sched</span><span class="p">)</span> <span class="k">for</span> <span class="n">sched</span> <span class="ow">in</span> <span class="n">schedules</span><span class="p">]</span>
     <span class="n">compressed_schedules</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">compress_pulses</span><span class="p">(</span><span class="n">formatted_schedules</span><span class="p">)</span>
 
     <span class="n">user_pulselib</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sched</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">compressed_schedules</span><span class="p">):</span>
         <span class="n">qobj_instructions</span><span class="p">,</span> <span class="n">max_memory_slot</span> <span class="o">=</span> <span class="n">_assemble_instructions</span><span class="p">(</span>
-            <span class="n">sched</span><span class="p">,</span>
-            <span class="n">instruction_converter</span><span class="p">,</span>
-            <span class="n">run_config</span><span class="p">,</span>
-            <span class="n">user_pulselib</span><span class="p">)</span>
+            <span class="n">sched</span><span class="p">,</span> <span class="n">instruction_converter</span><span class="p">,</span> <span class="n">run_config</span><span class="p">,</span> <span class="n">user_pulselib</span>
+        <span class="p">)</span>
 
         <span class="n">metadata</span> <span class="o">=</span> <span class="n">sched</span><span class="o">.</span><span class="n">metadata</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -443,12 +436,13 @@
         <span class="c1"># TODO: add other experimental header items (see circuit assembler)</span>
         <span class="n">qobj_experiment_header</span> <span class="o">=</span> <span class="n">qobj</span><span class="o">.</span><span class="n">QobjExperimentHeader</span><span class="p">(</span>
             <span class="n">memory_slots</span><span class="o">=</span><span class="n">max_memory_slot</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Memory slots are 0 indexed</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">sched</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;Experiment-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">,</span>
-            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">sched</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;Experiment-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">experiment</span> <span class="o">=</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperiment</span><span class="p">(</span>
-            <span class="n">header</span><span class="o">=</span><span class="n">qobj_experiment_header</span><span class="p">,</span>
-            <span class="n">instructions</span><span class="o">=</span><span class="n">qobj_instructions</span><span class="p">)</span>
+            <span class="n">header</span><span class="o">=</span><span class="n">qobj_experiment_header</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="n">qobj_instructions</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">freq_configs</span><span class="p">:</span>
             <span class="c1"># This handles the cases where one frequency setting applies to all experiments and</span>
             <span class="c1"># where each experiment has a different frequency</span>
@@ -462,26 +456,31 @@
         <span class="n">experiment</span> <span class="o">=</span> <span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">experiments</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">freq_config</span> <span class="ow">in</span> <span class="n">freq_configs</span><span class="p">:</span>
-            <span class="n">experiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperiment</span><span class="p">(</span>
-                <span class="n">header</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
-                <span class="n">instructions</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">instructions</span><span class="p">,</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">freq_config</span><span class="p">))</span>
+            <span class="n">experiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjExperiment</span><span class="p">(</span>
+                    <span class="n">header</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                    <span class="n">instructions</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">instructions</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">=</span><span class="n">freq_config</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="c1"># Top level Qobj configuration</span>
     <span class="n">experiment_config</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;pulse_library&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseLibraryItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
-                          <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">user_pulselib</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
-        <span class="s1">&#39;memory_slots&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">([</span><span class="n">exp</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">memory_slots</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">])</span>
+        <span class="s2">&quot;pulse_library&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">qobj</span><span class="o">.</span><span class="n">PulseLibraryItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">user_pulselib</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;memory_slots&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">memory_slots</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">experiments</span><span class="p">,</span> <span class="n">experiment_config</span>
 
 
 <span class="k">def</span> <span class="nf">_assemble_instructions</span><span class="p">(</span>
-        <span class="n">sched</span><span class="p">:</span> <span class="n">pulse</span><span class="o">.</span><span class="n">Schedule</span><span class="p">,</span>
-        <span class="n">instruction_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">InstructionToQobjConverter</span><span class="p">,</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
-        <span class="n">user_pulselib</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]]</span>
+    <span class="n">sched</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">Schedule</span><span class="p">,</span> <span class="n">pulse</span><span class="o">.</span><span class="n">ScheduleBlock</span><span class="p">],</span>
+    <span class="n">instruction_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">InstructionToQobjConverter</span><span class="p">,</span>
+    <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
+    <span class="n">user_pulselib</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjInstruction</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Assembles the instructions in a schedule into a list of PulseQobjInstructions and returns</span>
 <span class="sd">    related metadata that will be assembled into the Qobj configuration. Lookup table for</span>
@@ -500,33 +499,39 @@
 <span class="sd">        A list of converted instructions, the user pulse library dictionary (from pulse name to</span>
 <span class="sd">        pulse samples), and the maximum number of readout memory slots used by this Schedule.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sched</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">target_qobj_transform</span><span class="p">(</span><span class="n">sched</span><span class="p">)</span>
+
     <span class="n">max_memory_slot</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">qobj_instructions</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">acquire_instruction_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="n">sched</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="p">,</span> <span class="n">library</span><span class="o">.</span><span class="n">ParametricPulse</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="p">,</span> <span class="n">library</span><span class="o">.</span><span class="n">ParametricPulse</span>
+        <span class="p">):</span>
             <span class="n">pulse_shape</span> <span class="o">=</span> <span class="n">ParametricPulseShapes</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="p">))</span><span class="o">.</span><span class="n">name</span>
             <span class="k">if</span> <span class="n">pulse_shape</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">run_config</span><span class="o">.</span><span class="n">parametric_pulses</span><span class="p">:</span>
-                <span class="n">instruction</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">get_waveform</span><span class="p">(),</span>
-                                                <span class="n">instruction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="n">instruction</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">instruction</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span>
+                    <span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">get_waveform</span><span class="p">(),</span> <span class="n">instruction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">instruction</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="p">,</span> <span class="n">library</span><span class="o">.</span><span class="n">Waveform</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="p">,</span> <span class="n">library</span><span class="o">.</span><span class="n">Waveform</span>
+        <span class="p">):</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
             <span class="n">instruction</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span>
                 <span class="n">library</span><span class="o">.</span><span class="n">Waveform</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">samples</span><span class="p">),</span>
                 <span class="n">channel</span><span class="o">=</span><span class="n">instruction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">user_pulselib</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">samples</span>
 
         <span class="c1"># ignore explicit delay instrs on acq channels as they are invalid on IBMQ backends;</span>
         <span class="c1"># timing of other instrs will still be shifted appropriately</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">channels</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">instruction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">channels</span><span class="o">.</span><span class="n">AcquireChannel</span>
+        <span class="p">):</span>
             <span class="k">continue</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">):</span>
@@ -540,22 +545,20 @@
         <span class="n">qobj_instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instruction_converter</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">instruction</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">acquire_instruction_map</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s1">&#39;meas_map&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;meas_map&quot;</span><span class="p">):</span>
             <span class="n">_validate_meas_map</span><span class="p">(</span><span class="n">acquire_instruction_map</span><span class="p">,</span> <span class="n">run_config</span><span class="o">.</span><span class="n">meas_map</span><span class="p">)</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="n">instrs</span> <span class="ow">in</span> <span class="n">acquire_instruction_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">qobj_instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">instruction_converter</span><span class="o">.</span><span class="n">convert_bundled_acquires</span><span class="p">(</span>
-                    <span class="n">time</span><span class="p">,</span>
-                    <span class="n">instrs</span>
-                <span class="p">),</span>
+                <span class="n">instruction_converter</span><span class="o">.</span><span class="n">convert_bundled_acquires</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">instrs</span><span class="p">),</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">qobj_instructions</span><span class="p">,</span> <span class="n">max_memory_slot</span>
 
 
-<span class="k">def</span> <span class="nf">_validate_meas_map</span><span class="p">(</span><span class="n">instruction_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">],</span>
-                                             <span class="n">List</span><span class="p">[</span><span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">]],</span>
-                       <span class="n">meas_map</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_validate_meas_map</span><span class="p">(</span>
+    <span class="n">instruction_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">]],</span>
+    <span class="n">meas_map</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Validate all qubits tied in ``meas_map`` are to be acquired.</span>
 
 <span class="sd">    Args:</span>
@@ -572,7 +575,7 @@
     <span class="c1"># error if there is time overlap between qubits in the same meas_map</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_inst_map</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
         <span class="n">inst_end_time</span> <span class="o">=</span> <span class="n">inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">next_inst</span> <span class="o">=</span> <span class="n">sorted_inst_map</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">next_inst</span> <span class="o">=</span> <span class="n">sorted_inst_map</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">next_inst_time</span> <span class="o">=</span> <span class="n">next_inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">next_inst_time</span> <span class="o">&lt;</span> <span class="n">inst_end_time</span><span class="p">:</span>
             <span class="n">inst_qubits</span> <span class="o">=</span> <span class="p">{</span><span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">inst</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
@@ -581,19 +584,27 @@
                 <span class="n">common_instr_qubits</span> <span class="o">=</span> <span class="n">inst_qubits</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">meas_set</span><span class="p">)</span>
                 <span class="n">common_next</span> <span class="o">=</span> <span class="n">next_inst_qubits</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">meas_set</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">common_instr_qubits</span> <span class="ow">and</span> <span class="n">common_next</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Qubits </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1"> are in the same measurement grouping: </span><span class="si">{}</span><span class="s1">. &#39;</span>
-                                      <span class="s1">&#39;They must either be acquired at the same time, or disjointly&#39;</span>
-                                      <span class="s1">&#39;. Instead, they were acquired at times: </span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1"> and &#39;</span>
-                                      <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">common_instr_qubits</span><span class="p">,</span>
-                                                     <span class="n">common_next</span><span class="p">,</span> <span class="n">meas_map</span><span class="p">,</span>
-                                                     <span class="n">inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">inst_end_time</span><span class="p">,</span>
-                                                     <span class="n">next_inst_time</span><span class="p">,</span>
-                                                     <span class="n">next_inst_time</span> <span class="o">+</span> <span class="n">next_inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                        <span class="s2">&quot;Qubits </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> are in the same measurement grouping: </span><span class="si">{}</span><span class="s2">. &quot;</span>
+                        <span class="s2">&quot;They must either be acquired at the same time, or disjointly&quot;</span>
+                        <span class="s2">&quot;. Instead, they were acquired at times: </span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2"> and &quot;</span>
+                        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">common_instr_qubits</span><span class="p">,</span>
+                            <span class="n">common_next</span><span class="p">,</span>
+                            <span class="n">meas_map</span><span class="p">,</span>
+                            <span class="n">inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">inst_end_time</span><span class="p">,</span>
+                            <span class="n">next_inst_time</span><span class="p">,</span>
+                            <span class="n">next_inst_time</span> <span class="o">+</span> <span class="n">next_inst</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_assemble_config</span><span class="p">(</span><span class="n">lo_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">,</span>
-                     <span class="n">experiment_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-                     <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjConfig</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_assemble_config</span><span class="p">(</span>
+    <span class="n">lo_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">,</span>
+    <span class="n">experiment_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjConfig</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Assembles the QobjConfiguration from experimental config and runtime config.</span>
 
 <span class="sd">    Args:</span>
@@ -608,34 +619,34 @@
     <span class="n">qobj_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">experiment_config</span><span class="p">)</span>
 
     <span class="c1"># Run config not needed in qobj config</span>
-    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;meas_map&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;meas_map&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="c1"># convert enums to serialized values</span>
-    <span class="n">meas_return</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;meas_return&#39;</span><span class="p">,</span> <span class="s1">&#39;avg&#39;</span><span class="p">)</span>
+    <span class="n">meas_return</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meas_return&quot;</span><span class="p">,</span> <span class="s2">&quot;avg&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">meas_return</span><span class="p">,</span> <span class="n">qobj_utils</span><span class="o">.</span><span class="n">MeasReturnType</span><span class="p">):</span>
-        <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;meas_return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_return</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;meas_return&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_return</span><span class="o">.</span><span class="n">value</span>
 
-    <span class="n">meas_level</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;meas_level&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">meas_level</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meas_level&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">meas_level</span><span class="p">,</span> <span class="n">qobj_utils</span><span class="o">.</span><span class="n">MeasLevel</span><span class="p">):</span>
-        <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;meas_level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_level</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;meas_level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meas_level</span><span class="o">.</span><span class="n">value</span>
 
-    <span class="c1"># convert lo frequencies to Hz</span>
-    <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;qubit_lo_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;qubit_lo_freq&#39;</span><span class="p">]]</span>
-    <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;meas_lo_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;meas_lo_freq&#39;</span><span class="p">]]</span>
+    <span class="c1"># convert LO frequencies to GHz</span>
+    <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]]</span>
+    <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]]</span>
 
-    <span class="c1"># frequency sweep config</span>
-    <span class="n">schedule_los</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;schedule_los&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="c1"># override defaults if single entry for ``schedule_los``</span>
+    <span class="n">schedule_los</span> <span class="o">=</span> <span class="n">qobj_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schedule_los&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">schedule_los</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">lo_dict</span> <span class="o">=</span> <span class="n">schedule_los</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">q_los</span> <span class="o">=</span> <span class="n">lo_converter</span><span class="o">.</span><span class="n">get_qubit_los</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span>
         <span class="c1"># Hz -&gt; GHz</span>
         <span class="k">if</span> <span class="n">q_los</span><span class="p">:</span>
-            <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;qubit_lo_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">q_los</span><span class="p">]</span>
+            <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">q_los</span><span class="p">]</span>
         <span class="n">m_los</span> <span class="o">=</span> <span class="n">lo_converter</span><span class="o">.</span><span class="n">get_meas_los</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">m_los</span><span class="p">:</span>
-            <span class="n">qobj_config</span><span class="p">[</span><span class="s1">&#39;meas_lo_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">m_los</span><span class="p">]</span>
+            <span class="n">qobj_config</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">m_los</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">qobj</span><span class="o">.</span><span class="n">PulseQobjConfig</span><span class="p">(</span><span class="o">**</span><span class="n">qobj_config</span><span class="p">)</span>
 </pre></div>
@@ -655,7 +666,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -691,7 +702,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

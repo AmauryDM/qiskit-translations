@@ -32,6 +32,7 @@
 
    .. autosummary::
    
+      ~PulseBackendConfiguration.control_channels
       ~PulseBackendConfiguration.num_qubits
       ~PulseBackendConfiguration.sample_rate
    

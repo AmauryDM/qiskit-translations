@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.instructions.play &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.pulse.instructions.play &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -333,7 +333,7 @@
 <span class="sd">&quot;&quot;&quot;An instruction to transmit a given pulse on a ``PulseChannel`` (i.e., those which support</span>
 <span class="sd">transmitted pulses, such as ``DriveChannel``).</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Set</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.circuit.parameterexpression</span> <span class="kn">import</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span>
 <span class="kn">from</span> <span class="nn">qiskit.pulse.channels</span> <span class="kn">import</span> <span class="n">PulseChannel</span>
@@ -352,9 +352,7 @@
 <span class="sd">    cycle time, dt, of the backend.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Play.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.instructions.Play.html#qiskit.pulse.Play.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">Pulse</span><span class="p">,</span>
-                 <span class="n">channel</span><span class="p">:</span> <span class="n">PulseChannel</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Play.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.instructions.Play.html#qiskit.pulse.Play.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">Pulse</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create a new pulse instruction.</span>
 
 <span class="sd">        Args:</span>
@@ -369,8 +367,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">Pulse</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;The `pulse` argument to `Play` must be of type `library.Pulse`.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">PulseChannel</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;The `channel` argument to `Play` must be of type &quot;</span>
-                             <span class="s2">&quot;`channels.PulseChannel`.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span>
+                <span class="s2">&quot;The `channel` argument to `Play` must be of type &quot;</span> <span class="s2">&quot;`channels.PulseChannel`.&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">name</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operands</span><span class="o">=</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">channel</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
@@ -390,15 +389,14 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">channels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">PulseChannel</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns the channels that this schedule uses.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">,)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Duration of this instruction.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">duration</span>
 
-    <span class="k">def</span> <span class="nf">_initialize_parameter_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                    <span class="n">operands</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">_initialize_parameter_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operands</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;A helper method to initialize parameter table.</span>
 
 <span class="sd">        Args:</span>
@@ -413,10 +411,24 @@
                         <span class="c1"># Table maps parameter to operand index, 0 for ``pulse``</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_table</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parameters which determine the instruction behavior.&quot;&quot;&quot;</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">pulse_param_expr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pulse_param_expr</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">pulse_param</span> <span class="ow">in</span> <span class="n">pulse_param_expr</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                    <span class="n">parameters</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pulse_param</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">is_parameterized</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">ch_param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ch_param</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">parameters</span>
+
 <div class="viewcode-block" id="Play.assign_parameters"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.instructions.Play.html#qiskit.pulse.Play.assign_parameters">[documentos]</a>    <span class="nd">@deprecated_functionality</span>
-    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Play&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Play&quot;</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">value_dict</span><span class="p">)</span>
         <span class="n">pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">value_dict</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_operands</span> <span class="o">=</span> <span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
@@ -442,7 +454,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -477,7 +489,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -16,6 +16,7 @@
       ~PhaseEstimation.__init__
       ~PhaseEstimation.construct_circuit
       ~PhaseEstimation.estimate
+      ~PhaseEstimation.estimate_from_pe_circuit
    
    
 

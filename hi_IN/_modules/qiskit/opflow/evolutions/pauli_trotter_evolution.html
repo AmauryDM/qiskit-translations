@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.evolutions.pauli_trotter_evolution &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.opflow.evolutions.pauli_trotter_evolution &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -349,6 +349,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.opflow.primitive_ops.pauli_op</span> <span class="kn">import</span> <span class="n">PauliOp</span>
 <span class="kn">from</span> <span class="nn">qiskit.opflow.primitive_ops.pauli_sum_op</span> <span class="kn">import</span> <span class="n">PauliSumOp</span>
 <span class="kn">from</span> <span class="nn">qiskit.opflow.primitive_ops.primitive_op</span> <span class="kn">import</span> <span class="n">PrimitiveOp</span>
+
 <span class="c1"># TODO uncomment when we implement Abelian grouped evolution.</span>
 <span class="c1"># from qiskit.opflow.converters.abelian_grouper import AbelianGrouper</span>
 
@@ -396,12 +397,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">trotter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrotterizationBase</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; TrotterizationBase used to evolve SummedOps. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;TrotterizationBase used to evolve SummedOps.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trotter</span>
 
     <span class="nd">@trotter</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">trotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trotter</span><span class="p">:</span> <span class="n">TrotterizationBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Set TrotterizationBase used to evolve SummedOps. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Set TrotterizationBase used to evolve SummedOps.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_trotter</span> <span class="o">=</span> <span class="n">trotter</span>
 
 <div class="viewcode-block" id="PauliTrotterEvolution.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.evolutions.PauliTrotterEvolution.html#qiskit.opflow.evolutions.PauliTrotterEvolution.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
@@ -500,7 +501,7 @@
 
     <span class="c1"># TODO implement Abelian grouped evolution.</span>
 <div class="viewcode-block" id="PauliTrotterEvolution.evolution_for_abelian_paulisum"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.evolutions.PauliTrotterEvolution.html#qiskit.opflow.evolutions.PauliTrotterEvolution.evolution_for_abelian_paulisum">[docs]</a>    <span class="k">def</span> <span class="nf">evolution_for_abelian_paulisum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op_sum</span><span class="p">:</span> <span class="n">SummedOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PrimitiveOp</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Evolution for abelian pauli sum &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Evolution for abelian pauli sum&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 </pre></div>
 
@@ -519,7 +520,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -555,7 +556,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

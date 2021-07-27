@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.boolean_logic.inner_product &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.circuit.library.boolean_logic.inner_product &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -338,31 +338,65 @@
 
 
 <div class="viewcode-block" id="InnerProduct"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.InnerProduct.html#qiskit.circuit.library.InnerProduct">[문서]</a><span class="k">class</span> <span class="nc">InnerProduct</span><span class="p">(</span><span class="n">QuantumCircuit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An n_qubit circuit that computes the inner product of two registers.&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A 2n-qubit Boolean function that computes the inner product of</span>
+<span class="sd">    two n-qubit vectors over :math:`F_2`.</span>
+
+<span class="sd">    This implementation is a phase oracle which computes the following transform.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathcal{IP}_{2n} : F_2^{2n} \rightarrow {-1, 1}</span>
+<span class="sd">        \mathcal{IP}_{2n}(x_1, \cdots, x_n, y_1, \cdots, y_n) = (-1)^{x.y}</span>
+
+<span class="sd">    The corresponding unitary is a diagonal, which induces a -1 phase on any inputs</span>
+<span class="sd">    where the inner product of the top and bottom registers is 1. Otherwise it keeps</span>
+<span class="sd">    the input intact.</span>
+
+<span class="sd">    .. parsed-literal::</span>
+
+
+<span class="sd">        q0_0: ─■──────────</span>
+<span class="sd">               │</span>
+<span class="sd">        q0_1: ─┼──■───────</span>
+<span class="sd">               │  │</span>
+<span class="sd">        q0_2: ─┼──┼──■────</span>
+<span class="sd">               │  │  │</span>
+<span class="sd">        q0_3: ─┼──┼──┼──■─</span>
+<span class="sd">               │  │  │  │</span>
+<span class="sd">        q1_0: ─■──┼──┼──┼─</span>
+<span class="sd">                  │  │  │</span>
+<span class="sd">        q1_1: ────■──┼──┼─</span>
+<span class="sd">                     │  │</span>
+<span class="sd">        q1_2: ───────■──┼─</span>
+<span class="sd">                        │</span>
+<span class="sd">        q1_3: ──────────■─</span>
+
+
+<span class="sd">    Reference Circuit:</span>
+<span class="sd">        .. jupyter-execute::</span>
+<span class="sd">            :hide-code:</span>
+
+<span class="sd">            from qiskit.circuit.library import InnerProduct</span>
+<span class="sd">            import qiskit.tools.jupyter</span>
+<span class="sd">            circuit = InnerProduct(4)</span>
+<span class="sd">            %circuit_library_info circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="InnerProduct.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.InnerProduct.html#qiskit.circuit.library.InnerProduct.__init__">[문서]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a circuit to compute the inner product of 2 n-qubit registers.</span>
 
-<span class="sd">        This implementation uses CZ gates.</span>
-
 <span class="sd">        Args:</span>
 <span class="sd">            num_qubits: width of top and bottom registers (half total circuit width)</span>
-
-<span class="sd">        Reference Circuit:</span>
-<span class="sd">            .. jupyter-execute::</span>
-<span class="sd">                :hide-code:</span>
-
-<span class="sd">                from qiskit.circuit.library import InnerProduct</span>
-<span class="sd">                import qiskit.tools.jupyter</span>
-<span class="sd">                circuit = InnerProduct(5)</span>
-<span class="sd">                %circuit_library_info circuit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qr_a</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
         <span class="n">qr_b</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">qr_a</span><span class="p">,</span> <span class="n">qr_b</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inner_product&quot;</span><span class="p">)</span>
+        <span class="n">inner</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qr_a</span><span class="p">,</span> <span class="n">qr_b</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inner_product&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">qr_a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qr_b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div></div>
+            <span class="n">inner</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">qr_a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">qr_b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">inner</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inner_product&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">inner</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -380,7 +414,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -415,7 +449,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

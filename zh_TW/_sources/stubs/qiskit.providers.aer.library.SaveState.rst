@@ -39,6 +39,7 @@
       ~SaveState.decompositions
       ~SaveState.definition
       ~SaveState.duration
+      ~SaveState.label
       ~SaveState.params
       ~SaveState.unit
    

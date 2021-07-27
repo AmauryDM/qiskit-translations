@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.standard_gates.multi_control_rotation_gates &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.circuit.library.standard_gates.multi_control_rotation_gates &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -363,12 +363,12 @@
     <span class="n">last_pattern</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">gray_code</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;1&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pattern</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;1&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pattern</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">last_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">last_pattern</span> <span class="o">=</span> <span class="n">pattern</span>
         <span class="c1"># find left most set bit</span>
-        <span class="n">lm_pos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+        <span class="n">lm_pos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
 
         <span class="c1"># find changed bit</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">last_pattern</span><span class="p">)]</span>
@@ -380,17 +380,17 @@
             <span class="k">if</span> <span class="n">pos</span> <span class="o">!=</span> <span class="n">lm_pos</span><span class="p">:</span>
                 <span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctls</span><span class="p">[</span><span class="n">pos</span><span class="p">],</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                     <span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">ctls</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">])</span>
         <span class="c1"># check parity and undo rotation</span>
-        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># inverse CU: u(theta, phi, lamb)^dagger = u(-theta, -lam, -phi)</span>
-            <span class="n">_apply_cu</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">lam</span><span class="p">,</span> <span class="o">-</span><span class="n">phi</span><span class="p">,</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span>
-                      <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+            <span class="n">_apply_cu</span><span class="p">(</span>
+                <span class="n">circuit</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">lam</span><span class="p">,</span> <span class="o">-</span><span class="n">phi</span><span class="p">,</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">_apply_cu</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span>
-                      <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+            <span class="n">_apply_cu</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">ctls</span><span class="p">[</span><span class="n">lm_pos</span><span class="p">],</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
         <span class="n">last_pattern</span> <span class="o">=</span> <span class="n">pattern</span>
 
 
@@ -416,13 +416,14 @@
         <span class="n">control_qubits</span> <span class="o">=</span> <span class="n">q_controls</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-            <span class="s1">&#39;The mcrx gate needs a list of qubits or a quantum register for controls.&#39;</span><span class="p">)</span>
+            <span class="s2">&quot;The mcrx gate needs a list of qubits or a quantum register for controls.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># check target</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_target</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">):</span>
         <span class="n">target_qubit</span> <span class="o">=</span> <span class="n">q_target</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The mcrx gate needs a single qubit as target.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The mcrx gate needs a single qubit as target.&quot;</span><span class="p">)</span>
 
     <span class="n">all_qubits</span> <span class="o">=</span> <span class="n">control_qubits</span> <span class="o">+</span> <span class="p">[</span><span class="n">target_qubit</span><span class="p">]</span>
 
@@ -431,16 +432,29 @@
 
     <span class="n">n_c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_qubits</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># cu</span>
-        <span class="n">_apply_cu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                  <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+        <span class="n">_apply_cu</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">theta</span><span class="p">,</span>
+            <span class="o">-</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">target_qubit</span><span class="p">,</span>
+            <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">theta_step</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
-        <span class="n">_apply_mcu_graycode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta_step</span><span class="p">,</span> <span class="o">-</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">,</span>
-                            <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+        <span class="n">_apply_mcu_graycode</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">theta_step</span><span class="p">,</span>
+            <span class="o">-</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">control_qubits</span><span class="p">,</span>
+            <span class="n">target_qubit</span><span class="p">,</span>
+            <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">mcry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-         <span class="n">use_basis_gates</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">mcry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply Multiple-Controlled Y rotation gate</span>
 
@@ -463,14 +477,15 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">control_qubits</span> <span class="o">=</span> <span class="n">q_controls</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The mcry gate needs a list of qubits or a quantum &#39;</span>
-                          <span class="s1">&#39;register for controls.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;The mcry gate needs a list of qubits or a quantum &quot;</span> <span class="s2">&quot;register for controls.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># check target</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_target</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">):</span>
         <span class="n">target_qubit</span> <span class="o">=</span> <span class="n">q_target</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The mcry gate needs a single qubit as target.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The mcry gate needs a single qubit as target.&quot;</span><span class="p">)</span>
 
     <span class="c1"># check ancilla</span>
     <span class="k">if</span> <span class="n">q_ancillae</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -480,8 +495,9 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_ancillae</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">ancillary_qubits</span> <span class="o">=</span> <span class="n">q_ancillae</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The mcry gate needs None or a list of qubits or a &#39;</span>
-                          <span class="s1">&#39;quantum register for ancilla.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;The mcry gate needs None or a list of qubits or a &quot;</span> <span class="s2">&quot;quantum register for ancilla.&quot;</span>
+        <span class="p">)</span>
 
     <span class="n">all_qubits</span> <span class="o">=</span> <span class="n">control_qubits</span> <span class="o">+</span> <span class="p">[</span><span class="n">target_qubit</span><span class="p">]</span> <span class="o">+</span> <span class="n">ancillary_qubits</span>
 
@@ -491,28 +507,36 @@
     <span class="c1"># auto-select the best mode</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># if enough ancillary qubits are provided, use the &#39;v-chain&#39; method</span>
-        <span class="n">additional_vchain</span> <span class="o">=</span> <span class="n">MCXGate</span><span class="o">.</span><span class="n">get_num_ancilla_qubits</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">control_qubits</span><span class="p">),</span> <span class="s1">&#39;v-chain&#39;</span><span class="p">)</span>
+        <span class="n">additional_vchain</span> <span class="o">=</span> <span class="n">MCXGate</span><span class="o">.</span><span class="n">get_num_ancilla_qubits</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">control_qubits</span><span class="p">),</span> <span class="s2">&quot;v-chain&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ancillary_qubits</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">additional_vchain</span><span class="p">:</span>
-            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;basic&#39;</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;basic&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;noancilla&#39;</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;noancilla&quot;</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;basic&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;basic&quot;</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">q_target</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;v-chain&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;v-chain&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">q_target</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;v-chain&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;noancilla&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">q_ancillae</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;v-chain&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;noancilla&quot;</span><span class="p">:</span>
         <span class="n">n_c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_qubits</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">n_c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># cu</span>
-            <span class="n">_apply_cu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                      <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+            <span class="n">_apply_cu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">theta_step</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
-            <span class="n">_apply_mcu_graycode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta_step</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">,</span>
-                                <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+            <span class="n">_apply_mcu_graycode</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">theta_step</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="n">control_qubits</span><span class="p">,</span>
+                <span class="n">target_qubit</span><span class="p">,</span>
+                <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">,</span>
+            <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Unrecognized mode for building MCRY circuit: </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized mode for building MCRY circuit: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">mcrz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">q_controls</span><span class="p">,</span> <span class="n">q_target</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -537,13 +561,14 @@
         <span class="n">control_qubits</span> <span class="o">=</span> <span class="n">q_controls</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-            <span class="s1">&#39;The mcrz gate needs a list of qubits or a quantum register for controls.&#39;</span><span class="p">)</span>
+            <span class="s2">&quot;The mcrz gate needs a list of qubits or a quantum register for controls.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># check target</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q_target</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">):</span>
         <span class="n">target_qubit</span> <span class="o">=</span> <span class="n">q_target</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The mcrz gate needs a single qubit as target.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The mcrz gate needs a single qubit as target.&quot;</span><span class="p">)</span>
 
     <span class="n">all_qubits</span> <span class="o">=</span> <span class="n">control_qubits</span> <span class="o">+</span> <span class="p">[</span><span class="n">target_qubit</span><span class="p">]</span>
 
@@ -552,12 +577,12 @@
 
     <span class="n">n_c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_qubits</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># cu</span>
-        <span class="n">_apply_cu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                  <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+        <span class="n">_apply_cu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lam_step</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
-        <span class="n">_apply_mcu_graycode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lam_step</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">,</span>
-                            <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span><span class="p">)</span>
+        <span class="n">_apply_mcu_graycode</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lam_step</span><span class="p">,</span> <span class="n">control_qubits</span><span class="p">,</span> <span class="n">target_qubit</span><span class="p">,</span> <span class="n">use_basis_gates</span><span class="o">=</span><span class="n">use_basis_gates</span>
+        <span class="p">)</span>
 
 
 <span class="n">QuantumCircuit</span><span class="o">.</span><span class="n">mcrx</span> <span class="o">=</span> <span class="n">mcrx</span>
@@ -580,7 +605,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -615,7 +640,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

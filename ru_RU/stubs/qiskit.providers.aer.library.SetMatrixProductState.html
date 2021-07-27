@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.aer.library.SetMatrixProductState &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.providers.aer.library.SetMatrixProductState &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -222,9 +222,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -233,25 +233,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -385,7 +385,7 @@ vectors of double.</p>
 <td><p>Validation of the arguments.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.c_if" title="qiskit.providers.aer.library.SetMatrixProductState.c_if"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_if</span></code></a>(classical, val)</p></td>
-<td><p>Add classical condition on register classical and value val.</p></td>
+<td><p>Add classical condition on register or cbit classical and value val.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.copy" title="qiskit.providers.aer.library.SetMatrixProductState.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([name])</p></td>
 <td><p>Copy of the instruction.</p></td>
@@ -432,10 +432,13 @@ vectors of double.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.duration" title="qiskit.providers.aer.library.SetMatrixProductState.duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration</span></code></a></p></td>
 <td><p>Get the duration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.params" title="qiskit.providers.aer.library.SetMatrixProductState.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.label" title="qiskit.providers.aer.library.SetMatrixProductState.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>Return instruction label</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.params" title="qiskit.providers.aer.library.SetMatrixProductState.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>return instruction params.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.unit" title="qiskit.providers.aer.library.SetMatrixProductState.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SetMatrixProductState.unit" title="qiskit.providers.aer.library.SetMatrixProductState.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
 <td><p>Get the time unit of duration.</p></td>
 </tr>
 </tbody>
@@ -476,7 +479,7 @@ vectors of double.</p>
 <dl class="py method">
 <dt id="qiskit.providers.aer.library.SetMatrixProductState.c_if">
 <code class="sig-name descname">c_if</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classical</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.providers.aer.library.SetMatrixProductState.c_if" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Add classical condition on register classical and value val.</p>
+<dd><p>Add classical condition on register or cbit classical and value val.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -545,6 +548,17 @@ implement their own inverse (e.g. T and Tdg, Barrier, etc.)</p>
 <dt id="qiskit.providers.aer.library.SetMatrixProductState.is_parameterized">
 <code class="sig-name descname">is_parameterized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.providers.aer.library.SetMatrixProductState.is_parameterized" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Return True .IFF. instruction is parameterized else False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.providers.aer.library.SetMatrixProductState.label">
+<em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#qiskit.providers.aer.library.SetMatrixProductState.label" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Return instruction label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -680,7 +694,7 @@ account.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -718,7 +732,7 @@ account.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

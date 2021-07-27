@@ -23,6 +23,7 @@
       ~ParameterExpression.cos
       ~ParameterExpression.exp
       ~ParameterExpression.gradient
+      ~ParameterExpression.is_real
       ~ParameterExpression.log
       ~ParameterExpression.sin
       ~ParameterExpression.subs

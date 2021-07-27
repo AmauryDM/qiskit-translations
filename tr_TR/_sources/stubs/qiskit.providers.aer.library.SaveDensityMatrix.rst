@@ -39,6 +39,7 @@
       ~SaveDensityMatrix.decompositions
       ~SaveDensityMatrix.definition
       ~SaveDensityMatrix.duration
+      ~SaveDensityMatrix.label
       ~SaveDensityMatrix.params
       ~SaveDensityMatrix.unit
    

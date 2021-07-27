@@ -43,5 +43,6 @@
       ~BOBYQA.is_initial_point_required
       ~BOBYQA.is_initial_point_supported
       ~BOBYQA.setting
+      ~BOBYQA.settings
    
    

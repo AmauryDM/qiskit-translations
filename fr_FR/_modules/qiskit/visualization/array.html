@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.array &mdash; Documentation Qiskit 0.27.0</title>
+  <title>qiskit.visualization.array &mdash; Documentation Qiskit 0.28.0</title>
   
 
   
@@ -219,36 +219,36 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Page d'accueil de la documentation</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Avant propos</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">L’informatique quantique en bref</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Introduction à Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing_to_qiskit.html">Contribuer à Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration locale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Questions fréquentes</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Bibliothèques</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/circuit_library.html">Bibliothèque de circuits</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Références de l'API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aer.html">Simulateur Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ignis.html">Expériences Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aqua.html">Modules d'applications Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Fournisseur)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Guide de migration des applications Qiskit (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aqua_migration.html">Guide de migration des applications Qiskit (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Déboggage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Codes d'erreur de l'API IBM Quantum</a></li>
 </ul>
 
             
@@ -337,17 +337,19 @@
 <span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
+
 
 <span class="k">def</span> <span class="nf">_num_to_latex</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Takes a complex number as input and returns a latex representation</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            num (numerical): The number to be converted to latex.</span>
-<span class="sd">            precision (int): If the real or imaginary parts of num are not close</span>
-<span class="sd">                             to an integer, the number of decimal places to round to</span>
+<span class="sd">    Args:</span>
+<span class="sd">        num (numerical): The number to be converted to latex.</span>
+<span class="sd">        precision (int): If the real or imaginary parts of num are not close</span>
+<span class="sd">                         to an integer, the number of decimal places to round to</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            str: Latex representation of num</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Latex representation of num</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Result is combination of maximum 4 strings in the form:</span>
     <span class="c1">#     {common_facstring} ( {realstring} {operation} {imagstring}i )</span>
@@ -364,22 +366,22 @@
     <span class="c1"># try to factor out common terms in imaginary numbers</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">common_factor</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">/</span><span class="n">common_factor</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">/</span><span class="n">common_factor</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="n">common_factor</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">common_factor</span>
 
     <span class="n">common_terms</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="mi">1</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">tfrac</span><span class="si">{1}</span><span class="s1">{</span><span class="se">\\</span><span class="s1">sqrt</span><span class="si">{2}</span><span class="s1">}&#39;</span><span class="p">,</span>
-        <span class="mi">1</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">tfrac</span><span class="si">{1}</span><span class="s1">{</span><span class="se">\\</span><span class="s1">sqrt</span><span class="si">{3}</span><span class="s1">}&#39;</span><span class="p">,</span>
-        <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">sqrt{</span><span class="se">\\</span><span class="s1">tfrac</span><span class="si">{2}{3}</span><span class="s1">}&#39;</span><span class="p">,</span>
-        <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">):</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">sqrt{</span><span class="se">\\</span><span class="s1">tfrac</span><span class="si">{3}{4}</span><span class="s1">}&#39;</span><span class="p">,</span>
-        <span class="mi">1</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">tfrac</span><span class="si">{1}</span><span class="s1">{</span><span class="se">\\</span><span class="s1">sqrt</span><span class="si">{8}</span><span class="s1">}&#39;</span>
+        <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">tfrac</span><span class="si">{1}</span><span class="s2">{</span><span class="se">\\</span><span class="s2">sqrt</span><span class="si">{2}</span><span class="s2">}&quot;</span><span class="p">,</span>
+        <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">tfrac</span><span class="si">{1}</span><span class="s2">{</span><span class="se">\\</span><span class="s2">sqrt</span><span class="si">{3}</span><span class="s2">}&quot;</span><span class="p">,</span>
+        <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">):</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">sqrt{</span><span class="se">\\</span><span class="s2">tfrac</span><span class="si">{2}{3}</span><span class="s2">}&quot;</span><span class="p">,</span>
+        <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">):</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">sqrt{</span><span class="se">\\</span><span class="s2">tfrac</span><span class="si">{3}{4}</span><span class="s2">}&quot;</span><span class="p">,</span>
+        <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">tfrac</span><span class="si">{1}</span><span class="s2">{</span><span class="se">\\</span><span class="s2">sqrt</span><span class="si">{8}</span><span class="s2">}&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_proc_value</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
         <span class="c1"># This function converts a real value to a latex string</span>
         <span class="c1"># First, see if val is close to an integer:</span>
         <span class="n">val_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">val_mod</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">val_mod</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">val_mod</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">val_mod</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
             <span class="c1"># If so, return that integer</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
         <span class="c1"># Otherwise, see if it matches one of the common terms</span>
@@ -439,22 +441,22 @@
 <span class="k">def</span> <span class="nf">_matrix_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;Latex representation of a complex numpy array (with maximum dimension 2)</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            matrix (ndarray): The matrix to be converted to latex, must have dimension 2.</span>
-<span class="sd">            precision (int): For numbers not close to integers, the number of decimal places</span>
-<span class="sd">                             to round to.</span>
-<span class="sd">            prefix (str): Latex string to be prepended to the latex, intended for labels.</span>
-<span class="sd">            max_size (list(```int```)): Indexable containing two integers: Maximum width and maximum</span>
-<span class="sd">                              height of output Latex matrix (including dots characters). If the</span>
-<span class="sd">                              width and/or height of matrix exceeds the maximum, the centre values</span>
-<span class="sd">                              will be replaced with dots. Maximum width or height must be greater</span>
-<span class="sd">                              than 3.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (ndarray): The matrix to be converted to latex, must have dimension 2.</span>
+<span class="sd">        precision (int): For numbers not close to integers, the number of decimal places</span>
+<span class="sd">                         to round to.</span>
+<span class="sd">        prefix (str): Latex string to be prepended to the latex, intended for labels.</span>
+<span class="sd">        max_size (list(```int```)): Indexable containing two integers: Maximum width and maximum</span>
+<span class="sd">                          height of output Latex matrix (including dots characters). If the</span>
+<span class="sd">                          width and/or height of matrix exceeds the maximum, the centre values</span>
+<span class="sd">                          will be replaced with dots. Maximum width or height must be greater</span>
+<span class="sd">                          than 3.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            str: Latex representation of the matrix</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Latex representation of the matrix</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If minimum value in max_size &lt; 3</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If minimum value in max_size &lt; 3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Smallest value in max_size must be greater than or equal to 3&quot;&quot;&quot;</span><span class="p">)</span>
@@ -480,9 +482,9 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_width</span><span class="p">:</span>
                 <span class="n">row_string</span> <span class="o">+=</span> <span class="n">_elements_to_latex</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">row_string</span> <span class="o">+=</span> <span class="n">_elements_to_latex</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="n">max_width</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">row_string</span> <span class="o">+=</span> <span class="n">_elements_to_latex</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span> <span class="n">max_width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
                 <span class="n">row_string</span> <span class="o">+=</span> <span class="s2">&quot;&amp; </span><span class="se">\\</span><span class="s2">cdots &amp; &quot;</span>
-                <span class="n">row_string</span> <span class="o">+=</span> <span class="n">_elements_to_latex</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="n">max_width</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+                <span class="n">row_string</span> <span class="o">+=</span> <span class="n">_elements_to_latex</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="n">max_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
             <span class="n">row_string</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="se">\\\\\n</span><span class="s2"> &quot;</span>
         <span class="k">return</span> <span class="n">row_string</span>
 
@@ -493,21 +495,21 @@
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_height</span><span class="p">:</span>
         <span class="c1"># We need to truncate vertically, so we process the rows at the beginning</span>
         <span class="c1"># and end, and add a line of vertical elipse (dots) characters between them</span>
-        <span class="n">out_string</span> <span class="o">+=</span> <span class="n">_rows_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">[:</span><span class="n">max_height</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">max_width</span><span class="p">)</span>
+        <span class="n">out_string</span> <span class="o">+=</span> <span class="n">_rows_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">[:</span> <span class="n">max_height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">max_width</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">max_width</span> <span class="o">&gt;=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span><span class="o">*</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span> <span class="o">*</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># In this case we need to add the diagonal dots in line with the column</span>
             <span class="c1"># of horizontal dots</span>
-            <span class="n">pre_vdots</span> <span class="o">=</span> <span class="n">max_width</span><span class="o">//</span><span class="mi">2</span>
-            <span class="n">post_vdots</span> <span class="o">=</span> <span class="n">max_width</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span><span class="o">*</span><span class="n">pre_vdots</span>
+            <span class="n">pre_vdots</span> <span class="o">=</span> <span class="n">max_width</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="n">post_vdots</span> <span class="o">=</span> <span class="n">max_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span> <span class="o">*</span> <span class="n">pre_vdots</span>
             <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">ddots &amp; &quot;</span>
-            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span><span class="o">*</span><span class="n">post_vdots</span>
+            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">vdots &amp; &quot;</span> <span class="o">*</span> <span class="n">post_vdots</span>
 
         <span class="n">out_string</span> <span class="o">=</span> <span class="n">out_string</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\\\\n</span><span class="s2"> &quot;</span>
-        <span class="n">out_string</span> <span class="o">+=</span> <span class="n">_rows_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="o">-</span><span class="n">max_height</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">:],</span> <span class="n">max_width</span><span class="p">)</span>
+        <span class="n">out_string</span> <span class="o">+=</span> <span class="n">_rows_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="o">-</span><span class="n">max_height</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:],</span> <span class="n">max_width</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">out_string</span> <span class="o">+=</span> <span class="n">_rows_to_latex</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">max_width</span><span class="p">)</span>
@@ -518,39 +520,41 @@
 <div class="viewcode-block" id="array_to_latex"><a class="viewcode-back" href="../../../stubs/qiskit.visualization.array_to_latex.html#qiskit.visualization.array_to_latex">[docs]</a><span class="k">def</span> <span class="nf">array_to_latex</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Latex representation of a complex numpy array (with dimension 1 or 2)</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            array (ndarray): The array to be converted to latex, must have dimension 1 or 2 and</span>
-<span class="sd">                             contain only numerical data.</span>
-<span class="sd">            precision (int): For numbers not close to integers or common terms, the number of</span>
-<span class="sd">                             decimal places to round to.</span>
-<span class="sd">            prefix (str): Latex string to be prepended to the latex, intended for labels.</span>
-<span class="sd">            source (bool): If ``False``, will return IPython.display.Latex object. If display is</span>
-<span class="sd">                           ``True``, will instead return the LaTeX source string.</span>
-<span class="sd">            max_size (list(int) or int): The maximum size of the output Latex array.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        array (ndarray): The array to be converted to latex, must have dimension 1 or 2 and</span>
+<span class="sd">                         contain only numerical data.</span>
+<span class="sd">        precision (int): For numbers not close to integers or common terms, the number of</span>
+<span class="sd">                         decimal places to round to.</span>
+<span class="sd">        prefix (str): Latex string to be prepended to the latex, intended for labels.</span>
+<span class="sd">        source (bool): If ``False``, will return IPython.display.Latex object. If display is</span>
+<span class="sd">                       ``True``, will instead return the LaTeX source string.</span>
+<span class="sd">        max_size (list(int) or int): The maximum size of the output Latex array.</span>
 
-<span class="sd">                * If list(``int``), then the 0th element of the list specifies the maximum</span>
-<span class="sd">                  width (including dots characters) and the 1st specifies the maximum height</span>
-<span class="sd">                  (also inc. dots characters).</span>
-<span class="sd">                * If a single ``int`` then this value sets the maximum width _and_ maximum</span>
-<span class="sd">                  height.</span>
+<span class="sd">            * If list(``int``), then the 0th element of the list specifies the maximum</span>
+<span class="sd">              width (including dots characters) and the 1st specifies the maximum height</span>
+<span class="sd">              (also inc. dots characters).</span>
+<span class="sd">            * If a single ``int`` then this value sets the maximum width _and_ maximum</span>
+<span class="sd">              height.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            str or IPython.display.Latex: If ``source`` is ``True``, a ``str`` of the LaTeX</span>
-<span class="sd">                representation of the array, else an ``IPython.display.Latex`` representation of</span>
-<span class="sd">                the array.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str or IPython.display.Latex: If ``source`` is ``True``, a ``str`` of the LaTeX</span>
+<span class="sd">            representation of the array, else an ``IPython.display.Latex`` representation of</span>
+<span class="sd">            the array.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If array can not be interpreted as a numerical numpy array.</span>
-<span class="sd">            ValueError: If the dimension of array is not 1 or 2.</span>
-<span class="sd">            ImportError: If ``source`` is ``False`` and ``IPython.display.Latex`` cannot be</span>
-<span class="sd">                         imported.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: If array can not be interpreted as a numerical numpy array.</span>
+<span class="sd">        ValueError: If the dimension of array is not 1 or 2.</span>
+<span class="sd">        MissingOptionalLibraryError: If ``source`` is ``False`` and ``IPython.display.Latex`` cannot be</span>
+<span class="sd">                     imported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>  <span class="c1"># Test first element contains numerical data</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Test first element contains numerical data</span>
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;array_to_latex can only convert numpy arrays containing numerical data,</span>
-<span class="s2">        or types that can be converted to such arrays&quot;&quot;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;array_to_latex can only convert numpy arrays containing numerical data,</span>
+<span class="sd">        or types that can be converted to such arrays&quot;&quot;&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
 
     <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
@@ -563,8 +567,11 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Latex</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;. Try `pip install ipython` (If you just want the LaTeX&quot;</span>
-                                         <span class="s2">&quot; source string, set `source=True`).&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;IPython&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;array_to_latex&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install ipython&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
         <span class="k">return</span> <span class="n">Latex</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;$$</span><span class="si">{</span><span class="n">outstr</span><span class="si">}</span><span class="s2">$$&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">outstr</span></div>
@@ -585,7 +592,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Mis à jour le 2021/07/12.
+      Mis à jour le 2021/07/27.
 
     </p>
   </div>
@@ -620,7 +627,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

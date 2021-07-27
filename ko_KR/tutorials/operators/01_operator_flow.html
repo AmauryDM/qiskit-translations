@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>연산자 플로우 (Operator Flow) &mdash; Qiskit 0.27.0 문서</title>
+  <title>연산자 플로우 (Operator Flow) &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -224,7 +224,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -577,10 +577,10 @@ div.rendered_html tbody tr:hover {
 <section id="소개">
 <h2>소개<a class="headerlink" href="#소개" title="제목 주소">¶</a></h2>
 <p>Qiskit은 상태와 연산자와 그들의 합, 텐서 곱, 그리고 그들의 합성을 나타내는 클래스들을 제공한다. 이런 대수적 구조들은 연산자들을 나타내는 표현을 빌드할 수 있도록 해 준다.</p>
-<p>파울리 연산자(Pauli operators)로부터 빌드되는 표현을 소개한다. 후속 절에서는 연산자와 상태, 그들이 어떻게 표현되는지, 그리고 그들로 무엇을 할 수 있는지 더 상세하게 알아본다. 마지막 절에서는 해밀토니안을 따라 변화(time-evolution)하는 상태를 구성하고, 관측가능량(observable)의 기댓값을 계산할 것이다.</p>
-<section id="파울리-연산자,-합계,-컴포지션-및-텐서-곱">
-<h3>파울리 연산자, 합계, 컴포지션 및 텐서 곱<a class="headerlink" href="#파울리-연산자,-합계,-컴포지션-및-텐서-곱" title="제목 주소">¶</a></h3>
-<p>가장 중요한 기반 연산자는 파울리 연산자이다. 파울리 연산자는 다음과 같이 표현된다.</p>
+<p>Pauli 연산자(Pauli operators)로부터 빌드되는 표현을 소개한다. 후속 절에서는 연산자와 상태, 그들이 어떻게 표현되는지, 그리고 그들로 무엇을 할 수 있는지 더 상세하게 알아본다. 마지막 절에서는 해밀토니안을 따라 변화(time-evolution)하는 상태를 구성하고, 관측가능량(observable)의 기댓값을 계산할 것이다.</p>
+<section id="Pauli-연산자,-합계,-합성-및-텐서-곱">
+<h3>Pauli 연산자, 합계, 합성 및 텐서 곱<a class="headerlink" href="#Pauli-연산자,-합계,-합성-및-텐서-곱" title="제목 주소">¶</a></h3>
+<p>가장 중요한 기반 연산자는 Pauli 연산자이다. Pauli 연산자는 다음과 같이 표현된다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -674,7 +674,7 @@ XYZ
 iI
 </pre></div></div>
 </div>
-<p>앞의 두 예에서, 파울리 연산자들의 텐서 곱과 합성은 즉각 동등한 (다수의 큐비트일 가능성이 있는) 파울리 연산자로 줄여 표현되었다. 텐서 곱과 합성이 포함된 더 복잡한 객체의 경우, 결과는 평가 전의 연산들(unevaluated operations)을 나타내는 객체가 된다. 즉, 대수적 표현으로 나타난다.</p>
+<p>앞의 두 예에서, Pauli 연산자들의 텐서 곱과 합성은 즉각 동등한 (다수의 큐비트일 가능성이 있는) Pauli 연산자로 줄여 표현되었다. 텐서 곱과 합성이 포함된 더 복잡한 객체의 경우, 결과는 평가 전의 연산들(unevaluated operations)을 나타내는 객체가 된다. 즉, 대수적 표현으로 나타난다.</p>
 <p>예를 들어, 두 합의 합성은 다음을 주고</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -717,7 +717,7 @@ iI
 + 1.0 * YZ
 </pre></div></div>
 </div>
-<p>위에 소개된 유형을 자세히 살펴보자. 먼저, 파울리 연산자들이 있다.</p>
+<p>위에 소개된 유형을 자세히 살펴보자. 먼저, Pauli 연산자들이 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -736,7 +736,7 @@ iI
 (PauliOp(Pauli(&#39;I&#39;), coeff=1.0), PauliOp(Pauli(&#39;X&#39;), coeff=1.0))
 </pre></div></div>
 </div>
-<p>각 파울리 연산자는 <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code> 인스턴스로써 <code class="docutils literal notranslate"><span class="pre">qiskit.quantum_info.Pauli</span></code> 인스턴스를 래핑하고, 계수 <code class="docutils literal notranslate"><span class="pre">coeff</span></code> 를 갖는다. 일반적으로 <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code> 는 파울리 연산자의 가중 탠서 곱을 나타낸다.</p>
+<p>각 Pauli 연산자는 <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code> 인스턴스로써 <code class="docutils literal notranslate"><span class="pre">qiskit.quantum_info.Pauli</span></code> 인스턴스를 래핑하고, 계수 <code class="docutils literal notranslate"><span class="pre">coeff</span></code> 를 갖는다. 일반적으로 <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code> 는 Pauli 연산자의 가중 텐서 곱을 나타낸다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -755,7 +755,7 @@ iI
 PauliOp(Pauli(&#39;XYZ&#39;), coeff=2.0)
 </pre></div></div>
 </div>
-<p>파울리 연산자를 불리언 값 쌍으로 인코딩하려면 <code class="docutils literal notranslate"><span class="pre">qiskit.quantum_info.Pauli</span></code> 문서를 참조하라.</p>
+<p>Pauli 연산자를 불리언 값 쌍으로 인코딩하려면 <code class="docutils literal notranslate"><span class="pre">qiskit.quantum_info.Pauli</span></code> 문서를 참조하라.</p>
 <p><code class="docutils literal notranslate"><span class="pre">PauliOp</span></code> 의 “primitive”든 대수적 표현이든, 연산자를 나타내는 모든 객체들은 계수를 가진다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -782,7 +782,7 @@ PauliOp(Pauli(&#39;XYZ&#39;), coeff=2.0)
 </section>
 <section id="파트-I:-상태-함수-및-측정">
 <h2>파트 I: 상태 함수 및 측정<a class="headerlink" href="#파트-I:-상태-함수-및-측정" title="제목 주소">¶</a></h2>
-<p>양자 상태는 <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 클래스의 하위 클래스로 표현될 수 있다. 양자 상태를 표현하는 4개의 하위 클래스는 다음과 같다: <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> 은 <code class="docutils literal notranslate"><span class="pre">dict</span></code> 를 기반으로 한 계산 기저의 희소 표현이다. <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code> 은 numpy array를 기반으로 한 계산 기저의 밀집 표현이다. <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 은 회로를 기반으로, 계산 기저가 전부 0인 상태를 회로에 수행시켜 얻은 상태를 나타낸다. <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 밀도 행렬로 표현한 섞인 상태를 나타낸다. (나중에 확인하겠지만, <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 관측량을 나타낼 때도 사용된다.)</p>
+<p>양자 상태는 <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 클래스의 하위 클래스로 표현될 수 있다. 양자 상태를 표현하는 4개의 하위 클래스는 다음과 같다: <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> 은 <code class="docutils literal notranslate"><span class="pre">dict</span></code> 를 기반으로 한 계산 기저의 희소 표현이다. <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code> 은 NumPy array를 기반으로 한 계산 기저의 밀집 표현이다. <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 은 회로를 기반으로, 계산 기저가 전부 0인 상태를 회로에 수행시켜 얻은 상태를 나타낸다. <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 밀도 행렬로 표현한 섞인 상태를 나타낸다. (나중에 확인하겠지만, <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 관측량을 나타낼 때도 사용된다.)</p>
 <p>몇 개의 <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 인스턴스가 편의를 위해 제공된다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">Zero,</span> <span class="pre">One,</span> <span class="pre">Plus,</span> <span class="pre">Minus</span></code> 이다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
@@ -884,7 +884,7 @@ q_0: ┤ X ├┤ H ├
 DictStateFn({&#39;1&#39;: 1}, coeff=1.0, is_measurement=True)
 </pre></div></div>
 </div>
-<p>편의상, 이와 같이 틸데 (tilde) 를 이용하여 쌍대 벡터를 얻을 수 있다.</p>
+<p>편의상, 이와 같이 틸데(tilde)를 이용하여 쌍대 벡터를 얻을 수 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
@@ -905,7 +905,7 @@ DictStateFn({&#39;1&#39;: 1}, coeff=1.0, is_measurement=True)
 </div>
 <section id="대수적-연산자들과-술어">
 <h3>대수적 연산자들과 술어<a class="headerlink" href="#대수적-연산자들과-술어" title="제목 주소">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 간에 다양한 대수적 연산자들과 술어들이 지원된다. * <code class="docutils literal notranslate"><span class="pre">+</span></code> - 덧셈 * <code class="docutils literal notranslate"><span class="pre">-</span></code> - 뺄셈, 부정 (스칼라 -1 곱) * <code class="docutils literal notranslate"><span class="pre">*</span></code> - 스칼라 곱 * <code class="docutils literal notranslate"><span class="pre">/</span></code> - 스칼라 나누기 * <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> 합성 연산 * <code class="docutils literal notranslate"><span class="pre">^</span></code> - 텐서 곱 또는 텐서 지수 (텐서의 n 제곱) * <code class="docutils literal notranslate"><span class="pre">**</span></code> - 합성 지수 (합성 연산 후 n 제곱) * <code class="docutils literal notranslate"><span class="pre">==</span></code> - 동등 * <code class="docutils literal notranslate"><span class="pre">~</span></code> - (상태 함수와 측정을 서로 바꾸는) 수반이 포함된다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 간에 다양한 대수적 연산자들과 술어들이 지원된다. * <code class="docutils literal notranslate"><span class="pre">+</span></code> - 덧셈 * <code class="docutils literal notranslate"><span class="pre">-</span></code> - 뺄셈, 부정 (스칼라 -1 곱) * <code class="docutils literal notranslate"><span class="pre">*</span></code> - 스칼라 곱 * <code class="docutils literal notranslate"><span class="pre">/</span></code> - 스칼라 나누기 * <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> 합성 연산 * <code class="docutils literal notranslate"><span class="pre">^</span></code> - 텐서 곱 또는 텐서 지수 (텐서의 n 제곱) * <code class="docutils literal notranslate"><span class="pre">**</span></code> - 합성 지수 (합성 연산 후 n제곱) * <code class="docutils literal notranslate"><span class="pre">==</span></code> - 동등 * <code class="docutils literal notranslate"><span class="pre">~</span></code> - (상태 함수와 측정을 서로 바꾸는) 수반이 포함된다.</p>
 <p><strong>연산자 우선순위</strong> 를 오버라이드 하기 위해 종종 괄호가 필요하다는 걸 알아두자.</p>
 <p><code class="docutils literal notranslate"><span class="pre">StateFn</span></code>들은 계수를 지니고 있다. 이는 스칼라 곱과 합계를 만들 수 있게 해준다.</p>
 <p>여기서는 <span class="math notranslate nohighlight">\((2 + 3i)|0\rangle\)</span> 을 구성한다.</p>
@@ -1267,8 +1267,8 @@ q_1: ┤ RY(θ[1]) ├┤ X ├┤ RY(θ[3]) ├┤ X ├┤ RY(θ[5]) ├┤ X 
 </div>
 </section>
 </section>
-<section id="파트-II:-PrimitiveOps">
-<h2>파트 II: <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code>s<a class="headerlink" href="#파트-II:-PrimitiveOps" title="제목 주소">¶</a></h2>
+<section id="파트-II:-PrimitiveOp들">
+<h2>파트 II: <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code>들<a class="headerlink" href="#파트-II:-PrimitiveOp들" title="제목 주소">¶</a></h2>
 <p>기본 연산자들은 <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> 의 하위 클래스이다. <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 과 마찬가지로 <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> 는 주어진 원시 자료형에 올바른 자료형을 생성하기 위한 팩토리이기도 하다. 지금은 다음의 원시 자료형들이 생성자를 통해 <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> 의 하위 클래스로서 만들어 질 수 있다.</p>
 <ul class="simple">
 <li><p>Terra’s Pauli -&gt; PauliOp</p></li>
@@ -1628,17 +1628,15 @@ ListOp([
 </section>
 <section id="ListOp의-종류:-SummedOp,-ComposedOp,-TensoredOp">
 <h3><code class="docutils literal notranslate"><span class="pre">ListOp</span></code>의 종류: <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code>, <code class="docutils literal notranslate"><span class="pre">ComposedOp</span></code>, <code class="docutils literal notranslate"><span class="pre">TensoredOp</span></code><a class="headerlink" href="#ListOp의-종류:-SummedOp,-ComposedOp,-TensoredOp" title="제목 주소">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">ListOp</span></code>, introduced above, is useful for vectorizing operations. But, it also serves as the superclass for list-like composite classes. If you’ve already played around with the above, you’ll notice that you can easily perform operations between <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>s which we may not know how to perform efficiently in general (or simply haven’t implemented an efficient procedure for yet), such as addition between <code class="docutils literal notranslate"><span class="pre">CircuitOp</span></code>s. In those cases, you may receive a <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> result (or subclass
-thereof) from your operation representing the lazy execution of the operation. For example, if you attempt to add together a <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> and a <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>, you’ll receive a <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> representing the sum of the two. This composite State function still has a working <code class="docutils literal notranslate"><span class="pre">eval</span></code> (but may need to perform a non-scalable computation under the hood, such as converting both to vectors).</p>
-<p>These composite <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>s are how we construct increasingly complex and rich computation out of <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> and <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> building blocks.</p>
-<p>Every <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> has four properties: * <code class="docutils literal notranslate"><span class="pre">oplist</span></code> - The list of <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>s which may represent terms, factors, etc. * <code class="docutils literal notranslate"><span class="pre">combo_fn</span></code> - The function taking a list of complex numbers to an output value which defines how to combine the outputs of the <code class="docutils literal notranslate"><span class="pre">oplist</span></code> items. For broadcasting simplicity, this function is defined over NumPy arrays. * <code class="docutils literal notranslate"><span class="pre">coeff</span></code> - A coefficient multiplying the primitive. Note that <code class="docutils literal notranslate"><span class="pre">coeff</span></code> can be int, float, complex or a free <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> object (from
-<code class="docutils literal notranslate"><span class="pre">qiskit.circuit</span></code> in Terra) to be bound later using <code class="docutils literal notranslate"><span class="pre">my_op.bind_parameters</span></code>. * <code class="docutils literal notranslate"><span class="pre">abelian</span></code> - Indicates whether the Operators in <code class="docutils literal notranslate"><span class="pre">oplist</span></code> are known to mutually commute (usually set after being converted by the <code class="docutils literal notranslate"><span class="pre">AbelianGrouper</span></code> converter).</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> supports typical iteration overloads, so you can use indexing like <code class="docutils literal notranslate"><span class="pre">my_op[4]</span></code> to access the <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>s in <code class="docutils literal notranslate"><span class="pre">oplist</span></code>.</p>
+<p>위에 소개된 <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> 는 벡터화 연산에 유용하다. 게다가 리스트와 유사한 복합 클래스들의 상위 클래스 역할도 할 수 있다. 이미 상기의 내용을 다뤄봤을 경우, <code class="docutils literal notranslate"><span class="pre">CircuitOp</span></code>들 간의 덧셈과 같이, <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>들 간에 연산이 (일반적으로 어떻게 효율적인 연산을 할 수 있을진 모르더라도, 혹은 간단하게 말해서 효율적인 절차가 구현되지 않았더라도) 잘 되리란 것을 알 수 있을 것이다. 이러한 경우, 지연 실행을 나타내는 연산으로부터 <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> (또는 자식 클래스)의 결과를 받을 수 있다. 예를 들어 <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> 와 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 을 더하면 두 대상의 합을 나타내는 <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> 을 받을 것이다. 이 합성 상태 함수는 여전히 <code class="docutils literal notranslate"><span class="pre">eval</span></code> 과 동작한다 (그러나 두 대상을 벡터로 변환하는것과 같이 우리가 직접 알 필요까지는 없는 확장 불가능한 계산을 수행할 필요가 있을 수 있다).</p>
+<p>이렇게 합성된 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>들은 더 복잡하고 풍부한 계산을 할 때 <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> 와 <code class="docutils literal notranslate"><span class="pre">StateFn</span></code> 빌딩 블록에서 벗어날 수 있게 한다.</p>
+<p>모든 <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> 는 4개의 속성을 갖고 있다: * <code class="docutils literal notranslate"><span class="pre">oplist</span></code> - 항과 인수 등을 나타내는 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>들의 목록. * <code class="docutils literal notranslate"><span class="pre">combo_fn</span></code> - 복소수 목록을 받아 <code class="docutils literal notranslate"><span class="pre">oplist</span></code> 항목에 병합될 수 있도록 정의하는 출력값을 주는 함수. 브로드캐스팅을 단순하게 하고자 이 함수는 NumPy array 위에 정의되어 있다. * <code class="docutils literal notranslate"><span class="pre">coeff</span></code> - 원시 자료형에 곱하는 계수. <code class="docutils literal notranslate"><span class="pre">coeff</span></code> 는 정수, 부동소수점으로 표현된 수, 복소수, 또 이후에 <code class="docutils literal notranslate"><span class="pre">my_op.bind_parameters</span></code> 를 이용하여 제한할 수 있는 자유로운 <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> 객체 (Terra의 <code class="docutils literal notranslate"><span class="pre">qiskit.circuit</span></code> 에서 온)가 될 수 있다. * <code class="docutils literal notranslate"><span class="pre">abelian</span></code> - <code class="docutils literal notranslate"><span class="pre">oplist</span></code> 에 있는 연산자들이 서로 교환 가능한지를 나타낸다 (대개 <code class="docutils literal notranslate"><span class="pre">AbelianGrouper</span></code> 변환기를 통해 변환된 후 정해진다).</p>
+<p><code class="docutils literal notranslate"><span class="pre">ListOp</span></code> 는 일반적인 이터레이션 오버로드를 지원하므로, <code class="docutils literal notranslate"><span class="pre">oplist</span></code> 에 있는 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>들에 접근할 때 <code class="docutils literal notranslate"><span class="pre">my_op[4]</span></code> 와 같은 인덱싱을 사용할 수 있다.</p>
 </section>
 <section id="OperatorStateFn">
 <h3><code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code><a class="headerlink" href="#OperatorStateFn" title="제목 주소">¶</a></h3>
-<p>We mentioned above that <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> represents a density operator. But, if the <code class="docutils literal notranslate"><span class="pre">is_measurement</span></code> flag is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> represents an observable. The expectation value of this observable can then be constructed via <code class="docutils literal notranslate"><span class="pre">ComposedOp</span></code>. Or, directly, using <code class="docutils literal notranslate"><span class="pre">eval</span></code>. Recall that the <code class="docutils literal notranslate"><span class="pre">is_measurement</span></code> flag (property) is set via the <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> method.</p>
-<p>Here we construct the observable corresponding to the Pauli <span class="math notranslate nohighlight">\(Z\)</span> operator. Note that when printing, it is called <code class="docutils literal notranslate"><span class="pre">OperatorMeasurement</span></code>.</p>
+<p>위에서 <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 밀도 연산자를 나타낸다고 했다. 그러나 <code class="docutils literal notranslate"><span class="pre">is_measurement</span></code> 플래그가 <code class="docutils literal notranslate"><span class="pre">True</span></code> 일 경우, <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code> 은 관측가능량을 나타낸다. 이 관측가능량의 기댓값은 <code class="docutils literal notranslate"><span class="pre">ComposedOp</span></code> 를 통해 만들 수 있다. 또는 <code class="docutils literal notranslate"><span class="pre">eval</span></code> 을 직접 이용할 수도 있다. <code class="docutils literal notranslate"><span class="pre">is_measurement</span></code> 플래그(특성)는 <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> 매서드로 설정된다는 것을 기억하라.</p>
+<p>여기서는 Pauli <span class="math notranslate nohighlight">\(Z\)</span> 연산자에 해당하는 관측가능량을 구성한다. 프린트를 할 때는 <code class="docutils literal notranslate"><span class="pre">OperatorMeasurement</span></code> 로 불리는 것을 주의하라.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
@@ -1666,7 +1664,7 @@ OperatorMeasurement(Z)
 OperatorStateFn(PauliOp(Pauli(&#39;Z&#39;), coeff=1.0), coeff=1.0, is_measurement=True)
 </pre></div></div>
 </div>
-<p>Here, we compute <span class="math notranslate nohighlight">\(\langle 0 | Z | 0 \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle 1 | Z | 1 \rangle\)</span>, and <span class="math notranslate nohighlight">\(\langle + | Z | + \rangle\)</span>, where <span class="math notranslate nohighlight">\(|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}\)</span>.</p>
+<p>이번에는 <span class="math notranslate nohighlight">\(\langle 0 | Z | 0 \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle 1 | Z | 1 \rangle\)</span>, 그리고 <span class="math notranslate nohighlight">\(\langle + | Z | + \rangle\)</span> 를 계산할 것이다. 이 때 <span class="math notranslate nohighlight">\(|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}\)</span> 이다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
@@ -1690,9 +1688,9 @@ OperatorStateFn(PauliOp(Pauli(&#39;Z&#39;), coeff=1.0), coeff=1.0, is_measuremen
 </div>
 </section>
 </section>
-<section id="Part-IV:-Converters">
-<h2>Part IV: Converters<a class="headerlink" href="#Part-IV:-Converters" title="제목 주소">¶</a></h2>
-<p>Converters are classes that manipulate operators and states and perform building blocks of algorithms. Examples include changing the basis of operators and Trotterization. Converters traverse an expression and perform a particular manipulation or replacement, defined by the converter’s <code class="docutils literal notranslate"><span class="pre">convert()</span></code> method, of the Operators within. Typically, if a converter encounters an <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> in the recursion which is irrelevant to its conversion purpose, that <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> is left unchanged.</p>
+<section id="파트-IV:-변환기-(Converters)">
+<h2>파트 IV: 변환기 (Converters)<a class="headerlink" href="#파트-IV:-변환기-(Converters)" title="제목 주소">¶</a></h2>
+<p>변환기는 연산자 및 상태들을 조작하고 알고리즘의 빌딩 블록을 수행하는 클래스이다. 예로는 연산자나 트로터리제이션(Trotterization)의 기저를 변경하는 것이 있다. 변환기는 표현식을 순회하고 변환기의 <code class="docutils literal notranslate"><span class="pre">convert()</span></code> 메서드로 정의된 특정 조작 또는 대체를 수행한다. 일반적으로 변환기가가 변환 목적이 아닌 재귀에서 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> 를 만나면 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> 는 변하지 않고 남는다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
@@ -1705,14 +1703,13 @@ OperatorStateFn(PauliOp(Pauli(&#39;Z&#39;), coeff=1.0), coeff=1.0, is_measuremen
 </pre></div>
 </div>
 </div>
-<section id="Evolutions,-exp_i(),-and-the-EvolvedOp">
-<h3>Evolutions, <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code>, and the <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code><a class="headerlink" href="#Evolutions,-exp_i(),-and-the-EvolvedOp" title="제목 주소">¶</a></h3>
-<p>Every <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> and <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> has an <code class="docutils literal notranslate"><span class="pre">.exp_i()</span></code> function such that <code class="docutils literal notranslate"><span class="pre">H.exp_i()</span></code> corresponds to <span class="math notranslate nohighlight">\(e^{-iH}\)</span>. In practice, only a few of these Operators have an efficiently computable exponentiation (such as MatrixOp and the PauliOps with only one non-identity single-qubit Pauli), so we need to return a placeholder, or symbolic representation, (similar to how <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> is a placeholder when we can’t perform addition). This placeholder is called <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code>, and it holds the
-<code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> to be exponentiated in its <code class="docutils literal notranslate"><span class="pre">.primitive</span></code> property.</p>
-<p>Qiskit operators fully support parameterization, so we can use a <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> for our evolution time here. Notice that there’s no “evolution time” argument in any function. The Operator flow exponentiates whatever operator we tell it to, and if we choose to multiply the operator by an evolution time, <span class="math notranslate nohighlight">\(e^{-iHt}\)</span>, that will be reflected in our exponentiation parameters.</p>
-<section id="Weighted-sum-of-Pauli-operators">
-<h4>Weighted sum of Pauli operators<a class="headerlink" href="#Weighted-sum-of-Pauli-operators" title="제목 주소">¶</a></h4>
-<p>A Hamiltonian expressed as a linear combination of multi-qubit Pauli operators may be constructed like this.</p>
+<section id="시간-변화,-exp_i(),-그리고-EvolvedOp">
+<h3>시간 변화, <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code>, 그리고 <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code><a class="headerlink" href="#시간-변화,-exp_i(),-그리고-EvolvedOp" title="제목 주소">¶</a></h3>
+<p>모든 <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code> 와 <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> 는 <code class="docutils literal notranslate"><span class="pre">.exp_i()</span></code> 함수를 가지고 있고, 여기서 <code class="docutils literal notranslate"><span class="pre">H.exp_i()</span></code> 는 <span class="math notranslate nohighlight">\(e^{-iH}\)</span> 에 해당한다. 실제로 이런 연산자들 중에서 일부만 효과적으로 계산할 수 있는 지수를 가지기 때문에 (MatrixOp나 단위 행렬이 아닌 단일 큐비트 Pauli를 가진 PauliOp와 같은), 임의의 자리나 심볼릭 표현을 반환할 수 있어야 한다 (<code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> 가 덧셈이 불가능한 경우 임의의 자리로 되는 것과 비슷하게). 이 임의의 자리는 <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code> 라 불리며 <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> 를 <code class="docutils literal notranslate"><span class="pre">.primitive</span></code> 속성이 지수가 되도록 가지고 있다.</p>
+<p>Qiskit 연산자는 완전한 매개변수화를 지원하므로 여기서는 시간 변화에 <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> 를 사용할 수 있다. 함수에 “evolution time” 인자가 없다는 것에 주목하자. 연산자 플로우는 어떤 연산자를 말하건 지수화를 하며, 시간 변화 <span class="math notranslate nohighlight">\(e^{-iHt}\)</span> 를 곱할 연산자를 선택하면 그것은 지수 매개변수에 반영될 것이다.</p>
+<section id="Pauli-연산자의-가중합">
+<h4>Pauli 연산자의 가중합<a class="headerlink" href="#Pauli-연산자의-가중합" title="제목 주소">¶</a></h4>
+<p>멀티 큐비트 Pauli 연산자들의 선형 결합으로 표현되는 해밀토니안은 이와 같이 구성될 수 있다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
@@ -1726,7 +1723,7 @@ OperatorStateFn(PauliOp(Pauli(&#39;Z&#39;), coeff=1.0), coeff=1.0, is_measuremen
 </pre></div>
 </div>
 </div>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">two_qubit_H2</span></code> is represented as a <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> whose terms are <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code>s.</p>
+<p><code class="docutils literal notranslate"><span class="pre">two_qubit_H2</span></code> 는 <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code>들의 항을 갖는 <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> 로 표현된다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
@@ -1748,7 +1745,7 @@ OperatorStateFn(PauliOp(Pauli(&#39;Z&#39;), coeff=1.0), coeff=1.0, is_measuremen
 + 0.18093119 * XX
 </pre></div></div>
 </div>
-<p>Next, we multiply the Hamiltonian by a <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>. This <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> is stored in the <code class="docutils literal notranslate"><span class="pre">coeff</span></code> property of the <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code>. Calling <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code> on the result wraps it in <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code>, representing exponentiation.</p>
+<p>다음에는 해밀토니안에 <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> 를 곱할 것이다. 이 <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> 는 <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> 의 <code class="docutils literal notranslate"><span class="pre">coeff</span></code> 속성에 저장되어 있다. <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code> 를 결과에 호출하면 그것을 지수 표현인 <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code> 에 감싼다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
@@ -1782,7 +1779,7 @@ EvolvedOp(PauliSumOp(SparsePauliOp([[False, False, False, False],
   0.18093119+0.j]), coeff=1.0*θ), coeff=1.0)
 </pre></div></div>
 </div>
-<p>We construct <code class="docutils literal notranslate"><span class="pre">h2_measurement</span></code>, which represents <code class="docutils literal notranslate"><span class="pre">two_qubit_H2</span></code> as an observable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">two_qubit_H2</span></code> 를 관측가능량으로 나타내는 <code class="docutils literal notranslate"><span class="pre">h2_measurement</span></code> 를 구성할 것이다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
@@ -1805,7 +1802,7 @@ OperatorMeasurement(-1.0523732 * II
 + 0.18093119 * XX)
 </pre></div></div>
 </div>
-<p>We construct a Bell state <span class="math notranslate nohighlight">\(|\Phi_+\rangle\)</span> via <span class="math notranslate nohighlight">\(\text{CX} (H\otimes I) |00\rangle\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\text{CX} (H\otimes I) |00\rangle\)</span> 를 통해 Bell 상태 <span class="math notranslate nohighlight">\(|\Phi_+\rangle\)</span> 를 구축한다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
@@ -1830,7 +1827,7 @@ q_1: ─────┤ X ├
 )
 </pre></div></div>
 </div>
-<p>Here is the expression <span class="math notranslate nohighlight">\(H e^{-iHt} |\Phi_+\rangle\)</span>.</p>
+<p>여기서는 <span class="math notranslate nohighlight">\(H e^{-iHt} |\Phi_+\rangle\)</span> 표현이 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
@@ -1869,7 +1866,7 @@ ComposedOp([
 ])
 </pre></div></div>
 </div>
-<p>Typically, we want to approximate <span class="math notranslate nohighlight">\(e^{-iHt}\)</span> using two-qubit gates. We achieve this with the <code class="docutils literal notranslate"><span class="pre">convert</span></code> method of <code class="docutils literal notranslate"><span class="pre">PauliTrotterEvolution</span></code>, which traverses expressions applying trotterization to all <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code>s encountered. Although we use <code class="docutils literal notranslate"><span class="pre">PauliTrotterEvolution</span></code> here, there are other possibilities, such as <code class="docutils literal notranslate"><span class="pre">MatrixEvolution</span></code>, which performs the exponentiation exactly.</p>
+<p>대체로 <span class="math notranslate nohighlight">\(e^{-iHt}\)</span> 에 트로터리제이션을 적용하는 <code class="docutils literal notranslate"><span class="pre">PauliTrotterEvolution</span></code> 의 <code class="docutils literal notranslate"><span class="pre">convert</span></code> 메서드로 얻을 수 있다. 여기서는 <code class="docutils literal notranslate"><span class="pre">PauliTrotterEvolution</span></code> 을 사용했지만, 같은 지수화를 수행하는 <code class="docutils literal notranslate"><span class="pre">MatrixEvolution</span></code> 과 같은 다양한 방법들도 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
@@ -1913,7 +1910,7 @@ ComposedOp([
 ])
 </pre></div></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">trotterized_op</span></code> contains a <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>. The <code class="docutils literal notranslate"><span class="pre">bind_parameters</span></code> method traverses the expression binding values to parameter names as specified via a <code class="docutils literal notranslate"><span class="pre">dict</span></code>. In this case, there is only one parameter.</p>
+<p><code class="docutils literal notranslate"><span class="pre">trotterized_op</span></code> 는 <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> 를 포함하고 있다. <code class="docutils literal notranslate"><span class="pre">bind_parameters</span></code> 메서드는 표현을 오가며 <code class="docutils literal notranslate"><span class="pre">dict</span></code> 로 지정된 매개변수 이름과 해당하는 값을 바인딩 한다. 여기서는 파라미터가 1개 뿐인 경우이다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
@@ -1923,7 +1920,7 @@ ComposedOp([
 </pre></div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">bound</span></code> is a <code class="docutils literal notranslate"><span class="pre">ComposedOp</span></code>. The second factor is the circuit. Let’s draw it to verify that the binding has taken place.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bound</span></code> 는 <code class="docutils literal notranslate"><span class="pre">ComposedOp</span></code> 이다. 두 번째 인자는 회로이다. 바인딩이 되었는지 확인하고자 회로를 그려보자.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
@@ -1962,11 +1959,10 @@ q_1: ─────┤ X ├┤ H ├──■───────────
 </div>
 </section>
 </section>
-<section id="Expectations">
-<h3>Expectations<a class="headerlink" href="#Expectations" title="제목 주소">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">Expectation</span></code>s are converters that enable the computation of expectation values of observables. They traverse an Operator tree, replacing <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code>s (observables) with equivalent instructions which are more amenable to computation on quantum or classical hardware. For example, if we want to measure the expectation value of an Operator <code class="docutils literal notranslate"><span class="pre">o</span></code> expressed as a sum of Paulis with respect to some state function, but can only access diagonal measurements on quantum hardware, we can
-create an observable <code class="docutils literal notranslate"><span class="pre">~StateFn(o)</span></code> and use a <code class="docutils literal notranslate"><span class="pre">PauliExpectation</span></code> to convert it to a diagonal measurement and circuit pre-rotations to append to the state.</p>
-<p>Another interesting <code class="docutils literal notranslate"><span class="pre">Expectation</span></code> is the <code class="docutils literal notranslate"><span class="pre">AerPauliExpectation</span></code>, which converts the observable into a <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> containing a special expectation snapshot instruction which <code class="docutils literal notranslate"><span class="pre">Aer</span></code> can execute natively with high performance.</p>
+<section id="기댓값">
+<h3>기댓값<a class="headerlink" href="#기댓값" title="제목 주소">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Expectation</span></code>들은 관측가능량들의 기댓값을 계산할 수 있는 변환기이다. 이들은 연산자 트리를 오가며 <code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code>들(관측가능량)을 양자 혹은 고전 하드웨어에서의 계산에 적합하도록 동등한 명령어로 대체한다. 예를 들어서, 어떤 상태 함수에 대한 Pauli 연산자들의 합으로 표현된 연산자 <code class="docutils literal notranslate"><span class="pre">o</span></code> 의 기댓값을 측정하고 싶다면, 양자 하드웨어에서는 오직 대각 성분 측정에만 접근할 수 있으므로, 관측가능량 <code class="docutils literal notranslate"><span class="pre">~StateFn(o)</span></code> 을 생성하고 <code class="docutils literal notranslate"><span class="pre">PauliExpectation</span></code> 을 사용하여 그것을 대각 성분 측정으로 변환하고 회전 전 회로를 상태에 추가할 수 있다.</p>
+<p>다른 흥미로운 <code class="docutils literal notranslate"><span class="pre">Expectation</span></code> 은 <code class="docutils literal notranslate"><span class="pre">AerPauliExpectation</span></code> 으로, 관측가능량을 <code class="docutils literal notranslate"><span class="pre">Aer</span></code> 이 고성능으로 처리할 수 있는 특별한 기댓값 스냅샷을 가진 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 으로 변환한다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
@@ -2010,7 +2006,7 @@ SummedOp([
 ])
 </pre></div></div>
 </div>
-<p>By default <code class="docutils literal notranslate"><span class="pre">group_paulis=True</span></code>, which will use the <code class="docutils literal notranslate"><span class="pre">AbelianGrouper</span></code> to convert the <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> into groups of mutually qubit-wise commuting Paulis. This reduces circuit execution overhead, as each group can share the same circuit execution.</p>
+<p>기본값 키워드 <code class="docutils literal notranslate"><span class="pre">group_paulis=True</span></code> 는 <code class="docutils literal notranslate"><span class="pre">AbelianGrouper</span></code> 를 사용하여 <code class="docutils literal notranslate"><span class="pre">SummedOp</span></code> 를 큐비트 단위로 상호 교환 가능한 Pauli 연산자의 모음으로 변환한다. 각각의 모음이 동일한 회로 실행을 공유하므로, 이를 통해 전반적인 회로 실행을 줄일 수 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
@@ -2044,7 +2040,7 @@ SummedOp([
 ])
 </pre></div></div>
 </div>
-<p>Note that converters act recursively, that is, they traverse an expression applying their action only where possible. So we can just convert our full evolution and measurement expression. We could have equivalently composed the converted <code class="docutils literal notranslate"><span class="pre">h2_measurement</span></code> with our evolution <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>. We proceed by applying the conversion on the entire expression.</p>
+<p>변환기는 재귀적으로 동작하는데, 그 말은, 표현을 오가면서 오직 동작 가능한 경우에만 적용한다는 말이다. 그러므로 전체 시간 변화(full evolution)와 식 측정을 바로 변환할 수 있다. 변환된 <code class="docutils literal notranslate"><span class="pre">h2_measurement</span></code> 는 시간 변화 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 으로 동등하게 구성될 수 있다. 이는 전체 표현에 변환을 적용하여 진행된다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
@@ -2109,7 +2105,7 @@ SummedOp([
 ])
 </pre></div></div>
 </div>
-<p>Now we bind multiple parameter values into a <code class="docutils literal notranslate"><span class="pre">ListOp</span></code>, followed by <code class="docutils literal notranslate"><span class="pre">eval</span></code> to evaluate the entire expression. We could have used <code class="docutils literal notranslate"><span class="pre">eval</span></code> earlier if we bound earlier, but it would not be efficient. Here, <code class="docutils literal notranslate"><span class="pre">eval</span></code> will convert our <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>s to <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code>s through simulation internally.</p>
+<p>이제 여러 매개변수를 <code class="docutils literal notranslate"><span class="pre">ListOp</span></code> 로 바인드 하고, 이어서 전체 표현을 <code class="docutils literal notranslate"><span class="pre">eval</span></code> 로 구한다. 바인딩이 먼저 되었다면 <code class="docutils literal notranslate"><span class="pre">eval</span></code> 을 먼저 사용할 수도 있지만, 별로 효과적이진 않다. 여기서는 내부 시뮬레이션을 통해 <code class="docutils literal notranslate"><span class="pre">eval</span></code> 이 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>들을 <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code>들로 변환한다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
@@ -2120,7 +2116,7 @@ SummedOp([
 </pre></div>
 </div>
 </div>
-<p>Here are the expectation values <span class="math notranslate nohighlight">\(\langle \Phi_+| e^{iHt} H e^{-iHt} |\Phi_+\rangle\)</span> corresponding to the different values of the parameter.</p>
+<p>여기 다양한 매개변수에 해당하는 기댓값들 <span class="math notranslate nohighlight">\(\langle \Phi_+| e^{iHt} H e^{-iHt} |\Phi_+\rangle\)</span> 이 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
@@ -2142,10 +2138,9 @@ array([-0.88272211+0.0e+00j, -0.88272211+0.0e+00j, -0.88272211+0.0e+00j,
 </pre></div></div>
 </div>
 </section>
-<section id="Executing-CircuitStateFns-with-the-CircuitSampler">
-<h3>Executing <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>s with the <code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code><a class="headerlink" href="#Executing-CircuitStateFns-with-the-CircuitSampler" title="제목 주소">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code> traverses an Operator and converts any <code class="docutils literal notranslate"><span class="pre">CircuitStateFns</span></code> into approximations of the resulting state function by a <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> or <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code> using a quantum backend. Note that in order to approximate the value of the <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>, it must 1) send the state function through a depolarizing channel, which will destroy all phase information and 2) replace the sampled frequencies with <strong>square roots</strong> of the frequency, rather than the raw probability of
-sampling (which would be the equivalent of sampling the <strong>square</strong> of the state function, per the Born rule.)</p>
+<section id="CircuitSampler-로-CircuitStateFn들을-실행하기">
+<h3><code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code> 로 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>들을 실행하기<a class="headerlink" href="#CircuitSampler-로-CircuitStateFn들을-실행하기" title="제목 주소">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code> 는 연산자를 오가며, 양자 백엔드를 사용하는 <code class="docutils literal notranslate"><span class="pre">DictStateFn</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code> 으로 <code class="docutils literal notranslate"><span class="pre">CircuitStateFns</span></code> 를 결과 상태 함수의 근사치로 변환한다. <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code> 의 값을 근사하려면, 1) 상태 함수를 모든 위상 정보를 파기하는 편광소멸 채널을 통해 보내야 하며, 2) 샘플 주파수들을 샘플링의 원래 확률(Born 규칙을 따라 상태 함수의 <strong>제곱</strong> 을 샘플링하는 것과 동등한) 이 아닌 주파수의 <strong>제곱근</strong> 으로 대체해야 한다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
@@ -2169,7 +2164,7 @@ Sampled Trotterized energies:
  -0.88272211 -0.88272211]
 </pre></div></div>
 </div>
-<p>Note again that the circuits are replaced by dicts with <strong>square roots</strong> of the circuit sampling probabilities. Take a look at one sub-expression before and after the conversion:</p>
+<p>회로들이 회로 샘플링 확률들의 <strong>제곱근</strong> 을 갖는 사전형(dicts)으로 대체된다는 것에 유의하라. 변환 전후의 이 하위 표현식을 참고하라.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
@@ -2259,7 +2254,7 @@ ComposedOp([
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -2280,14 +2275,14 @@ ComposedOp([
               <ul>
 <li><a class="reference internal" href="#">연산자 플로우 (Operator Flow)</a><ul>
 <li><a class="reference internal" href="#소개">소개</a><ul>
-<li><a class="reference internal" href="#파울리-연산자,-합계,-컴포지션-및-텐서-곱">파울리 연산자, 합계, 컴포지션 및 텐서 곱</a></li>
+<li><a class="reference internal" href="#Pauli-연산자,-합계,-합성-및-텐서-곱">Pauli 연산자, 합계, 합성 및 텐서 곱</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#파트-I:-상태-함수-및-측정">파트 I: 상태 함수 및 측정</a><ul>
 <li><a class="reference internal" href="#대수적-연산자들과-술어">대수적 연산자들과 술어</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#파트-II:-PrimitiveOps">파트 II: <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code>s</a><ul>
+<li><a class="reference internal" href="#파트-II:-PrimitiveOp들">파트 II: <code class="docutils literal notranslate"><span class="pre">PrimitiveOp</span></code>들</a><ul>
 <li><a class="reference internal" href="#행렬-원소">행렬 원소</a></li>
 <li><a class="reference internal" href="#상태-벡터에-연산자-적용하기">상태 벡터에 연산자 적용하기</a></li>
 </ul>
@@ -2298,13 +2293,13 @@ ComposedOp([
 <li><a class="reference internal" href="#OperatorStateFn"><code class="docutils literal notranslate"><span class="pre">OperatorStateFn</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Part-IV:-Converters">Part IV: Converters</a><ul>
-<li><a class="reference internal" href="#Evolutions,-exp_i(),-and-the-EvolvedOp">Evolutions, <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code>, and the <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code></a><ul>
-<li><a class="reference internal" href="#Weighted-sum-of-Pauli-operators">Weighted sum of Pauli operators</a></li>
+<li><a class="reference internal" href="#파트-IV:-변환기-(Converters)">파트 IV: 변환기 (Converters)</a><ul>
+<li><a class="reference internal" href="#시간-변화,-exp_i(),-그리고-EvolvedOp">시간 변화, <code class="docutils literal notranslate"><span class="pre">exp_i()</span></code>, 그리고 <code class="docutils literal notranslate"><span class="pre">EvolvedOp</span></code></a><ul>
+<li><a class="reference internal" href="#Pauli-연산자의-가중합">Pauli 연산자의 가중합</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#Expectations">Expectations</a></li>
-<li><a class="reference internal" href="#Executing-CircuitStateFns-with-the-CircuitSampler">Executing <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>s with the <code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code></a></li>
+<li><a class="reference internal" href="#기댓값">기댓값</a></li>
+<li><a class="reference internal" href="#CircuitSampler-로-CircuitStateFn들을-실행하기"><code class="docutils literal notranslate"><span class="pre">CircuitSampler</span></code> 로 <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>들을 실행하기</a></li>
 </ul>
 </li>
 </ul>
@@ -2327,7 +2322,7 @@ ComposedOp([
          <script src="../../_static/language_data.js"></script>
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

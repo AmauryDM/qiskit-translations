@@ -56,6 +56,7 @@
       ~IntegerComparator.fredkin
       ~IntegerComparator.from_qasm_file
       ~IntegerComparator.from_qasm_str
+      ~IntegerComparator.get_instructions
       ~IntegerComparator.h
       ~IntegerComparator.hamiltonian
       ~IntegerComparator.has_register

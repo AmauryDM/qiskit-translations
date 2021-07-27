@@ -57,5 +57,6 @@
       ~CircuitStateFn.num_qubits
       ~CircuitStateFn.parameters
       ~CircuitStateFn.primitive
+      ~CircuitStateFn.settings
    
    

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.result.distributions.probability &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.result.distributions.probability &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -331,6 +331,7 @@
 <span class="c1"># that they have been altered from the originals.</span>
 <span class="sd">&quot;&quot;&quot;Class for probability distributions.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">re</span>
 
 <span class="c1"># NOTE: A dict subclass should not overload any dunder methods like __getitem__</span>
 <span class="c1"># this can cause unexpected behavior and issues as the cPython dict</span>
@@ -339,25 +340,77 @@
 <span class="c1"># __setitem__ so overloading __setitem__ would not always provide the expected</span>
 <span class="c1"># result</span>
 <div class="viewcode-block" id="ProbDistribution"><a class="viewcode-back" href="../../../../stubs/qiskit.result.ProbDistribution.html#qiskit.result.ProbDistribution">[docs]</a><span class="k">class</span> <span class="nc">ProbDistribution</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A generic dict-like class for probability distributions.</span>
+    <span class="sd">&quot;&quot;&quot;A generic dict-like class for probability distributions.&quot;&quot;&quot;</span>
 
-<span class="sd">    .. warning::</span>
-
-<span class="sd">        This is an unsupported class in the current 0.17.x release series. It</span>
-<span class="sd">        is present for compatibility with the qiskit-ibmq-provider&#39;s beta</span>
-<span class="sd">        qiskit runtime support, but this interface isn&#39;t guaranteed to be</span>
-<span class="sd">        stable when moving to &gt;=0.18.0 and likely will change.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_bitstring_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[01]+$&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ProbDistribution.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.result.ProbDistribution.html#qiskit.result.ProbDistribution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Builds a probability distribution object.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">            data (dict): Input probability data.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): Input probability data. Where the keys</span>
+<span class="sd">                represent a measured classical value and the value is a</span>
+<span class="sd">                float for the probability of that result.</span>
+<span class="sd">                The keys can be one of several formats:</span>
+
+<span class="sd">                    * A hexadecimal string of the form ``&quot;0x4a&quot;``</span>
+<span class="sd">                    * A bit string e.g. ``&#39;0b1011&#39;`` or ``&quot;01011&quot;``</span>
+<span class="sd">                    * An integer</span>
+
 <span class="sd">            shots (int): Number of shots the distribution was derived from.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input keys are not a string or int</span>
+<span class="sd">            ValueError: If the string format of the keys is incorrect</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="n">shots</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">first_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">first_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">):</span>
+                    <span class="n">hex_raw</span> <span class="o">=</span> <span class="n">data</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">hex_raw</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">elif</span> <span class="n">first_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0b&quot;</span><span class="p">):</span>
+                    <span class="n">bin_raw</span> <span class="o">=</span> <span class="n">data</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">bin_raw</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitstring_regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">first_key</span><span class="p">):</span>
+                    <span class="n">bin_raw</span> <span class="o">=</span> <span class="n">data</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;0b&quot;</span> <span class="o">+</span> <span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">bin_raw</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;The input keys are not a valid string format, must either &quot;</span>
+                        <span class="s2">&quot;be a hex string prefixed by &#39;0x&#39; or a binary string &quot;</span>
+                        <span class="s2">&quot;optionally prefixed with 0b&quot;</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input data&#39;s keys are of invalid type, must be str or int&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProbDistribution.binary_probabilities"><a class="viewcode-back" href="../../../../stubs/qiskit.result.ProbDistribution.html#qiskit.result.ProbDistribution.binary_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">binary_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_bits</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build a probabilities dictionary with binary string keys</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            num_bits (int): number of bits in the binary bitstrings (leading</span>
+<span class="sd">                zeros will be padded). If None, the length will be derived</span>
+<span class="sd">                from the largest key present.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary where the keys are binary strings in the format</span>
+<span class="sd">                ``&quot;0110&quot;``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">num_bits</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">num_bits</span>
+        <span class="k">return</span> <span class="p">{</span><span class="nb">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+<div class="viewcode-block" id="ProbDistribution.hex_probabilities"><a class="viewcode-back" href="../../../../stubs/qiskit.result.ProbDistribution.html#qiskit.result.ProbDistribution.hex_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">hex_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build a probabilities dictionary with hexadecimal string keys</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary where the keys are hexadecimal strings in the</span>
+<span class="sd">                format ``&quot;0x1a&quot;``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div></div>
 </pre></div>
 
              </article>
@@ -375,7 +428,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -410,7 +463,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -50,6 +50,7 @@
       ~SparsePauliOp.num_qubits
       ~SparsePauliOp.qargs
       ~SparsePauliOp.rtol
+      ~SparsePauliOp.settings
       ~SparsePauliOp.size
       ~SparsePauliOp.table
    

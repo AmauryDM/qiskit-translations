@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.timeline.interface &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.visualization.timeline.interface &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -226,7 +226,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -344,22 +344,25 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">circuit</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 <span class="kn">from</span> <span class="nn">qiskit.visualization.exceptions</span> <span class="kn">import</span> <span class="n">VisualizationError</span>
 <span class="kn">from</span> <span class="nn">qiskit.visualization.timeline</span> <span class="kn">import</span> <span class="n">types</span><span class="p">,</span> <span class="n">core</span><span class="p">,</span> <span class="n">stylesheet</span>
 
 
-<div class="viewcode-block" id="draw"><a class="viewcode-back" href="../../../../stubs/qiskit.visualization.timeline.draw.html#qiskit.visualization.timeline.draw">[docs]</a><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">program</span><span class="p">:</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span>
-         <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">time_range</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">disable_bits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">Bits</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">show_clbits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">show_idle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">show_barriers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">show_delays</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">show_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-         <span class="n">plotter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Plotter</span><span class="o">.</span><span class="n">MPL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-         <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="draw"><a class="viewcode-back" href="../../../../stubs/qiskit.visualization.timeline.draw.html#qiskit.visualization.timeline.draw">[docs]</a><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span>
+    <span class="n">program</span><span class="p">:</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span>
+    <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_range</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">disable_bits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">Bits</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_clbits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_idle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_barriers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_delays</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plotter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Plotter</span><span class="o">.</span><span class="n">MPL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate visualization data for scheduled circuit programs.</span>
 
 <span class="sd">    Args:</span>
@@ -403,7 +406,7 @@
 <span class="sd">        The returned data is generated by the `.get_image` method of the specified plotter API.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ImportError: When required visualization package is not installed.</span>
+<span class="sd">        MissingOptionalLibraryError: When required visualization package is not installed.</span>
 <span class="sd">        VisualizationError: When invalid plotter API is specified.</span>
 
 <span class="sd">    .. _style-dict-doc:</span>
@@ -669,16 +672,16 @@
 
     <span class="c1"># update control properties</span>
     <span class="k">if</span> <span class="n">show_idle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">temp_style</span><span class="p">[</span><span class="s1">&#39;formatter.control.show_idle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_idle</span>
+        <span class="n">temp_style</span><span class="p">[</span><span class="s2">&quot;formatter.control.show_idle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_idle</span>
 
     <span class="k">if</span> <span class="n">show_clbits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">temp_style</span><span class="p">[</span><span class="s1">&#39;formatter.control.show_clbits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_clbits</span>
+        <span class="n">temp_style</span><span class="p">[</span><span class="s2">&quot;formatter.control.show_clbits&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_clbits</span>
 
     <span class="k">if</span> <span class="n">show_barriers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">temp_style</span><span class="p">[</span><span class="s1">&#39;formatter.control.show_barriers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_barriers</span>
+        <span class="n">temp_style</span><span class="p">[</span><span class="s2">&quot;formatter.control.show_barriers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_barriers</span>
 
     <span class="k">if</span> <span class="n">show_delays</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">temp_style</span><span class="p">[</span><span class="s1">&#39;formatter.control.show_delays&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_delays</span>
+        <span class="n">temp_style</span><span class="p">[</span><span class="s2">&quot;formatter.control.show_delays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_delays</span>
 
     <span class="c1"># create empty canvas and load program</span>
     <span class="n">canvas</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">DrawerCanvas</span><span class="p">(</span><span class="n">stylesheet</span><span class="o">=</span><span class="n">temp_style</span><span class="p">)</span>
@@ -699,9 +702,7 @@
 
     <span class="c1"># show labels</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">show_labels</span><span class="p">:</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">DELAY</span><span class="p">,</span>
-                  <span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">GATE_PARAM</span><span class="p">,</span>
-                  <span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">GATE_NAME</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">DELAY</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">GATE_PARAM</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">LabelType</span><span class="o">.</span><span class="n">GATE_NAME</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">canvas</span><span class="o">.</span><span class="n">set_disable_type</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -715,12 +716,15 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">qiskit.visualization.timeline.plotters</span> <span class="kn">import</span> <span class="n">MplPlotter</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Must have Matplotlib installed.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
-
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;Matplotlib&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;timeline drawer&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install matplotlib&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
         <span class="n">plotter_api</span> <span class="o">=</span> <span class="n">MplPlotter</span><span class="p">(</span><span class="n">canvas</span><span class="o">=</span><span class="n">canvas</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
         <span class="n">plotter_api</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s1">&#39;Plotter API </span><span class="si">{name}</span><span class="s1"> is not supported.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">plotter</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotter API </span><span class="si">{</span><span class="n">plotter</span><span class="si">}</span><span class="s2"> is not supported.&quot;</span><span class="p">)</span>
 
     <span class="c1"># save figure</span>
     <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
@@ -744,7 +748,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -779,7 +783,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -21,6 +21,7 @@
       ~SummedOp.collapse_summands
       ~SummedOp.compose
       ~SummedOp.copy
+      ~SummedOp.default_combo_fn
       ~SummedOp.equals
       ~SummedOp.eval
       ~SummedOp.exp_i
@@ -59,5 +60,6 @@
       ~SummedOp.num_qubits
       ~SummedOp.oplist
       ~SummedOp.parameters
+      ~SummedOp.settings
    
    

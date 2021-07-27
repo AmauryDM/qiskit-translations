@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.gradients.hessian &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.opflow.gradients.hessian &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -349,12 +349,14 @@
 <span class="kn">from</span> <span class="nn">..list_ops.tensored_op</span> <span class="kn">import</span> <span class="n">TensoredOp</span>
 <span class="kn">from</span> <span class="nn">..operator_base</span> <span class="kn">import</span> <span class="n">OperatorBase</span>
 <span class="kn">from</span> <span class="nn">.gradient</span> <span class="kn">import</span> <span class="n">Gradient</span>
+<span class="kn">from</span> <span class="nn">.derivative_base</span> <span class="kn">import</span> <span class="n">_coeff_derivative</span>
 <span class="kn">from</span> <span class="nn">.hessian_base</span> <span class="kn">import</span> <span class="n">HessianBase</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">OpflowError</span>
 <span class="kn">from</span> <span class="nn">...utils.arithmetic</span> <span class="kn">import</span> <span class="n">triu_to_dense</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jit</span>
+
     <span class="n">_HAS_JAX</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_JAX</span> <span class="o">=</span> <span class="kc">False</span>
@@ -364,12 +366,18 @@
     <span class="sd">&quot;&quot;&quot;Compute the Hessian of an expected value.&quot;&quot;&quot;</span>
 
     <span class="c1"># pylint: disable=signature-differs</span>
-<div class="viewcode-block" id="Hessian.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Hessian.html#qiskit.opflow.gradients.Hessian.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
-                                       <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]],</span>
-                                       <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">],</span> <span class="n">ParameterVector</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="Hessian.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Hessian.html#qiskit.opflow.gradients.Hessian.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span>
+                <span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">],</span>
+                <span class="n">ParameterVector</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            operator: The operator for which we compute the Hessian</span>
@@ -389,12 +397,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">cleaned_op</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
 
     <span class="c1"># pylint: disable=too-many-return-statements</span>
-<div class="viewcode-block" id="Hessian.get_hessian"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Hessian.html#qiskit.opflow.gradients.Hessian.get_hessian">[docs]</a>    <span class="k">def</span> <span class="nf">get_hessian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                    <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
-                                     <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]],</span>
-                                     <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">],</span> <span class="n">ParameterVector</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="Hessian.get_hessian"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Hessian.html#qiskit.opflow.gradients.Hessian.get_hessian">[docs]</a>    <span class="k">def</span> <span class="nf">get_hessian</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span>
+                <span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">],</span>
+                <span class="n">ParameterVector</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get the Hessian for the given operator w.r.t. the given parameters</span>
 
 <span class="sd">        Args:</span>
@@ -425,11 +439,18 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="p">(</span><span class="n">ParameterVector</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="c1"># Case: a list of parameters were given, compute the Hessian for all param pairs</span>
             <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">ListOp</span><span class="p">([</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="p">(</span><span class="n">p_i</span><span class="p">,</span> <span class="n">p_j</span><span class="p">))</span>
-                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">j</span><span class="p">:],</span> <span class="n">j</span><span class="p">)])</span>
-                               <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">p_j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)],</span>
-                              <span class="n">combo_fn</span><span class="o">=</span><span class="n">triu_to_dense</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">ListOp</span><span class="p">(</span>
+                            <span class="p">[</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="p">(</span><span class="n">p_i</span><span class="p">,</span> <span class="n">p_j</span><span class="p">))</span>
+                                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">j</span><span class="p">:],</span> <span class="n">j</span><span class="p">)</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">p_j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+                    <span class="p">],</span>
+                    <span class="n">combo_fn</span><span class="o">=</span><span class="n">triu_to_dense</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="c1"># Case: a list was given containing tuples of parameter pairs.</span>
             <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">):</span>
                 <span class="c1"># Compute the Hessian entries corresponding to these pairs of parameters.</span>
@@ -462,11 +483,11 @@
             <span class="n">d0_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">p_0</span><span class="p">)</span>
             <span class="n">d1_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">p_1</span><span class="p">)</span>
             <span class="c1"># ..get derivative of the coeff</span>
-            <span class="n">d0_coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expression_grad</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">p_0</span><span class="p">)</span>
-            <span class="n">d1_coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expression_grad</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">p_1</span><span class="p">)</span>
+            <span class="n">d0_coeff</span> <span class="o">=</span> <span class="n">_coeff_derivative</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">p_0</span><span class="p">)</span>
+            <span class="n">d1_coeff</span> <span class="o">=</span> <span class="n">_coeff_derivative</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">p_1</span><span class="p">)</span>
 
             <span class="n">dd_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hessian</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-            <span class="n">dd_coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expression_grad</span><span class="p">(</span><span class="n">d0_coeff</span><span class="p">,</span> <span class="n">p_1</span><span class="p">)</span>
+            <span class="n">dd_coeff</span> <span class="o">=</span> <span class="n">_coeff_derivative</span><span class="p">(</span><span class="n">d0_coeff</span><span class="p">,</span> <span class="n">p_1</span><span class="p">)</span>
 
             <span class="n">grad_op</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="c1"># Avoid creating operators that will evaluate to zero</span>
@@ -491,16 +512,19 @@
         <span class="c1"># and moved out front.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ComposedOp</span><span class="p">):</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coeff_c</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="mf">1.</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Operator pre-processing failed. Coefficients were not properly &#39;</span>
-                                  <span class="s1">&#39;collected inside the ComposedOp.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coeff_c</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
+                    <span class="s2">&quot;Operator pre-processing failed. Coefficients were not properly &quot;</span>
+                    <span class="s2">&quot;collected inside the ComposedOp.&quot;</span>
+                <span class="p">)</span>
 
             <span class="c1"># Do some checks to make sure operator is sensible</span>
             <span class="c1"># TODO enable compatibility with sum of CircuitStateFn operators</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">CircuitStateFn</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="s1">&#39;The gradient framework is compatible with states that are given as &#39;</span>
-                    <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">)</span>
+                    <span class="s2">&quot;The gradient framework is compatible with states that are given as &quot;</span>
+                    <span class="s2">&quot;CircuitStateFn&quot;</span>
+                <span class="p">)</span>
 
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hess_method</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
 
@@ -526,45 +550,62 @@
 
             <span class="c1"># These operators correspond to (d g_i/d θ0)•(d g_i/d θ1) for op in operator.oplist</span>
             <span class="c1"># and params = (θ0,θ1)</span>
-            <span class="n">d1d0_ops</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">ListOp</span><span class="p">([</span><span class="n">Gradient</span><span class="p">(</span><span class="n">grad_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-                                       <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">],</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">)</span> <span class="k">for</span>
-                               <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+            <span class="n">d1d0_ops</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">ListOp</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">Gradient</span><span class="p">(</span><span class="n">grad_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span>
+                        <span class="p">],</span>
+                        <span class="n">combo_fn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">grad_combo_fn</span><span class="p">:</span>
                 <span class="n">first_partial_combo_fn</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">grad_combo_fn</span>
                 <span class="k">if</span> <span class="n">_HAS_JAX</span><span class="p">:</span>
-                    <span class="n">second_partial_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">first_partial_combo_fn</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-                                                       <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                    <span class="n">second_partial_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span>
+                        <span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">first_partial_combo_fn</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                        <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;jax&#39;</span><span class="p">,</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_hessian&#39;</span><span class="p">,</span>
-                        <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;This automatic differentiation function is based on JAX. Please &#39;</span>
-                            <span class="s1">&#39;install jax and use `import jax.numpy as jnp` instead of &#39;</span>
-                            <span class="s1">&#39;`import numpy as np` when defining a combo_fn.&#39;</span><span class="p">)</span>
+                        <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;jax&quot;</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;get_hessian&quot;</span><span class="p">,</span>
+                        <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;This automatic differentiation function is based on JAX. Please &quot;</span>
+                        <span class="s2">&quot;install jax and use `import jax.numpy as jnp` instead of &quot;</span>
+                        <span class="s2">&quot;`import numpy as np` when defining a combo_fn.&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">_HAS_JAX</span><span class="p">:</span>
                     <span class="n">first_partial_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">,</span> <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-                    <span class="n">second_partial_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">first_partial_combo_fn</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-                                                       <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                    <span class="n">second_partial_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span>
+                        <span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">first_partial_combo_fn</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                        <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;jax&#39;</span><span class="p">,</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_hessian&#39;</span><span class="p">,</span>
-                        <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;This automatic differentiation function is based on JAX. &#39;</span>
-                            <span class="s1">&#39;Please install jax and use `import jax.numpy as jnp` instead &#39;</span>
-                            <span class="s1">&#39;of `import numpy as np` when defining a combo_fn.&#39;</span><span class="p">)</span>
+                        <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;jax&quot;</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;get_hessian&quot;</span><span class="p">,</span>
+                        <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;This automatic differentiation function is based on JAX. &quot;</span>
+                        <span class="s2">&quot;Please install jax and use `import jax.numpy as jnp` instead &quot;</span>
+                        <span class="s2">&quot;of `import numpy as np` when defining a combo_fn.&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
 
             <span class="c1"># For a general combo_fn F(g_0, g_1, ..., g_k)</span>
             <span class="c1"># dF/d θ0,θ1 = sum_i: (∂F/∂g_i)•(d g_i/ d θ0,θ1) + (∂F/∂^2 g_i)•(d g_i/d θ0)•(d g_i/d</span>
             <span class="c1"># θ1)</span>
 
             <span class="c1"># term1 = (∂F/∂g_i)•(d g_i/ d θ0,θ1)</span>
-            <span class="n">term1</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">first_partial_combo_fn</span><span class="p">),</span>
-                            <span class="n">ListOp</span><span class="p">(</span><span class="n">dd_ops</span><span class="p">)],</span> <span class="n">combo_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">term1</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">first_partial_combo_fn</span><span class="p">),</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">dd_ops</span><span class="p">)],</span>
+                <span class="n">combo_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="p">)</span>
             <span class="c1"># term2 = (∂F/∂^2 g_i)•(d g_i/d θ0)•(d g_i/d θ1)</span>
-            <span class="n">term2</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">second_partial_combo_fn</span><span class="p">),</span> <span class="n">d1d0_ops</span><span class="p">],</span>
-                           <span class="n">combo_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">term2</span> <span class="o">=</span> <span class="n">ListOp</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">second_partial_combo_fn</span><span class="p">),</span> <span class="n">d1d0_ops</span><span class="p">],</span>
+                <span class="n">combo_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="p">)</span>
 
             <span class="k">return</span> <span class="n">SummedOp</span><span class="p">([</span><span class="n">term1</span><span class="p">,</span> <span class="n">term2</span><span class="p">])</span>
 
@@ -573,12 +614,16 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hess_method</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The computation of Hessians is only supported for Operators which &#39;</span>
-                                <span class="s1">&#39;represent expectation values or quantum states.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The computation of Hessians is only supported for Operators which &quot;</span>
+                    <span class="s2">&quot;represent expectation values or quantum states.&quot;</span>
+                <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The computation of Hessians is only supported for Operators which &#39;</span>
-                            <span class="s1">&#39;represent expectation values.&#39;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;The computation of Hessians is only supported for Operators which &quot;</span>
+                <span class="s2">&quot;represent expectation values.&quot;</span>
+            <span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -596,7 +641,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -631,7 +676,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

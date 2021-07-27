@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.list_ops.TensoredOp &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.opflow.list_ops.TensoredOp &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -394,61 +394,64 @@ conversion to QuantumCircuits, they can be reduced by tensor product.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.copy" title="qiskit.opflow.list_ops.TensoredOp.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
 <td><p>Return a deep copy of the Operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.equals" title="qiskit.opflow.list_ops.TensoredOp.equals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equals</span></code></a>(other)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.default_combo_fn" title="qiskit.opflow.list_ops.TensoredOp.default_combo_fn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_combo_fn</span></code></a>(x)</p></td>
+<td><p>ListOp default combo function i.e. lambda x: x.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.equals" title="qiskit.opflow.list_ops.TensoredOp.equals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equals</span></code></a>(other)</p></td>
 <td><p>Evaluate Equality between Operators, overloaded by <code class="docutils literal notranslate"><span class="pre">==</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.eval" title="qiskit.opflow.list_ops.TensoredOp.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eval</span></code></a>([front])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.eval" title="qiskit.opflow.list_ops.TensoredOp.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eval</span></code></a>([front])</p></td>
 <td><p>Evaluate the Operator's underlying function, either on a binary string or another Operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.exp_i" title="qiskit.opflow.list_ops.TensoredOp.exp_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exp_i</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.exp_i" title="qiskit.opflow.list_ops.TensoredOp.exp_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exp_i</span></code></a>()</p></td>
 <td><p>Return an <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> equivalent to an exponentiation of self * -i, e^(-i*op).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.log_i" title="qiskit.opflow.list_ops.TensoredOp.log_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log_i</span></code></a>([massive])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.log_i" title="qiskit.opflow.list_ops.TensoredOp.log_i"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log_i</span></code></a>([massive])</p></td>
 <td><p>Return a <code class="docutils literal notranslate"><span class="pre">MatrixOp</span></code> equivalent to log(H)/-i for this operator H.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.mul" title="qiskit.opflow.list_ops.TensoredOp.mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mul</span></code></a>(scalar)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.mul" title="qiskit.opflow.list_ops.TensoredOp.mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mul</span></code></a>(scalar)</p></td>
 <td><p>Returns the scalar multiplication of the Operator, overloaded by <code class="docutils literal notranslate"><span class="pre">*</span></code>, including support for Terra's <code class="docutils literal notranslate"><span class="pre">Parameters</span></code>, which can be bound to values later (via <code class="docutils literal notranslate"><span class="pre">bind_parameters</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.neg" title="qiskit.opflow.list_ops.TensoredOp.neg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neg</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.neg" title="qiskit.opflow.list_ops.TensoredOp.neg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neg</span></code></a>()</p></td>
 <td><p>Return the Operator's negation, effectively just multiplying by -1.0, overloaded by <code class="docutils literal notranslate"><span class="pre">-</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.permute" title="qiskit.opflow.list_ops.TensoredOp.permute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permute</span></code></a>(permutation)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.permute" title="qiskit.opflow.list_ops.TensoredOp.permute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permute</span></code></a>(permutation)</p></td>
 <td><p>Permute the qubits of the operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.power" title="qiskit.opflow.list_ops.TensoredOp.power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power</span></code></a>(exponent)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.power" title="qiskit.opflow.list_ops.TensoredOp.power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power</span></code></a>(exponent)</p></td>
 <td><p>Return Operator composed with self multiple times, overloaded by <code class="docutils literal notranslate"><span class="pre">**</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.primitive_strings" title="qiskit.opflow.list_ops.TensoredOp.primitive_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primitive_strings</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.primitive_strings" title="qiskit.opflow.list_ops.TensoredOp.primitive_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primitive_strings</span></code></a>()</p></td>
 <td><p>Return a set of strings describing the primitives contained in the Operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.reduce" title="qiskit.opflow.list_ops.TensoredOp.reduce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.reduce" title="qiskit.opflow.list_ops.TensoredOp.reduce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce</span></code></a>()</p></td>
 <td><p>Try collapsing the Operator structure, usually after some type of conversion, e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.tensor" title="qiskit.opflow.list_ops.TensoredOp.tensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor</span></code></a>(other)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.tensor" title="qiskit.opflow.list_ops.TensoredOp.tensor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor</span></code></a>(other)</p></td>
 <td><p>Return tensor product between self and other, overloaded by <code class="docutils literal notranslate"><span class="pre">^</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.tensorpower" title="qiskit.opflow.list_ops.TensoredOp.tensorpower"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensorpower</span></code></a>(other)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.tensorpower" title="qiskit.opflow.list_ops.TensoredOp.tensorpower"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensorpower</span></code></a>(other)</p></td>
 <td><p>Return tensor product with self multiple times, overloaded by <code class="docutils literal notranslate"><span class="pre">^</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_circuit" title="qiskit.opflow.list_ops.TensoredOp.to_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_circuit</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_circuit" title="qiskit.opflow.list_ops.TensoredOp.to_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_circuit</span></code></a>()</p></td>
 <td><p>Returns the quantum circuit, representing the tensored operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_circuit_op" title="qiskit.opflow.list_ops.TensoredOp.to_circuit_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_circuit_op</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_circuit_op" title="qiskit.opflow.list_ops.TensoredOp.to_circuit_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_circuit_op</span></code></a>()</p></td>
 <td><p>Returns an equivalent Operator composed of only QuantumCircuit-based primitives, such as <code class="docutils literal notranslate"><span class="pre">CircuitOp</span></code> and <code class="docutils literal notranslate"><span class="pre">CircuitStateFn</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_matrix" title="qiskit.opflow.list_ops.TensoredOp.to_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_matrix</span></code></a>([massive])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_matrix" title="qiskit.opflow.list_ops.TensoredOp.to_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_matrix</span></code></a>([massive])</p></td>
 <td><p>Return NumPy representation of the Operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_matrix_op" title="qiskit.opflow.list_ops.TensoredOp.to_matrix_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_matrix_op</span></code></a>([massive])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_matrix_op" title="qiskit.opflow.list_ops.TensoredOp.to_matrix_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_matrix_op</span></code></a>([massive])</p></td>
 <td><p>Returns an equivalent Operator composed of only NumPy-based primitives, such as <code class="docutils literal notranslate"><span class="pre">MatrixOp</span></code> and <code class="docutils literal notranslate"><span class="pre">VectorStateFn</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_pauli_op" title="qiskit.opflow.list_ops.TensoredOp.to_pauli_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pauli_op</span></code></a>([massive])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_pauli_op" title="qiskit.opflow.list_ops.TensoredOp.to_pauli_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pauli_op</span></code></a>([massive])</p></td>
 <td><p>Returns an equivalent Operator composed of only Pauli-based primitives, such as <code class="docutils literal notranslate"><span class="pre">PauliOp</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_spmatrix" title="qiskit.opflow.list_ops.TensoredOp.to_spmatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_spmatrix</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.to_spmatrix" title="qiskit.opflow.list_ops.TensoredOp.to_spmatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_spmatrix</span></code></a>()</p></td>
 <td><p>Returns SciPy sparse matrix representation of the Operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.traverse" title="qiskit.opflow.list_ops.TensoredOp.traverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">traverse</span></code></a>(convert_fn[, coeff])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.traverse" title="qiskit.opflow.list_ops.TensoredOp.traverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">traverse</span></code></a>(convert_fn[, coeff])</p></td>
 <td><p>Apply the convert_fn to each node in the oplist.</p></td>
 </tr>
 </tbody>
@@ -489,6 +492,9 @@ conversion to QuantumCircuits, they can be reduced by tensor product.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.parameters" title="qiskit.opflow.list_ops.TensoredOp.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
 <td><p>Return a set of Parameter objects contained in the Operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.list_ops.TensoredOp.settings" title="qiskit.opflow.list_ops.TensoredOp.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Return settings.</p></td>
 </tr>
 </tbody>
 </table>
@@ -644,6 +650,17 @@ produces an X∘Y on qubit 0, but would produce a QuantumCircuit which looks lik
 <dl class="field-list simple">
 <dt class="field-odd">प्रदत्त प्रकार </dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.opflow.list_ops.TensoredOp.default_combo_fn">
+<em class="property">static </em><code class="sig-name descname">default_combo_fn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.opflow.list_ops.TensoredOp.default_combo_fn" title="इस परिभाषा की स्थायी कड़ी">¶</a></dt>
+<dd><p>ListOp default combo function i.e. lambda x: x</p>
+<dl class="field-list simple">
+<dt class="field-odd">प्रदत्त प्रकार </dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -870,14 +887,8 @@ j should be permuted to position permutation[j].</p>
 <code class="sig-name descname">power</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exponent</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.opflow.list_ops.TensoredOp.power" title="इस परिभाषा की स्थायी कड़ी">¶</a></dt>
 <dd><p>Return Operator composed with self multiple times, overloaded by <code class="docutils literal notranslate"><span class="pre">**</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">मापदण्ड</dt>
-<dd class="field-odd"><p><strong>exponent</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) -- The int number of times to compose self with itself.</p>
-</dd>
-<dt class="field-even">प्रदत्त प्रकार </dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code></p>
-</dd>
-<dt class="field-odd">प्रदत्त </dt>
-<dd class="field-odd"><p>An <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> equivalent to self composed with itself exponent times.</p>
+<dt class="field-odd">प्रदत्त प्रकार </dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -911,6 +922,17 @@ If no reduction is available, just returns self.</p>
 </dd>
 <dt class="field-even">प्रदत्त </dt>
 <dd class="field-even"><p>The reduced <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.opflow.list_ops.TensoredOp.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.opflow.list_ops.TensoredOp.settings" title="इस परिभाषा की स्थायी कड़ी">¶</a></dt>
+<dd><p>Return settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">प्रदत्त प्रकार </dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1092,7 +1114,7 @@ If it is None, self.coeff is used instead.</p></li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -1131,7 +1153,7 @@ If it is None, self.coeff is used instead.</p></li>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

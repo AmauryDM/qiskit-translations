@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.classicalfunction.BooleanExpression &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.circuit.classicalfunction.BooleanExpression &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -340,9 +340,6 @@
 the expression is going to be used.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Kivétel</dt>
-<dd class="field-even"><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – If tweedledum is not installed. Tweedledum is required.</p>
-</dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.circuit.classicalfunction.BooleanExpression.__init__">
@@ -354,9 +351,6 @@ the expression is going to be used.</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – Optional. Instruction gate name. Otherwise part of
 the expression is going to be used.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Kivétel</dt>
-<dd class="field-even"><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – If tweedledum is not installed. Tweedledum is required.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -386,7 +380,7 @@ the expression is going to be used.</p></li>
 <td><p>Validation and handling of the arguments and its relationship.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.classicalfunction.BooleanExpression.c_if" title="qiskit.circuit.classicalfunction.BooleanExpression.c_if"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_if</span></code></a>(classical, val)</p></td>
-<td><p>Add classical condition on register classical and value val.</p></td>
+<td><p>Add classical condition on register or cbit classical and value val.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.classicalfunction.BooleanExpression.control" title="qiskit.circuit.classicalfunction.BooleanExpression.control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">control</span></code></a>([num_ctrl_qubits, label, ctrl_state])</p></td>
 <td><p>Return controlled version of gate.</p></td>
@@ -452,7 +446,7 @@ the expression is going to be used.</p></li>
 <td><p>Get the duration.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.classicalfunction.BooleanExpression.label" title="qiskit.circuit.classicalfunction.BooleanExpression.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
-<td><p>Return gate label</p></td>
+<td><p>Return instruction label</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.classicalfunction.BooleanExpression.params" title="qiskit.circuit.classicalfunction.BooleanExpression.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>return instruction params.</p></td>
@@ -472,11 +466,6 @@ the expression is going to be used.</p></li>
 <dt id="qiskit.circuit.classicalfunction.BooleanExpression.assemble">
 <code class="sig-name descname">assemble</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.classicalfunction.BooleanExpression.assemble" title="Hivatkozás erre a definícióra">¶</a></dt>
 <dd><p>Assemble a QasmQobjInstruction</p>
-<dl class="field-list simple">
-<dt class="field-odd">Visszatérés típusa</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -535,7 +524,7 @@ method yields the arguments in the right grouping. In the given example:</p>
 <dl class="py method">
 <dt id="qiskit.circuit.classicalfunction.BooleanExpression.c_if">
 <code class="sig-name descname">c_if</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classical</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.classicalfunction.BooleanExpression.c_if" title="Hivatkozás erre a definícióra">¶</a></dt>
-<dd><p>Add classical condition on register classical and value val.</p>
+<dd><p>Add classical condition on register or cbit classical and value val.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -619,10 +608,7 @@ if None then the name stays the same.</p>
 <dd class="field-even"><p><a class="reference internal" href="#qiskit.circuit.classicalfunction.BooleanExpression" title="qiskit.circuit.classicalfunction.BooleanExpression">BooleanExpression</a></p>
 </dd>
 <dt class="field-odd">Kivétel</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – If tweedledum is not installed. Tweedledum is required.</p></li>
-<li><p><strong>FileNotFoundError</strong> – If filename is not found.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>FileNotFoundError</strong> – If filename is not found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -658,7 +644,7 @@ implement their own inverse (e.g. T and Tdg, Barrier, etc.)</p>
 <dl class="py method">
 <dt id="qiskit.circuit.classicalfunction.BooleanExpression.label">
 <em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#qiskit.circuit.classicalfunction.BooleanExpression.label" title="Hivatkozás erre a definícióra">¶</a></dt>
-<dd><p>Return gate label</p>
+<dd><p>Return instruction label</p>
 <dl class="field-list simple">
 <dt class="field-odd">Visszatérés típusa</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
@@ -878,7 +864,7 @@ circuit.</p></li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -916,7 +902,7 @@ circuit.</p></li>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

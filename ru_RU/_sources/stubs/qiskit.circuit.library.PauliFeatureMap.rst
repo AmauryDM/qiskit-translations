@@ -58,6 +58,7 @@
       ~PauliFeatureMap.from_qasm_file
       ~PauliFeatureMap.from_qasm_str
       ~PauliFeatureMap.get_entangler_map
+      ~PauliFeatureMap.get_instructions
       ~PauliFeatureMap.get_unentangled_qubits
       ~PauliFeatureMap.h
       ~PauliFeatureMap.hamiltonian

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.amplitude_estimators.ae &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.algorithms.amplitude_estimators.ae &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -373,12 +373,13 @@
 <span class="sd">             `arXiv:1912.05559 &lt;https://arxiv.org/abs/1912.05559&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AmplitudeEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_eval_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">phase_estimation_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iqft</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
-                     <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="AmplitudeEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_eval_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">phase_estimation_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">iqft</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_eval_qubits: The number of evaluation qubits.</span>
@@ -393,7 +394,7 @@
 <span class="sd">            ValueError: If the number of evaluation qubits is smaller than 1.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">num_eval_qubits</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of evaluation qubits must at least be 1.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of evaluation qubits must at least be 1.&quot;</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
@@ -417,8 +418,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span>
 
     <span class="nd">@quantum_instance</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span>
-                                                       <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set quantum instance.</span>
 
 <span class="sd">        Args:</span>
@@ -428,9 +430,9 @@
             <span class="n">quantum_instance</span> <span class="o">=</span> <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">quantum_instance</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span> <span class="o">=</span> <span class="n">quantum_instance</span>
 
-<div class="viewcode-block" id="AmplitudeEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.construct_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span>
-                          <span class="n">measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<div class="viewcode-block" id="AmplitudeEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.construct_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span> <span class="n">measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Construct the Amplitude Estimation quantum circuit.</span>
 
 <span class="sd">        Args:</span>
@@ -447,13 +449,16 @@
         <span class="c1"># otherwise use the circuit library -- note that this does not include the A operator</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">qiskit.circuit.library</span> <span class="kn">import</span> <span class="n">PhaseEstimation</span>
+
             <span class="n">pec</span> <span class="o">=</span> <span class="n">PhaseEstimation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="o">.</span><span class="n">grover_operator</span><span class="p">,</span> <span class="n">iqft</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_iqft</span><span class="p">)</span>
 
         <span class="c1"># combine the Phase Estimation circuit with the A operator</span>
         <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="n">pec</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span>
-        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">estimation_problem</span><span class="o">.</span><span class="n">state_preparation</span><span class="p">,</span>
-                        <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
-                        <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">state_preparation</span><span class="p">,</span>
+            <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
+            <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">pec</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># add measurements if necessary</span>
@@ -464,9 +469,11 @@
 
         <span class="k">return</span> <span class="n">circuit</span></div>
 
-<div class="viewcode-block" id="AmplitudeEstimation.evaluate_measurements"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.evaluate_measurements">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_measurements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit_results</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                              <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
-                              <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<div class="viewcode-block" id="AmplitudeEstimation.evaluate_measurements"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.evaluate_measurements">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_measurements</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">circuit_results</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Evaluate the results from the circuit simulation.</span>
 
 <span class="sd">        Given the probabilities from statevector simulation of the QAE circuit, compute the</span>
@@ -499,7 +506,7 @@
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">statevector</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">amplitude</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">statevector</span><span class="p">):</span>
             <span class="n">b</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># chop off all except the evaluation qubits</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># chop off all except the evaluation qubits</span>
             <span class="n">measurements</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">measurements</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
         <span class="n">samples</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># type: OrderedDict</span>
@@ -519,7 +526,7 @@
         <span class="n">shots</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span><span class="o">.</span><span class="n">_run_config</span><span class="o">.</span><span class="n">shots</span>
 
         <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)[:</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
             <span class="n">probability</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="n">shots</span>
             <span class="n">measurements</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">probability</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
@@ -528,8 +535,9 @@
         <span class="k">return</span> <span class="n">samples</span><span class="p">,</span> <span class="n">measurements</span>
 
 <div class="viewcode-block" id="AmplitudeEstimation.compute_mle"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.compute_mle">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">compute_mle</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="s1">&#39;AmplitudeEstimationResult&#39;</span><span class="p">,</span> <span class="n">apply_post_processing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_mle</span><span class="p">(</span>
+        <span class="n">result</span><span class="p">:</span> <span class="s2">&quot;AmplitudeEstimationResult&quot;</span><span class="p">,</span> <span class="n">apply_post_processing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Compute the Maximum Likelihood Estimator (MLE).</span>
 
 <span class="sd">        Args:</span>
@@ -585,7 +593,7 @@
 
         <span class="k">return</span> <span class="n">a_opt</span></div>
 
-<div class="viewcode-block" id="AmplitudeEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.estimate">[docs]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AmplitudeEstimationResult&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="AmplitudeEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.estimate">[docs]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AmplitudeEstimationResult&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Run the amplitude estimation algorithm on provided estimation problem.</span>
 
 <span class="sd">        Args:</span>
@@ -600,12 +608,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># check if A factory or state_preparation has been set</span>
         <span class="k">if</span> <span class="n">estimation_problem</span><span class="o">.</span><span class="n">state_preparation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The state_preparation property of the estimation problem must be &#39;</span>
-                             <span class="s1">&#39;set.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The state_preparation property of the estimation problem must be &quot;</span> <span class="s2">&quot;set.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">estimation_problem</span><span class="o">.</span><span class="n">objective_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The objective_qubits property of the estimation problem must be &#39;</span>
-                             <span class="s1">&#39;set.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The objective_qubits property of the estimation problem must be &quot;</span> <span class="s2">&quot;set.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">AmplitudeEstimationResult</span><span class="p">()</span>
         <span class="n">result</span><span class="o">.</span><span class="n">num_evaluation_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span>
@@ -632,8 +642,9 @@
         <span class="n">samples</span><span class="p">,</span> <span class="n">measurements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_measurements</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">circuit_results</span><span class="p">)</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">samples_processed</span> <span class="o">=</span> <span class="p">{</span><span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">a</span><span class="p">):</span> <span class="n">p</span>
-                                    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">samples_processed</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">a</span><span class="p">):</span> <span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
         <span class="n">result</span><span class="o">.</span><span class="n">measurements</span> <span class="o">=</span> <span class="n">measurements</span>
 
         <span class="c1"># determine the most likely estimate</span>
@@ -653,16 +664,16 @@
         <span class="n">result</span><span class="o">.</span><span class="n">mle_processed</span> <span class="o">=</span> <span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">mle</span><span class="p">)</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_confidence_interval</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval_processed</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                                                     <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval_processed</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="AmplitudeEstimation.compute_confidence_interval"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimation.html#qiskit.algorithms.AmplitudeEstimation.compute_confidence_interval">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">compute_confidence_interval</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="s1">&#39;AmplitudeEstimationResult&#39;</span><span class="p">,</span>
-                                    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
-                                    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;likelihood_ratio&#39;</span>
-                                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">compute_confidence_interval</span><span class="p">(</span>
+        <span class="n">result</span><span class="p">:</span> <span class="s2">&quot;AmplitudeEstimationResult&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;likelihood_ratio&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Compute the (1 - alpha) confidence interval.</span>
 
 <span class="sd">        Args:</span>
@@ -682,16 +693,16 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">circuit_results</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">mle</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">mle</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;likelihood_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;likelihood_ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_likelihood_ratio_confint</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fisher&#39;</span><span class="p">,</span> <span class="s1">&#39;fi&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;fi&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_fisher_confint</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;observed_fisher&#39;</span><span class="p">,</span> <span class="s1">&#39;observed_information&#39;</span><span class="p">,</span> <span class="s1">&#39;oi&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;observed_fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;observed_information&quot;</span><span class="p">,</span> <span class="s2">&quot;oi&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_fisher_confint</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;CI `</span><span class="si">{}</span><span class="s1">` is not implemented.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kind</span><span class="p">))</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CI `</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">` is not implemented.&quot;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="AmplitudeEstimationResult"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.AmplitudeEstimationResult.html#qiskit.algorithms.AmplitudeEstimationResult">[docs]</a><span class="k">class</span> <span class="nc">AmplitudeEstimationResult</span><span class="p">(</span><span class="n">AmplitudeEstimatorResult</span><span class="p">):</span>
@@ -799,11 +810,11 @@
         <span class="n">p_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
         <span class="c1"># Calculate the observed Fisher information</span>
-        <span class="n">fisher_information</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">derivative_log_pdf_a</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-                                 <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p_i</span><span class="p">,</span> <span class="n">a_i</span><span class="p">))</span>
+        <span class="n">fisher_information</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">derivative_log_pdf_a</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p_i</span><span class="p">,</span> <span class="n">a_i</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
+
         <span class="k">def</span> <span class="nf">integrand</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">derivative_log_pdf_a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pdf_a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">derivative_log_pdf_a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pdf_a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mlv</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 
         <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">fisher_information</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">integrand</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">)</span>
@@ -811,8 +822,9 @@
     <span class="k">return</span> <span class="n">fisher_information</span>
 
 
-<span class="k">def</span> <span class="nf">_fisher_confint</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">AmplitudeEstimationResult</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">observed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_fisher_confint</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">AmplitudeEstimationResult</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">observed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Compute the Fisher information confidence interval for the MLE of the previous run.</span>
 
 <span class="sd">    Args:</span>
@@ -832,8 +844,7 @@
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span> <span class="k">for</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">confint</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_likelihood_ratio_confint</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">AmplitudeEstimationResult</span><span class="p">,</span>
-                              <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_likelihood_ratio_confint</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">AmplitudeEstimationResult</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Compute the likelihood ratio confidence interval for the MLE of the previous run.</span>
 
 <span class="sd">    Args:</span>
@@ -851,16 +862,16 @@
 
     <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">qae</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">right_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">right_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">bubbles</span> <span class="o">=</span> <span class="p">[</span><span class="n">qae</span><span class="p">,</span> <span class="n">right_of_qae</span><span class="p">]</span>
 
     <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>  <span class="c1"># remember, M = 2^m is a power of 2</span>
-        <span class="n">left_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">left_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">bubbles</span> <span class="o">=</span> <span class="p">[</span><span class="n">left_of_qae</span><span class="p">,</span> <span class="n">qae</span><span class="p">]</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">left_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">right_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">left_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">right_of_qae</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">bubbles</span> <span class="o">=</span> <span class="p">[</span><span class="n">left_of_qae</span><span class="p">,</span> <span class="n">qae</span><span class="p">,</span> <span class="n">right_of_qae</span><span class="p">]</span>
 
     <span class="c1"># likelihood function</span>
@@ -920,7 +931,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -955,7 +966,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -56,6 +56,7 @@
       ~XOR.fredkin
       ~XOR.from_qasm_file
       ~XOR.from_qasm_str
+      ~XOR.get_instructions
       ~XOR.h
       ~XOR.hamiltonian
       ~XOR.has_register

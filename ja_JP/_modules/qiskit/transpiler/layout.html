@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.layout &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.transpiler.layout &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -343,7 +343,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.converters</span> <span class="kn">import</span> <span class="n">isinstanceint</span>
 
 
-<div class="viewcode-block" id="Layout"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.Layout.html#qiskit.transpiler.Layout">[ドキュメント]</a><span class="k">class</span> <span class="nc">Layout</span><span class="p">():</span>
+<div class="viewcode-block" id="Layout"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.Layout.html#qiskit.transpiler.Layout">[ドキュメント]</a><span class="k">class</span> <span class="nc">Layout</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Two-ways dict to represent a Layout.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Layout.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.Layout.html#qiskit.transpiler.Layout.__init__">[ドキュメント]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -361,7 +361,7 @@
         <span class="sd">&quot;&quot;&quot;Representation of a Layout&quot;&quot;&quot;</span>
         <span class="n">str_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{k}</span><span class="s2">: </span><span class="si">{v}</span><span class="s2">,&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">val</span><span class="p">))</span>
+            <span class="n">str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">str_list</span><span class="p">:</span>
             <span class="n">str_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">str_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="s2">&quot;Layout({</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">})&quot;</span>
@@ -411,8 +411,10 @@
             <span class="n">physical</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value2</span><span class="p">)</span>
             <span class="n">virtual</span> <span class="o">=</span> <span class="n">value1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;The map (</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">) has to be a (Bit -&gt; integer)&#39;</span>
-                              <span class="s1">&#39; or the other way around.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value1</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">value2</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span>
+                <span class="s2">&quot;The map (</span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">) has to be a (Bit -&gt; integer)&quot;</span>
+                <span class="s2">&quot; or the other way around.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value1</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">value2</span><span class="p">))</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">virtual</span><span class="p">,</span> <span class="n">physical</span></div>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
@@ -420,7 +422,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;The item </span><span class="si">%s</span><span class="s1"> does not exist in the Layout&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">item</span><span class="p">,))</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The item </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2"> does not exist in the Layout&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span> <span class="ow">or</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span>
@@ -441,14 +443,16 @@
 
     <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">):</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_v2p</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;The key to remove should be of the form&#39;</span>
-                              <span class="s1">&#39; Qubit or integer) and </span><span class="si">%s</span><span class="s1"> was provided&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">),))</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span>
+                <span class="s2">&quot;The key to remove should be of the form&quot;</span>
+                <span class="s2">&quot; Qubit or integer) and </span><span class="si">%s</span><span class="s2"> was provided&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">),)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_p2v</span><span class="p">)</span>
@@ -528,7 +532,7 @@
 <span class="sd">            LayoutError: If left and right have not the same type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;The method swap only works with elements of the same type.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;The method swap only works with elements of the same type.&quot;</span><span class="p">)</span>
         <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span></div>
@@ -557,8 +561,10 @@
 
         <span class="k">for</span> <span class="n">virtual</span><span class="p">,</span> <span class="n">physical</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_virtual_bits</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">physical</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">another_layout</span><span class="o">.</span><span class="n">_p2v</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;The wire_map_from_layouts() method does not support when the&#39;</span>
-                                  <span class="s1">&#39; other layout (another_layout) is smaller.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span>
+                    <span class="s2">&quot;The wire_map_from_layouts() method does not support when the&quot;</span>
+                    <span class="s2">&quot; other layout (another_layout) is smaller.&quot;</span>
+                <span class="p">)</span>
             <span class="n">edge_map</span><span class="p">[</span><span class="n">virtual</span><span class="p">]</span> <span class="o">=</span> <span class="n">another_layout</span><span class="p">[</span><span class="n">physical</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">edge_map</span></div>
@@ -616,13 +622,13 @@
 <span class="sd">            LayoutError: Invalid input layout.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">isinstanceint</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">int_list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;Expected a list of ints&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;Expected a list of ints&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">int_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">int_list</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;Duplicate values not permitted; Layout is bijective.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;Duplicate values not permitted; Layout is bijective.&quot;</span><span class="p">)</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">qregs</span><span class="p">)</span>
         <span class="c1"># Check if list is too short to cover all qubits</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">int_list</span><span class="p">)</span> <span class="o">!=</span> <span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;Integer list length must equal number of qubits in circuit.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;Integer list length must equal number of qubits in circuit.&quot;</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">()</span>
         <span class="n">main_idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">qregs</span><span class="p">:</span>
@@ -657,7 +663,7 @@
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">virtual</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">virtual</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">_v2p</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s1">&#39;Duplicate values not permitted; Layout is bijective.&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;Duplicate values not permitted; Layout is bijective.&quot;</span><span class="p">)</span>
                 <span class="n">out</span><span class="p">[</span><span class="n">virtual</span><span class="p">]</span> <span class="o">=</span> <span class="n">physical</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">LayoutError</span><span class="p">(</span><span class="s2">&quot;The list should contain elements of the Bits or NoneTypes&quot;</span><span class="p">)</span>
@@ -681,7 +687,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -716,7 +722,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

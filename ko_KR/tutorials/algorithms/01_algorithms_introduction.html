@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>키스킷의 알고리즘 소개 &mdash; Qiskit 0.27.0 문서</title>
+  <title>키스킷의 알고리즘 소개 &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -224,7 +224,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -577,8 +577,7 @@ div.rendered_html tbody tr:hover {
 <p>이는 Qiskit의 알고리즘에 대한 소개로, 시작할 기능의 다양한 측면을 이해하는 데 도움이 되는 고급 개요를 제공한다. 다른 학습서에서는 보다 상세한 자료, 주어진 알고리즘 및 이들을 사용하는 방법 등을 제공한다.</p>
 <section id="알고리즘-라이브러리는-어떻게-구성되어-있을까?">
 <h2>알고리즘 라이브러리는 어떻게 구성되어 있을까?<a class="headerlink" href="#알고리즘-라이브러리는-어떻게-구성되어-있을까?" title="제목 주소">¶</a></h2>
-<p>Qiskit provides a number of <a class="reference external" href="https://qiskit.org/documentation/apidoc/algorithms.html">Algorithms</a> and they are grouped by category according to the task they can perform. For instance <code class="docutils literal notranslate"><span class="pre">Minimum</span> <span class="pre">Eigensolvers</span></code> to find the smallest eigen value of an operator, for example ground state energy of a chemistry Hamiltonian or a solution to an optimization problem when expressed as an Ising Hamiltonian. There are <code class="docutils literal notranslate"><span class="pre">Linear</span> <span class="pre">Solvers</span></code> for linear systems of equations problems and <code class="docutils literal notranslate"><span class="pre">Amplitude</span> <span class="pre">Estimators</span></code>
-for value estimation that can be used say in financial applications. The full set of categories can be seen in the Algorithms documentation link above.</p>
+<p>Qiskit은 다양한 <a class="reference external" href="https://qiskit.org/documentation/apidoc/algorithms.html">알고리즘</a> 을 제공하며, 목적에 따라 카테고리별로 그룹화되어 있다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">Minimum</span> <span class="pre">Eigensolvers</span></code> 는 연산자의 가장 작은 고유값, 예를 들어, 화학 Hamiltonian의 바닥 상태 에너지, 또는 Ising Hamiltonian 으로 표현되는 최적화 문제에 대한 해법을 찾는다. 그 중에는 선형계 방정식 문제를 해결하기 위한 <code class="docutils literal notranslate"><span class="pre">Linear</span> <span class="pre">Solvers</span></code> 와 금융 애플리케이션 등에서 가치 추정을 위해 활용될 수 있는 <code class="docutils literal notranslate"><span class="pre">Amplitude</span> <span class="pre">Estimators</span></code> 가 있다. 전체 목차는 위의 알고리즘 문서 링크에서 확인 가능하다.</p>
 <p>Algorithms are configurable and often part of the configuration will be in the form of smaller building blocks, of which different instances of the building block type can be given. For instance with <code class="docutils literal notranslate"><span class="pre">VQE</span></code>, the Variational Quantum Eigensolver, it takes a trial wavefunction, in the form of a <code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> and a classical optimizer among other things.</p>
 <p>VQE 인스턴스를 구성하는 예제를 살펴보자. 여기서 <code class="docutils literal notranslate"><span class="pre">TwoLocal</span></code> 은 다양한 형태 (시험 파동), 다양할 수 있는 매개화된 회로, 그리고 고전적인 최적화 프로그램인 <code class="docutils literal notranslate"><span class="pre">SLSQP</span></code> 이다. 이들은 별개의 인스턴스로서 생성되고, 구성될 때 VQE로 전달된다. 예를 들어, 다른 고전적 최적화 프로그램 또는 다양한 양식은 단순히 원하는 것의 인스턴스를 작성하여 VQE에 전달하는 경우이다.</p>
 <div class="nbinput nblast docutils container">
@@ -816,7 +815,7 @@ q_1: ┤ RY(θ[1]) ├─■─┤ RY(θ[3]) ├─■─┤ RY(θ[5]) ├─■
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -860,7 +859,7 @@ q_1: ┤ RY(θ[1]) ├─■─┤ RY(θ[3]) ├─■─┤ RY(θ[5]) ├─■
          <script src="../../_static/language_data.js"></script>
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

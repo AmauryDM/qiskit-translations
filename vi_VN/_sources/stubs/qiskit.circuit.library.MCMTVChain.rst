@@ -56,6 +56,7 @@
       ~MCMTVChain.fredkin
       ~MCMTVChain.from_qasm_file
       ~MCMTVChain.from_qasm_str
+      ~MCMTVChain.get_instructions
       ~MCMTVChain.h
       ~MCMTVChain.hamiltonian
       ~MCMTVChain.has_register

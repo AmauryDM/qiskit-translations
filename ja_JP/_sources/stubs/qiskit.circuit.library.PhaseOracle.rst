@@ -58,6 +58,7 @@
       ~PhaseOracle.from_dimacs_file
       ~PhaseOracle.from_qasm_file
       ~PhaseOracle.from_qasm_str
+      ~PhaseOracle.get_instructions
       ~PhaseOracle.h
       ~PhaseOracle.hamiltonian
       ~PhaseOracle.has_register

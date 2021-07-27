@@ -24,6 +24,7 @@
       ~Schedule.filter
       ~Schedule.flatten
       ~Schedule.get_parameters
+      ~Schedule.initialize_from
       ~Schedule.insert
       ~Schedule.is_parameterized
       ~Schedule.replace
@@ -38,6 +39,7 @@
    .. autosummary::
    
       ~Schedule.channels
+      ~Schedule.children
       ~Schedule.duration
       ~Schedule.instances_counter
       ~Schedule.instructions

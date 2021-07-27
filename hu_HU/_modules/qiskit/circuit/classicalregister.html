@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.classicalregister &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.circuit.classicalregister &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -357,8 +357,9 @@
         <span class="k">if</span> <span class="n">register</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">ClassicalRegister</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Clbit needs a ClassicalRegister and </span><span class="si">%s</span><span class="s1"> was provided&#39;</span> <span class="o">%</span>
-                               <span class="nb">type</span><span class="p">(</span><span class="n">register</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="s2">&quot;Clbit needs a ClassicalRegister and </span><span class="si">%s</span><span class="s2"> was provided&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">register</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="ClassicalRegister"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.ClassicalRegister.html#qiskit.circuit.ClassicalRegister">[docs]</a><span class="k">class</span> <span class="nc">ClassicalRegister</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
@@ -367,7 +368,7 @@
     <span class="c1"># Counter for the number of instances in this class.</span>
     <span class="n">instances_counter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
     <span class="c1"># Prefix to use for auto naming.</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;c&quot;</span>
     <span class="n">bit_type</span> <span class="o">=</span> <span class="n">Clbit</span>
 
 <div class="viewcode-block" id="ClassicalRegister.qasm"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.ClassicalRegister.html#qiskit.circuit.ClassicalRegister.qasm">[docs]</a>    <span class="k">def</span> <span class="nf">qasm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -390,7 +391,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -425,7 +426,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

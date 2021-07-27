@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.evolutions.trotterizations.trotterization_factory &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>qiskit.opflow.evolutions.trotterizations.trotterization_factory &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -338,13 +338,12 @@
 <span class="kn">from</span> <span class="nn">qiskit.opflow.evolutions.trotterizations.trotterization_base</span> <span class="kn">import</span> <span class="n">TrotterizationBase</span>
 
 
-<div class="viewcode-block" id="TrotterizationFactory"><a class="viewcode-back" href="../../../../../stubs/qiskit.opflow.evolutions.TrotterizationFactory.html#qiskit.opflow.evolutions.TrotterizationFactory">[belgeler]</a><span class="k">class</span> <span class="nc">TrotterizationFactory</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; A factory for conveniently creating TrotterizationBase instances. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TrotterizationFactory"><a class="viewcode-back" href="../../../../../stubs/qiskit.opflow.evolutions.TrotterizationFactory.html#qiskit.opflow.evolutions.TrotterizationFactory">[belgeler]</a><span class="k">class</span> <span class="nc">TrotterizationFactory</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A factory for conveniently creating TrotterizationBase instances.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TrotterizationFactory.build"><a class="viewcode-back" href="../../../../../stubs/qiskit.opflow.evolutions.TrotterizationFactory.html#qiskit.opflow.evolutions.TrotterizationFactory.build">[belgeler]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;trotter&#39;</span><span class="p">,</span>
-              <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrotterizationBase</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; A factory for conveniently creating TrotterizationBase instances.</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;trotter&quot;</span><span class="p">,</span> <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrotterizationBase</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A factory for conveniently creating TrotterizationBase instances.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            mode: One of &#39;trotter&#39;, &#39;suzuki&#39;, &#39;qdrift&#39;</span>
@@ -356,16 +355,16 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: A string not in [&#39;trotter&#39;, &#39;suzuki&#39;, &#39;qdrift&#39;] is given for mode.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;trotter&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;trotter&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Trotter</span><span class="p">(</span><span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;suzuki&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;suzuki&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Suzuki</span><span class="p">(</span><span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;qdrift&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;qdrift&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">QDrift</span><span class="p">(</span><span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Trotter mode </span><span class="si">{}</span><span class="s1"> not supported&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span></div></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trotter mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -383,7 +382,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -418,7 +417,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

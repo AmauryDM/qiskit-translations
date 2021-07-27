@@ -39,6 +39,7 @@
       ~SaveExpectationValue.decompositions
       ~SaveExpectationValue.definition
       ~SaveExpectationValue.duration
+      ~SaveExpectationValue.label
       ~SaveExpectationValue.params
       ~SaveExpectationValue.unit
    

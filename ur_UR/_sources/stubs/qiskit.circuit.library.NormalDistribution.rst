@@ -56,6 +56,7 @@
       ~NormalDistribution.fredkin
       ~NormalDistribution.from_qasm_file
       ~NormalDistribution.from_qasm_str
+      ~NormalDistribution.get_instructions
       ~NormalDistribution.h
       ~NormalDistribution.hamiltonian
       ~NormalDistribution.has_register

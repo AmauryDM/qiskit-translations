@@ -43,5 +43,6 @@
       ~AQGD.is_initial_point_required
       ~AQGD.is_initial_point_supported
       ~AQGD.setting
+      ~AQGD.settings
    
    

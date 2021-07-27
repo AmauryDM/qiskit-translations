@@ -27,6 +27,7 @@
    .. autosummary::
    
       ~Waveform.id
+      ~Waveform.limit_amplitude
       ~Waveform.parameters
       ~Waveform.samples
    

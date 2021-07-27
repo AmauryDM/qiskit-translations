@@ -19,6 +19,7 @@
       ~VQE.construct_circuit
       ~VQE.construct_expectation
       ~VQE.find_minimum
+      ~VQE.get_energy_evaluation
       ~VQE.get_optimal_circuit
       ~VQE.get_optimal_cost
       ~VQE.get_optimal_vector
@@ -37,6 +38,7 @@
    
       ~VQE.ansatz
       ~VQE.expectation
+      ~VQE.gradient
       ~VQE.initial_point
       ~VQE.optimal_params
       ~VQE.optimizer

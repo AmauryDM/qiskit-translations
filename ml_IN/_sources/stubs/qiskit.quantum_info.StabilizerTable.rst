@@ -56,6 +56,7 @@
       ~StabilizerTable.pauli
       ~StabilizerTable.phase
       ~StabilizerTable.qargs
+      ~StabilizerTable.settings
       ~StabilizerTable.shape
       ~StabilizerTable.size
    

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.gradients.gradient &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.opflow.gradients.gradient &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -341,6 +341,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span>
 <span class="kn">from</span> <span class="nn">..expectations.pauli_expectation</span> <span class="kn">import</span> <span class="n">PauliExpectation</span>
 <span class="kn">from</span> <span class="nn">.gradient_base</span> <span class="kn">import</span> <span class="n">GradientBase</span>
+<span class="kn">from</span> <span class="nn">.derivative_base</span> <span class="kn">import</span> <span class="n">_coeff_derivative</span>
 <span class="kn">from</span> <span class="nn">..list_ops.composed_op</span> <span class="kn">import</span> <span class="n">ComposedOp</span>
 <span class="kn">from</span> <span class="nn">..list_ops.list_op</span> <span class="kn">import</span> <span class="n">ListOp</span>
 <span class="kn">from</span> <span class="nn">..list_ops.summed_op</span> <span class="kn">import</span> <span class="n">SummedOp</span>
@@ -352,6 +353,7 @@
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jit</span>
+
     <span class="n">_HAS_JAX</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_JAX</span> <span class="o">=</span> <span class="kc">False</span>
@@ -361,11 +363,13 @@
     <span class="sd">&quot;&quot;&quot;Convert an operator expression to the first-order gradient.&quot;&quot;&quot;</span>
 
     <span class="c1"># pylint: disable=signature-differs</span>
-<div class="viewcode-block" id="Gradient.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Gradient.html#qiskit.opflow.gradients.Gradient.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
-                    <span class="n">Union</span><span class="p">[</span><span class="n">ParameterVector</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="Gradient.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Gradient.html#qiskit.opflow.gradients.Gradient.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">ParameterVector</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            operator: The operator we are taking the gradient of.</span>
@@ -385,12 +389,13 @@
             <span class="n">params</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">cmp_to_key</span><span class="p">(</span><span class="n">_compare_parameters</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="p">(</span><span class="n">ParameterVector</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="n">param_grads</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
-            <span class="n">absent_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grad_ops</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span> <span class="k">if</span> <span class="n">grad_ops</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">absent_params</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grad_ops</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span> <span class="k">if</span> <span class="n">grad_ops</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">absent_params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;The following parameters do not appear in the provided operator: &quot;</span><span class="p">,</span>
-                    <span class="n">absent_params</span>
+                    <span class="n">absent_params</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span>
 
@@ -401,10 +406,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">(</span><span class="n">cleaned_op</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
 
     <span class="c1"># pylint: disable=too-many-return-statements</span>
-<div class="viewcode-block" id="Gradient.get_gradient"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Gradient.html#qiskit.opflow.gradients.Gradient.get_gradient">[docs]</a>    <span class="k">def</span> <span class="nf">get_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                     <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                     <span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">]]</span>
-                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="Gradient.get_gradient"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.Gradient.html#qiskit.opflow.gradients.Gradient.get_gradient">[docs]</a>    <span class="k">def</span> <span class="nf">get_gradient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get the gradient for the given operator w.r.t. the given parameters</span>
 
 <span class="sd">        Args:</span>
@@ -435,12 +441,13 @@
             <span class="c1"># If get_gradient returns None, then the corresponding parameter was probably not</span>
             <span class="c1"># present in the operator. This needs to be looked at more carefully as other things can</span>
             <span class="c1"># probably trigger a return of None.</span>
-            <span class="n">absent_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grad_ops</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span> <span class="k">if</span> <span class="n">grad_ops</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">absent_params</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grad_ops</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span> <span class="k">if</span> <span class="n">grad_ops</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">absent_params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s1">&#39;The following parameters do not appear in the provided operator: &#39;</span><span class="p">,</span>
-                    <span class="n">absent_params</span>
+                    <span class="s2">&quot;The following parameters do not appear in the provided operator: &quot;</span><span class="p">,</span>
+                    <span class="n">absent_params</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">param_grads</span><span class="p">)</span>
 
@@ -454,7 +461,7 @@
             <span class="c1"># Get derivative of the operator (recursively)</span>
             <span class="n">d_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
             <span class="c1"># ..get derivative of the coeff</span>
-            <span class="n">d_coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expression_grad</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="n">d_coeff</span> <span class="o">=</span> <span class="n">_coeff_derivative</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
             <span class="n">grad_op</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="n">d_op</span> <span class="o">!=</span> <span class="o">~</span><span class="n">Zero</span> <span class="o">@</span> <span class="n">One</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_coeff_c</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
@@ -474,36 +481,36 @@
 
             <span class="c1"># Gradient of an expectation value</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coeff_c</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">_coeff</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Operator pre-processing failed. Coefficients were not properly &#39;</span>
-                                  <span class="s1">&#39;collected inside the ComposedOp.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
+                    <span class="s2">&quot;Operator pre-processing failed. Coefficients were not properly &quot;</span>
+                    <span class="s2">&quot;collected inside the ComposedOp.&quot;</span>
+                <span class="p">)</span>
 
             <span class="c1"># Do some checks to make sure operator is sensible</span>
             <span class="c1"># TODO add compatibility with sum of circuit state fns</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">CircuitStateFn</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="s1">&#39;The gradient framework is compatible with states that are given as &#39;</span>
-                    <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">)</span>
+                    <span class="s2">&quot;The gradient framework is compatible with states that are given as &quot;</span>
+                    <span class="s2">&quot;CircuitStateFn&quot;</span>
+                <span class="p">)</span>
 
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_method</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">):</span>
             <span class="c1"># Gradient of an a state&#39;s sampling probabilities</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coeff_c</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">_coeff</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Operator pre-processing failed. Coefficients were not properly &#39;</span>
-                                  <span class="s1">&#39;collected inside the ComposedOp.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
+                    <span class="s2">&quot;Operator pre-processing failed. Coefficients were not properly &quot;</span>
+                    <span class="s2">&quot;collected inside the ComposedOp.&quot;</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_method</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
         <span class="c1"># Handle the chain rule</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
             <span class="n">grad_ops</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">]</span>
 
-            <span class="c1"># Note: this check to see if the ListOp has a default combo_fn</span>
-            <span class="c1"># will fail if the user manually specifies the default combo_fn.</span>
-            <span class="c1"># I.e operator = ListOp([...], combo_fn=lambda x:x) will not pass this check and</span>
-            <span class="c1"># later on jax will try to differentiate it and raise an error.</span>
-            <span class="c1"># An alternative is to check the byte code of the operator&#39;s combo_fn against the</span>
-            <span class="c1"># default one.</span>
-            <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">_combo_fn</span> <span class="o">==</span> <span class="n">ListOp</span><span class="p">([])</span><span class="o">.</span><span class="n">_combo_fn</span><span class="p">:</span>
+            <span class="c1"># pylint: disable=comparison-with-callable</span>
+            <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">combo_fn</span> <span class="o">==</span> <span class="n">ListOp</span><span class="o">.</span><span class="n">default_combo_fn</span><span class="p">:</span>  <span class="c1"># If using default</span>
                 <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">oplist</span><span class="o">=</span><span class="n">grad_ops</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SummedOp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">SummedOp</span><span class="p">(</span><span class="n">oplist</span><span class="o">=</span><span class="p">[</span><span class="n">grad</span> <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">grad_ops</span> <span class="k">if</span> <span class="n">grad</span> <span class="o">!=</span> <span class="o">~</span><span class="n">Zero</span> <span class="o">@</span> <span class="n">One</span><span class="p">])</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
@@ -514,14 +521,15 @@
                 <span class="n">grad_combo_fn</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">grad_combo_fn</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">_HAS_JAX</span><span class="p">:</span>
-                    <span class="n">grad_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">_combo_fn</span><span class="p">,</span> <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                    <span class="n">grad_combo_fn</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">,</span> <span class="n">holomorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                        <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;jax&#39;</span><span class="p">,</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_gradient&#39;</span><span class="p">,</span>
-                        <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;This automatic differentiation function is based on JAX. &#39;</span>
-                            <span class="s1">&#39;Please install jax and use `import jax.numpy as jnp` instead &#39;</span>
-                            <span class="s1">&#39;of `import numpy as np` when defining a combo_fn.&#39;</span><span class="p">)</span>
+                        <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;jax&quot;</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;get_gradient&quot;</span><span class="p">,</span>
+                        <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;This automatic differentiation function is based on JAX. &quot;</span>
+                        <span class="s2">&quot;Please install jax and use `import jax.numpy as jnp` instead &quot;</span>
+                        <span class="s2">&quot;of `import numpy as np` when defining a combo_fn.&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
 
             <span class="k">def</span> <span class="nf">chain_rule_combo_fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -529,8 +537,10 @@
                     <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">result</span>
 
-            <span class="k">return</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">grad_combo_fn</span><span class="p">),</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">grad_ops</span><span class="p">)],</span>
-                          <span class="n">combo_fn</span><span class="o">=</span><span class="n">chain_rule_combo_fn</span><span class="p">)</span></div></div>
+            <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">ListOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">,</span> <span class="n">combo_fn</span><span class="o">=</span><span class="n">grad_combo_fn</span><span class="p">),</span> <span class="n">ListOp</span><span class="p">(</span><span class="n">grad_ops</span><span class="p">)],</span>
+                <span class="n">combo_fn</span><span class="o">=</span><span class="n">chain_rule_combo_fn</span><span class="p">,</span>
+            <span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -548,7 +558,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -583,7 +593,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.base_operator &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.quantum_info.operators.base_operator &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -343,12 +343,12 @@
 <span class="kn">from</span> <span class="nn">.mixins</span> <span class="kn">import</span> <span class="n">GroupMixin</span>
 
 
-<span class="c1"># pylint: disable = abstract-method</span>
 <span class="k">class</span> <span class="nc">BaseOperator</span><span class="p">(</span><span class="n">GroupMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Abstract operator base class.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">num_qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">op_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">op_shape</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a BaseOperator shape</span>
 
 <span class="sd">        Args:</span>
@@ -368,10 +368,9 @@
         <span class="k">if</span> <span class="n">op_shape</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">op_shape</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">OpShape</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-                                          <span class="n">dims_l</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span>
-                                          <span class="n">dims_r</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span>
-                                          <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">OpShape</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span>
+                <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">dims_l</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span> <span class="n">dims_r</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span>
+            <span class="p">)</span>
 
     <span class="c1"># Set higher priority than Numpy array and matrix classes</span>
     <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">20</span>
@@ -384,14 +383,14 @@
         <span class="k">if</span> <span class="n">n_qargs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">num_qargs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;qargs does not match the number of operator qargs &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">n_qargs</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">num_qargs</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">n_qargs</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">num_qargs</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_qargs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_op_shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_op_shape</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">qargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -418,6 +417,11 @@
         <span class="sd">&quot;&quot;&quot;Return the total input dimension.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">_dim_l</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return operator settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;op_shape&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="p">}</span>
+
     <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a shallow copy with reshaped input and output subsystem dimensions.</span>
 
@@ -436,8 +440,8 @@
 <span class="sd">                         subsystem output dimensions is not constant.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">new_shape</span> <span class="o">=</span> <span class="n">OpShape</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span>
-            <span class="n">dims_l</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span> <span class="n">dims_r</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">dims_l</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span> <span class="n">dims_r</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">new_shape</span>
         <span class="k">return</span> <span class="n">ret</span>
@@ -470,7 +474,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -505,7 +509,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

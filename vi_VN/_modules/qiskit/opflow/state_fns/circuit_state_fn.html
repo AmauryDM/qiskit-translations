@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.state_fns.circuit_state_fn &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.opflow.state_fns.circuit_state_fn &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -364,16 +364,20 @@
     <span class="n">primitive</span><span class="p">:</span> <span class="n">QuantumCircuit</span>
 
     <span class="c1"># TODO allow normalization somehow?</span>
-<div class="viewcode-block" id="CircuitStateFn.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">primitive</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-                 <span class="n">is_measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitStateFn.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">primitive</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">is_measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">from_operator</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            primitive: The ``QuantumCircuit`` (or ``Instruction``, which will be converted) which</span>
 <span class="sd">                defines the behavior of the underlying function.</span>
 <span class="sd">            coeff: A coefficient multiplying the state function.</span>
 <span class="sd">            is_measurement: Whether the StateFn is a measurement operator.</span>
+<span class="sd">            from_operator: if True the StateFn is derived from OperatorStateFn. (Default: False)</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: Unsupported primitive, or primitive has ClassicalRegisters.</span>
@@ -384,17 +388,21 @@
             <span class="n">primitive</span> <span class="o">=</span> <span class="n">qc</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;CircuitStateFn can only be instantiated &#39;</span>
-                            <span class="s1">&#39;with QuantumCircuit, not </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">primitive</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;CircuitStateFn can only be instantiated &quot;</span>
+                <span class="s2">&quot;with QuantumCircuit, not </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">primitive</span><span class="p">))</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">primitive</span><span class="o">.</span><span class="n">clbits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;CircuitOp does not support QuantumCircuits with ClassicalRegisters.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;CircuitOp does not support QuantumCircuits with ClassicalRegisters.&quot;</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="n">is_measurement</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="n">is_measurement</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_operator</span> <span class="o">=</span> <span class="n">from_operator</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.from_dict"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">density_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Construct the CircuitStateFn from a dict mapping strings to probability densities.</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">density_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CircuitStateFn&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Construct the CircuitStateFn from a dict mapping strings to probability densities.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            density_dict: The dict representing the desired state.</span>
@@ -411,7 +419,7 @@
                 <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bstr</span><span class="p">))</span>
                 <span class="c1"># NOTE: Reversing endianness!!</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">bit</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">bstr</span><span class="p">)):</span>
-                    <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
                         <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
                 <span class="n">sf_circuit</span> <span class="o">=</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">prob</span><span class="p">)</span>
                 <span class="n">statefn_circuits</span> <span class="o">+=</span> <span class="p">[</span><span class="n">sf_circuit</span><span class="p">]</span>
@@ -424,8 +432,8 @@
             <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="o">.</span><span class="n">from_vector</span><span class="p">(</span><span class="n">sf_dict</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.from_vector"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.from_vector">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_vector</span><span class="p">(</span><span class="n">statevector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Construct the CircuitStateFn from a vector representing the statevector.</span>
+    <span class="k">def</span> <span class="nf">from_vector</span><span class="p">(</span><span class="n">statevector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CircuitStateFn&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Construct the CircuitStateFn from a vector representing the statevector.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            statevector: The statevector representing the desired state.</span>
@@ -438,7 +446,14 @@
         <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">Initialize</span><span class="p">(</span><span class="n">normalized_sv</span><span class="p">),</span> <span class="n">coeff</span><span class="o">=</span><span class="n">normalization_coeff</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.primitive_strings"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.primitive_strings">[docs]</a>    <span class="k">def</span> <span class="nf">primitive_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;QuantumCircuit&#39;</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;QuantumCircuit&quot;</span><span class="p">}</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings.&quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">settings</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;from_operator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_operator</span>
+        <span class="k">return</span> <span class="n">data</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -446,9 +461,11 @@
 
 <div class="viewcode-block" id="CircuitStateFn.add"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Sum over operators with different numbers of qubits, &#39;</span>
-                             <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">, is not well &#39;</span>
-                             <span class="s1">&#39;defined&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sum over operators with different numbers of qubits, &quot;</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">, is not well &quot;</span>
+                <span class="s2">&quot;defined&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
@@ -460,20 +477,24 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">inverse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">CircuitError</span> <span class="k">as</span> <span class="n">missing_inverse</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Failed to take the inverse of the underlying circuit, the circuit &#39;</span>
-                              <span class="s1">&#39;is likely not unitary and can therefore not be inverted.&#39;</span><span class="p">)</span> \
-                <span class="kn">from</span> <span class="nn">missing_inverse</span>
+            <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
+                <span class="s2">&quot;Failed to take the inverse of the underlying circuit, the circuit &quot;</span>
+                <span class="s2">&quot;is likely not unitary and can therefore not be inverted.&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">missing_inverse</span>
 
-        <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span>
-                              <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span>
-                              <span class="n">is_measurement</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span>
+            <span class="n">inverse</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span> <span class="n">is_measurement</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CircuitStateFn.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitStateFn.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">front</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Composition with a Statefunctions in the first operand is not defined.&#39;</span><span class="p">)</span>
+                <span class="s2">&quot;Composition with a Statefunctions in the first operand is not defined.&quot;</span>
+            <span class="p">)</span>
         <span class="n">new_self</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_shorter_operator_and_permute</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">permutation</span><span class="p">)</span>
+        <span class="n">new_self</span><span class="o">.</span><span class="n">from_operator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_operator</span>
 
         <span class="k">if</span> <span class="n">front</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">new_self</span><span class="p">)</span>
@@ -485,15 +506,20 @@
             <span class="n">composed_op_circs</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">CircuitOp</span><span class="p">,</span> <span class="n">op_circuit_self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">to_circuit_op</span><span class="p">()))</span>
 
             <span class="c1"># Returning CircuitStateFn</span>
-            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">composed_op_circs</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span>
-                                  <span class="n">is_measurement</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
-                                  <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span>
+                <span class="n">composed_op_circs</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span>
+                <span class="n">is_measurement</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
+                <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+                <span class="n">from_operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">from_operator</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">:</span>
             <span class="c1"># pylint: disable=cyclic-import</span>
             <span class="kn">from</span> <span class="nn">..operator_globals</span> <span class="kn">import</span> <span class="n">Zero</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">CircuitOp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span>
-                                          <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">))</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">Zero</span> <span class="o">^</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">CircuitOp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">))</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">Zero</span> <span class="o">^</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ComposedOp</span><span class="p">([</span><span class="n">new_self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span></div>
 
@@ -522,9 +548,11 @@
             <span class="n">c_op_other</span> <span class="o">=</span> <span class="n">CircuitOp</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
             <span class="n">c_op</span> <span class="o">=</span> <span class="n">c_op_self</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">c_op_other</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c_op</span><span class="p">,</span> <span class="n">CircuitOp</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">primitive</span><span class="o">=</span><span class="n">c_op</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span>  <span class="c1"># pylint: disable=no-member</span>
-                                      <span class="n">coeff</span><span class="o">=</span><span class="n">c_op</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
-                                      <span class="n">is_measurement</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span>
+                    <span class="n">primitive</span><span class="o">=</span><span class="n">c_op</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span>  <span class="c1"># pylint: disable=no-member</span>
+                    <span class="n">coeff</span><span class="o">=</span><span class="n">c_op</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+                    <span class="n">is_measurement</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">TensoredOp</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.to_density_matrix"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.to_density_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_density_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -537,34 +565,37 @@
 <span class="sd">        to classical tools is</span>
 <span class="sd">        appropriate.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s1">&#39;to_density_matrix&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
+        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s2">&quot;to_density_matrix&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
         <span class="c1"># Rely on VectorStateFn&#39;s logic here.</span>
         <span class="k">return</span> <span class="n">VectorStateFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(</span><span class="n">massive</span><span class="o">=</span><span class="n">massive</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span><span class="o">.</span><span class="n">to_density_matrix</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.to_matrix"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.to_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s1">&#39;to_matrix&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
+        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s2">&quot;to_matrix&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
 
         <span class="c1"># Need to adjoint to get forward statevector and then reverse</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(</span><span class="n">massive</span><span class="o">=</span><span class="n">massive</span><span class="p">))</span>
         <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">(</span><span class="n">meas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">statevector_backend</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;statevector_simulator&#39;</span><span class="p">)</span>
+        <span class="n">statevector_backend</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;statevector_simulator&quot;</span><span class="p">)</span>
         <span class="n">transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">statevector_backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">statevector</span> <span class="o">=</span> <span class="n">statevector_backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
         <span class="kn">from</span> <span class="nn">..operator_globals</span> <span class="kn">import</span> <span class="n">EVAL_SIG_DIGITS</span>
+
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">statevector</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">EVAL_SIG_DIGITS</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">qc</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">CircuitStateFn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">()</span>
-        <span class="n">prim_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">))</span>
+        <span class="n">prim_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;CircuitStateFn&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span>
-                                       <span class="k">else</span> <span class="s1">&#39;CircuitMeasurement&#39;</span><span class="p">,</span> <span class="n">prim_str</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;CircuitStateFn&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="s2">&quot;CircuitMeasurement&quot;</span><span class="p">,</span> <span class="n">prim_str</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">) * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;CircuitStateFn&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span>
-                                            <span class="k">else</span> <span class="s1">&#39;CircuitMeasurement&#39;</span><span class="p">,</span>
-                                            <span class="n">prim_str</span><span class="p">,</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">) * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;CircuitStateFn&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="k">else</span> <span class="s2">&quot;CircuitMeasurement&quot;</span><span class="p">,</span>
+                <span class="n">prim_str</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="CircuitStateFn.assign_parameters"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.assign_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;CircuitStateFn&quot;</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">]:</span>
         <span class="n">param_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
@@ -573,8 +604,9 @@
             <span class="n">unrolled_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unroll_param_dict</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unrolled_dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">ListOp</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">param_dict</span> <span class="ow">in</span> <span class="n">unrolled_dict</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> \
-                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">parameters</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unrolled_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">parameters</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span>
+                <span class="n">unrolled_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="p">):</span>
                 <span class="n">param_instersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unrolled_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">parameters</span>
                 <span class="n">binds</span> <span class="o">=</span> <span class="p">{</span><span class="n">param</span><span class="p">:</span> <span class="n">unrolled_dict</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_instersection</span><span class="p">}</span>
                 <span class="n">param_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">binds</span><span class="p">))</span>
@@ -599,12 +631,14 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_measurement</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Cannot compute overlap with StateFn or Operator if not Measurement. Try taking &#39;</span>
-                <span class="s1">&#39;sf.adjoint() first to convert to measurement.&#39;</span><span class="p">)</span>
+                <span class="s2">&quot;Cannot compute overlap with StateFn or Operator if not Measurement. Try taking &quot;</span>
+                <span class="s2">&quot;sf.adjoint() first to convert to measurement.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">front</span><span class="o">.</span><span class="n">distributive</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span>
-                                   <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="c1"># Composable with circuit</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="p">(</span><span class="n">PauliOp</span><span class="p">,</span> <span class="n">CircuitOp</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">)):</span>
@@ -614,7 +648,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matrix_op</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.to_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.to_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">to_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Return QuantumCircuit representing StateFn &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return QuantumCircuit representing StateFn&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">meas</span><span class="p">:</span>
             <span class="n">meas_qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">meas_qc</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">ClassicalRegister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
@@ -624,25 +658,24 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.to_circuit_op"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.to_circuit_op">[docs]</a>    <span class="k">def</span> <span class="nf">to_circuit_op</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Return ``StateFnCircuit`` corresponding to this StateFn.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return ``StateFnCircuit`` corresponding to this StateFn.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="CircuitStateFn.to_instruction"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.to_instruction">[docs]</a>    <span class="k">def</span> <span class="nf">to_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return Instruction corresponding to primitive. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return Instruction corresponding to primitive.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span></div>
 
     <span class="c1"># TODO specify backend?</span>
-<div class="viewcode-block" id="CircuitStateFn.sample"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-               <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
-               <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-               <span class="n">reverse_endianness</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitStateFn.sample"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">reverse_endianness</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sample the state function as a normalized probability distribution. Returns dict of</span>
 <span class="sd">        bitstrings in order of probability, with values being probability.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
+        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_check_massive</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">massive</span><span class="p">)</span>
         <span class="n">qc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">(</span><span class="n">meas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">qasm_backend</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">)</span>
+        <span class="n">qasm_backend</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;qasm_simulator&quot;</span><span class="p">)</span>
         <span class="n">transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">qasm_backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">counts</span> <span class="o">=</span> <span class="n">qasm_backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">reverse_endianness</span><span class="p">:</span>
@@ -660,17 +693,18 @@
                 <span class="c1"># Check if Identity or empty instruction (need to check that type is exactly</span>
                 <span class="c1"># Instruction because some gates have lazy gate.definition population)</span>
                 <span class="c1"># pylint: disable=unidiomatic-typecheck</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">IGate</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span> <span class="o">==</span> <span class="n">Instruction</span> <span class="ow">and</span>
-                                               <span class="n">gate</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="p">[]):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">IGate</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span> <span class="o">==</span> <span class="n">Instruction</span> <span class="ow">and</span> <span class="n">gate</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="p">[]</span>
+                <span class="p">):</span>
                     <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CircuitStateFn&quot;</span><span class="p">:</span>
         <span class="c1"># this is equivalent to self.tensor(identity_operator), but optimized for better performance</span>
         <span class="c1"># just like in tensor method, qiskit endianness is reversed here</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="CircuitStateFn.permute"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.permute">[docs]</a>    <span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;CircuitStateFn&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitStateFn.permute"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.state_fns.CircuitStateFn.html#qiskit.opflow.state_fns.CircuitStateFn.permute">[docs]</a>    <span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CircuitStateFn&quot;</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Permute the qubits of the circuit.</span>
 
@@ -700,7 +734,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -735,7 +769,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

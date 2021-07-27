@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.execute_function &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.execute_function &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -352,24 +352,45 @@
 
 
 <span class="k">def</span> <span class="nf">_log_submission_time</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
-    <span class="n">log_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Total Job Submission Time - </span><span class="si">%.5f</span><span class="s2"> (ms)&quot;</span>
-               <span class="o">%</span> <span class="p">((</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">log_msg</span> <span class="o">=</span> <span class="s2">&quot;Total Job Submission Time - </span><span class="si">%.5f</span><span class="s2"> (ms)&quot;</span> <span class="o">%</span> <span class="p">((</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">log_msg</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="execute"><a class="viewcode-back" href="../../apidoc/execute.html#qiskit.execute_function.execute">[文件]</a><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span>
-            <span class="n">basis_gates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coupling_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># circuit transpile options</span>
-            <span class="n">backend_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">seed_transpiler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pass_manager</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">qobj_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qobj_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># common run options</span>
-            <span class="n">memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_credits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_simulator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">default_qubit_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_meas_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># schedule run options</span>
-            <span class="n">schedule_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">meas_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">meas_return</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">memory_slots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">memory_slot_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">parameter_binds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">schedule_circuit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inst_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">meas_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">scheduling_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init_qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">run_config</span><span class="p">):</span>
+<div class="viewcode-block" id="execute"><a class="viewcode-back" href="../../apidoc/execute.html#qiskit.execute_function.execute">[文件]</a><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+    <span class="n">experiments</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">,</span>
+    <span class="n">basis_gates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">coupling_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># circuit transpile options</span>
+    <span class="n">backend_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">initial_layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed_transpiler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimization_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pass_manager</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">qobj_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">qobj_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># common run options</span>
+    <span class="n">memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_credits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed_simulator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_qubit_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_meas_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># schedule run options</span>
+    <span class="n">qubit_lo_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_lo_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">schedule_los</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_return</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">memory_slots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">memory_slot_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rep_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">parameter_binds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">schedule_circuit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">inst_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meas_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">scheduling_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">init_qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Execute a list of :class:`qiskit.circuit.QuantumCircuit` or</span>
 <span class="sd">    :class:`qiskit.pulse.Schedule` on a backend.</span>
 
@@ -469,15 +490,33 @@
 
 <span class="sd">        seed_simulator (int): Random seed to control sampling, for when backend is a simulator</span>
 
-<span class="sd">        default_qubit_los (list): List of default qubit LO frequencies in Hz</span>
+<span class="sd">        default_qubit_los (Optional[List[float]]): List of job level qubit drive LO frequencies</span>
+<span class="sd">            in Hz. Overridden by ``schedule_los`` if specified. Must have length ``n_qubits``.</span>
 
-<span class="sd">        default_meas_los (list): List of default meas LO frequencies in Hz</span>
+<span class="sd">        default_meas_los (Optional[List[float]]): List of job level measurement LO frequencies in</span>
+<span class="sd">            Hz. Overridden by ``schedule_los`` if specified. Must have length ``n_qubits``.</span>
 
-<span class="sd">        schedule_los (None or list or dict or LoConfig): Experiment LO</span>
-<span class="sd">            configurations, if specified the list is in the format::</span>
+<span class="sd">        qubit_lo_range (Optional[List[List[float]]]): List of job level drive LO ranges each of form</span>
+<span class="sd">            ``[range_min, range_max]`` in Hz. Used to validate ``qubit_lo_freq``. Must have length</span>
+<span class="sd">            ``n_qubits``.</span>
 
-<span class="sd">                list[Union[Dict[PulseChannel, float], LoConfig]] or</span>
-<span class="sd">                     Union[Dict[PulseChannel, float], LoConfig]</span>
+<span class="sd">        meas_lo_range (Optional[List[List[float]]]): List of job level measurement LO ranges each of</span>
+<span class="sd">            form ``[range_min, range_max]`` in Hz. Used to validate ``meas_lo_freq``. Must have</span>
+<span class="sd">            length ``n_qubits``.</span>
+
+<span class="sd">        schedule_los (list):</span>
+<span class="sd">            Experiment level (ie circuit or schedule) LO frequency configurations for qubit drive</span>
+<span class="sd">            and measurement channels. These values override the job level values from</span>
+<span class="sd">            ``default_qubit_los`` and ``default_meas_los``. Frequencies are in Hz. Settable for qasm</span>
+<span class="sd">            and pulse jobs.</span>
+
+<span class="sd">            If a single LO config or dict is used, the values are set at job level. If a list is</span>
+<span class="sd">            used, the list must be the size of the number of experiments in the job, except in the</span>
+<span class="sd">            case of a single experiment. In this case, a frequency sweep will be assumed and one</span>
+<span class="sd">            experiment will be created for every list entry.</span>
+
+<span class="sd">            Not every channel is required to be specified. If not specified, the backend default</span>
+<span class="sd">            value will be used.</span>
 
 <span class="sd">        meas_level (int or MeasLevel): Set the appropriate level of the</span>
 <span class="sd">            measurement output for pulse experiments.</span>
@@ -553,37 +592,44 @@
 
 <span class="sd">            job = execute(qc, backend, shots=4321)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span>
-                                             <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Schedule</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Schedule</span><span class="p">)</span>
+    <span class="p">):</span>
         <span class="c1"># do not transpile a schedule circuit</span>
         <span class="k">if</span> <span class="n">schedule_circuit</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Must supply QuantumCircuit to schedule circuit.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">pass_manager</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># transpiling using pass_manager</span>
-        <span class="n">_check_conflicting_argument</span><span class="p">(</span><span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
-                                    <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
-                                    <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span>
-                                    <span class="n">seed_transpiler</span><span class="o">=</span><span class="n">seed_transpiler</span><span class="p">,</span>
-                                    <span class="n">backend_properties</span><span class="o">=</span><span class="n">backend_properties</span><span class="p">,</span>
-                                    <span class="n">initial_layout</span><span class="o">=</span><span class="n">initial_layout</span><span class="p">)</span>
+        <span class="n">_check_conflicting_argument</span><span class="p">(</span>
+            <span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
+            <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
+            <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span>
+            <span class="n">seed_transpiler</span><span class="o">=</span><span class="n">seed_transpiler</span><span class="p">,</span>
+            <span class="n">backend_properties</span><span class="o">=</span><span class="n">backend_properties</span><span class="p">,</span>
+            <span class="n">initial_layout</span><span class="o">=</span><span class="n">initial_layout</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">experiments</span> <span class="o">=</span> <span class="n">pass_manager</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># transpiling the circuits using given transpile options</span>
-        <span class="n">experiments</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span>
-                                <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
-                                <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span>
-                                <span class="n">backend_properties</span><span class="o">=</span><span class="n">backend_properties</span><span class="p">,</span>
-                                <span class="n">initial_layout</span><span class="o">=</span><span class="n">initial_layout</span><span class="p">,</span>
-                                <span class="n">seed_transpiler</span><span class="o">=</span><span class="n">seed_transpiler</span><span class="p">,</span>
-                                <span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
-                                <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        <span class="n">experiments</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span>
+            <span class="n">experiments</span><span class="p">,</span>
+            <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
+            <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span>
+            <span class="n">backend_properties</span><span class="o">=</span><span class="n">backend_properties</span><span class="p">,</span>
+            <span class="n">initial_layout</span><span class="o">=</span><span class="n">initial_layout</span><span class="p">,</span>
+            <span class="n">seed_transpiler</span><span class="o">=</span><span class="n">seed_transpiler</span><span class="p">,</span>
+            <span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">schedule_circuit</span><span class="p">:</span>
-        <span class="n">experiments</span> <span class="o">=</span> <span class="n">schedule</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span>
-                               <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
-                               <span class="n">inst_map</span><span class="o">=</span><span class="n">inst_map</span><span class="p">,</span>
-                               <span class="n">meas_map</span><span class="o">=</span><span class="n">meas_map</span><span class="p">,</span>
-                               <span class="n">method</span><span class="o">=</span><span class="n">scheduling_method</span><span class="p">)</span>
+        <span class="n">experiments</span> <span class="o">=</span> <span class="n">schedule</span><span class="p">(</span>
+            <span class="n">circuits</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+            <span class="n">inst_map</span><span class="o">=</span><span class="n">inst_map</span><span class="p">,</span>
+            <span class="n">meas_map</span><span class="o">=</span><span class="n">meas_map</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">scheduling_method</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">):</span>
         <span class="c1"># assembling the circuits into a qobj to be run on the backend</span>
@@ -598,26 +644,30 @@
         <span class="k">if</span> <span class="n">memory_slot_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">memory_slot_size</span> <span class="o">=</span> <span class="mi">100</span>
 
-        <span class="n">qobj</span> <span class="o">=</span> <span class="n">assemble</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span>
-                        <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
-                        <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span>
-                        <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
-                        <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
-                        <span class="n">max_credits</span><span class="o">=</span><span class="n">max_credits</span><span class="p">,</span>
-                        <span class="n">seed_simulator</span><span class="o">=</span><span class="n">seed_simulator</span><span class="p">,</span>
-                        <span class="n">default_qubit_los</span><span class="o">=</span><span class="n">default_qubit_los</span><span class="p">,</span>
-                        <span class="n">default_meas_los</span><span class="o">=</span><span class="n">default_meas_los</span><span class="p">,</span>
-                        <span class="n">schedule_los</span><span class="o">=</span><span class="n">schedule_los</span><span class="p">,</span>
-                        <span class="n">meas_level</span><span class="o">=</span><span class="n">meas_level</span><span class="p">,</span>
-                        <span class="n">meas_return</span><span class="o">=</span><span class="n">meas_return</span><span class="p">,</span>
-                        <span class="n">memory_slots</span><span class="o">=</span><span class="n">memory_slots</span><span class="p">,</span>
-                        <span class="n">memory_slot_size</span><span class="o">=</span><span class="n">memory_slot_size</span><span class="p">,</span>
-                        <span class="n">rep_time</span><span class="o">=</span><span class="n">rep_time</span><span class="p">,</span>
-                        <span class="n">rep_delay</span><span class="o">=</span><span class="n">rep_delay</span><span class="p">,</span>
-                        <span class="n">parameter_binds</span><span class="o">=</span><span class="n">parameter_binds</span><span class="p">,</span>
-                        <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
-                        <span class="n">init_qubits</span><span class="o">=</span><span class="n">init_qubits</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">run_config</span><span class="p">)</span>
+        <span class="n">qobj</span> <span class="o">=</span> <span class="n">assemble</span><span class="p">(</span>
+            <span class="n">experiments</span><span class="p">,</span>
+            <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
+            <span class="n">qobj_header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">,</span>
+            <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span>
+            <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
+            <span class="n">max_credits</span><span class="o">=</span><span class="n">max_credits</span><span class="p">,</span>
+            <span class="n">seed_simulator</span><span class="o">=</span><span class="n">seed_simulator</span><span class="p">,</span>
+            <span class="n">qubit_lo_freq</span><span class="o">=</span><span class="n">default_qubit_los</span><span class="p">,</span>
+            <span class="n">meas_lo_freq</span><span class="o">=</span><span class="n">default_meas_los</span><span class="p">,</span>
+            <span class="n">qubit_lo_range</span><span class="o">=</span><span class="n">qubit_lo_range</span><span class="p">,</span>
+            <span class="n">meas_lo_range</span><span class="o">=</span><span class="n">meas_lo_range</span><span class="p">,</span>
+            <span class="n">schedule_los</span><span class="o">=</span><span class="n">schedule_los</span><span class="p">,</span>
+            <span class="n">meas_level</span><span class="o">=</span><span class="n">meas_level</span><span class="p">,</span>
+            <span class="n">meas_return</span><span class="o">=</span><span class="n">meas_return</span><span class="p">,</span>
+            <span class="n">memory_slots</span><span class="o">=</span><span class="n">memory_slots</span><span class="p">,</span>
+            <span class="n">memory_slot_size</span><span class="o">=</span><span class="n">memory_slot_size</span><span class="p">,</span>
+            <span class="n">rep_time</span><span class="o">=</span><span class="n">rep_time</span><span class="p">,</span>
+            <span class="n">rep_delay</span><span class="o">=</span><span class="n">rep_delay</span><span class="p">,</span>
+            <span class="n">parameter_binds</span><span class="o">=</span><span class="n">parameter_binds</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+            <span class="n">init_qubits</span><span class="o">=</span><span class="n">init_qubits</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">run_config</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># executing the circuits on the backend and returning the job</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -627,38 +677,44 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">):</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="n">run_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;shots&#39;</span><span class="p">:</span> <span class="n">shots</span><span class="p">,</span>
-            <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="n">memory</span><span class="p">,</span>
-            <span class="s1">&#39;seed_simulator&#39;</span><span class="p">:</span> <span class="n">seed_simulator</span><span class="p">,</span>
-            <span class="s1">&#39;default_qubit_los&#39;</span><span class="p">:</span> <span class="n">default_qubit_los</span><span class="p">,</span>
-            <span class="s1">&#39;default_meas_los&#39;</span><span class="p">:</span> <span class="n">default_meas_los</span><span class="p">,</span>
-            <span class="s1">&#39;schedule_los&#39;</span><span class="p">:</span> <span class="n">schedule_los</span><span class="p">,</span>
-            <span class="s1">&#39;meas_level&#39;</span><span class="p">:</span> <span class="n">meas_level</span><span class="p">,</span>
-            <span class="s1">&#39;meas_return&#39;</span><span class="p">:</span> <span class="n">meas_return</span><span class="p">,</span>
-            <span class="s1">&#39;memory_slots&#39;</span><span class="p">:</span> <span class="n">memory_slots</span><span class="p">,</span>
-            <span class="s1">&#39;memory_slot_size&#39;</span><span class="p">:</span> <span class="n">memory_slot_size</span><span class="p">,</span>
-            <span class="s1">&#39;rep_time&#39;</span><span class="p">:</span> <span class="n">rep_time</span><span class="p">,</span>
-            <span class="s1">&#39;rep_delay&#39;</span><span class="p">:</span> <span class="n">rep_delay</span><span class="p">,</span>
-            <span class="s1">&#39;init_qubits&#39;</span><span class="p">:</span> <span class="n">init_qubits</span><span class="p">,</span>
+            <span class="s2">&quot;shots&quot;</span><span class="p">:</span> <span class="n">shots</span><span class="p">,</span>
+            <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="n">memory</span><span class="p">,</span>
+            <span class="s2">&quot;seed_simulator&quot;</span><span class="p">:</span> <span class="n">seed_simulator</span><span class="p">,</span>
+            <span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">:</span> <span class="n">default_qubit_los</span><span class="p">,</span>
+            <span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">:</span> <span class="n">default_meas_los</span><span class="p">,</span>
+            <span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">:</span> <span class="n">qubit_lo_range</span><span class="p">,</span>
+            <span class="s2">&quot;meas_lo_range&quot;</span><span class="p">:</span> <span class="n">meas_lo_range</span><span class="p">,</span>
+            <span class="s2">&quot;schedule_los&quot;</span><span class="p">:</span> <span class="n">schedule_los</span><span class="p">,</span>
+            <span class="s2">&quot;meas_level&quot;</span><span class="p">:</span> <span class="n">meas_level</span><span class="p">,</span>
+            <span class="s2">&quot;meas_return&quot;</span><span class="p">:</span> <span class="n">meas_return</span><span class="p">,</span>
+            <span class="s2">&quot;memory_slots&quot;</span><span class="p">:</span> <span class="n">memory_slots</span><span class="p">,</span>
+            <span class="s2">&quot;memory_slot_size&quot;</span><span class="p">:</span> <span class="n">memory_slot_size</span><span class="p">,</span>
+            <span class="s2">&quot;rep_time&quot;</span><span class="p">:</span> <span class="n">rep_time</span><span class="p">,</span>
+            <span class="s2">&quot;rep_delay&quot;</span><span class="p">:</span> <span class="n">rep_delay</span><span class="p">,</span>
+            <span class="s2">&quot;init_qubits&quot;</span><span class="p">:</span> <span class="n">init_qubits</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">run_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> backend doesn&#39;t support option </span><span class="si">%s</span><span class="s2"> so not &quot;</span>
-                                <span class="s2">&quot;passing that kwarg to run()&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> backend doesn&#39;t support option </span><span class="si">%s</span><span class="s2"> so not &quot;</span>
+                        <span class="s2">&quot;passing that kwarg to run()&quot;</span><span class="p">,</span>
+                        <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">key</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">del</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;shots&#39;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;shots&quot;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1024</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;max_credits&#39;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;max_credits&quot;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;meas_level&#39;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;meas_level&quot;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasLevel</span><span class="o">.</span><span class="n">CLASSIFIED</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;meas_return&#39;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;meas_return&quot;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">MeasReturnType</span><span class="o">.</span><span class="n">AVERAGE</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;memory_slot_size&#39;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;memory_slot_size&quot;</span> <span class="ow">and</span> <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">run_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
 
-        <span class="n">run_kwargs</span><span class="p">[</span><span class="s1">&#39;parameter_binds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter_binds</span>
+        <span class="n">run_kwargs</span><span class="p">[</span><span class="s2">&quot;parameter_binds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter_binds</span>
         <span class="n">run_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">run_config</span><span class="p">)</span>
         <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="o">**</span><span class="n">run_kwargs</span><span class="p">)</span>
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -671,8 +727,10 @@
 <span class="k">def</span> <span class="nf">_check_conflicting_argument</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
     <span class="n">conflicting_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">conflicting_args</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The parameters pass_manager conflicts with the following &quot;</span>
-                          <span class="s2">&quot;parameter(s): </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conflicting_args</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;The parameters pass_manager conflicts with the following &quot;</span>
+            <span class="s2">&quot;parameter(s): </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conflicting_args</span><span class="p">))</span>
+        <span class="p">)</span>
 </pre></div>
 
              </article>
@@ -690,7 +748,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -726,7 +784,7 @@
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

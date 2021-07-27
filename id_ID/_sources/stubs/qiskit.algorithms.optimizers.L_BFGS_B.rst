@@ -43,5 +43,6 @@
       ~L_BFGS_B.is_initial_point_required
       ~L_BFGS_B.is_initial_point_supported
       ~L_BFGS_B.setting
+      ~L_BFGS_B.settings
    
    

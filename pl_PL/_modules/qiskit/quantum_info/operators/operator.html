@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.operator &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.quantum_info.operators.operator &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -404,14 +404,14 @@
             <span class="c1"># conditional gates, measure, or reset will cause an</span>
             <span class="c1"># exception to be raised.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_instruction</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;to_operator&#39;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;to_operator&quot;</span><span class="p">):</span>
             <span class="c1"># If the data object has a &#39;to_operator&#39; attribute this is given</span>
             <span class="c1"># higher preference than the &#39;to_matrix&#39; method for initializing</span>
             <span class="c1"># an Operator object.</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_operator</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
             <span class="n">op_shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_op_shape</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;to_matrix&#39;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;to_matrix&quot;</span><span class="p">):</span>
             <span class="c1"># If no &#39;to_operator&#39; attribute exists we next look for a</span>
             <span class="c1"># &#39;to_matrix&#39; attribute to a matrix that will be cast into</span>
             <span class="c1"># a complex numpy matrix.</span>
@@ -419,10 +419,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Invalid input data format for Operator&quot;</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">op_shape</span><span class="o">=</span><span class="n">op_shape</span><span class="p">,</span>
-                         <span class="n">input_dims</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span>
-                         <span class="n">output_dims</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span>
-                         <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">op_shape</span><span class="o">=</span><span class="n">op_shape</span><span class="p">,</span>
+            <span class="n">input_dims</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span>
+            <span class="n">output_dims</span><span class="o">=</span><span class="n">output_dims</span><span class="p">,</span>
+            <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">dtype</span><span class="p">:</span>
@@ -430,24 +432,35 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;Operator(&#39;</span>
-        <span class="n">pad</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="s1">&#39; &#39;</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">,</span><span class="se">\n</span><span class="si">{}</span><span class="s1">input_dims=</span><span class="si">{}</span><span class="s1">, output_dims=</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">prefix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">),</span>
-            <span class="n">pad</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dims</span><span class="p">())</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;Operator(&quot;</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">,</span><span class="se">\n</span><span class="si">{}</span><span class="s2">input_dims=</span><span class="si">{}</span><span class="s2">, output_dims=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">prefix</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">),</span>
+            <span class="n">pad</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dims</span><span class="p">(),</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if two Operators are equal.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">atol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">atol</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return data.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return operator settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span>
+            <span class="s2">&quot;input_dims&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dims</span><span class="p">(),</span>
+            <span class="s2">&quot;output_dims&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dims</span><span class="p">(),</span>
+        <span class="p">}</span>
 
 <div class="viewcode-block" id="Operator.from_label"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Operator.html#qiskit.quantum_info.Operator.from_label">[dokumentacja]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_label</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
@@ -482,27 +495,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check label is valid</span>
         <span class="n">label_mats</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="n">SGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="n">TGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
-            <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-            <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-            <span class="s1">&#39;+&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-            <span class="s1">&#39;-&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-            <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
-            <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="n">HGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="n">SGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="n">TGate</span><span class="p">()</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span>
+            <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;+&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;-&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
+            <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">),</span>
         <span class="p">}</span>
-        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[IXYZHST01rl\-+]+$&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Label contains invalid characters.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[IXYZHST01rl\-+]+$&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Label contains invalid characters.&quot;</span><span class="p">)</span>
         <span class="c1"># Initialize an identity matrix and apply each gate</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
         <span class="n">op</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">label</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">char</span> <span class="o">!=</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="o">!=</span> <span class="s2">&quot;I&quot;</span><span class="p">:</span>
                 <span class="n">op</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">label_mats</span><span class="p">[</span><span class="n">char</span><span class="p">],</span> <span class="n">qargs</span><span class="o">=</span><span class="p">[</span><span class="n">qubit</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">op</span></div>
 
@@ -522,6 +535,7 @@
         <span class="sd">&quot;&quot;&quot;Convert to a UnitaryGate instruction.&quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">qiskit.extensions.unitary</span> <span class="kn">import</span> <span class="n">UnitaryGate</span>
+
         <span class="k">return</span> <span class="n">UnitaryGate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Operator.conjugate"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Operator.html#qiskit.quantum_info.Operator.conjugate">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -539,7 +553,7 @@
 
 <div class="viewcode-block" id="Operator.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Operator.html#qiskit.quantum_info.Operator.compose">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Operator</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -581,8 +595,8 @@
         <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">num_indices</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">qubit</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">]</span>
         <span class="n">final_shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">output_dims</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">input_dims</span><span class="p">)]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
-            <span class="n">Operator</span><span class="o">.</span><span class="n">_einsum_matmul</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">right_mul</span><span class="p">),</span>
-            <span class="n">final_shape</span><span class="p">)</span>
+            <span class="n">Operator</span><span class="o">.</span><span class="n">_einsum_matmul</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">right_mul</span><span class="p">),</span> <span class="n">final_shape</span>
+        <span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">input_dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="n">new_shape</span>
         <span class="k">return</span> <span class="n">ret</span></div>
@@ -645,7 +659,7 @@
         <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.scalar_op</span> <span class="kn">import</span> <span class="n">ScalarOp</span>
 
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Operator</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
@@ -697,8 +711,7 @@
             <span class="n">atol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atol</span>
         <span class="k">if</span> <span class="n">rtol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">rtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rtol</span>
-        <span class="k">return</span> <span class="n">matrix_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ignore_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                            <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">matrix_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ignore_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Operator.reverse_qargs"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.Operator.html#qiskit.quantum_info.Operator.reverse_qargs">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">reverse_qargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return an Operator with reversed subsystem ordering.</span>
@@ -715,9 +728,10 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">_num_qargs_l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">)</span>
-        <span class="n">ret</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span> <span class="n">axes</span><span class="p">),</span>
-                               <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">tensor_shape</span><span class="p">),</span> <span class="n">axes</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">_op_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op_shape</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
@@ -742,8 +756,7 @@
         <span class="n">rank</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">ndim</span>
         <span class="n">rank_mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">ndim</span>
         <span class="k">if</span> <span class="n">rank_mat</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="s2">&quot;Contracted matrix must have an even number of indices.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Contracted matrix must have an even number of indices.&quot;</span><span class="p">)</span>
         <span class="c1"># Get einsum indices for tensor</span>
         <span class="n">indices_tensor</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">rank</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">):</span>
@@ -761,7 +774,7 @@
     <span class="k">def</span> <span class="nf">_init_instruction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">instruction</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert a QuantumCircuit or Instruction to an Operator.&quot;&quot;&quot;</span>
         <span class="c1"># Initialize an identity operator of the correct size of the circuit</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="s1">&#39;__array__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="s2">&quot;__array__&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Operator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">))</span>
 
         <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">instruction</span><span class="o">.</span><span class="n">num_qubits</span>
@@ -776,9 +789,9 @@
     <span class="k">def</span> <span class="nf">_instruction_to_matrix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return Operator for instruction if defined or None otherwise.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input is not an instruction.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input is not an instruction.&quot;</span><span class="p">)</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;to_matrix&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;to_matrix&quot;</span><span class="p">):</span>
             <span class="c1"># If instruction is a gate first we see if it has a</span>
             <span class="c1"># `to_matrix` definition and if so use that.</span>
             <span class="k">try</span><span class="p">:</span>
@@ -805,27 +818,33 @@
             <span class="c1"># circuit decomposition definition if it exists, otherwise we</span>
             <span class="c1"># cannot compose this gate and raise an error.</span>
             <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Cannot apply Instruction: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot apply Instruction: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Instruction &quot;</span><span class="si">{}</span><span class="s1">&quot; &#39;</span>
-                                  <span class="s1">&#39;definition is </span><span class="si">{}</span><span class="s1"> but expected QuantumCircuit.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                      <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">)))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s1">&#39;Instruction &quot;</span><span class="si">{}</span><span class="s1">&quot; &#39;</span>
+                    <span class="s2">&quot;definition is </span><span class="si">{}</span><span class="s2"> but expected QuantumCircuit.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">global_phase</span><span class="p">:</span>
                 <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">obj</span><span class="o">.</span><span class="n">num_qubits</span>
                 <span class="n">op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
                     <span class="n">ScalarOp</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">global_phase</span><span class="p">))),</span>
-                    <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
+                    <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">data</span>
             <span class="n">flat_instr</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">definition</span>
-            <span class="n">bit_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="n">index</span>
-                           <span class="k">for</span> <span class="n">bits</span> <span class="ow">in</span> <span class="p">[</span><span class="n">flat_instr</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">flat_instr</span><span class="o">.</span><span class="n">clbits</span><span class="p">]</span>
-                           <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bits</span><span class="p">)}</span>
+            <span class="n">bit_indices</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">bit</span><span class="p">:</span> <span class="n">index</span>
+                <span class="k">for</span> <span class="n">bits</span> <span class="ow">in</span> <span class="p">[</span><span class="n">flat_instr</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">flat_instr</span><span class="o">.</span><span class="n">clbits</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
+            <span class="p">}</span>
 
             <span class="k">for</span> <span class="n">instr</span><span class="p">,</span> <span class="n">qregs</span><span class="p">,</span> <span class="n">cregs</span> <span class="ow">in</span> <span class="n">flat_instr</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">cregs</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                        <span class="s1">&#39;Cannot apply instruction with classical registers: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                        <span class="sa">f</span><span class="s2">&quot;Cannot apply instruction with classical registers: </span><span class="si">{</span><span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
                 <span class="c1"># Get the integer position of the flat register</span>
                 <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">new_qargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_indices</span><span class="p">[</span><span class="n">tup</span><span class="p">]</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">qregs</span><span class="p">]</span>
@@ -853,7 +872,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -888,7 +907,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

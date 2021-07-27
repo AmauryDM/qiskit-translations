@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.phase_estimators.phase_estimation_scale &mdash; documentação Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.phase_estimators.phase_estimation_scale &mdash; documentação Qiskit 0.28.0</title>
   
 
   
@@ -219,16 +219,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Página de documentação</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Índice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Quantum computing in a nutshell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introdução ao Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuindo para o Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuração local</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Perguntas Frequentes</a></li>
 </ul>
 <p><span class="caption-text">Libraries</span></p>
 <ul>
@@ -237,14 +237,14 @@
 <p><span class="caption-text">API References</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Simulador do Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Experimentos Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Módulos De Aplicação Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provedor)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Aplicações do Qiskit (Aqua) Guia de Migração</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Aplicações do Qiskit (Aqua) Guia de Migração</a></li>
 </ul>
 <p><span class="caption-text">Troubleshooting</span></p>
 <ul>
@@ -337,7 +337,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">SummedOp</span>
 
 
-<div class="viewcode-block" id="PhaseEstimationScale"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationScale.html#qiskit.algorithms.PhaseEstimationScale">[documentos]</a><span class="k">class</span> <span class="nc">PhaseEstimationScale</span><span class="p">():</span>
+<div class="viewcode-block" id="PhaseEstimationScale"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationScale.html#qiskit.algorithms.PhaseEstimationScale">[documentos]</a><span class="k">class</span> <span class="nc">PhaseEstimationScale</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Set and use a bound on eigenvalues of a Hermitian operator in order to ensure phases are in</span>
 <span class="sd">    the desired range and to convert measured phases into eigenvectors.</span>
 
@@ -412,8 +412,9 @@
             <span class="k">return</span> <span class="p">(</span><span class="n">phi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="n">id_coefficient</span></div>
 
     <span class="c1"># pylint: disable=unsubscriptable-object</span>
-<div class="viewcode-block" id="PhaseEstimationScale.scale_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationScale.html#qiskit.algorithms.PhaseEstimationScale.scale_phases">[documentos]</a>    <span class="k">def</span> <span class="nf">scale_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span> <span class="n">id_coefficient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
+<div class="viewcode-block" id="PhaseEstimationScale.scale_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationScale.html#qiskit.algorithms.PhaseEstimationScale.scale_phases">[documentos]</a>    <span class="k">def</span> <span class="nf">scale_phases</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span> <span class="n">id_coefficient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Convert a list or dict of phases to eigenvalues.</span>
 
 <span class="sd">        The values in the list, or keys in the dict, are values of ``phi` and</span>
@@ -435,7 +436,7 @@
         <span class="k">return</span> <span class="n">phases</span></div>
 
 <div class="viewcode-block" id="PhaseEstimationScale.from_pauli_sum"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationScale.html#qiskit.algorithms.PhaseEstimationScale.from_pauli_sum">[documentos]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_pauli_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pauli_sum</span><span class="p">:</span> <span class="n">SummedOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PhaseEstimationScale&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_pauli_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pauli_sum</span><span class="p">:</span> <span class="n">SummedOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PhaseEstimationScale&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a PhaseEstimationScale from a `SummedOp` representing a sum of Pauli Operators.</span>
 
 <span class="sd">        It is assumed that the ``pauli_sum`` is the sum of ``PauliOp`` objects. The bound on</span>
@@ -452,12 +453,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A ``PhaseEstimationScale`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">pauli_sum</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s1">&#39;Pauli&#39;</span><span class="p">}:</span>
+        <span class="k">if</span> <span class="n">pauli_sum</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;Pauli&quot;</span><span class="p">}:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;`pauli_sum` must be a sum of Pauli operators. Got primitives </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">pauli_sum</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()))</span>
+                <span class="s2">&quot;`pauli_sum` must be a sum of Pauli operators. Got primitives </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">pauli_sum</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
-        <span class="n">bound</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">pauli_sum</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">pauli</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span> <span class="k">for</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="n">pauli_sum</span><span class="p">])</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pauli_sum</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">pauli</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span> <span class="k">for</span> <span class="n">pauli</span> <span class="ow">in</span> <span class="n">pauli_sum</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">PhaseEstimationScale</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -476,7 +479,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Última atualização em 2021/07/12.
+      Última atualização em 2021/07/27.
 
     </p>
   </div>
@@ -512,7 +515,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

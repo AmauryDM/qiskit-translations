@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.aer.library.SaveExpectationValueVariance &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.providers.aer.library.SaveExpectationValueVariance &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -417,7 +417,7 @@ the <a class="reference internal" href="qiskit.providers.aer.library.save_expect
 <td><p>Validation of the arguments.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.c_if" title="qiskit.providers.aer.library.SaveExpectationValueVariance.c_if"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_if</span></code></a>(classical, val)</p></td>
-<td><p>Add classical condition on register classical and value val.</p></td>
+<td><p>Add classical condition on register or cbit classical and value val.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.copy" title="qiskit.providers.aer.library.SaveExpectationValueVariance.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([name])</p></td>
 <td><p>Copy of the instruction.</p></td>
@@ -464,10 +464,13 @@ the <a class="reference internal" href="qiskit.providers.aer.library.save_expect
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.duration" title="qiskit.providers.aer.library.SaveExpectationValueVariance.duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration</span></code></a></p></td>
 <td><p>Get the duration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.params" title="qiskit.providers.aer.library.SaveExpectationValueVariance.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.label" title="qiskit.providers.aer.library.SaveExpectationValueVariance.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>Return instruction label</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.params" title="qiskit.providers.aer.library.SaveExpectationValueVariance.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>return instruction params.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.unit" title="qiskit.providers.aer.library.SaveExpectationValueVariance.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.unit" title="qiskit.providers.aer.library.SaveExpectationValueVariance.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
 <td><p>Get the time unit of duration.</p></td>
 </tr>
 </tbody>
@@ -508,7 +511,7 @@ the <a class="reference internal" href="qiskit.providers.aer.library.save_expect
 <dl class="py method">
 <dt id="qiskit.providers.aer.library.SaveExpectationValueVariance.c_if">
 <code class="sig-name descname">c_if</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classical</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.c_if" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add classical condition on register classical and value val.</p>
+<dd><p>Add classical condition on register or cbit classical and value val.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -561,6 +564,17 @@ if None then the name stays the same.</p>
 <dt id="qiskit.providers.aer.library.SaveExpectationValueVariance.is_parameterized">
 <code class="sig-name descname">is_parameterized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.is_parameterized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True .IFF. instruction is parameterized else False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.providers.aer.library.SaveExpectationValueVariance.label">
+<em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#qiskit.providers.aer.library.SaveExpectationValueVariance.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return instruction label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -696,7 +710,7 @@ account.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -734,7 +748,7 @@ account.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

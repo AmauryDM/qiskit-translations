@@ -56,6 +56,7 @@
       ~GRX.fredkin
       ~GRX.from_qasm_file
       ~GRX.from_qasm_str
+      ~GRX.get_instructions
       ~GRX.h
       ~GRX.hamiltonian
       ~GRX.has_register

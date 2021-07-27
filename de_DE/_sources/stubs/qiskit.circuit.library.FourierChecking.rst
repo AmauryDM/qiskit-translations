@@ -56,6 +56,7 @@
       ~FourierChecking.fredkin
       ~FourierChecking.from_qasm_file
       ~FourierChecking.from_qasm_str
+      ~FourierChecking.get_instructions
       ~FourierChecking.h
       ~FourierChecking.hamiltonian
       ~FourierChecking.has_register

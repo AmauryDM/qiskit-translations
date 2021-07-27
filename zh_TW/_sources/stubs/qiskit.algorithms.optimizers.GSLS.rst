@@ -47,5 +47,6 @@
       ~GSLS.is_initial_point_required
       ~GSLS.is_initial_point_supported
       ~GSLS.setting
+      ~GSLS.settings
    
    

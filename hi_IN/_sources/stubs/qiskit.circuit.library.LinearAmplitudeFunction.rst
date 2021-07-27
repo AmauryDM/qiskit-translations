@@ -56,6 +56,7 @@
       ~LinearAmplitudeFunction.fredkin
       ~LinearAmplitudeFunction.from_qasm_file
       ~LinearAmplitudeFunction.from_qasm_str
+      ~LinearAmplitudeFunction.get_instructions
       ~LinearAmplitudeFunction.h
       ~LinearAmplitudeFunction.hamiltonian
       ~LinearAmplitudeFunction.has_register

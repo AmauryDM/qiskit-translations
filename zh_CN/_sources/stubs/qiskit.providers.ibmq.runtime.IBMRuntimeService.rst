@@ -23,6 +23,7 @@
       ~IBMRuntimeService.program
       ~IBMRuntimeService.programs
       ~IBMRuntimeService.run
+      ~IBMRuntimeService.set_program_visibility
       ~IBMRuntimeService.upload_program
    
    

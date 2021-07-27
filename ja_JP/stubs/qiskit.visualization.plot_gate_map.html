@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.plot_gate_map &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.visualization.plot_gate_map &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -330,7 +330,7 @@
 <h1>qiskit.visualization.plot_gate_map<a class="headerlink" href="#qiskit-visualization-plot-gate-map" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <dl class="py function">
 <dt id="qiskit.visualization.plot_gate_map">
-<code class="sig-name descname">plot_gate_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_directed</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">label_qubits</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">qubit_size</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">line_width</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">font_size</span><span class="o">=</span><span class="default_value">12</span></em>, <em class="sig-param"><span class="n">qubit_color</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">qubit_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">line_color</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">font_color</span><span class="o">=</span><span class="default_value">'w'</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/visualization/gate_map.html#plot_gate_map"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#qiskit.visualization.plot_gate_map" title="この定義へのパーマリンク">¶</a></dt>
+<code class="sig-name descname">plot_gate_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_directed</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">label_qubits</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">qubit_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">line_width</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">font_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">qubit_color</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">qubit_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">line_color</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">font_color</span><span class="o">=</span><span class="default_value">'w'</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/visualization/gate_map.html#plot_gate_map"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#qiskit.visualization.plot_gate_map" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Plots the gate map of a device.</p>
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>
@@ -358,7 +358,7 @@
 <dt class="field-even">例外</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>QiskitError</strong> – if tried to pass a simulator.</p></li>
-<li><p><strong>ImportError</strong> – if matplotlib not installed.</p></li>
+<li><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – if matplotlib not installed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -414,7 +414,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -452,7 +452,7 @@
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

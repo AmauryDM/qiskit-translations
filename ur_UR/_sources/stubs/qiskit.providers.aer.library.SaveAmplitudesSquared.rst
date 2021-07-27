@@ -39,6 +39,7 @@
       ~SaveAmplitudesSquared.decompositions
       ~SaveAmplitudesSquared.definition
       ~SaveAmplitudesSquared.duration
+      ~SaveAmplitudesSquared.label
       ~SaveAmplitudesSquared.params
       ~SaveAmplitudesSquared.unit
    

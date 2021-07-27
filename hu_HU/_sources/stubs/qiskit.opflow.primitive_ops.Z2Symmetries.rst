@@ -29,6 +29,7 @@
    .. autosummary::
    
       ~Z2Symmetries.cliffords
+      ~Z2Symmetries.settings
       ~Z2Symmetries.sq_list
       ~Z2Symmetries.sq_paulis
       ~Z2Symmetries.symmetries

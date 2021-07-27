@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>進階電路 &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>Advanced Circuits &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -290,7 +290,7 @@
       </li>
 
         
-      <li>進階電路</li>
+      <li>Advanced Circuits</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
@@ -570,10 +570,10 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="admonition note">
 <p class="admonition-title">備註</p>
-<p>此頁面是從 <a href="#id1"><span class="problematic" id="id2">`</span></a>tutorials/latos_advanced/01_advanced_lats.ipynb <a href="#id3"><span class="problematic" id="id4">`</span></a>__ 產生的。</p>
+<p>This page was generated from <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/circuits_advanced/01_advanced_circuits.ipynb">tutorials/circuits_advanced/01_advanced_circuits.ipynb</a>.</p>
 </div>
-<section id="進階電路">
-<h1>進階電路<a class="headerlink" href="#進階電路" title="本標題的永久連結">¶</a></h1>
+<section id="Advanced-Circuits">
+<h1>Advanced Circuits<a class="headerlink" href="#Advanced-Circuits" title="本標題的永久連結">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -846,7 +846,7 @@ c_0: ═════════════════════════
 </section>
 <section id="降低編譯成本">
 <h3>降低編譯成本<a class="headerlink" href="#降低編譯成本" title="本標題的永久連結">¶</a></h3>
-<p>在某些情況下，在綁定之前對參數化電路進行編譯可以大大縮短編譯時間。</p>
+<p>Compiling over a parameterized circuit prior to binding can, in some cases, significantly reduce compilation time as compared to compiling over a set of bound circuits.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -923,8 +923,8 @@ Time compiling over parameterized circuit, then binding:  0.8169369697570801
 </pre></div></div>
 </div>
 </section>
-<section id="組成參數化電路">
-<h3>組成參數化電路<a class="headerlink" href="#組成參數化電路" title="本標題的永久連結">¶</a></h3>
+<section id="Composition">
+<h3>Composition<a class="headerlink" href="#Composition" title="本標題的永久連結">¶</a></h3>
 <p>Parameterized circuits can be composed like standard <code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>s. Generally, when composing two parameterized circuits, the resulting circuit will be parameterized by the union of the parameters of the input circuits.</p>
 <p>However, parameter names must be unique within a given circuit. When attempting to add a parameter whose name is already present in the target circuit: - if the source and target share the same <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> instance, the parameters will be assumed to be the same and combined - if the source and target have different <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> instances, an error will be raised</p>
 <div class="nbinput docutils container">
@@ -1101,7 +1101,7 @@ q1_8: ────────────────────────�
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -1120,13 +1120,13 @@ q1_8: ────────────────────────�
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">進階電路</a><ul>
+<li><a class="reference internal" href="#">Advanced Circuits</a><ul>
 <li><a class="reference internal" href="#Opaque-gates">Opaque gates</a></li>
 <li><a class="reference internal" href="#複合閘">複合閘</a></li>
 <li><a class="reference internal" href="#參數化電路(Parameterized-circuits)">參數化電路(Parameterized circuits)</a><ul>
 <li><a class="reference internal" href="#綁定參數值">綁定參數值</a></li>
 <li><a class="reference internal" href="#降低編譯成本">降低編譯成本</a></li>
-<li><a class="reference internal" href="#組成參數化電路">組成參數化電路</a></li>
+<li><a class="reference internal" href="#Composition">Composition</a></li>
 </ul>
 </li>
 </ul>
@@ -1150,7 +1150,7 @@ q1_8: ────────────────────────�
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

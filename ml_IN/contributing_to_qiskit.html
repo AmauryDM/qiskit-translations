@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing to Qiskit &mdash; Qiskit 0.27.0 documentation</title>
+  <title>Contributing to Qiskit &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -391,15 +391,15 @@ Opening an issue starts a discussion with the team about your idea, how it
 fits in with the project, how it can be implemented, etc.</p>
 </section>
 <section id="contributing-code">
-<h2>Contributing Code<a class="headerlink" href="#contributing-code" title="Permalink to this headline">¶</a></h2>
+<h2>കോഡ് സംഭാവന<a class="headerlink" href="#contributing-code" title="Permalink to this headline">¶</a></h2>
 <section id="style-guide">
-<h3>Style Guide<a class="headerlink" href="#style-guide" title="Permalink to this headline">¶</a></h3>
+<h3>സ്റ്റൈൽ ഗൈഡ്<a class="headerlink" href="#style-guide" title="Permalink to this headline">¶</a></h3>
 <p>To enforce a consistent code style in the project, we use <a class="reference external" href="https://www.pylint.org">Pylint</a> and <a class="reference external" href="https://pycodestyle.readthedocs.io/en/latest/">pycodesytle</a> to verify that code
 contributions conform to and respect the project's style guide. To verify that
 your changes conform to the style guide, run: <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-elint</span></code></p>
 </section>
 <section id="contributor-license-agreement">
-<h3>Contributor License Agreement<a class="headerlink" href="#contributor-license-agreement" title="Permalink to this headline">¶</a></h3>
+<h3>സംഭാവക ലൈസൻസ് കരാർ<a class="headerlink" href="#contributor-license-agreement" title="Permalink to this headline">¶</a></h3>
 <p>Before you can submit any code, all contributors must sign a
 contributor license agreement (CLA). By signing a CLA, you're attesting
 that you are the author of the contribution, and that you're freely
@@ -438,7 +438,7 @@ not merge the commit until it is finished. You or a reviewer can remove the
 [WIP] tag when the code is ready to be fully reviewed for merging.</p>
 </section>
 <section id="code-review">
-<h3>Code Review<a class="headerlink" href="#code-review" title="Permalink to this headline">¶</a></h3>
+<h3>കോഡ് പുനഃപരിശോധന<a class="headerlink" href="#code-review" title="Permalink to this headline">¶</a></h3>
 <p>Code review is done in the open and is open to anyone. While only maintainers have
 access to merge commits, community feedback on pull requests is extremely valuable.
 It is also a good mechanism to learn about the code base. You can
@@ -492,7 +492,7 @@ without needing to read the bug ticket.</p>
 document what the original problem was and how it is being fixed, for any change
 except the most obvious typos, or whitespace-only commits.</p>
 </dd>
-<dt>Describe why a change is being made.</dt><dd><p>A common mistake is only to document how the code has been written, without
+<dt>എന്തുകൊണ്ടാണ് ഒരു മാറ്റം വരുത്തുന്നതെന്ന് വിവരിക്കുക.</dt><dd><p>A common mistake is only to document how the code has been written, without
 describing <em>why</em> the developer chose to do it that way. Certainly, you should describe
 the overall code structure, particularly for large changes, but more importantly,
 be sure to describe the intent/motivation behind the changes.</p>
@@ -507,7 +507,7 @@ files changes. Because of the high volume of patches, a commit message must
 contain sufficient information for potential reviewers to find the patch that
 they need to review.</p>
 </dd>
-<dt>The first commit line is the most important.</dt><dd><p>In Git commits, the first line of the commit message has special significance.
+<dt>ആദ്യത്തെ കമ്മിറ്റ് ലൈനാണ് ഏറ്റവും പ്രധാനം.</dt><dd><p>In Git commits, the first line of the commit message has special significance.
 It is used as the default pull request title, email notification subject line,
 git annotate messages, gitk viewer annotations, merge commit messages, and many
 more places where space is at a premium. As well as summarizing the change
@@ -521,7 +521,7 @@ limitations, mention these in the commit message. This demonstrates to the
 reviewer that the broader picture has been considered, and what tradeoffs have
 been done in terms of short-term goals versus long-term wishes.</p>
 </dd>
-<dt>Include references to issues.</dt><dd><p>If the commit fixes are related to an issue, make sure you annotate that in
+<dt>പ്രശ്നങ്ങളിലേക്കുള്ള റഫറൻസുകൾ ഉൾപ്പെടുത്തുക.</dt><dd><p>If the commit fixes are related to an issue, make sure you annotate that in
 the commit message. Use the syntax:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fixes</span> <span class="c1">#1234</span>
 </pre></div>
@@ -529,12 +529,12 @@ the commit message. Use the syntax:</p>
 <p>if it fixes the issue (GitHub will close the issue when the PR merges).</p>
 </dd>
 </dl>
-<p>The main rule to follow is:</p>
+<p>പാലിക്കേണ്ട പ്രധാന നിയമം:</p>
 <p>The commit message must contain all the information required to fully
 understand and review the patch for correctness. Less is not more.</p>
 </section>
 <section id="documenting-your-code">
-<h3>Documenting Your Code<a class="headerlink" href="#documenting-your-code" title="Permalink to this headline">¶</a></h3>
+<h3>നിങ്ങളുടെ കോഡ് ഡോക്യുമെന്റ് ചെയ്യുൽ<a class="headerlink" href="#documenting-your-code" title="Permalink to this headline">¶</a></h3>
 <p>If you make a change to an element, make sure you update the associated
 <em>docstrings</em> and parts of the documentation under <code class="docutils literal notranslate"><span class="pre">docs/apidocs</span></code> in the
 corresponding repo. To locally build the element-specific
@@ -549,7 +549,7 @@ if you see doc bugs, have a new feature that needs to be documented, or think
 that material could be added to the existing docs.</p>
 </section>
 <section id="good-first-contributions">
-<h3>Good First Contributions<a class="headerlink" href="#good-first-contributions" title="Permalink to this headline">¶</a></h3>
+<h3>നല്ല ആദ്യ സംഭാവനകൾ<a class="headerlink" href="#good-first-contributions" title="Permalink to this headline">¶</a></h3>
 <p>If you would like to contribute to Qiskit, but aren't sure
 where to get started, the <code class="docutils literal notranslate"><span class="pre">good</span> <span class="pre">first</span> <span class="pre">issue</span></code> label on issues for a project
 highlights items appropriate for people new to the project.
@@ -559,7 +559,7 @@ words, intimate familiarity with Qiskit is not a requirement to develop a fix
 for the issue.</p>
 </section>
 <section id="deprecation-policy">
-<h3>Deprecation Policy<a class="headerlink" href="#deprecation-policy" title="Permalink to this headline">¶</a></h3>
+<h3>ഒഴിവാക്കൽ നയം<a class="headerlink" href="#deprecation-policy" title="Permalink to this headline">¶</a></h3>
 <p>Qiskit users need to know if a feature or an API they rely
 upon will continue to be supported by the software tomorrow. Knowing under which conditions
 the project can remove (or change in a backwards-incompatible manner) a feature or
@@ -677,7 +677,7 @@ porting.</p>
 </section>
 </section>
 <section id="contributing-to-documentation">
-<h2>Contributing to Documentation<a class="headerlink" href="#contributing-to-documentation" title="Permalink to this headline">¶</a></h2>
+<h2>ഡോക്യുമെന്റേഷന് സംഭാവന ചെയ്യൽ<a class="headerlink" href="#contributing-to-documentation" title="Permalink to this headline">¶</a></h2>
 <p>Qiskit documentation is shaped by the <a class="reference external" href="https://www.writethedocs.org/guide/docs-as-code/">docs as code</a> philosophy, primarily
 drawn from Qiskit code comments in the <a class="reference external" href="https://alistapart.com/article/the-ten-essentials-for-good-api-documentation/">style of API documentation</a>.</p>
 <p>The documentation is built from the master branch of <a class="reference external" href="https://github.com/Qiskit/qiskit/tree/master/docs">Qiskit/qiskit/docs</a> using <a class="reference external" href="http://www.sphinx-doc.org/en/master/">Sphinx</a>. The majority of documentation, under
@@ -854,7 +854,7 @@ access as quickly as they can.</p>
 <p>You can build a local copy of the documentation from your local clone of the
 <cite>Qiskit/qiskit</cite> repository as follows:</p>
 <ol class="arabic">
-<li><p>Clone the Qiskit repository.</p>
+<li><p>ക്വിസ്കിറ്റ് ശേഖരം ക്ലോൺ ചെയ്യുക.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/Qiskit/qiskit.git
 </pre></div>
 </div>
@@ -942,13 +942,13 @@ conda activate QiskitDevenv
 <p>Installing from source requires that you have a C++ compiler on your system that supports
 C++11.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="68a0b947-7f0e-4a04-a2ee-733766d25c2e" name="0a9e7092-0ff6-4c54-951b-a4679d425efa" type="radio">
-</input><label class="tabbed-label" for="68a0b947-7f0e-4a04-a2ee-733766d25c2e">
+<input checked="checked" id="4b89dee2-b852-4009-96a9-78fbf1a65472" name="f29756ae-47fd-4d7d-b21c-1da2272def98" type="radio">
+</input><label class="tabbed-label" for="4b89dee2-b852-4009-96a9-78fbf1a65472">
 Compiler for Linux</label><div class="tabbed-content docutils">
 <p>On most Linux platforms, the necessary GCC compiler is already installed.</p>
 </div>
-<input id="aff4ea0c-aebb-4f29-802a-2a3667205320" name="0a9e7092-0ff6-4c54-951b-a4679d425efa" type="radio">
-</input><label class="tabbed-label" for="aff4ea0c-aebb-4f29-802a-2a3667205320">
+<input id="e9a20092-b3ff-4c64-9c81-4b9c26516e1d" name="f29756ae-47fd-4d7d-b21c-1da2272def98" type="radio">
+</input><label class="tabbed-label" for="e9a20092-b3ff-4c64-9c81-4b9c26516e1d">
 Compiler for macOS</label><div class="tabbed-content docutils">
 <p>If you use macOS, you can install the Clang compiler by installing XCode.
 Check if you have XCode and Clang installed by opening a terminal window and entering the
@@ -961,8 +961,8 @@ following.</p>
 </pre></div>
 </div>
 </div>
-<input id="270ebcf8-1b11-4984-a020-95395629eabf" name="0a9e7092-0ff6-4c54-951b-a4679d425efa" type="radio">
-</input><label class="tabbed-label" for="270ebcf8-1b11-4984-a020-95395629eabf">
+<input id="2e88193f-fb19-472a-a25f-027a153f2936" name="f29756ae-47fd-4d7d-b21c-1da2272def98" type="radio">
+</input><label class="tabbed-label" for="2e88193f-fb19-472a-a25f-027a153f2936">
 Compiler for Windows</label><div class="tabbed-content docutils">
 <p>On Windows, it is easiest to install the Visual C++ compiler from the
 <a class="reference external" href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2017">Build Tools for Visual Studio 2017</a>.
@@ -1046,8 +1046,8 @@ using. Since Aer is a compiled C++ program with a Python interface, there are
 non-Python dependencies for building the Aer binary which can't be installed
 universally depending on operating system.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="8ede099a-aae3-4ab2-9753-c1745fed38b2" name="491770be-280a-43b4-9670-b0f3a244261f" type="radio">
-</input><label class="tabbed-label" for="8ede099a-aae3-4ab2-9753-c1745fed38b2">
+<input checked="checked" id="c36b9070-44a1-448b-8d8b-a0e19b845629" name="7ed46aeb-f0e4-4001-a218-91870161caf4" type="radio">
+</input><label class="tabbed-label" for="c36b9070-44a1-448b-8d8b-a0e19b845629">
 Linux</label><div class="tabbed-content docutils">
 <ol class="arabic" start="3">
 <li><p>Install compiler requirements.</p>
@@ -1075,8 +1075,8 @@ install using:</p>
 </li>
 </ol>
 </div>
-<input id="175417d0-a95f-4689-8ce8-dac5072c8bda" name="491770be-280a-43b4-9670-b0f3a244261f" type="radio">
-</input><label class="tabbed-label" for="175417d0-a95f-4689-8ce8-dac5072c8bda">
+<input id="00fff6ba-2c29-4c64-9eeb-628a0fe0f1b0" name="7ed46aeb-f0e4-4001-a218-91870161caf4" type="radio">
+</input><label class="tabbed-label" for="00fff6ba-2c29-4c64-9eeb-628a0fe0f1b0">
 macOS</label><div class="tabbed-content docutils">
 <ol class="arabic" start="3">
 <li><p>Install dependencies.</p>
@@ -1099,8 +1099,8 @@ is the default choice.</p>
 </li>
 </ol>
 </div>
-<input id="123f116b-3cf2-43ce-8c55-32158ccf1643" name="491770be-280a-43b4-9670-b0f3a244261f" type="radio">
-</input><label class="tabbed-label" for="123f116b-3cf2-43ce-8c55-32158ccf1643">
+<input id="b8babd13-87d8-45e4-aa3c-544c154fae91" name="7ed46aeb-f0e4-4001-a218-91870161caf4" type="radio">
+</input><label class="tabbed-label" for="b8babd13-87d8-45e4-aa3c-544c154fae91">
 Windows</label><div class="tabbed-content docutils">
 <p>On Windows you need to use <a class="reference external" href="https://www.anaconda.com/distribution/#windows">Anaconda3</a>
 or <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda3</a> to install all the
@@ -1361,7 +1361,7 @@ project don't require a reinstall to be applied:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -1384,15 +1384,15 @@ project don't require a reinstall to be applied:</p>
 <li><a class="reference internal" href="#where-things-are">Where Things Are</a></li>
 <li><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li><a class="reference internal" href="#reporting-bugs-and-requesting-enhancements">Reporting Bugs and Requesting Enhancements</a></li>
-<li><a class="reference internal" href="#contributing-code">Contributing Code</a><ul>
-<li><a class="reference internal" href="#style-guide">Style Guide</a></li>
-<li><a class="reference internal" href="#contributor-license-agreement">Contributor License Agreement</a></li>
+<li><a class="reference internal" href="#contributing-code">കോഡ് സംഭാവന</a><ul>
+<li><a class="reference internal" href="#style-guide">സ്റ്റൈൽ ഗൈഡ്</a></li>
+<li><a class="reference internal" href="#contributor-license-agreement">സംഭാവക ലൈസൻസ് കരാർ</a></li>
 <li><a class="reference internal" href="#pull-requests">Pull Requests</a></li>
-<li><a class="reference internal" href="#code-review">Code Review</a></li>
+<li><a class="reference internal" href="#code-review">കോഡ് പുനഃപരിശോധന</a></li>
 <li><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
-<li><a class="reference internal" href="#documenting-your-code">Documenting Your Code</a></li>
-<li><a class="reference internal" href="#good-first-contributions">Good First Contributions</a></li>
-<li><a class="reference internal" href="#deprecation-policy">Deprecation Policy</a><ul>
+<li><a class="reference internal" href="#documenting-your-code">നിങ്ങളുടെ കോഡ് ഡോക്യുമെന്റ് ചെയ്യുൽ</a></li>
+<li><a class="reference internal" href="#good-first-contributions">നല്ല ആദ്യ സംഭാവനകൾ</a></li>
+<li><a class="reference internal" href="#deprecation-policy">ഒഴിവാക്കൽ നയം</a><ul>
 <li><a class="reference internal" href="#deprecation-warnings">Deprecation Warnings</a></li>
 </ul>
 </li>
@@ -1403,7 +1403,7 @@ project don't require a reinstall to be applied:</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#contributing-to-documentation">Contributing to Documentation</a><ul>
+<li><a class="reference internal" href="#contributing-to-documentation">ഡോക്യുമെന്റേഷന് സംഭാവന ചെയ്യൽ</a><ul>
 <li><a class="reference internal" href="#documentation-structure">ഡോക്യുമെന്റേഷൻ ഘടന</a><ul>
 <li><a class="reference internal" href="#documentation-integration">ഡോക്യുമെന്റേഷൻ സംയോജനം</a></li>
 </ul>
@@ -1444,7 +1444,7 @@ project don't require a reinstall to be applied:</p>
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

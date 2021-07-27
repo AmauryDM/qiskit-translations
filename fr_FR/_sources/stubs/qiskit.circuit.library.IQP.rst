@@ -56,6 +56,7 @@
       ~IQP.fredkin
       ~IQP.from_qasm_file
       ~IQP.from_qasm_str
+      ~IQP.get_instructions
       ~IQP.h
       ~IQP.hamiltonian
       ~IQP.has_register

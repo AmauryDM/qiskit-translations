@@ -56,6 +56,7 @@
       ~GRZ.fredkin
       ~GRZ.from_qasm_file
       ~GRZ.from_qasm_str
+      ~GRZ.get_instructions
       ~GRZ.h
       ~GRZ.hamiltonian
       ~GRZ.has_register

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.qcstyle.DefaultStyle &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.visualization.qcstyle.DefaultStyle &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -334,8 +334,8 @@
 <dd><p>Creates a Default Style dictionary</p>
 <p><strong>Style Dict Details</strong></p>
 <p>The style dict contains numerous options that define the style of the
-output circuit visualization. The style dict is only used by the <cite>mpl</cite>
-output. The options available in the style dict are defined below:</p>
+output circuit visualization. The style dict is used by the <cite>mpl</cite> or
+<cite>latex</cite> output. The options available in the style dict are defined below:</p>
 <dl class="simple">
 <dt>name (str): the name of the style. The name can be set to <code class="docutils literal notranslate"><span class="pre">iqx</span></code>,</dt><dd><p><code class="docutils literal notranslate"><span class="pre">bw</span></code>, <code class="docutils literal notranslate"><span class="pre">default</span></code>, or the name of a user-created json file. This
 overrides the setting in the user config file (usually
@@ -379,38 +379,30 @@ Defaults to [2.0, 0.1, 0.1, 0.3].</p>
 </dd>
 <dt>displaytext (dict): a dictionary of the text to use for certain element</dt><dd><p>types in the output visualization. These items allow the use of
 LaTeX formatting for gate names. The 『displaytext』 dict can contain
-any number of elements from one to the entire dict above.The default
+any number of elements. User created names and labels may be used as
+keys, which allow these to have Latex formatting. The default
 values are (<cite>default.json</cite>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;u1&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{U}</span><span class="s1">_1$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;u2&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{U}</span><span class="s1">_2$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;u3&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{U}</span><span class="s1">_3$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sdg&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{S}</span><span class="s1">^\dagger$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sx&#39;</span><span class="p">:</span> <span class="s1">&#39;$\sqrt{\mathrm</span><span class="si">{X}</span><span class="s1">}$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sxdg&#39;</span><span class="p">:</span> <span class="s1">&#39;$\sqrt{\mathrm</span><span class="si">{X}</span><span class="s1">}^\dagger$&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;u1&#39;</span><span class="p">:</span> <span class="s1">&#39;U_1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;u2&#39;</span><span class="p">:</span> <span class="s1">&#39;U_2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;u3&#39;</span><span class="p">:</span> <span class="s1">&#39;U_3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sdg&#39;</span><span class="p">:</span> <span class="s1">&#39;S^\dagger&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sx&#39;</span><span class="p">:</span> <span class="s1">&#39;\sqrt</span><span class="si">{X}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sxdg&#39;</span><span class="p">:</span> <span class="s1">&#39;\sqrt</span><span class="si">{X}</span><span class="s1">^\dagger&#39;</span><span class="p">,</span>
     <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;tdg&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{T}</span><span class="s1">^\dagger$&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tdg&#39;</span><span class="p">:</span> <span class="s1">&#39;T^\dagger&#39;</span><span class="p">,</span>
     <span class="s1">&#39;dcx&#39;</span><span class="p">:</span> <span class="s1">&#39;Dcx&#39;</span><span class="p">,</span>
     <span class="s1">&#39;iswap&#39;</span><span class="p">:</span> <span class="s1">&#39;Iswap&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ms&#39;</span><span class="p">:</span> <span class="s1">&#39;MS&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;rx&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_\mathrm</span><span class="si">{X}</span><span class="s1">$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ry&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_\mathrm</span><span class="si">{Y}</span><span class="s1">$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;rz&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_\mathrm</span><span class="si">{Z}</span><span class="s1">$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;rxx&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_{\mathrm</span><span class="si">{XX}</span><span class="s1">}$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ryy&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_{\mathrm</span><span class="si">{YY}</span><span class="s1">}$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;rzx&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_{\mathrm</span><span class="si">{ZX}</span><span class="s1">}$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;rzz&#39;</span><span class="p">:</span> <span class="s1">&#39;$\mathrm</span><span class="si">{R}</span><span class="s1">_{\mathrm</span><span class="si">{ZZ}</span><span class="s1">}$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;reset&#39;</span><span class="p">:</span> <span class="s1">&#39;$\left|0</span><span class="se">\r</span><span class="s1">ight</span><span class="se">\r</span><span class="s1">angle$&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;initialize&#39;</span><span class="p">:</span> <span class="s1">&#39;$|\psi</span><span class="se">\r</span><span class="s1">angle$&#39;</span>
+    <span class="s1">&#39;rx&#39;</span><span class="p">:</span> <span class="s1">&#39;R_X&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ry&#39;</span><span class="p">:</span> <span class="s1">&#39;R_Y&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rz&#39;</span><span class="p">:</span> <span class="s1">&#39;R_Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rxx&#39;</span><span class="p">:</span> <span class="s1">&#39;R_</span><span class="si">{XX}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ryy&#39;</span><span class="p">:</span> <span class="s1">&#39;R_</span><span class="si">{YY}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rzx&#39;</span><span class="p">:</span> <span class="s1">&#39;R_</span><span class="si">{ZX}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rzz&#39;</span><span class="p">:</span> <span class="s1">&#39;ZZ&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;reset&#39;</span><span class="p">:</span> <span class="s1">&#39;\left|0</span><span class="se">\r</span><span class="s1">ight</span><span class="se">\r</span><span class="s1">angle&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;initialize&#39;</span><span class="p">:</span> <span class="s1">&#39;|\psi</span><span class="se">\r</span><span class="s1">angle&#39;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -418,7 +410,8 @@ values are (<cite>default.json</cite>):</p>
 <dt>displaycolor (dict): the color codes to use for each circuit element in</dt><dd><p>the form (gate_color, text_color). Colors can also be entered without
 the text color, such as 『u1』: 『#FA74A6』, in which case the text color
 will always be <cite>gatetextcolor</cite>. The <cite>displaycolor</cite> dict can contain
-any number of elements from one to the entire dict above. The default
+any number of elements. User names and labels may be used as keys,
+which allows for custom colors for user-created gates. The default
 values are (<cite>default.json</cite>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;u1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;#FA74A6&#39;</span><span class="p">,</span> <span class="s1">&#39;#000000&#39;</span><span class="p">),</span>
@@ -512,7 +505,7 @@ values are (<cite>default.json</cite>):</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -550,7 +543,7 @@ values are (<cite>default.json</cite>):</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

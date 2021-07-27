@@ -47,5 +47,6 @@
       ~SuperOp.num_qubits
       ~SuperOp.qargs
       ~SuperOp.rtol
+      ~SuperOp.settings
    
    

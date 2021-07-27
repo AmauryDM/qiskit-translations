@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.NELDER_MEAD &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.optimizers.NELDER_MEAD &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -42,7 +42,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Tìm Kiếm" href="../search.html" />
     <link rel="next" title="qiskit.algorithms.optimizers.NFT" href="qiskit.algorithms.optimizers.NFT.html" />
-    <link rel="prev" title="qiskit.algorithms.optimizers.GSLS" href="qiskit.algorithms.optimizers.GSLS.html" /> 
+    <link rel="prev" title="qiskit.algorithms.optimizers.GradientDescent" href="qiskit.algorithms.optimizers.GradientDescent.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -332,7 +332,7 @@
 <h1>qiskit.algorithms.optimizers.NELDER_MEAD<a class="headerlink" href="#qiskit-algorithms-optimizers-nelder-mead" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.algorithms.optimizers.NELDER_MEAD">
-<em class="property">class </em><code class="sig-name descname">NELDER_MEAD</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">xatol</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">adaptive</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">NELDER_MEAD</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">xatol</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">adaptive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Nelder-Mead optimizer.</p>
 <p>The Nelder-Mead algorithm performs unconstrained optimization; it ignores bounds
 or constraints.  It is used to find the minimum or maximum of an objective function
@@ -358,12 +358,14 @@ maxfev are set, minimization will stop at the first reached.</p></li>
 <li><p><strong>xatol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- Absolute error in xopt between iterations that is acceptable for convergence.</p></li>
 <li><p><strong>tol</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) -- Tolerance for termination.</p></li>
 <li><p><strong>adaptive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) -- Adapt algorithm parameters to dimensionality of problem.</p></li>
+<li><p><strong>options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) -- A dictionary of solver options.</p></li>
+<li><p><strong>kwargs</strong> -- additional kwargs for scipy.optimize.minimize.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NELDER_MEAD.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">xatol</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">adaptive</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">xatol</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">adaptive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Tham số</dt>
 <dd class="field-odd"><ul class="simple">
@@ -375,6 +377,8 @@ maxfev are set, minimization will stop at the first reached.</p></li>
 <li><p><strong>xatol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) -- Absolute error in xopt between iterations that is acceptable for convergence.</p></li>
 <li><p><strong>tol</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) -- Tolerance for termination.</p></li>
 <li><p><strong>adaptive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) -- Adapt algorithm parameters to dimensionality of problem.</p></li>
+<li><p><strong>options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) -- A dictionary of solver options.</p></li>
+<li><p><strong>kwargs</strong> -- additional kwargs for scipy.optimize.minimize.</p></li>
 </ul>
 </dd>
 </dl>
@@ -464,6 +468,9 @@ maxfev are set, minimization will stop at the first reached.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NELDER_MEAD.setting" title="qiskit.algorithms.optimizers.NELDER_MEAD.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
 <td><p>Return setting</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NELDER_MEAD.settings" title="qiskit.algorithms.optimizers.NELDER_MEAD.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>The optimizer settings in a dictionary format.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -474,7 +481,7 @@ maxfev are set, minimization will stop at the first reached.</p></li>
 
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NELDER_MEAD.get_support_level">
-<code class="sig-name descname">get_support_level</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD.get_support_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.get_support_level" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_support_level</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.get_support_level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return support level dictionary</p>
 </dd></dl>
 
@@ -569,7 +576,7 @@ around the point x_center.</p>
 
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NELDER_MEAD.optimize">
-<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_vars</span></em>, <em class="sig-param"><span class="n">objective_function</span></em>, <em class="sig-param"><span class="n">gradient_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_bounds</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_point</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nelder_mead.html#NELDER_MEAD.optimize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.optimize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_vars</span></em>, <em class="sig-param"><span class="n">objective_function</span></em>, <em class="sig-param"><span class="n">gradient_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_bounds</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_point</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform optimization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Tham số</dt>
@@ -635,6 +642,25 @@ a set of key/values when the given optimizer is constructed.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.algorithms.optimizers.NELDER_MEAD.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>The optimizer settings in a dictionary format.</p>
+<p>The settings can for instance be used for JSON-serialization (if all settings are
+serializable, which e.g. doesn't hold per default for callables), such that the
+optimizer object can be reconstructed as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">settings</span>
+<span class="c1"># JSON serialize and send to another server</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClass</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Kiểu trả về</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NELDER_MEAD.wrap_function">
 <em class="property">static </em><code class="sig-name descname">wrap_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NELDER_MEAD.wrap_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap the function to implicitly inject the args at the call of the function.</p>
@@ -669,7 +695,7 @@ a set of key/values when the given optimizer is constructed.</p>
         <a href="qiskit.algorithms.optimizers.NFT.html" class="btn btn-neutral float-right" title="qiskit.algorithms.optimizers.NFT" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="qiskit.algorithms.optimizers.GSLS.html" class="btn btn-neutral" title="qiskit.algorithms.optimizers.GSLS" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="qiskit.algorithms.optimizers.GradientDescent.html" class="btn btn-neutral" title="qiskit.algorithms.optimizers.GradientDescent" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -683,7 +709,7 @@ a set of key/values when the given optimizer is constructed.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -721,7 +747,7 @@ a set of key/values when the given optimizer is constructed.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

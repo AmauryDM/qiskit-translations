@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.models.backendconfiguration &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.providers.models.backendconfiguration &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -335,13 +335,18 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.providers.exceptions</span> <span class="kn">import</span> <span class="n">BackendConfigurationError</span>
-<span class="kn">from</span> <span class="nn">qiskit.pulse.channels</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AcquireChannel</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">ControlChannel</span><span class="p">,</span>
-                                   <span class="n">DriveChannel</span><span class="p">,</span> <span class="n">MeasureChannel</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.pulse.channels</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AcquireChannel</span><span class="p">,</span>
+    <span class="n">Channel</span><span class="p">,</span>
+    <span class="n">ControlChannel</span><span class="p">,</span>
+    <span class="n">DriveChannel</span><span class="p">,</span>
+    <span class="n">MeasureChannel</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="GateConfig"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.GateConfig.html#qiskit.providers.models.GateConfig">[dokumentacja]</a><span class="k">class</span> <span class="nc">GateConfig</span><span class="p">:</span>
@@ -354,8 +359,16 @@
 <span class="sd">                  and CX.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GateConfig.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.GateConfig.html#qiskit.providers.models.GateConfig.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">qasm_def</span><span class="p">,</span> <span class="n">coupling_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">latency_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conditional</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GateConfig.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.GateConfig.html#qiskit.providers.models.GateConfig.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">,</span>
+        <span class="n">qasm_def</span><span class="p">,</span>
+        <span class="n">coupling_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">latency_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">conditional</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a GateConfig object</span>
 
 <span class="sd">        Args:</span>
@@ -413,18 +426,18 @@
 <span class="sd">            dict: The dictionary form of the GateConfig.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
-            <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qasm_def</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qasm_def</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;coupling_map&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;coupling_map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coupling_map</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;latency_map&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;latency_map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">latency_map</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;conditional&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;conditional&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;coupling_map&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;coupling_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coupling_map</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;latency_map&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;latency_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">latency_map</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;conditional&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;conditional&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -434,12 +447,11 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">out_str</span> <span class="o">=</span> <span class="s2">&quot;GateConfig(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
-                                             <span class="bp">self</span><span class="o">.</span><span class="n">qasm_def</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;coupling_map&#39;</span><span class="p">,</span> <span class="s1">&#39;latency_map&#39;</span><span class="p">,</span> <span class="s1">&#39;conditional&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]:</span>
+        <span class="n">out_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GateConfig(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">qasm_def</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;coupling_map&quot;</span><span class="p">,</span> <span class="s2">&quot;latency_map&quot;</span><span class="p">,</span> <span class="s2">&quot;conditional&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-                <span class="n">out_str</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
-        <span class="n">out_str</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+                <span class="n">out_str</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">out_str</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
         <span class="k">return</span> <span class="n">out_str</span></div>
 
 
@@ -462,7 +474,7 @@
 <span class="sd">            QiskitError: If q is &lt; 0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;q must be &gt;=0&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;q must be &gt;=0&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span></div>
 
@@ -487,8 +499,8 @@
 <span class="sd">            dict: The dictionary form of the UChannelLO.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span>
-            <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+            <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span>
+            <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
@@ -499,7 +511,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;UchannelLO(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;UchannelLO(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
 
 <div class="viewcode-block" id="QasmBackendConfiguration"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.QasmBackendConfiguration.html#qiskit.providers.models.QasmBackendConfiguration">[dokumentacja]</a><span class="k">class</span> <span class="nc">QasmBackendConfiguration</span><span class="p">:</span>
@@ -521,16 +533,40 @@
 
     <span class="n">_data</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="QasmBackendConfiguration.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.QasmBackendConfiguration.html#qiskit.providers.models.QasmBackendConfiguration.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_version</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">,</span>
-                 <span class="n">basis_gates</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span> <span class="n">simulator</span><span class="p">,</span>
-                 <span class="n">conditional</span><span class="p">,</span> <span class="n">open_pulse</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span>
-                 <span class="n">max_shots</span><span class="p">,</span> <span class="n">coupling_map</span><span class="p">,</span> <span class="n">supported_instructions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">dynamic_reprate_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rep_delay_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">default_rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_experiments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">sample_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_registers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">register_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">configurable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credits_required</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">online_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">processor_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="QasmBackendConfiguration.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.QasmBackendConfiguration.html#qiskit.providers.models.QasmBackendConfiguration.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">backend_name</span><span class="p">,</span>
+        <span class="n">backend_version</span><span class="p">,</span>
+        <span class="n">n_qubits</span><span class="p">,</span>
+        <span class="n">basis_gates</span><span class="p">,</span>
+        <span class="n">gates</span><span class="p">,</span>
+        <span class="n">local</span><span class="p">,</span>
+        <span class="n">simulator</span><span class="p">,</span>
+        <span class="n">conditional</span><span class="p">,</span>
+        <span class="n">open_pulse</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">,</span>
+        <span class="n">max_shots</span><span class="p">,</span>
+        <span class="n">coupling_map</span><span class="p">,</span>
+        <span class="n">supported_instructions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dynamic_reprate_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">rep_delay_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_experiments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sample_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_registers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">register_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">configurable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">credits_required</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">online_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">processor_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parametric_pulses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a QasmBackendConfiguration Object</span>
 
 <span class="sd">        Args:</span>
@@ -582,6 +618,8 @@
 <span class="sd">                - family: Processor family of this backend.</span>
 <span class="sd">                - revision: Revision version of this processor.</span>
 <span class="sd">                - segment: Segment this processor belongs to within a larger chip.</span>
+<span class="sd">            parametric_pulses (list): A list of pulse shapes which are supported on the backend.</span>
+<span class="sd">                For example: ``[&#39;gaussian&#39;, &#39;constant&#39;]``</span>
 
 <span class="sd">            **kwargs: optional fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -606,7 +644,7 @@
         <span class="k">if</span> <span class="n">rep_delay_range</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rep_delay_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rd</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="k">for</span> <span class="n">_rd</span> <span class="ow">in</span> <span class="n">rep_delay_range</span><span class="p">]</span>  <span class="c1"># convert to sec</span>
         <span class="k">if</span> <span class="n">default_rep_delay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">default_rep_delay</span> <span class="o">=</span> <span class="n">default_rep_delay</span> <span class="o">*</span> <span class="mf">1e-6</span>   <span class="c1"># convert to sec</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">default_rep_delay</span> <span class="o">=</span> <span class="n">default_rep_delay</span> <span class="o">*</span> <span class="mf">1e-6</span>  <span class="c1"># convert to sec</span>
 
         <span class="c1"># max_experiments must be &gt;=1</span>
         <span class="k">if</span> <span class="n">max_experiments</span><span class="p">:</span>
@@ -639,18 +677,25 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dtm</span> <span class="o">=</span> <span class="n">dtm</span> <span class="o">*</span> <span class="mf">1e-9</span>
         <span class="k">if</span> <span class="n">processor_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">processor_type</span> <span class="o">=</span> <span class="n">processor_type</span>
+        <span class="k">if</span> <span class="n">parametric_pulses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parametric_pulses</span> <span class="o">=</span> <span class="n">parametric_pulses</span>
 
-        <span class="k">if</span> <span class="s1">&#39;qubit_lo_range&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                                        <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">]]</span>
+        <span class="c1"># convert lo range from GHz to Hz</span>
+        <span class="k">if</span> <span class="s2">&quot;qubit_lo_range&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;meas_lo_range&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                                       <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;meas_lo_range&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
 
         <span class="c1"># convert rep_times from μs to sec</span>
-        <span class="k">if</span> <span class="s1">&#39;rep_times&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;rep_times&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rt</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="k">for</span> <span class="n">_rt</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;rep_times&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;rep_times&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rep_times&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rt</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="k">for</span> <span class="n">_rt</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rep_times&quot;</span><span class="p">]]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -658,7 +703,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Attribute </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> is not defined&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attribute </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not defined&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
 
 <div class="viewcode-block" id="QasmBackendConfiguration.from_dict"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.QasmBackendConfiguration.html#qiskit.providers.models.QasmBackendConfiguration.from_dict">[dokumentacja]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -672,8 +717,8 @@
 <span class="sd">            GateConfig: The GateConfig from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">in_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">GateConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;gates&#39;</span><span class="p">)]</span>
-        <span class="n">in_data</span><span class="p">[</span><span class="s1">&#39;gates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gates</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">GateConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;gates&quot;</span><span class="p">)]</span>
+        <span class="n">in_data</span><span class="p">[</span><span class="s2">&quot;gates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gates</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">in_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="QasmBackendConfiguration.to_dict"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.QasmBackendConfiguration.html#qiskit.providers.models.QasmBackendConfiguration.to_dict">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -683,53 +728,66 @@
 <span class="sd">            dict: The dictionary form of the GateConfig.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_name</span><span class="p">,</span>
-            <span class="s1">&#39;backend_version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_version</span><span class="p">,</span>
-            <span class="s1">&#39;n_qubits&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span>
-            <span class="s1">&#39;basis_gates&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_gates</span><span class="p">,</span>
-            <span class="s1">&#39;gates&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">],</span>
-            <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">,</span>
-            <span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="p">,</span>
-            <span class="s1">&#39;conditional&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span><span class="p">,</span>
-            <span class="s1">&#39;open_pulse&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_pulse</span><span class="p">,</span>
-            <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">,</span>
-            <span class="s1">&#39;max_shots&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shots</span><span class="p">,</span>
-            <span class="s1">&#39;coupling_map&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coupling_map</span><span class="p">,</span>
-            <span class="s1">&#39;dynamic_reprate_enabled&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_reprate_enabled</span>
+            <span class="s2">&quot;backend_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_name</span><span class="p">,</span>
+            <span class="s2">&quot;backend_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_version</span><span class="p">,</span>
+            <span class="s2">&quot;n_qubits&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span>
+            <span class="s2">&quot;basis_gates&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_gates</span><span class="p">,</span>
+            <span class="s2">&quot;gates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">],</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">,</span>
+            <span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span><span class="p">,</span>
+            <span class="s2">&quot;conditional&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span><span class="p">,</span>
+            <span class="s2">&quot;open_pulse&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_pulse</span><span class="p">,</span>
+            <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">,</span>
+            <span class="s2">&quot;max_shots&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shots</span><span class="p">,</span>
+            <span class="s2">&quot;coupling_map&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coupling_map</span><span class="p">,</span>
+            <span class="s2">&quot;dynamic_reprate_enabled&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_reprate_enabled</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;supported_instructions&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;supported_instructions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_instructions</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;supported_instructions&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;supported_instructions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_instructions</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;rep_delay_range&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;rep_delay_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rd</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="k">for</span> <span class="n">_rd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_delay_range</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;default_rep_delay&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;default_rep_delay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_rep_delay</span><span class="o">*</span><span class="mf">1e6</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;rep_delay_range&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;rep_delay_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rd</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="k">for</span> <span class="n">_rd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_delay_range</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;default_rep_delay&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;default_rep_delay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_rep_delay</span> <span class="o">*</span> <span class="mf">1e6</span>
 
-        <span class="k">for</span> <span class="n">kwarg</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;max_experiments&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_name&#39;</span><span class="p">,</span> <span class="s1">&#39;n_registers&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;register_map&#39;</span><span class="p">,</span> <span class="s1">&#39;configurable&#39;</span><span class="p">,</span> <span class="s1">&#39;credits_required&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;online_date&#39;</span><span class="p">,</span> <span class="s1">&#39;display_name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;dt&#39;</span><span class="p">,</span> <span class="s1">&#39;dtm&#39;</span><span class="p">,</span> <span class="s1">&#39;processor_type&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">kwarg</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;max_experiments&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sample_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_registers&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;register_map&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;configurable&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;credits_required&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;online_date&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;display_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dtm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;processor_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parametric_pulses&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwarg</span><span class="p">):</span>
                 <span class="n">out_dict</span><span class="p">[</span><span class="n">kwarg</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwarg</span><span class="p">)</span>
 
         <span class="n">out_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;dt&#39;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
-        <span class="k">if</span> <span class="s1">&#39;dtm&#39;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;dtm&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
+        <span class="k">if</span> <span class="s2">&quot;dt&quot;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;dt&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
+        <span class="k">if</span> <span class="s2">&quot;dtm&quot;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;dtm&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
 
-        <span class="k">if</span> <span class="s1">&#39;qubit_lo_range&#39;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">]</span>
+        <span class="c1"># Use GHz in dict</span>
+        <span class="k">if</span> <span class="s2">&quot;qubit_lo_range&quot;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">]</span>
             <span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;meas_lo_range&#39;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;meas_lo_range&quot;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">]</span>
             <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">out_dict</span></div>
@@ -756,6 +814,7 @@
 
 <div class="viewcode-block" id="BackendConfiguration"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.BackendConfiguration.html#qiskit.providers.models.BackendConfiguration">[dokumentacja]</a><span class="k">class</span> <span class="nc">BackendConfiguration</span><span class="p">(</span><span class="n">QasmBackendConfiguration</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Backwards compat shim representing an abstract backend configuration.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
@@ -764,46 +823,48 @@
 <span class="sd">    about the set up of the device which can be useful for building Pulse programs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PulseBackendConfiguration.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">backend_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">backend_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">basis_gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-                 <span class="n">gates</span><span class="p">:</span> <span class="n">GateConfig</span><span class="p">,</span>
-                 <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">simulator</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">conditional</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">open_pulse</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">memory</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">max_shots</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">coupling_map</span><span class="p">,</span>
-                 <span class="n">n_uchannels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">u_channel_lo</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">UchannelLO</span><span class="p">]],</span>
-                 <span class="n">meas_levels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-                 <span class="n">qubit_lo_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-                 <span class="n">meas_lo_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-                 <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">dtm</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">rep_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-                 <span class="n">meas_kernels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-                 <span class="n">discriminators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-                 <span class="n">hamiltonian</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">channel_bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">acquisition_latency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">conditional_latency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">meas_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">max_experiments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">sample_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">n_registers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">register_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">configurable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">credits_required</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">online_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">channels</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PulseBackendConfiguration.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">backend_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">backend_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">basis_gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">gates</span><span class="p">:</span> <span class="n">GateConfig</span><span class="p">,</span>
+        <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">simulator</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">conditional</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">open_pulse</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">max_shots</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">coupling_map</span><span class="p">,</span>
+        <span class="n">n_uchannels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">u_channel_lo</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">UchannelLO</span><span class="p">]],</span>
+        <span class="n">meas_levels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">qubit_lo_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">meas_lo_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">dtm</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">rep_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">meas_kernels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">discriminators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">hamiltonian</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">channel_bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acquisition_latency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">conditional_latency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">meas_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_experiments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sample_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_registers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">register_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">configurable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">credits_required</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">online_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a backend configuration that contains all the extra configuration that is made</span>
 <span class="sd">        available for OpenPulse backends.</span>
@@ -863,18 +924,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_uchannels</span> <span class="o">=</span> <span class="n">n_uchannels</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_channel_lo</span> <span class="o">=</span> <span class="n">u_channel_lo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">meas_levels</span> <span class="o">=</span> <span class="n">meas_levels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span> <span class="o">=</span> <span class="p">[[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                               <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">qubit_lo_range</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span> <span class="o">=</span> <span class="p">[[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                              <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">meas_lo_range</span><span class="p">]</span>
+
+        <span class="c1"># convert from GHz to Hz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">qubit_lo_range</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">meas_lo_range</span>
+        <span class="p">]</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">meas_kernels</span> <span class="o">=</span> <span class="n">meas_kernels</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">discriminators</span> <span class="o">=</span> <span class="n">discriminators</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">hamiltonian</span>
         <span class="k">if</span> <span class="n">hamiltonian</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hamiltonian</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">[</span><span class="s1">&#39;vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="mf">1e9</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">[</span><span class="s1">&#39;vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rt</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="k">for</span> <span class="n">_rt</span> <span class="ow">in</span> <span class="n">rep_times</span><span class="p">]</span>  <span class="c1"># convert to sec</span>
@@ -885,29 +951,49 @@
         <span class="k">if</span> <span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">channels</span>
 
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_qubit_channel_map</span><span class="p">,</span>
-             <span class="bp">self</span><span class="o">.</span><span class="n">_channel_qubit_map</span><span class="p">,</span>
-             <span class="bp">self</span><span class="o">.</span><span class="n">_control_channels</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_channels</span><span class="p">(</span><span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">)</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_qubit_channel_map</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_channel_qubit_map</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_control_channels</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_channels</span><span class="p">(</span><span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_control_channels</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">channel_bandwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span> <span class="o">=</span> <span class="p">[[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span>
-                                      <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">channel_bandwidth</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e9</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="n">channel_bandwidth</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="n">acquisition_latency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">acquisition_latency</span> <span class="o">=</span> <span class="n">acquisition_latency</span>
         <span class="k">if</span> <span class="n">conditional_latency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conditional_latency</span> <span class="o">=</span> <span class="n">conditional_latency</span>
         <span class="k">if</span> <span class="n">meas_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">meas_map</span> <span class="o">=</span> <span class="n">meas_map</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">backend_name</span><span class="o">=</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_version</span><span class="o">=</span><span class="n">backend_version</span><span class="p">,</span>
-                         <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span> <span class="n">gates</span><span class="o">=</span><span class="n">gates</span><span class="p">,</span>
-                         <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">,</span> <span class="n">simulator</span><span class="o">=</span><span class="n">simulator</span><span class="p">,</span> <span class="n">conditional</span><span class="o">=</span><span class="n">conditional</span><span class="p">,</span>
-                         <span class="n">open_pulse</span><span class="o">=</span><span class="n">open_pulse</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span> <span class="n">max_shots</span><span class="o">=</span><span class="n">max_shots</span><span class="p">,</span>
-                         <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span> <span class="n">max_experiments</span><span class="o">=</span><span class="n">max_experiments</span><span class="p">,</span>
-                         <span class="n">sample_name</span><span class="o">=</span><span class="n">sample_name</span><span class="p">,</span> <span class="n">n_registers</span><span class="o">=</span><span class="n">n_registers</span><span class="p">,</span>
-                         <span class="n">register_map</span><span class="o">=</span><span class="n">register_map</span><span class="p">,</span> <span class="n">configurable</span><span class="o">=</span><span class="n">configurable</span><span class="p">,</span>
-                         <span class="n">credits_required</span><span class="o">=</span><span class="n">credits_required</span><span class="p">,</span> <span class="n">online_date</span><span class="o">=</span><span class="n">online_date</span><span class="p">,</span>
-                         <span class="n">display_name</span><span class="o">=</span><span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
-                         <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">backend_name</span><span class="o">=</span><span class="n">backend_name</span><span class="p">,</span>
+            <span class="n">backend_version</span><span class="o">=</span><span class="n">backend_version</span><span class="p">,</span>
+            <span class="n">n_qubits</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">,</span>
+            <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
+            <span class="n">gates</span><span class="o">=</span><span class="n">gates</span><span class="p">,</span>
+            <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">,</span>
+            <span class="n">simulator</span><span class="o">=</span><span class="n">simulator</span><span class="p">,</span>
+            <span class="n">conditional</span><span class="o">=</span><span class="n">conditional</span><span class="p">,</span>
+            <span class="n">open_pulse</span><span class="o">=</span><span class="n">open_pulse</span><span class="p">,</span>
+            <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
+            <span class="n">max_shots</span><span class="o">=</span><span class="n">max_shots</span><span class="p">,</span>
+            <span class="n">coupling_map</span><span class="o">=</span><span class="n">coupling_map</span><span class="p">,</span>
+            <span class="n">max_experiments</span><span class="o">=</span><span class="n">max_experiments</span><span class="p">,</span>
+            <span class="n">sample_name</span><span class="o">=</span><span class="n">sample_name</span><span class="p">,</span>
+            <span class="n">n_registers</span><span class="o">=</span><span class="n">n_registers</span><span class="p">,</span>
+            <span class="n">register_map</span><span class="o">=</span><span class="n">register_map</span><span class="p">,</span>
+            <span class="n">configurable</span><span class="o">=</span><span class="n">configurable</span><span class="p">,</span>
+            <span class="n">credits_required</span><span class="o">=</span><span class="n">credits_required</span><span class="p">,</span>
+            <span class="n">online_date</span><span class="o">=</span><span class="n">online_date</span><span class="p">,</span>
+            <span class="n">display_name</span><span class="o">=</span><span class="n">display_name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="PulseBackendConfiguration.from_dict"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.from_dict">[dokumentacja]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -921,13 +1007,13 @@
 <span class="sd">            GateConfig: The GateConfig from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">in_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">GateConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;gates&#39;</span><span class="p">)]</span>
-        <span class="n">in_data</span><span class="p">[</span><span class="s1">&#39;gates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gates</span>
-        <span class="n">input_uchannels</span> <span class="o">=</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;u_channel_lo&#39;</span><span class="p">)</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="n">GateConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;gates&quot;</span><span class="p">)]</span>
+        <span class="n">in_data</span><span class="p">[</span><span class="s2">&quot;gates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gates</span>
+        <span class="n">input_uchannels</span> <span class="o">=</span> <span class="n">in_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;u_channel_lo&quot;</span><span class="p">)</span>
         <span class="n">u_channels</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">input_uchannels</span><span class="p">:</span>
             <span class="n">u_channels</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">UchannelLO</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">channel</span><span class="p">])</span>
-        <span class="n">in_data</span><span class="p">[</span><span class="s1">&#39;u_channel_lo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_channels</span>
+        <span class="n">in_data</span><span class="p">[</span><span class="s2">&quot;u_channel_lo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_channels</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">in_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PulseBackendConfiguration.to_dict"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.to_dict">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -943,63 +1029,69 @@
             <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
                 <span class="n">channel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
             <span class="n">u_channel_lo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
-        <span class="n">out_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s1">&#39;n_uchannels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_uchannels</span><span class="p">,</span>
-            <span class="s1">&#39;u_channel_lo&#39;</span><span class="p">:</span> <span class="n">u_channel_lo</span><span class="p">,</span>
-            <span class="s1">&#39;meas_levels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_levels</span><span class="p">,</span>
-            <span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span><span class="p">,</span>
-            <span class="s1">&#39;meas_lo_range&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span><span class="p">,</span>
-            <span class="s1">&#39;meas_kernels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_kernels</span><span class="p">,</span>
-            <span class="s1">&#39;discriminators&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminators</span><span class="p">,</span>
-            <span class="s1">&#39;rep_times&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span><span class="p">,</span>
-            <span class="s1">&#39;dt&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
-            <span class="s1">&#39;dtm&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtm</span><span class="p">,</span>
-        <span class="p">})</span>
+        <span class="n">out_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;n_uchannels&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_uchannels</span><span class="p">,</span>
+                <span class="s2">&quot;u_channel_lo&quot;</span><span class="p">:</span> <span class="n">u_channel_lo</span><span class="p">,</span>
+                <span class="s2">&quot;meas_levels&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_levels</span><span class="p">,</span>
+                <span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span><span class="p">,</span>
+                <span class="s2">&quot;meas_lo_range&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span><span class="p">,</span>
+                <span class="s2">&quot;meas_kernels&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_kernels</span><span class="p">,</span>
+                <span class="s2">&quot;discriminators&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminators</span><span class="p">,</span>
+                <span class="s2">&quot;rep_times&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span><span class="p">,</span>
+                <span class="s2">&quot;dt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+                <span class="s2">&quot;dtm&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtm</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;channel_bandwidth&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;channel_bandwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;meas_map&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;meas_map&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_map</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;acquisition_latency&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;acquisition_latency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisition_latency</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;conditional_latency&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;conditional_latency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional_latency</span>
-        <span class="k">if</span> <span class="s1">&#39;channels&#39;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_qubit_channel_map&#39;</span><span class="p">)</span>
-            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_channel_qubit_map&#39;</span><span class="p">)</span>
-            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_control_channels&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;channel_bandwidth&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;channel_bandwidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;meas_map&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;meas_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_map</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;acquisition_latency&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;acquisition_latency&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquisition_latency</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;conditional_latency&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;conditional_latency&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditional_latency</span>
+        <span class="k">if</span> <span class="s2">&quot;channels&quot;</span> <span class="ow">in</span> <span class="n">out_dict</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_qubit_channel_map&quot;</span><span class="p">)</span>
+            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_channel_qubit_map&quot;</span><span class="p">)</span>
+            <span class="n">out_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_control_channels&quot;</span><span class="p">)</span>
 
+        <span class="c1"># Use GHz in dict</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;qubit_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span> <span class="k">for</span>
-                <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span><span class="p">]</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_range</span>
+            <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;meas_lo_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span> <span class="k">for</span>
-                <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span><span class="p">]</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">meas_lo_range</span>
+            <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span><span class="p">:</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;rep_times&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rt</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="k">for</span> <span class="n">_rt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span><span class="p">]</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;rep_times&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rt</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="k">for</span> <span class="n">_rt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_times</span><span class="p">]</span>
 
-        <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
-        <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;dtm&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
+        <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;dt&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
+        <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;dtm&quot;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e9</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;channel_bandwidth&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;channel_bandwidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span> <span class="k">for</span>
-                <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;channel_bandwidth&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;channel_bandwidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="n">min_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">max_range</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_bandwidth</span>
+            <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">:</span>
             <span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hamiltonian</span><span class="p">)</span>
-            <span class="n">hamiltonian</span><span class="p">[</span><span class="s1">&#39;vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">hamiltonian</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="mf">1e-9</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hamiltonian</span><span class="p">[</span><span class="s1">&#39;vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hamiltonian</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;hamiltonian&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hamiltonian</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;hamiltonian&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hamiltonian</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;channels&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;channels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span>
 
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
@@ -1014,6 +1106,11 @@
         <span class="sd">&quot;&quot;&quot;Sample rate of the signal channels in Hz (1/dt).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">control_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the control channels&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_control_channels</span>
+
 <div class="viewcode-block" id="PulseBackendConfiguration.drive"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.drive">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">drive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DriveChannel</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the drive channel for the given qubit.</span>
@@ -1025,7 +1122,7 @@
 <span class="sd">            Qubit drive channel.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">qubit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="s2">&quot;Invalid index for </span><span class="si">{}</span><span class="s2">-qubit system.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qubit</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid index for </span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">-qubit system.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DriveChannel</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PulseBackendConfiguration.measure"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.measure">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MeasureChannel</span><span class="p">:</span>
@@ -1038,7 +1135,7 @@
 <span class="sd">            Qubit measurement stimulus line.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">qubit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="s2">&quot;Invalid index for </span><span class="si">{}</span><span class="s2">-qubit system.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qubit</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid index for </span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">-qubit system.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">MeasureChannel</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PulseBackendConfiguration.acquire"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.acquire">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AcquireChannel</span><span class="p">:</span>
@@ -1051,11 +1148,10 @@
 <span class="sd">            Qubit measurement acquisition line.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">qubit</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="s2">&quot;Invalid index for </span><span class="si">{}</span><span class="s2">-qubit systems.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qubit</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid index for </span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">-qubit systems.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AcquireChannel</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PulseBackendConfiguration.control"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.control">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ControlChannel</span><span class="p">]:</span>
+<div class="viewcode-block" id="PulseBackendConfiguration.control"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.PulseBackendConfiguration.html#qiskit.providers.models.PulseBackendConfiguration.control">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ControlChannel</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the secondary drive channel for the given qubit -- typically utilized for</span>
 <span class="sd">        controlling multiqubit interactions. This channel is derived from other channels.</span>
@@ -1072,10 +1168,12 @@
 <span class="sd">            List of control channels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">channel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The channel argument has been deprecated in favor of qubits. &#39;</span>
-                          <span class="s1">&#39;This method will now return accurate ControlChannels determined &#39;</span>
-                          <span class="s1">&#39;by qubit indices.&#39;</span><span class="p">,</span>
-                          <span class="ne">DeprecationWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The channel argument has been deprecated in favor of qubits. &quot;</span>
+                <span class="s2">&quot;This method will now return accurate ControlChannels determined &quot;</span>
+                <span class="s2">&quot;by qubit indices.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">channel</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -1194,12 +1292,12 @@
             <span class="n">DriveChannel</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span> <span class="n">DriveChannel</span><span class="p">,</span>
             <span class="n">ControlChannel</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span> <span class="n">ControlChannel</span><span class="p">,</span>
             <span class="n">MeasureChannel</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span> <span class="n">MeasureChannel</span><span class="p">,</span>
-            <span class="s1">&#39;acquire&#39;</span><span class="p">:</span> <span class="n">AcquireChannel</span>
+            <span class="s2">&quot;acquire&quot;</span><span class="p">:</span> <span class="n">AcquireChannel</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">for</span> <span class="n">channel</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">channels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">channel_prefix</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_prefix_index</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
             <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channels_dict</span><span class="p">[</span><span class="n">channel_prefix</span><span class="p">]</span>
-            <span class="n">qubits</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;operates&#39;</span><span class="p">][</span><span class="s1">&#39;qubits&#39;</span><span class="p">])</span>
+            <span class="n">qubits</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;operates&quot;</span><span class="p">][</span><span class="s2">&quot;qubits&quot;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">channel_prefix</span> <span class="ow">in</span> <span class="n">channels_dict</span><span class="p">:</span>
                 <span class="n">qubit_channel_map</span><span class="p">[</span><span class="n">qubits</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel_type</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
                 <span class="n">channel_qubit_map</span><span class="p">[(</span><span class="n">channel_type</span><span class="p">(</span><span class="n">index</span><span class="p">))]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span>
@@ -1222,7 +1320,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">channel_prefix</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;channel&gt;[a-z]+)(?P&lt;index&gt;[0-9]+)&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">channel_prefix</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;channel&#39;</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_prefix</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">channel_prefix</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;channel&quot;</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">channel_prefix</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BackendConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid channel name - &#39;</span><span class="si">{</span><span class="n">channel</span><span class="si">}</span><span class="s2">&#39; found.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span></div>
 </pre></div>
@@ -1242,7 +1340,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -1277,7 +1375,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

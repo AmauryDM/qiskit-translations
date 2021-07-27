@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.dagcircuit.dagnode &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.dagcircuit.dagnode &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -346,14 +346,20 @@
 <span class="sd">    be supplied to functions that take a node.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;_op&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;_qargs&#39;</span><span class="p">,</span> <span class="s1">&#39;cargs&#39;</span><span class="p">,</span> <span class="s1">&#39;_wire&#39;</span><span class="p">,</span> <span class="s1">&#39;sort_key&#39;</span><span class="p">,</span> <span class="s1">&#39;_node_id&#39;</span><span class="p">]</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;_op&quot;</span><span class="p">,</span> <span class="s2">&quot;_qargs&quot;</span><span class="p">,</span> <span class="s2">&quot;cargs&quot;</span><span class="p">,</span> <span class="s2">&quot;_wire&quot;</span><span class="p">,</span> <span class="s2">&quot;sort_key&quot;</span><span class="p">,</span> <span class="s2">&quot;_node_id&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="DAGNode.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGNode.html#qiskit.dagcircuit.DAGNode.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">wire</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nid</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a node &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DAGNode.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGNode.html#qiskit.dagcircuit.DAGNode.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wire</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nid</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a node&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="n">op</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The DAGNode &#39;name&#39; attribute is deprecated as of 0.18.0 and &quot;</span>
+                <span class="s2">&quot;will be removed no earlier than 3 months after the release date. &quot;</span>
+                <span class="s2">&quot;You can use &#39;DAGNode.op.name&#39; if the DAGNode is of type &#39;op&#39;.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_qargs</span> <span class="o">=</span> <span class="n">qargs</span> <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cargs</span> <span class="o">=</span> <span class="n">cargs</span> <span class="k">if</span> <span class="n">cargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wire</span> <span class="o">=</span> <span class="n">wire</span>
@@ -363,7 +369,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">op</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the Instruction object corresponding to the op for the node, else None&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;op&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The node </span><span class="si">%s</span><span class="s2"> is not an op node&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span>
 
@@ -372,17 +378,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="n">data</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the Instruction name corresponding to the op for this node&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">condition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the condition of the node.op&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;op&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The node </span><span class="si">%s</span><span class="s2"> is not an op node&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The DAGNode &#39;condition&#39; attribute is deprecated as of 0.18.0 and &quot;</span>
+            <span class="s2">&quot;will be removed no earlier than 3 months after the release date. &quot;</span>
+            <span class="s2">&quot;You can use &#39;DAGNode.op.condition&#39; if the DAGNode is of type &#39;op&#39;.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">condition</span>
 
     <span class="nd">@condition</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_condition</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the node.condition which sets the node.op.condition.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;op&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The node </span><span class="si">%s</span><span class="s2"> is not an op node&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The DAGNode &#39;condition&#39; attribute is deprecated as of 0.18.0 and &quot;</span>
+            <span class="s2">&quot;will be removed no earlier than 3 months after the release date. &quot;</span>
+            <span class="s2">&quot;You can use &#39;DAGNode.op.condition&#39; if the DAGNode is of type &#39;op&#39;.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">new_condition</span>
 
     <span class="nd">@property</span>
@@ -403,8 +435,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Bit object, else None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;The node </span><span class="si">%s</span><span class="s1"> is not an input/output node&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;The node </span><span class="si">%s</span><span class="s2"> is not an input/output node&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wire</span>
 
     <span class="nd">@wire</span><span class="o">.</span><span class="n">setter</span>
@@ -440,12 +472,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">bit_indices1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">bit_indices2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s1">&#39;DAGNode.semantic_eq now expects two bit-to-circuit index &#39;</span>
-                <span class="s1">&#39;mappings as arguments. To ease the transition, these will be &#39;</span>
-                <span class="s1">&#39;pre-populated based on the values found in Bit.index and &#39;</span>
-                <span class="s1">&#39;Bit.register. However, this behavior is deprecated and a future &#39;</span>
-                <span class="s1">&#39;release will require the mappings to be provided as arguments.&#39;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">)</span>
+                <span class="s2">&quot;DAGNode.semantic_eq now expects two bit-to-circuit index &quot;</span>
+                <span class="s2">&quot;mappings as arguments. To ease the transition, these will be &quot;</span>
+                <span class="s2">&quot;pre-populated based on the values found in Bit.index and &quot;</span>
+                <span class="s2">&quot;Bit.register. However, this behavior is deprecated and a future &quot;</span>
+                <span class="s2">&quot;release will require the mappings to be provided as arguments.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="n">bit_indices1</span> <span class="o">=</span> <span class="p">{</span><span class="n">arg</span><span class="p">:</span> <span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">node1</span><span class="o">.</span><span class="n">qargs</span> <span class="o">+</span> <span class="n">node1</span><span class="o">.</span><span class="n">cargs</span><span class="p">}</span>
             <span class="n">bit_indices2</span> <span class="o">=</span> <span class="p">{</span><span class="n">arg</span><span class="p">:</span> <span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">node2</span><span class="o">.</span><span class="n">qargs</span> <span class="o">+</span> <span class="n">node2</span><span class="o">.</span><span class="n">cargs</span><span class="p">}</span>
@@ -457,7 +490,7 @@
         <span class="n">node2_cargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_indices2</span><span class="p">[</span><span class="n">carg</span><span class="p">]</span> <span class="k">for</span> <span class="n">carg</span> <span class="ow">in</span> <span class="n">node2</span><span class="o">.</span><span class="n">cargs</span><span class="p">]</span>
 
         <span class="c1"># For barriers, qarg order is not significant so compare as sets</span>
-        <span class="k">if</span> <span class="s1">&#39;barrier&#39;</span> <span class="o">==</span> <span class="n">node1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">node2</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;barrier&quot;</span> <span class="o">==</span> <span class="n">node1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">node2</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">node1_qargs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">node2_qargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">node2</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
@@ -465,12 +498,11 @@
                 <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">node2</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">node1_qargs</span> <span class="o">==</span> <span class="n">node2_qargs</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">node1_cargs</span> <span class="o">==</span> <span class="n">node2_cargs</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;op&#39;</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
                                 <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">condition</span> <span class="o">!=</span> <span class="n">node2</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span>
                                     <span class="k">return</span> <span class="kc">False</span>
-                            <span class="k">if</span> <span class="p">(</span>
-                                <span class="n">bit_indices1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">_wire</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                                <span class="o">==</span> <span class="n">bit_indices2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node2</span><span class="o">.</span><span class="n">_wire</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">bit_indices1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">_wire</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">bit_indices2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="n">node2</span><span class="o">.</span><span class="n">_wire</span><span class="p">,</span> <span class="kc">None</span>
                             <span class="p">):</span>
                                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div></div>
@@ -491,7 +523,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -527,7 +559,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

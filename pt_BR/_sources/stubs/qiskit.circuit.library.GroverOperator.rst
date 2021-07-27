@@ -56,6 +56,7 @@
       ~GroverOperator.fredkin
       ~GroverOperator.from_qasm_file
       ~GroverOperator.from_qasm_str
+      ~GroverOperator.get_instructions
       ~GroverOperator.h
       ~GroverOperator.hamiltonian
       ~GroverOperator.has_register

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.Waveform &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.pulse.Waveform &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -330,7 +330,7 @@
 <h1>qiskit.pulse.Waveform<a class="headerlink" href="#qiskit-pulse-waveform" title="Link permanen untuk headline ini">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.pulse.Waveform">
-<em class="property">class </em><code class="sig-name descname">Waveform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">1e-07</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/library/waveform.html#Waveform"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.Waveform" title="Link permanen untuk definisi ini">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">Waveform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">1e-07</span></em>, <em class="sig-param"><span class="n">limit_amplitude</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/library/waveform.html#Waveform"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.Waveform" title="Link permanen untuk definisi ini">¶</a></dt>
 <dd><p>A pulse specified completely by complex-valued samples; each sample is played for the
 duration of the backend cycle-time, dt.</p>
 <p>Create new sample pulse command.</p>
@@ -343,12 +343,13 @@ duration of the backend cycle-time, dt.</p>
 If any sample's norm exceeds unity by less than or equal to epsilon
 it will be clipped to unit norm. If the sample
 norm is greater than 1+epsilon an error will be raised.</p></li>
+<li><p><strong>limit_amplitude</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Passed to parent Pulse</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.pulse.Waveform.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">1e-07</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/library/waveform.html#Waveform.__init__"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.Waveform.__init__" title="Link permanen untuk definisi ini">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">1e-07</span></em>, <em class="sig-param"><span class="n">limit_amplitude</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/library/waveform.html#Waveform.__init__"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.Waveform.__init__" title="Link permanen untuk definisi ini">¶</a></dt>
 <dd><p>Create new sample pulse command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameter</dt>
@@ -359,6 +360,7 @@ norm is greater than 1+epsilon an error will be raised.</p></li>
 If any sample's norm exceeds unity by less than or equal to epsilon
 it will be clipped to unit norm. If the sample
 norm is greater than 1+epsilon an error will be raised.</p></li>
+<li><p><strong>limit_amplitude</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Passed to parent Pulse</p></li>
 </ul>
 </dd>
 </dl>
@@ -371,7 +373,7 @@ norm is greater than 1+epsilon an error will be raised.</p></li>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.__init__" title="qiskit.pulse.Waveform.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(samples[, name, epsilon])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.__init__" title="qiskit.pulse.Waveform.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(samples[, name, epsilon, ...])</p></td>
 <td><p>Create new sample pulse command.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.assign_parameters" title="qiskit.pulse.Waveform.assign_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_parameters</span></code></a>(value_dict)</p></td>
@@ -395,10 +397,13 @@ norm is greater than 1+epsilon an error will be raised.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.id" title="qiskit.pulse.Waveform.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
 <td><p>Unique identifier for this pulse.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.parameters" title="qiskit.pulse.Waveform.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">limit_amplitude</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.parameters" title="qiskit.pulse.Waveform.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
 <td><p>Return a dictionary containing the pulse's parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.samples" title="qiskit.pulse.Waveform.samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.Waveform.samples" title="qiskit.pulse.Waveform.samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples</span></code></a></p></td>
 <td><p>Return sample values.</p></td>
 </tr>
 </tbody>
@@ -409,7 +414,7 @@ norm is greater than 1+epsilon an error will be raised.</p></li>
 <dd><p>Return a new pulse with parameters assigned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameter</dt>
-<dd class="field-odd"><p><strong>value_dict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) -- A mapping from Parameters to either numeric values or another
+<dd class="field-odd"><p><strong>value_dict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]) -- A mapping from Parameters to either numeric values or another
 Parameter expression.</p>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -544,7 +549,7 @@ If matplotlib family is specified, this will be a <code class="docutils literal 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -582,7 +587,7 @@ If matplotlib family is specified, this will be a <code class="docutils literal 
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

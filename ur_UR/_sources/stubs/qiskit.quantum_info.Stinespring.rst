@@ -47,5 +47,6 @@
       ~Stinespring.num_qubits
       ~Stinespring.qargs
       ~Stinespring.rtol
+      ~Stinespring.settings
    
    

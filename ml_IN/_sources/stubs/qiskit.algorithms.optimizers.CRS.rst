@@ -44,5 +44,6 @@
       ~CRS.is_initial_point_required
       ~CRS.is_initial_point_supported
       ~CRS.setting
+      ~CRS.settings
    
    

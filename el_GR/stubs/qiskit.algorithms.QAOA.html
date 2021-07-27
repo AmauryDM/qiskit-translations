@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.QAOA &mdash; Τεκμηρίωση του Qiskit - 0.27.0</title>
+  <title>qiskit.algorithms.QAOA &mdash; Τεκμηρίωση του Qiskit - 0.28.0</title>
   
 
   
@@ -464,31 +464,34 @@ ansatz, the evaluated mean and the evaluated standard deviation.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.construct_circuit" title="qiskit.algorithms.QAOA.construct_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_circuit</span></code></a>(parameter, operator)</p></td>
 <td><p>Return the circuits used to compute the expectation value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.construct_expectation" title="qiskit.algorithms.QAOA.construct_expectation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_expectation</span></code></a>(parameter, operator)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.construct_expectation" title="qiskit.algorithms.QAOA.construct_expectation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_expectation</span></code></a>(parameter, operator[, …])</p></td>
 <td><p>Generate the ansatz circuit and expectation value measurement, and return their runnable composition.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.find_minimum" title="qiskit.algorithms.QAOA.find_minimum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_minimum</span></code></a>([initial_point, ansatz, …])</p></td>
 <td><p>Optimize to find the minimum cost value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_circuit" title="qiskit.algorithms.QAOA.get_optimal_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_circuit</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_energy_evaluation" title="qiskit.algorithms.QAOA.get_energy_evaluation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_energy_evaluation</span></code></a>(operator[, …])</p></td>
+<td><p>Returns a function handle to evaluates the energy at given parameters for the ansatz.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_circuit" title="qiskit.algorithms.QAOA.get_optimal_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_circuit</span></code></a>()</p></td>
 <td><p>Get the circuit with the optimal parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_cost" title="qiskit.algorithms.QAOA.get_optimal_cost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_cost</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_cost" title="qiskit.algorithms.QAOA.get_optimal_cost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_cost</span></code></a>()</p></td>
 <td><p>Get the minimal cost or energy found by the VQE.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_vector" title="qiskit.algorithms.QAOA.get_optimal_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_vector</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_optimal_vector" title="qiskit.algorithms.QAOA.get_optimal_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_vector</span></code></a>()</p></td>
 <td><p>Get the simulation outcome of the optimal circuit.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_prob_vector_for_params" title="qiskit.algorithms.QAOA.get_prob_vector_for_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_prob_vector_for_params</span></code></a>(…[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_prob_vector_for_params" title="qiskit.algorithms.QAOA.get_prob_vector_for_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_prob_vector_for_params</span></code></a>(…[, …])</p></td>
 <td><p>Helper function to get probability vectors for a set of params</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_probabilities_for_counts" title="qiskit.algorithms.QAOA.get_probabilities_for_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_probabilities_for_counts</span></code></a>(counts)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.get_probabilities_for_counts" title="qiskit.algorithms.QAOA.get_probabilities_for_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_probabilities_for_counts</span></code></a>(counts)</p></td>
 <td><p>get probabilities for counts</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.print_settings" title="qiskit.algorithms.QAOA.print_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_settings</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.print_settings" title="qiskit.algorithms.QAOA.print_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_settings</span></code></a>()</p></td>
 <td><p>Preparing the setting of VQE into a string.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.supports_aux_operators" title="qiskit.algorithms.QAOA.supports_aux_operators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_aux_operators</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.supports_aux_operators" title="qiskit.algorithms.QAOA.supports_aux_operators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_aux_operators</span></code></a>()</p></td>
 <td><p>Whether computing the expectation value of auxiliary operators is supported.</p></td>
 </tr>
 </tbody>
@@ -501,30 +504,33 @@ ansatz, the evaluated mean and the evaluated standard deviation.</p></li>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.ansatz" title="qiskit.algorithms.QAOA.ansatz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ansatz</span></code></a></p></td>
-<td><p>Returns the ansatz</p></td>
+<td><p>Returns the ansatz.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.expectation" title="qiskit.algorithms.QAOA.expectation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expectation</span></code></a></p></td>
 <td><p>The expectation value algorithm used to construct the expectation measurement from the observable.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.initial_point" title="qiskit.algorithms.QAOA.initial_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_point</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.gradient" title="qiskit.algorithms.QAOA.gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gradient</span></code></a></p></td>
+<td><p>Returns the gradient.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.initial_point" title="qiskit.algorithms.QAOA.initial_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_point</span></code></a></p></td>
 <td><p>Returns initial point</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.initial_state" title="qiskit.algorithms.QAOA.initial_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_state</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.initial_state" title="qiskit.algorithms.QAOA.initial_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initial_state</span></code></a></p></td>
 <td><p>Returns: Returns the initial state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.mixer" title="qiskit.algorithms.QAOA.mixer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.mixer" title="qiskit.algorithms.QAOA.mixer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixer</span></code></a></p></td>
 <td><p>Returns: Returns the mixer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.optimal_params" title="qiskit.algorithms.QAOA.optimal_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimal_params</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.optimal_params" title="qiskit.algorithms.QAOA.optimal_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimal_params</span></code></a></p></td>
 <td><p>The optimal parameters for the ansatz.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.optimizer" title="qiskit.algorithms.QAOA.optimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimizer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.optimizer" title="qiskit.algorithms.QAOA.optimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimizer</span></code></a></p></td>
 <td><p>Returns optimizer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.quantum_instance" title="qiskit.algorithms.QAOA.quantum_instance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantum_instance</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.quantum_instance" title="qiskit.algorithms.QAOA.quantum_instance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantum_instance</span></code></a></p></td>
 <td><p>Returns quantum instance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.setting" title="qiskit.algorithms.QAOA.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.QAOA.setting" title="qiskit.algorithms.QAOA.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
 <td><p>Prepare the setting of VQE as a string.</p></td>
 </tr>
 </tbody>
@@ -532,7 +538,7 @@ ansatz, the evaluated mean and the evaluated standard deviation.</p></li>
 <dl class="py method">
 <dt id="qiskit.algorithms.QAOA.ansatz">
 <em class="property">property </em><code class="sig-name descname">ansatz</code><a class="headerlink" href="#qiskit.algorithms.QAOA.ansatz" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
-<dd><p>Returns the ansatz</p>
+<dd><p>Returns the ansatz.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Επιστρεφόμενος τύπος</dt>
 <dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>]</p>
@@ -594,7 +600,7 @@ count operators so we can get values for these at the ground state.</p></li>
 
 <dl class="py method">
 <dt id="qiskit.algorithms.QAOA.construct_expectation">
-<code class="sig-name descname">construct_expectation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">operator</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.QAOA.construct_expectation" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<code class="sig-name descname">construct_expectation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">operator</span></em>, <em class="sig-param"><span class="n">return_expectation</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.QAOA.construct_expectation" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Generate the ansatz circuit and expectation value measurement, and return their
 runnable composition.</p>
 <dl class="field-list simple">
@@ -602,17 +608,24 @@ runnable composition.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parameter</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – Parameters for the ansatz circuit.</p></li>
 <li><p><strong>operator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code>) – Qubit operator of the Observable</p></li>
+<li><p><strong>return_expectation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, return the <code class="docutils literal notranslate"><span class="pre">ExpectationBase</span></code> expectation converter used
+in the construction of the expectation value. Useful e.g. to compute the standard
+deviation of the expectation value.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Επιστρεφόμενος τύπος</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code></p>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectationBase</span></code>]]</p>
 </dd>
 <dt class="field-odd">Επιστρέφει</dt>
 <dd class="field-odd"><p>The Operator equalling the measurement of the ansatz <code class="xref py py-class docutils literal notranslate"><span class="pre">StateFn</span></code> by the
-Observable’s expectation <code class="xref py py-class docutils literal notranslate"><span class="pre">StateFn</span></code>.</p>
+Observable’s expectation <code class="xref py py-class docutils literal notranslate"><span class="pre">StateFn</span></code>, and, optionally, the expectation converter.</p>
 </dd>
 <dt class="field-even">Προκαλεί</dt>
-<dd class="field-even"><p><a class="reference internal" href="qiskit.algorithms.AlgorithmError.html#qiskit.algorithms.AlgorithmError" title="qiskit.algorithms.AlgorithmError"><strong>AlgorithmError</strong></a> – If no operator has been provided.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="qiskit.algorithms.AlgorithmError.html#qiskit.algorithms.AlgorithmError" title="qiskit.algorithms.AlgorithmError"><strong>AlgorithmError</strong></a> – If no operator has been provided.</p></li>
+<li><p><a class="reference internal" href="qiskit.algorithms.AlgorithmError.html#qiskit.algorithms.AlgorithmError" title="qiskit.algorithms.AlgorithmError"><strong>AlgorithmError</strong></a> – If no expectation is passed and None could be inferred via the
+    ExpectationFactory.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -624,7 +637,7 @@ Observable’s expectation <code class="xref py py-class docutils literal notran
 the observable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Επιστρεφόμενος τύπος</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectationBase</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ExpectationBase</span></code>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -655,6 +668,33 @@ constructor.</p></li>
 </dd>
 <dt class="field-even">Προκαλεί</dt>
 <dd class="field-even"><p><strong>ValueError</strong> – invalid input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.algorithms.QAOA.get_energy_evaluation">
+<code class="sig-name descname">get_energy_evaluation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operator</span></em>, <em class="sig-param"><span class="n">return_expectation</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.QAOA.get_energy_evaluation" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<dd><p>Returns a function handle to evaluates the energy at given parameters for the ansatz.</p>
+<p>This is the objective function to be passed to the optimizer that is used for evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Παράμετροι</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code>) – The operator whose energy to evaluate.</p></li>
+<li><p><strong>return_expectation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, return the <code class="docutils literal notranslate"><span class="pre">ExpectationBase</span></code> expectation converter used
+in the construction of the expectation value. Useful e.g. to evaluate other
+operators with the same expectation value converter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Επιστρεφόμενος τύπος</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>], <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]]</p>
+</dd>
+<dt class="field-odd">Επιστρέφει</dt>
+<dd class="field-odd"><p>Energy of the hamiltonian of each parameter, and, optionally, the expectation
+converter.</p>
+</dd>
+<dt class="field-even">Προκαλεί</dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If the circuit is not parameterized (i.e. has 0 free parameters).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -705,6 +745,17 @@ constructor.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.algorithms.QAOA.gradient">
+<em class="property">property </em><code class="sig-name descname">gradient</code><a class="headerlink" href="#qiskit.algorithms.QAOA.gradient" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<dd><p>Returns the gradient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Επιστρεφόμενος τύπος</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">GradientBase</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.algorithms.QAOA.initial_point">
 <em class="property">property </em><code class="sig-name descname">initial_point</code><a class="headerlink" href="#qiskit.algorithms.QAOA.initial_point" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Returns initial point</p>
@@ -745,7 +796,7 @@ Returns the mixer.</p>
 <dd><p>The optimal parameters for the ansatz.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Επιστρεφόμενος τύπος</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -838,7 +889,7 @@ they will be ignored.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Τελευταία ενημέρωση στις 2021/07/12.
+      Τελευταία ενημέρωση στις 2021/07/27.
 
     </p>
   </div>
@@ -876,7 +927,7 @@ they will be ignored.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

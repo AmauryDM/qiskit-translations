@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.Delay &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.circuit.Delay &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -359,7 +359,7 @@
 <td><p>Validation of the arguments.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.c_if" title="qiskit.circuit.Delay.c_if"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_if</span></code></a>(classical, val)</p></td>
-<td><p>Add classical condition on register classical and value val.</p></td>
+<td><p>Add classical condition on register or cbit classical and value val.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.copy" title="qiskit.circuit.Delay.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([name])</p></td>
 <td><p>Copy of the instruction.</p></td>
@@ -389,7 +389,7 @@
 <td><p>Return a Numpy.array for the unitary matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.validate_parameter" title="qiskit.circuit.Delay.validate_parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_parameter</span></code></a>(parameter)</p></td>
-<td><p>Instruction parameters has no validation or normalization.</p></td>
+<td><p>Delay parameter (i.e.</p></td>
 </tr>
 </tbody>
 </table>
@@ -409,10 +409,13 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.duration" title="qiskit.circuit.Delay.duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration</span></code></a></p></td>
 <td><p>Get the duration of this delay.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.params" title="qiskit.circuit.Delay.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.label" title="qiskit.circuit.Delay.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>Return instruction label</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.params" title="qiskit.circuit.Delay.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>return instruction params.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.unit" title="qiskit.circuit.Delay.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.Delay.unit" title="qiskit.circuit.Delay.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
 <td><p>Get the time unit of duration.</p></td>
 </tr>
 </tbody>
@@ -453,7 +456,7 @@
 <dl class="py method">
 <dt id="qiskit.circuit.Delay.c_if">
 <code class="sig-name descname">c_if</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classical</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/circuit/delay.html#Delay.c_if"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.circuit.Delay.c_if" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add classical condition on register classical and value val.</p>
+<dd><p>Add classical condition on register or cbit classical and value val.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -506,6 +509,17 @@ if None then the name stays the same.</p>
 <dt id="qiskit.circuit.Delay.is_parameterized">
 <code class="sig-name descname">is_parameterized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.Delay.is_parameterized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True .IFF. instruction is parameterized else False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.circuit.Delay.label">
+<em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#qiskit.circuit.Delay.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return instruction label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -623,8 +637,8 @@ added to enable simulation without making delay a full Gate type.</p>
 
 <dl class="py method">
 <dt id="qiskit.circuit.Delay.validate_parameter">
-<code class="sig-name descname">validate_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.Delay.validate_parameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instruction parameters has no validation or normalization.</p>
+<code class="sig-name descname">validate_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/circuit/delay.html#Delay.validate_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.circuit.Delay.validate_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delay parameter (i.e. duration) must be int, float or ParameterExpression.</p>
 </dd></dl>
 
 </dd></dl>
@@ -656,7 +670,7 @@ added to enable simulation without making delay a full Gate type.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -694,7 +708,7 @@ added to enable simulation without making delay a full Gate type.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

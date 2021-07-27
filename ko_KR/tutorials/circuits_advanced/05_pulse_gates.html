@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>펄스 게이트들 &mdash; Qiskit 0.27.0 문서</title>
+  <title>펄스 게이트들 &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -224,7 +224,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -655,7 +655,7 @@ div.rendered_html tbody tr:hover {
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>QuantumCircuit.add_calibration(gate, qubits, schedule, parameters)
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">gate</span></code> can either be a <code class="docutils literal notranslate"><span class="pre">circuit.Gate</span></code> object or the name of the gate. Usually, you’ll need a different schedule for each unique set of <code class="docutils literal notranslate"><span class="pre">qubits</span></code> and <code class="docutils literal notranslate"><span class="pre">parameters</span></code>. Since the Hadamard gate doesn’t have any parameters, we don’t have to supply any.</p>
+<p><code class="docutils literal notranslate"><span class="pre">gate</span></code> 는 <code class="docutils literal notranslate"><span class="pre">circuit.Gate</span></code> 객체이거나 게이트의 이름 그대로가 될 수 있다. 보통 <code class="docutils literal notranslate"><span class="pre">qubits</span></code> 과 <code class="docutils literal notranslate"><span class="pre">parameters</span></code> 의 각각의 독특한 집합마다 다른 스케줄이 필요할 것이다. Hadamard 게이트에는 어떠한 매개변수도 없기 때문에, 어떤 것도 넘길 필요가 없다.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -665,7 +665,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>Lastly, note that the transpiler will respect your calibrations. Use it as you normally would (our example is too simple for the transpiler to optimize, so the output is the same).</p>
+<p>마지막으로 트랜스파일러는 당신의 교정을 준수하다는 걸 주의하자. 그럴 거라고 생각하고 사용하자 (우리의 예는 트랜스파일러가 최적화하기에는 너무 간단하므로 출력이 같다).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -699,8 +699,8 @@ div.rendered_html tbody tr:hover {
 <img alt="../../_images/tutorials_circuits_advanced_05_pulse_gates_10_1.png" src="../../_images/tutorials_circuits_advanced_05_pulse_gates_10_1.png" />
 </div>
 </div>
-<p>Notice that <code class="docutils literal notranslate"><span class="pre">h</span></code> is not a basis gate for the mock backend <code class="docutils literal notranslate"><span class="pre">FakeAlmaden</span></code>. Since we have added a calibration for it, the transpiler will treat our gate as a basis gate; <em>but only on the qubits for which it was defined</em>. A Hadamard applied to a different qubit would be unrolled to the basis gates.</p>
-<p>That’s it!</p>
+<p><code class="docutils literal notranslate"><span class="pre">h</span></code> 가 모조 백엔드 <code class="docutils literal notranslate"><span class="pre">FakeAlmaden</span></code> 의 기저 게이트가 아닌 것에 주목하자. 보정이 추가되었기 때문에 트랜스파일러는 해당 게이트를 기저 게이트로 취급할 것이다; <em>하지만 오직 정의되었던 큐비트들에 대해서만 취급할 것이다</em>. 다른 큐비트에 적용된 Hadamard는 기저 게이트들로 전개될 것이다.</p>
+<p>다 됐다!</p>
 </section>
 <section id="사용자-설정-게이트">
 <h2>사용자 설정 게이트<a class="headerlink" href="#사용자-설정-게이트" title="제목 주소">¶</a></h2>
@@ -832,7 +832,7 @@ div.rendered_html tbody tr:hover {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -876,7 +876,7 @@ div.rendered_html tbody tr:hover {
          <script src="../../_static/language_data.js"></script>
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -56,6 +56,7 @@
       ~QuantumCircuit.fredkin
       ~QuantumCircuit.from_qasm_file
       ~QuantumCircuit.from_qasm_str
+      ~QuantumCircuit.get_instructions
       ~QuantumCircuit.h
       ~QuantumCircuit.hamiltonian
       ~QuantumCircuit.has_register

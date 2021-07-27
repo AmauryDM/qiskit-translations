@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.expectations.aer_pauli_expectation &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.opflow.expectations.aer_pauli_expectation &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -333,6 +333,8 @@
 <span class="sd">&quot;&quot;&quot; AerPauliExpectation Class &quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
@@ -345,18 +347,19 @@
 <span class="kn">from</span> <span class="nn">qiskit.opflow.primitive_ops.pauli_sum_op</span> <span class="kn">import</span> <span class="n">PauliSumOp</span>
 <span class="kn">from</span> <span class="nn">qiskit.opflow.state_fns.circuit_state_fn</span> <span class="kn">import</span> <span class="n">CircuitStateFn</span>
 <span class="kn">from</span> <span class="nn">qiskit.opflow.state_fns.operator_state_fn</span> <span class="kn">import</span> <span class="n">OperatorStateFn</span>
+<span class="kn">from</span> <span class="nn">qiskit.quantum_info</span> <span class="kn">import</span> <span class="n">SparsePauliOp</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="AerPauliExpectation"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.AerPauliExpectation.html#qiskit.opflow.expectations.AerPauliExpectation">[문서]</a><span class="k">class</span> <span class="nc">AerPauliExpectation</span><span class="p">(</span><span class="n">ExpectationBase</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; An Expectation converter for using Aer&#39;s operator snapshot to</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An Expectation converter for using Aer&#39;s operator snapshot to</span>
 <span class="sd">    take expectations of quantum state circuits over Pauli observables.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="AerPauliExpectation.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.AerPauliExpectation.html#qiskit.opflow.expectations.AerPauliExpectation.convert">[문서]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Accept an Operator and return a new Operator with the Pauli measurements replaced by</span>
+        <span class="sd">&quot;&quot;&quot;Accept an Operator and return a new Operator with the Pauli measurements replaced by</span>
 <span class="sd">        AerSnapshot-based expectation circuits.</span>
 
 <span class="sd">        Args:</span>
@@ -372,46 +375,56 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">operator</span></div>
 
-    <span class="c1"># pylint: disable=inconsistent-return-statements</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_replace_pauli_sums</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">operator</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">qiskit.providers.aer.extensions</span> <span class="kn">import</span> <span class="n">SnapshotExpectationValue</span>
+            <span class="kn">from</span> <span class="nn">qiskit.providers.aer.library</span> <span class="kn">import</span> <span class="n">SaveExpectationValue</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;qiskit-aer&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;AerPauliExpectation&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install qiskit-aer&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
-        <span class="c1"># The &#39;expval_measurement&#39; label on the snapshot instruction is special - the</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;qiskit-aer&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AerPauliExpectation&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install qiskit-aer&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+        <span class="c1"># The &#39;expval_measurement&#39; label on the save instruction is special - the</span>
         <span class="c1"># CircuitSampler will look for it to know that the circuit is a Expectation</span>
         <span class="c1"># measurement, and not simply a</span>
         <span class="c1"># circuit to replace with a DictStateFn</span>
+        <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">ListOp</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_replace_pauli_sums</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">PauliSumOp</span><span class="p">):</span>
-            <span class="n">paulis</span> <span class="o">=</span> <span class="p">[(</span><span class="n">meas</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">meas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">to_list</span><span class="p">()]</span>
-            <span class="n">snapshot_instruction</span> <span class="o">=</span> <span class="n">SnapshotExpectationValue</span><span class="p">(</span><span class="s1">&#39;expval_measurement&#39;</span><span class="p">,</span> <span class="n">paulis</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">snapshot_instruction</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">save_instruction</span> <span class="o">=</span> <span class="n">SaveExpectationValue</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="s2">&quot;expval_measurement&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span>
+                <span class="n">save_instruction</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_operator</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
         <span class="c1"># Change to Pauli representation if necessary</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">{</span><span class="s1">&#39;Pauli&#39;</span><span class="p">}</span> <span class="o">==</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Measured Observable is not composed of only Paulis, converting to &#39;</span>
-                           <span class="s1">&#39;Pauli representation, which can be expensive.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">{</span><span class="s2">&quot;Pauli&quot;</span><span class="p">}</span> <span class="o">!=</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Measured Observable is not composed of only Paulis, converting to &quot;</span>
+                <span class="s2">&quot;Pauli representation, which can be expensive.&quot;</span>
+            <span class="p">)</span>
             <span class="c1"># Setting massive=False because this conversion is implicit. User can perform this</span>
             <span class="c1"># action on the Observable with massive=True explicitly if they so choose.</span>
             <span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">to_pauli_op</span><span class="p">(</span><span class="n">massive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SummedOp</span><span class="p">):</span>
-            <span class="n">paulis</span> <span class="o">=</span> <span class="p">[[</span><span class="n">meas</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">meas</span><span class="o">.</span><span class="n">primitive</span><span class="p">]</span> <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">]</span>
-            <span class="n">snapshot_instruction</span> <span class="o">=</span> <span class="n">SnapshotExpectationValue</span><span class="p">(</span><span class="s1">&#39;expval_measurement&#39;</span><span class="p">,</span> <span class="n">paulis</span><span class="p">)</span>
-            <span class="n">snapshot_op</span> <span class="o">=</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">snapshot_instruction</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">snapshot_op</span>
+            <span class="n">sparse_pauli</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
+                <span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">meas</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">SparsePauliOp</span><span class="p">(</span><span class="n">meas</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span> <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">save_instruction</span> <span class="o">=</span> <span class="n">SaveExpectationValue</span><span class="p">(</span><span class="n">sparse_pauli</span><span class="p">,</span> <span class="s2">&quot;expval_measurement&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span>
+                <span class="n">save_instruction</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_operator</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">PauliOp</span><span class="p">):</span>
-            <span class="n">paulis</span> <span class="o">=</span> <span class="p">[[</span><span class="n">operator</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="p">]]</span>
-            <span class="n">snapshot_instruction</span> <span class="o">=</span> <span class="n">SnapshotExpectationValue</span><span class="p">(</span><span class="s1">&#39;expval_measurement&#39;</span><span class="p">,</span> <span class="n">paulis</span><span class="p">)</span>
-            <span class="n">snapshot_op</span> <span class="o">=</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">snapshot_instruction</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">snapshot_op</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_replace_pauli_sums</span><span class="p">)</span>
+            <span class="n">sparse_pauli</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">SparsePauliOp</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span>
+            <span class="n">save_instruction</span> <span class="o">=</span> <span class="n">SaveExpectationValue</span><span class="p">(</span><span class="n">sparse_pauli</span><span class="p">,</span> <span class="s2">&quot;expval_measurement&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="n">save_instruction</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">from_operator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Conversion of OperatorStateFn of </span><span class="si">{</span><span class="n">operator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is not defined.&quot;</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="AerPauliExpectation.compute_variance"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.AerPauliExpectation.html#qiskit.opflow.expectations.AerPauliExpectation.compute_variance">[문서]</a>    <span class="k">def</span> <span class="nf">compute_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exp_op</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -432,7 +445,8 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ComposedOp</span><span class="p">):</span>
                 <span class="k">return</span> <span class="mf">0.0</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">_combo_fn</span><span class="p">([</span><span class="n">sum_variance</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+                <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">([</span><span class="n">sum_variance</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance cannot be computed for </span><span class="si">{</span><span class="n">operator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">sum_variance</span><span class="p">(</span><span class="n">exp_op</span><span class="p">)</span></div></div>
 </pre></div>
@@ -452,7 +466,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -487,7 +501,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

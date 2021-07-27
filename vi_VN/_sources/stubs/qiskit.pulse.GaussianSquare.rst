@@ -31,7 +31,9 @@
    
       ~GaussianSquare.amp
       ~GaussianSquare.id
+      ~GaussianSquare.limit_amplitude
       ~GaussianSquare.parameters
+      ~GaussianSquare.risefall_sigma_ratio
       ~GaussianSquare.sigma
       ~GaussianSquare.width
    

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.runtime.runtime_program &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.providers.ibmq.runtime.runtime_program &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -336,6 +336,9 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.ibmq.exceptions</span> <span class="kn">import</span> <span class="n">IBMQInputValueError</span>
+
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -358,7 +361,7 @@
 
 <span class="sd">        # To retrieve metadata of a single program.</span>
 <span class="sd">        program = provider.runtime.program(program_id=&#39;circuit-runner&#39;)</span>
-<span class="sd">        print(f&quot;Program {program.name} takes parameters {program.parameters}&quot;)</span>
+<span class="sd">        print(f&quot;Program {program.name} takes parameters {program.parameters().metadata}&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="RuntimeProgram.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.RuntimeProgram.html#qiskit.providers.ibmq.runtime.RuntimeProgram.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -372,7 +375,8 @@
             <span class="n">max_execution_time</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
             <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
             <span class="n">backend_requirements</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">is_public</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;RuntimeProgram constructor.</span>
 
@@ -387,6 +391,7 @@
 <span class="sd">            version: Program version.</span>
 <span class="sd">            backend_requirements: Backend requirements.</span>
 <span class="sd">            creation_date: Program creation date.</span>
+<span class="sd">            is_public: ``True`` if program is visible to all. ``False`` if it&#39;s only visible to you.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">program_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">program_id</span>
@@ -394,10 +399,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_max_execution_time</span> <span class="o">=</span> <span class="n">max_execution_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend_requirements</span> <span class="o">=</span> <span class="n">backend_requirements</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_return_values</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_interim_results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ProgramParameter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_return_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ProgramResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_interim_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ProgramResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_creation_date</span> <span class="o">=</span> <span class="n">creation_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_public</span> <span class="o">=</span> <span class="n">is_public</span>
 
         <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
@@ -466,10 +472,26 @@
             <span class="s2">&quot;max_execution_time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_execution_time</span><span class="p">,</span>
             <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
             <span class="s2">&quot;backend_requirements&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_requirements</span><span class="p">,</span>
-            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
             <span class="s2">&quot;return_values&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_values</span><span class="p">,</span>
-            <span class="s2">&quot;interim_results&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">interim_results</span>
+            <span class="s2">&quot;interim_results&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">interim_results</span><span class="p">,</span>
+            <span class="s2">&quot;is_public&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_public</span>
         <span class="p">}</span></div>
+
+<div class="viewcode-block" id="RuntimeProgram.parameters"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.RuntimeProgram.html#qiskit.providers.ibmq.runtime.RuntimeProgram.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterNamespace&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Program parameter namespace.</span>
+
+<span class="sd">        You can use the returned namespace to assign parameter values and pass</span>
+<span class="sd">        the namespace to :meth:`qiskit.providers.ibmq.runtime.IBMRuntimeService.run`.</span>
+<span class="sd">        The namespace allows you to use auto-completion to find program parameters.</span>
+
+<span class="sd">        Note that each call to this method returns a new namespace instance and</span>
+<span class="sd">        does not include any modification to the previous instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Program parameter namespace.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ParameterNamespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">program_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -497,15 +519,6 @@
 <span class="sd">            Program description.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ProgramParameter&#39;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Program parameter definitions.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Parameter definitions for this program.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">return_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ProgramResult&#39;</span><span class="p">]:</span>
@@ -561,7 +574,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Program creation date.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_creation_date</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_creation_date</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_public</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the program is visible to all.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Whether the program is public.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_public</span></div>
 
 
 <span class="k">class</span> <span class="nc">ProgramParameter</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -577,6 +599,80 @@
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
     <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<div class="viewcode-block" id="ParameterNamespace"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.ParameterNamespace.html#qiskit.providers.ibmq.runtime.ParameterNamespace">[docs]</a><span class="k">class</span> <span class="nc">ParameterNamespace</span><span class="p">(</span><span class="n">SimpleNamespace</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A namespace for program parameters with validation.</span>
+
+<span class="sd">    This class provides a namespace for program parameters with auto-completion</span>
+<span class="sd">    and validation support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ParameterNamespace.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.ParameterNamespace.html#qiskit.providers.ibmq.runtime.ParameterNamespace.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ProgramParameter</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;ParameterNamespace constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params: The program&#39;s input parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Allow access to the raw program parameters list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__metadata</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="c1"># For localized logic, create store of parameters in dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__program_params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="c1"># (1) Add parameters to a dict by name</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="c1"># (2) Store the program params for validation</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__program_params</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ProgramParameter</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the parameter metadata&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata</span>
+
+<div class="viewcode-block" id="ParameterNamespace.validate"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.ParameterNamespace.html#qiskit.providers.ibmq.runtime.ParameterNamespace.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Validate program input values.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method only verifies that required parameters have values. It</span>
+<span class="sd">            does not fail the validation if the namepsace has extraneous parameters.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IBMQInputValueError if validation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Iterate through the user&#39;s stored inputs</span>
+        <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">program_param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__program_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Set invariants: User-specified parameter value (value) and whether it&#39;s required (req)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="c1"># Check there exists a program parameter of that name.</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">program_param</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">IBMQInputValueError</span><span class="p">(</span><span class="s1">&#39;Param (</span><span class="si">%s</span><span class="s1">) missing required value!&#39;</span> <span class="o">%</span> <span class="n">param_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates string representation of object&quot;&quot;&quot;</span>
+        <span class="c1"># Header</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;| </span><span class="si">{:10.10}</span><span class="s1"> | </span><span class="si">{:12.12}</span><span class="s1"> | </span><span class="si">{:12.12}</span><span class="s1"> &#39;</span> \
+                 <span class="s1">&#39;| </span><span class="si">{:8.8}</span><span class="s1"> | </span><span class="si">{:&gt;15}</span><span class="s1"> |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                     <span class="s1">&#39;Name&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Value&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Type&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Required&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;Description&#39;</span>
+                     <span class="p">)</span>
+        <span class="c1"># List of ProgramParameter objects (str)</span>
+        <span class="n">params_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="s1">&#39;| </span><span class="si">{:10.10}</span><span class="s1"> | </span><span class="si">{:12.12}</span><span class="s1"> | </span><span class="si">{:12.12}</span><span class="s1">| </span><span class="si">{:8.8}</span><span class="s1"> | </span><span class="si">{:&gt;15}</span><span class="s1"> |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)),</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">required</span><span class="p">),</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">description</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__program_params</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+        <span class="k">return</span> <span class="s2">&quot;ParameterNamespace (Values):</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> \
+               <span class="o">%</span> <span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">),</span> <span class="n">params_str</span><span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -594,7 +690,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -629,7 +725,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

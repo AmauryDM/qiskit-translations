@@ -19,6 +19,7 @@
       ~QAOA.construct_circuit
       ~QAOA.construct_expectation
       ~QAOA.find_minimum
+      ~QAOA.get_energy_evaluation
       ~QAOA.get_optimal_circuit
       ~QAOA.get_optimal_cost
       ~QAOA.get_optimal_vector
@@ -37,6 +38,7 @@
    
       ~QAOA.ansatz
       ~QAOA.expectation
+      ~QAOA.gradient
       ~QAOA.initial_point
       ~QAOA.initial_state
       ~QAOA.mixer

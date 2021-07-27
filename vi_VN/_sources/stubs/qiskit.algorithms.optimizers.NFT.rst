@@ -43,5 +43,6 @@
       ~NFT.is_initial_point_required
       ~NFT.is_initial_point_supported
       ~NFT.setting
+      ~NFT.settings
    
    

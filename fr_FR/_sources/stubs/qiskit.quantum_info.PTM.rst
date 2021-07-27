@@ -47,5 +47,6 @@
       ~PTM.num_qubits
       ~PTM.qargs
       ~PTM.rtol
+      ~PTM.settings
    
    

@@ -56,6 +56,7 @@
       ~LinearPauliRotations.fredkin
       ~LinearPauliRotations.from_qasm_file
       ~LinearPauliRotations.from_qasm_str
+      ~LinearPauliRotations.get_instructions
       ~LinearPauliRotations.h
       ~LinearPauliRotations.hamiltonian
       ~LinearPauliRotations.has_register

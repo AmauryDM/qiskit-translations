@@ -54,6 +54,7 @@
       ~PauliTable.dim
       ~PauliTable.num_qubits
       ~PauliTable.qargs
+      ~PauliTable.settings
       ~PauliTable.shape
       ~PauliTable.size
    

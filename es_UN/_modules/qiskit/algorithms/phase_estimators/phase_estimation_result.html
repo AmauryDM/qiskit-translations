@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.phase_estimators.phase_estimation_result &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.algorithms.phase_estimators.phase_estimation_result &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -334,6 +334,8 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_function</span>
 <span class="kn">from</span> <span class="nn">qiskit.result</span> <span class="kn">import</span> <span class="n">Result</span>
 <span class="kn">from</span> <span class="nn">.phase_estimator</span> <span class="kn">import</span> <span class="n">PhaseEstimatorResult</span>
 
@@ -341,15 +343,21 @@
 <div class="viewcode-block" id="PhaseEstimationResult"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationResult.html#qiskit.algorithms.PhaseEstimationResult">[documentos]</a><span class="k">class</span> <span class="nc">PhaseEstimationResult</span><span class="p">(</span><span class="n">PhaseEstimatorResult</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Store and manipulate results from running `PhaseEstimation`.</span>
 
-<span class="sd">    This class is instantiated by the `PhaseEstimation` class, not via user code.</span>
-<span class="sd">    The `PhaseEstimation` class generates a list of phases and corresponding weights. Upon</span>
+<span class="sd">    This class is instantiated by the ``PhaseEstimation`` class, not via user code.</span>
+<span class="sd">    The ``PhaseEstimation`` class generates a list of phases and corresponding weights. Upon</span>
 <span class="sd">    completion it returns the results as an instance of this class. The main method for</span>
 <span class="sd">    accessing the results is `filter_phases`.</span>
+
+<span class="sd">    The canonical phase satisfying the ``PhaseEstimator`` interface, returned by the</span>
+<span class="sd">    attribute `phase`, is the most likely phase.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PhaseEstimationResult.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationResult.html#qiskit.algorithms.PhaseEstimationResult.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">circuit_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span>
-                 <span class="n">phases</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PhaseEstimationResult.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationResult.html#qiskit.algorithms.PhaseEstimationResult.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">circuit_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span>
+        <span class="n">phases</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_evaluation_qubits: number of qubits in phase-readout register.</span>
@@ -380,12 +388,25 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_result</span>
 
     <span class="nd">@property</span>
+    <span class="nd">@deprecate_function</span><span class="p">(</span>
+        <span class="sd">&quot;&quot;&quot;The &#39;PhaseEstimationResult.most_likely_phase&#39; attribute</span>
+<span class="sd">                        is deprecated as of 0.18.0 and will be removed no earlier than 3 months</span>
+<span class="sd">                        after the release date. It has been renamed as the &#39;phase&#39; attribute.&quot;&quot;&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">most_likely_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the estimated phase as a number in :math:`[0.0, 1.0)`.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;DEPRECATED - Return the most likely phase as a number in :math:`[0.0, 1.0)`.</span>
 
-<span class="sd">        1.0 corresponds to a phase of :math:`2\pi`. It is assumed that the input vector is an</span>
-<span class="sd">        eigenvector of the unitary so that the peak of the probability density occurs at the bit</span>
-<span class="sd">        string that most closely approximates the true phase.</span>
+<span class="sd">        1.0 corresponds to a phase of :math:`2\pi`. This selects the phase corresponding</span>
+<span class="sd">        to the bit string with the highesest probability. This is the most likely phase.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">phase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the most likely phase as a number in :math:`[0.0, 1.0)`.</span>
+
+<span class="sd">        1.0 corresponds to a phase of :math:`2\pi`. This selects the phase corresponding</span>
+<span class="sd">        to the bit string with the highesest probability. This is the most likely phase.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">binary_phase_string</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">phases</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
@@ -396,8 +417,7 @@
         <span class="n">phase</span> <span class="o">=</span> <span class="n">_bit_string_to_phase</span><span class="p">(</span><span class="n">binary_phase_string</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">phase</span>
 
-<div class="viewcode-block" id="PhaseEstimationResult.filter_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationResult.html#qiskit.algorithms.PhaseEstimationResult.filter_phases">[documentos]</a>    <span class="k">def</span> <span class="nf">filter_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-                      <span class="n">as_float</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<div class="viewcode-block" id="PhaseEstimationResult.filter_phases"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimationResult.html#qiskit.algorithms.PhaseEstimationResult.filter_phases">[documentos]</a>    <span class="k">def</span> <span class="nf">filter_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">as_float</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a filtered dict of phases (keys) and frequencies (values).</span>
 
 <span class="sd">        Only phases with frequencies (counts) larger than `cutoff` are included.</span>
@@ -420,8 +440,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phases</span>
             <span class="k">if</span> <span class="n">as_float</span><span class="p">:</span>
-                <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span><span class="n">_bit_string_to_phase</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                          <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cutoff</span><span class="p">}</span>
+                <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">_bit_string_to_phase</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cutoff</span>
+                <span class="p">}</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cutoff</span><span class="p">}</span>
 
@@ -489,7 +510,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -524,7 +545,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

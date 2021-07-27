@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.job.ibmqjob &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.providers.ibmq.job.ibmqjob &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -949,9 +949,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The share level of the job.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_share_level</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refreshed</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_share_level</span></div>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`IBMQJob.share_level()` method is no longer supported &quot;</span>
+                      <span class="s2">&quot;and will be removed in a future release.&quot;</span><span class="p">,</span>
+                      <span class="ne">Warning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;none&#39;</span></div>
 
 <div class="viewcode-block" id="IBMQJob.time_per_step"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.job.IBMQJob.html#qiskit.providers.ibmq.job.IBMQJob.time_per_step">[documentos]</a>    <span class="k">def</span> <span class="nf">time_per_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Return the date and time information on each step of the job processing.</span>
@@ -1099,7 +1100,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_object_storage</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kind</span> <span class="o">==</span> <span class="n">ApiJobKind</span><span class="o">.</span><span class="n">QOBJECT_STORAGE</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_info</span> <span class="o">=</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_status_position</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_status</span><span class="p">,</span> <span class="n">api_response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;info_queue&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_share_level</span> <span class="o">=</span> <span class="n">api_response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;share_level&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_client_version</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;client_info&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_result</span><span class="p">(</span><span class="n">api_response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_experiment_id</span> <span class="o">=</span> <span class="n">api_response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;experiment_id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1458,7 +1458,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -1493,7 +1493,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

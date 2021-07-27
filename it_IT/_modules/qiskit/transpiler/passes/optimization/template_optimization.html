@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.optimization.template_optimization &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.transpiler.passes.optimization.template_optimization &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -228,7 +228,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -352,9 +352,11 @@
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.templates</span> <span class="kn">import</span> <span class="n">template_nct_2a_1</span><span class="p">,</span> <span class="n">template_nct_2a_2</span><span class="p">,</span> <span class="n">template_nct_2a_3</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.operator</span> <span class="kn">import</span> <span class="n">Operator</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.exceptions</span> <span class="kn">import</span> <span class="n">TranspilerError</span>
-<span class="kn">from</span> <span class="nn">qiskit.transpiler.passes.optimization.template_matching</span> <span class="kn">import</span> <span class="p">(</span><span class="n">TemplateMatching</span><span class="p">,</span>
-                                                                     <span class="n">TemplateSubstitution</span><span class="p">,</span>
-                                                                     <span class="n">MaximalMatches</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.transpiler.passes.optimization.template_matching</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TemplateMatching</span><span class="p">,</span>
+    <span class="n">TemplateSubstitution</span><span class="p">,</span>
+    <span class="n">MaximalMatches</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="TemplateOptimization"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.TemplateOptimization.html#qiskit.transpiler.passes.TemplateOptimization">[documenti]</a><span class="k">class</span> <span class="nc">TemplateOptimization</span><span class="p">(</span><span class="n">TransformationPass</span><span class="p">):</span>
@@ -362,10 +364,13 @@
 <span class="sd">    Class for the template optimization pass.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TemplateOptimization.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.TemplateOptimization.html#qiskit.transpiler.passes.TemplateOptimization.__init__">[documenti]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">heuristics_qubits_param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">heuristics_backward_param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">user_cost_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TemplateOptimization.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.TemplateOptimization.html#qiskit.transpiler.passes.TemplateOptimization.__init__">[documenti]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">template_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">heuristics_qubits_param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">heuristics_backward_param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_cost_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            template_list (list[QuantumCircuit()]): list of the different template circuit to apply.</span>
@@ -392,10 +397,12 @@
         <span class="k">if</span> <span class="n">template_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">template_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">template_nct_2a_1</span><span class="p">(),</span> <span class="n">template_nct_2a_2</span><span class="p">(),</span> <span class="n">template_nct_2a_3</span><span class="p">()]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">template_list</span> <span class="o">=</span> <span class="n">template_list</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_qubits_param</span> <span class="o">=</span> <span class="n">heuristics_qubits_param</span> \
-            <span class="k">if</span> <span class="n">heuristics_qubits_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_backward_param</span> <span class="o">=</span> <span class="n">heuristics_backward_param</span> \
-            <span class="k">if</span> <span class="n">heuristics_backward_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_qubits_param</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">heuristics_qubits_param</span> <span class="k">if</span> <span class="n">heuristics_qubits_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_backward_param</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">heuristics_backward_param</span> <span class="k">if</span> <span class="n">heuristics_backward_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">user_cost_dict</span> <span class="o">=</span> <span class="n">user_cost_dict</span></div>
 
@@ -414,7 +421,7 @@
 
         <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="p">(</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">DAGDependency</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;A template is a Quantumciruit or a DAGDependency.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;A template is a Quantumciruit or a DAGDependency.&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">circuit_dag_dep</span><span class="o">.</span><span class="n">qubits</span><span class="p">):</span>
                 <span class="k">continue</span>
@@ -429,8 +436,9 @@
                 <span class="n">comparison</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">identity</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">comparison</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;A template is a Quantumciruit() that &#39;</span>
-                                          <span class="s1">&#39;performs the identity.&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                        <span class="s2">&quot;A template is a Quantumciruit() that &quot;</span> <span class="s2">&quot;performs the identity.&quot;</span>
+                    <span class="p">)</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
@@ -439,10 +447,12 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">template_dag_dep</span> <span class="o">=</span> <span class="n">template</span>
 
-            <span class="n">template_m</span> <span class="o">=</span> <span class="n">TemplateMatching</span><span class="p">(</span><span class="n">circuit_dag_dep</span><span class="p">,</span>
-                                          <span class="n">template_dag_dep</span><span class="p">,</span>
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_qubits_param</span><span class="p">,</span>
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_backward_param</span><span class="p">)</span>
+            <span class="n">template_m</span> <span class="o">=</span> <span class="n">TemplateMatching</span><span class="p">(</span>
+                <span class="n">circuit_dag_dep</span><span class="p">,</span>
+                <span class="n">template_dag_dep</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_qubits_param</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">heuristics_backward_param</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="n">template_m</span><span class="o">.</span><span class="n">run_template_matching</span><span class="p">()</span>
 
@@ -453,10 +463,12 @@
                 <span class="n">maximal</span><span class="o">.</span><span class="n">run_maximal_matches</span><span class="p">()</span>
                 <span class="n">max_matches</span> <span class="o">=</span> <span class="n">maximal</span><span class="o">.</span><span class="n">max_match_list</span>
 
-                <span class="n">substitution</span> <span class="o">=</span> <span class="n">TemplateSubstitution</span><span class="p">(</span><span class="n">max_matches</span><span class="p">,</span>
-                                                    <span class="n">template_m</span><span class="o">.</span><span class="n">circuit_dag_dep</span><span class="p">,</span>
-                                                    <span class="n">template_m</span><span class="o">.</span><span class="n">template_dag_dep</span><span class="p">,</span>
-                                                    <span class="bp">self</span><span class="o">.</span><span class="n">user_cost_dict</span><span class="p">)</span>
+                <span class="n">substitution</span> <span class="o">=</span> <span class="n">TemplateSubstitution</span><span class="p">(</span>
+                    <span class="n">max_matches</span><span class="p">,</span>
+                    <span class="n">template_m</span><span class="o">.</span><span class="n">circuit_dag_dep</span><span class="p">,</span>
+                    <span class="n">template_m</span><span class="o">.</span><span class="n">template_dag_dep</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">user_cost_dict</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="n">substitution</span><span class="o">.</span><span class="n">run_dag_opt</span><span class="p">()</span>
 
                 <span class="n">circuit_dag_dep</span> <span class="o">=</span> <span class="n">substitution</span><span class="o">.</span><span class="n">dag_dep_optimized</span>
@@ -481,7 +493,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -516,7 +528,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

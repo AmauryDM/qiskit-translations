@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.qobj.pulse_qobj &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.qobj.pulse_qobj &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -332,7 +332,7 @@
 <span class="c1"># copyright notice, and modified files need to carry a notice indicating</span>
 <span class="c1"># that they have been altered from the originals.</span>
 
-<span class="c1"># pylint: disable=invalid-name,redefined-builtin,method-hidden,arguments-differ</span>
+<span class="c1"># pylint: disable=invalid-name,redefined-builtin,arguments-differ</span>
 <span class="c1"># pylint: disable=super-init-not-called</span>
 
 <span class="sd">&quot;&quot;&quot;Module providing definitions of Pulse Qobj classes.&quot;&quot;&quot;</span>
@@ -371,9 +371,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: The dictionary form of the QasmMeasurementOption.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
 <div class="viewcode-block" id="QobjMeasurementOption.from_dict"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.QobjMeasurementOption.html#qiskit.qobj.QobjMeasurementOption.from_dict">[文件]</a>    <span class="nd">@classmethod</span>
@@ -386,7 +386,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            QobjMeasurementOption: The object from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -399,15 +399,42 @@
 <div class="viewcode-block" id="PulseQobjInstruction"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjInstruction.html#qiskit.qobj.PulseQobjInstruction">[文件]</a><span class="k">class</span> <span class="nc">PulseQobjInstruction</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A class representing a single instruction in an PulseQobj Experiment.&quot;&quot;&quot;</span>
 
-    <span class="n">_COMMON_ATTRS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;conditional&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;phase&#39;</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;duration&#39;</span><span class="p">,</span> <span class="s1">&#39;qubits&#39;</span><span class="p">,</span> <span class="s1">&#39;memory_slot&#39;</span><span class="p">,</span> <span class="s1">&#39;register_slot&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;pulse_shape&#39;</span><span class="p">,</span> <span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
+    <span class="n">_COMMON_ATTRS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;ch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;conditional&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;val&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;phase&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;duration&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;qubits&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;memory_slot&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;register_slot&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pulse_shape&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parameters&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
-<div class="viewcode-block" id="PulseQobjInstruction.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjInstruction.html#qiskit.qobj.PulseQobjInstruction.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">conditional</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">memory_slot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">register_slot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">discriminators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pulse_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PulseQobjInstruction.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjInstruction.html#qiskit.qobj.PulseQobjInstruction.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">t0</span><span class="p">,</span>
+        <span class="n">ch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">conditional</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">qubits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">memory_slot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">register_slot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">kernels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">discriminators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pulse_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">frequency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Instantiate a new PulseQobjInstruction object.</span>
 
 <span class="sd">        Args:</span>
@@ -485,30 +512,26 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: The dictionary form of the PulseQobjInstruction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s1">&#39;t0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span>
-        <span class="p">}</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;t0&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMMON_ATTRS</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
                 <span class="n">out_dict</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;kernels&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;kernels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernels</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;discriminators&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;discriminators&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminators</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;kernels&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;kernels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernels</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;discriminators&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;discriminators&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminators</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;PulseQobjInstruction(name=&quot;</span><span class="si">%s</span><span class="s1">&quot;, t0=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;PulseQobjInstruction(name=&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, t0=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">t0</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMMON_ATTRS</span><span class="p">:</span>
             <span class="n">attr_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">attr_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr_val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;, </span><span class="si">%s</span><span class="s1">=&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">)</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;, </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s1">=&quot;</span><span class="si">{</span><span class="n">attr_val</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;, </span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">attr_val</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -516,7 +539,7 @@
         <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">t0: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMMON_ATTRS</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">out</span>
 
 <div class="viewcode-block" id="PulseQobjInstruction.from_dict"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjInstruction.html#qiskit.qobj.PulseQobjInstruction.from_dict">[文件]</a>    <span class="nd">@classmethod</span>
@@ -529,19 +552,18 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            PulseQobjInstruction: The object from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">t0</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;t0&#39;</span><span class="p">)</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;kernels&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">kernels</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;kernels&#39;</span><span class="p">)</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;t0&quot;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;kernels&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">kernels</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kernels&quot;</span><span class="p">)</span>
             <span class="n">kernel_obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">QobjMeasurementOption</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kernels</span><span class="p">]</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;kernels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_obj</span>
-        <span class="k">if</span> <span class="s1">&#39;discriminators&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">discriminators</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;discriminators&#39;</span><span class="p">)</span>
-            <span class="n">discriminators_obj</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">QobjMeasurementOption</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">discriminators</span><span class="p">]</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;discriminators&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">discriminators_obj</span>
-        <span class="k">if</span> <span class="s1">&#39;parameters&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;amp&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">][</span><span class="s1">&#39;amp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_to_complex</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">][</span><span class="s1">&#39;amp&#39;</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;kernels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_obj</span>
+        <span class="k">if</span> <span class="s2">&quot;discriminators&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">discriminators</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;discriminators&quot;</span><span class="p">)</span>
+            <span class="n">discriminators_obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">QobjMeasurementOption</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">discriminators</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;discriminators&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">discriminators_obj</span>
+        <span class="k">if</span> <span class="s2">&quot;parameters&quot;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s2">&quot;amp&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">][</span><span class="s2">&quot;amp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_to_complex</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">][</span><span class="s2">&quot;amp&quot;</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
 
@@ -566,16 +588,28 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span>
 
-    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not in a valid complex number format.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> is not in a valid complex number format.&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="PulseQobjConfig"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjConfig.html#qiskit.qobj.PulseQobjConfig">[文件]</a><span class="k">class</span> <span class="nc">PulseQobjConfig</span><span class="p">(</span><span class="n">QobjDictField</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A configuration for a Pulse Qobj.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PulseQobjConfig.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjConfig.html#qiskit.qobj.PulseQobjConfig.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meas_level</span><span class="p">,</span> <span class="n">meas_return</span><span class="p">,</span> <span class="n">pulse_library</span><span class="p">,</span>
-                 <span class="n">qubit_lo_freq</span><span class="p">,</span> <span class="n">meas_lo_freq</span><span class="p">,</span> <span class="n">memory_slot_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">rep_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_credits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">seed_simulator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">memory_slots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PulseQobjConfig.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjConfig.html#qiskit.qobj.PulseQobjConfig.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">meas_level</span><span class="p">,</span>
+        <span class="n">meas_return</span><span class="p">,</span>
+        <span class="n">pulse_library</span><span class="p">,</span>
+        <span class="n">qubit_lo_freq</span><span class="p">,</span>
+        <span class="n">meas_lo_freq</span><span class="p">,</span>
+        <span class="n">memory_slot_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rep_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rep_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_credits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed_simulator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">memory_slots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Instantiate a PulseQobjConfig object.</span>
 
 <span class="sd">        Args:</span>
@@ -637,9 +671,8 @@
 <span class="sd">            dict: The dictionary form of the PulseQobjConfig.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;pulse_library&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;pulse_library&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_library</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pulse_library&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;pulse_library&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_library</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
@@ -653,10 +686,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            PulseQobjConfig: The object from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;pulse_library&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">pulse_lib</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;pulse_library&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;pulse_library&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">pulse_lib</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;pulse_library&quot;</span><span class="p">)</span>
             <span class="n">pulse_lib_obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">PulseLibraryItem</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pulse_lib</span><span class="p">]</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pulse_library&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse_lib_obj</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pulse_library&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse_lib_obj</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
 
 
@@ -687,43 +720,41 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: The dictionary form of the PulseQobjExperiment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;instructions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span><span class="p">]</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">):</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;header&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;instructions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span><span class="p">]}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">):</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">out_dict</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">instructions_str</span> <span class="o">=</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span><span class="p">]</span>
-        <span class="n">instructions_repr</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instructions_str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
+        <span class="n">instructions_repr</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instructions_str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;PulseQobjExperiment(&quot;</span>
         <span class="n">out</span> <span class="o">+=</span> <span class="n">instructions_repr</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">):</span>
-            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;config=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;header=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
-        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Pulse Experiment:</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pulse Experiment:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">):</span>
             <span class="n">config</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">):</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">):</span>
             <span class="n">header</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{})</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span>
-        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;Header:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">header</span>
-        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;Config:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">config</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;Header:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">header</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;Config:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">config</span>
         <span class="k">for</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">instruction</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">instruction</span>
         <span class="k">return</span> <span class="n">out</span>
 
 <div class="viewcode-block" id="PulseQobjExperiment.from_dict"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobjExperiment.html#qiskit.qobj.PulseQobjExperiment.from_dict">[文件]</a>    <span class="nd">@classmethod</span>
@@ -737,16 +768,16 @@
 <span class="sd">            PulseQobjExperiment: The object from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;config&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PulseQobjExperimentConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;config&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">PulseQobjExperimentConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">))</span>
         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;header&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="n">QobjExperimentHeader</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;header&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;header&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">QobjExperimentHeader</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">))</span>
         <span class="n">instructions</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;instructions&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;instructions&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">PulseQobjInstruction</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-                    <span class="n">inst</span><span class="p">)</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;instructions&#39;</span><span class="p">)]</span>
+                <span class="n">PulseQobjInstruction</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;instructions&quot;</span><span class="p">)</span>
+            <span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">instructions</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -763,12 +794,9 @@
         <span class="sd">&quot;&quot;&quot;Instantiate a PulseQobjExperimentConfig object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            qubit_lo_freq (list): List of frequencies (as floats) for the qubit</span>
-<span class="sd">                driver LO&#39;s in GHz.</span>
-<span class="sd">            meas_lo_freq (list): List of frequencies (as floats) for the&#39;</span>
-<span class="sd">                measurement driver LO&#39;s in GHz.</span>
-<span class="sd">            kwargs: Additional free form key value fields to add to the</span>
-<span class="sd">                configuration</span>
+<span class="sd">            qubit_lo_freq (List[float]): List of qubit LO frequencies in GHz.</span>
+<span class="sd">            meas_lo_freq (List[float]): List of meas readout LO frequencies in GHz.</span>
+<span class="sd">            kwargs: Additional free form key value fields to add to the configuration</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qubit_lo_freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">qubit_lo_freq</span> <span class="o">=</span> <span class="n">qubit_lo_freq</span>
@@ -791,8 +819,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                <span class="p">[</span><span class="nb">complex</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">complex</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span></div>
 
@@ -802,7 +829,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: The dictionary form of the PulseLibraryItem.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="PulseLibraryItem.from_dict"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseLibraryItem.html#qiskit.qobj.PulseLibraryItem.from_dict">[文件]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -817,11 +844,10 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;PulseLibraryItem(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PulseLibraryItem(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Pulse Library Item:</span><span class="se">\n\t</span><span class="s2">name: </span><span class="si">%s</span><span class="se">\n\t</span><span class="s2">samples: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Pulse Library Item:</span><span class="se">\n\t</span><span class="s2">name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">samples: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PulseLibraryItem</span><span class="p">):</span>
@@ -833,8 +859,7 @@
 <div class="viewcode-block" id="PulseQobj"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobj.html#qiskit.qobj.PulseQobj">[文件]</a><span class="k">class</span> <span class="nc">PulseQobj</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A Pulse Qobj.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PulseQobj.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobj.html#qiskit.qobj.PulseQobj.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qobj_id</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">experiments</span><span class="p">,</span>
-                 <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PulseQobj.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.PulseQobj.html#qiskit.qobj.PulseQobj.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qobj_id</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">experiments</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Instantiate a new Pulse Qobj Object.</span>
 
 <span class="sd">        Each Pulse Qobj object is used to represent a single payload that will</span>
@@ -853,12 +878,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span> <span class="ow">or</span> <span class="n">QobjHeader</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span> <span class="o">=</span> <span class="n">experiments</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;PULSE&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">schema_version</span> <span class="o">=</span> <span class="s1">&#39;1.2.0&#39;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;PULSE&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_version</span> <span class="o">=</span> <span class="s2">&quot;1.2.0&quot;</span></div>
 
     <span class="k">def</span> <span class="nf">_validate_json_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">):</span>
         <span class="k">class</span> <span class="nc">PulseQobjEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;A json encoder for pulse qobj&quot;&quot;&quot;</span>
+
             <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -871,10 +897,13 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">experiments_str</span> <span class="o">=</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">]</span>
-        <span class="n">experiments_repr</span> <span class="o">=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">experiments_str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;PulseQobj(qobj_id=&#39;</span><span class="si">%s</span><span class="s2">&#39;, config=</span><span class="si">%s</span><span class="s2">, experiments=</span><span class="si">%s</span><span class="s2">, header=</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">),</span> <span class="n">experiments_repr</span><span class="p">,</span>
-            <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">))</span>
+        <span class="n">experiments_repr</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">experiments_str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;PulseQobj(qobj_id=&#39;</span><span class="si">{}</span><span class="s2">&#39;, config=</span><span class="si">{}</span><span class="s2">, experiments=</span><span class="si">{}</span><span class="s2">, header=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">),</span>
+            <span class="n">experiments_repr</span><span class="p">,</span>
+            <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">),</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -920,12 +949,12 @@
 <span class="sd">            dict: A dictionary representation of the PulseQobj object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;qobj_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span>
-            <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
-            <span class="s1">&#39;config&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
-            <span class="s1">&#39;schema_version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_version</span><span class="p">,</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-            <span class="s1">&#39;experiments&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">]</span>
+            <span class="s2">&quot;qobj_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">qobj_id</span><span class="p">,</span>
+            <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;schema_version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_version</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="s2">&quot;experiments&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">],</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -933,8 +962,10 @@
                 <span class="s2">&quot;is deprecated and will be removed in a future release. &quot;</span>
                 <span class="s2">&quot;If you&#39;re relying on this schema validation you should &quot;</span>
                 <span class="s2">&quot;pull the schemas from the Qiskit/ibmq-schemas and directly &quot;</span>
-                <span class="s2">&quot;validate your payloads with that&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="s2">&quot;validate your payloads with that&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validate_json_schema</span><span class="p">(</span><span class="n">out_dict</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">out_dict</span></div>
@@ -951,19 +982,18 @@
 <span class="sd">            PulseQobj: The PulseQobj from the input dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;config&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PulseQobjConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;config&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">PulseQobjConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">])</span>
         <span class="n">experiments</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;experiments&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">PulseQobjExperiment</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-                    <span class="n">exp</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;experiments&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;experiments&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">experiments</span> <span class="o">=</span> <span class="p">[</span><span class="n">PulseQobjExperiment</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;experiments&quot;</span><span class="p">]]</span>
         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s1">&#39;header&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="n">QobjHeader</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;header&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;header&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">QobjHeader</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">qobj_id</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qobj_id&#39;</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-                   <span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">qobj_id</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;qobj_id&quot;</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span>
+        <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PulseQobj</span><span class="p">):</span>
@@ -987,7 +1017,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -1023,7 +1053,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

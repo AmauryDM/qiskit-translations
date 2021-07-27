@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.pauli &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.quantum_info.operators.pauli &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -341,7 +341,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
 
 
-<div class="viewcode-block" id="pauli_group"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.pauli_group.html#qiskit.quantum_info.pauli_group">[docs]</a><span class="k">def</span> <span class="nf">pauli_group</span><span class="p">(</span><span class="n">number_of_qubits</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="pauli_group"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.pauli_group.html#qiskit.quantum_info.pauli_group">[docs]</a><span class="k">def</span> <span class="nf">pauli_group</span><span class="p">(</span><span class="n">number_of_qubits</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;DEPRECATED: Return the Pauli group with 4^n elements.</span>
 
 <span class="sd">    This function is deprecated. Use :func:`~qiskit.quantum_info.pauli_basis`</span>
@@ -362,21 +362,23 @@
 <span class="sd">        QiskitError: case is not &#39;weight&#39; or &#39;tensor&#39;</span>
 <span class="sd">        QiskitError: number_of_qubits is larger than 4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`insert_paulis` is deprecated and will be removed no earlier than &#39;</span>
-         <span class="s1">&#39;3 months after the release date. For equivalent functionality to&#39;</span>
-         <span class="s1">&#39;`qiskit.quantum_info.pauli_group` instead. &#39;</span>
-         <span class="s1">&#39;`pauli_group(n)` is equivalent to `pauli_basis(n, weight=True)`, &#39;</span>
-         <span class="s1">&#39;`pauli_group(n, case=&quot;tensor&quot;) is equivalent to `pauli_basis(n)`&#39;</span><span class="p">,</span>
-         <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;`insert_paulis` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. For equivalent functionality to&quot;</span>
+        <span class="s2">&quot;`qiskit.quantum_info.pauli_group` instead. &quot;</span>
+        <span class="s2">&quot;`pauli_group(n)` is equivalent to `pauli_basis(n, weight=True)`, &quot;</span>
+        <span class="s1">&#39;`pauli_group(n, case=&quot;tensor&quot;) is equivalent to `pauli_basis(n)`&#39;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">number_of_qubits</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
         <span class="n">temp_set</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="n">case</span> <span class="o">==</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span>
-            <span class="n">tmp</span> <span class="o">=</span> <span class="n">pauli_group</span><span class="p">(</span><span class="n">number_of_qubits</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="s1">&#39;tensor&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">pauli_group</span><span class="p">(</span><span class="n">number_of_qubits</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="s2">&quot;tensor&quot;</span><span class="p">)</span>
             <span class="c1"># sort on the weight of the Pauli operator</span>
-            <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to_label</span><span class="p">(),</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;I&#39;</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s1">&#39;tensor&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to_label</span><span class="p">(),</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;I&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;tensor&quot;</span><span class="p">:</span>
             <span class="c1"># the Pauli set is in tensor order II IX IY IZ XI ...</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span> <span class="o">**</span> <span class="n">number_of_qubits</span><span class="p">):</span>
                 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">number_of_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
@@ -396,8 +398,9 @@
                 <span class="n">temp_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Pauli</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">temp_set</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Only support &#39;weight&#39; or &#39;tensor&#39; cases &quot;</span>
-                              <span class="s2">&quot;but you have </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">case</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Only support &#39;weight&#39; or &#39;tensor&#39; cases &quot;</span> <span class="s2">&quot;but you have </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">case</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Only support number of qubits is less than 5&quot;</span><span class="p">)</span></div>
 </pre></div>
@@ -417,7 +420,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -452,7 +455,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

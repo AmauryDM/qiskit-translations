@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.aqgd &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.algorithms.optimizers.aqgd &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -333,7 +333,7 @@
 <span class="sd">&quot;&quot;&quot;Analytical Quantum Gradient Descent (AQGD) optimizer.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qiskit.utils.validation</span> <span class="kn">import</span> <span class="n">validate_range_exclusive_max</span>
@@ -363,15 +363,18 @@
 <span class="sd">    the objective function.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;maxiter&#39;</span><span class="p">,</span> <span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="s1">&#39;tol&#39;</span><span class="p">,</span> <span class="s1">&#39;disp&#39;</span><span class="p">,</span> <span class="s1">&#39;momentum&#39;</span><span class="p">,</span> <span class="s1">&#39;param_tol&#39;</span><span class="p">,</span> <span class="s1">&#39;averaging&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="AQGD.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.AQGD.html#qiskit.algorithms.optimizers.AQGD.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">maxiter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">eta</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-                 <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>  <span class="c1"># this is tol</span>
-                 <span class="n">momentum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
-                 <span class="n">param_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
-                 <span class="n">averaging</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;maxiter&quot;</span><span class="p">,</span> <span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="s2">&quot;tol&quot;</span><span class="p">,</span> <span class="s2">&quot;disp&quot;</span><span class="p">,</span> <span class="s2">&quot;momentum&quot;</span><span class="p">,</span> <span class="s2">&quot;param_tol&quot;</span><span class="p">,</span> <span class="s2">&quot;averaging&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AQGD.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.AQGD.html#qiskit.algorithms.optimizers.AQGD.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">maxiter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">eta</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>  <span class="c1"># this is tol</span>
+        <span class="n">momentum</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+        <span class="n">param_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">averaging</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs Analytical Quantum Gradient Descent (AQGD) with Epochs.</span>
 
@@ -399,10 +402,12 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">momentum</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
             <span class="n">momentum</span> <span class="o">=</span> <span class="p">[</span><span class="n">momentum</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">maxiter</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">eta</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">maxiter</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">momentum</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">AlgorithmError</span><span class="p">(</span><span class="s2">&quot;AQGD input parameter length mismatch. Parameters `maxiter`, &quot;</span>
-                                 <span class="s2">&quot;`eta`, and `momentum` must have the same length.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AlgorithmError</span><span class="p">(</span>
+                <span class="s2">&quot;AQGD input parameter length mismatch. Parameters `maxiter`, &quot;</span>
+                <span class="s2">&quot;`eta`, and `momentum` must have the same length.&quot;</span>
+            <span class="p">)</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">momentum</span><span class="p">:</span>
-            <span class="n">validate_range_exclusive_max</span><span class="p">(</span><span class="s1">&#39;momentum&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">validate_range_exclusive_max</span><span class="p">(</span><span class="s2">&quot;momentum&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_eta</span> <span class="o">=</span> <span class="n">eta</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
@@ -414,25 +419,37 @@
         <span class="c1"># state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_avg_objval</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prev_param</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_count</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># function evaluations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span> <span class="o">=</span> <span class="p">[]</span>    <span class="c1"># type: List[float]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_prev_grad</span> <span class="o">=</span> <span class="p">[]</span>    <span class="c1"># type: List[List[float]]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_count</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># function evaluations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[float]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prev_grad</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[List[float]]</span></div>
 
 <div class="viewcode-block" id="AQGD.get_support_level"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.AQGD.html#qiskit.algorithms.optimizers.AQGD.get_support_level">[documentos]</a>    <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OptimizerSupportLevel</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot; Support level dictionary</span>
+        <span class="sd">&quot;&quot;&quot;Support level dictionary</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, int]: gradient, bounds and initial point</span>
 <span class="sd">                            support information that is ignored/required.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
+            <span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;initial_point&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-    <span class="k">def</span> <span class="nf">_compute_objective_fn_and_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-                                           <span class="n">obj</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">,</span>
+            <span class="s2">&quot;eta&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eta</span><span class="p">,</span>
+            <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_momenta_coeff</span><span class="p">,</span>
+            <span class="s2">&quot;param_tol&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_tol</span><span class="p">,</span>
+            <span class="s2">&quot;tol&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tol</span><span class="p">,</span>
+            <span class="s2">&quot;averaging&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_averaging</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_compute_objective_fn_and_gradient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Obtains the objective function value for params and the analytical quantum derivatives of</span>
 <span class="sd">        the objective function with respect to each parameter. Requires</span>
@@ -447,10 +464,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">param_sets_to_eval</span> <span class="o">=</span> <span class="n">params</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_params</span><span class="p">)),</span>  <span class="c1"># copy of the parameters as is</span>
-             <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_params</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># copy of the parameters with the positive shift</span>
-             <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_params</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># copy of the parameters with the negative shift</span>
-            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_params</span><span class="p">)),</span>  <span class="c1"># copy of the parameters as is</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_params</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># copy of the parameters with the positive shift</span>
+                <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_params</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="p">),</span>  <span class="c1"># copy of the parameters with the negative shift</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="c1"># Evaluate,</span>
         <span class="c1"># reshaping to flatten, as expected by objective function</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obj</span><span class="p">(</span><span class="n">param_sets_to_eval</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
@@ -462,11 +482,17 @@
         <span class="n">obj_value</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># return the gradient values</span>
-        <span class="n">gradient</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">num_params</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">num_params</span><span class="p">:])</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="n">num_params</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span> <span class="o">+</span> <span class="n">num_params</span> <span class="p">:])</span>
         <span class="k">return</span> <span class="n">obj_value</span><span class="p">,</span> <span class="n">gradient</span>
 
-    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">gradient</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">mprev</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-                <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">momentum_coeff</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">gradient</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">mprev</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">momentum_coeff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates full parameter array based on a step that is a convex</span>
 <span class="sd">        combination of the gradient and previous momentum</span>
@@ -513,7 +539,7 @@
         <span class="c1"># Calculate previous windowed average</span>
         <span class="c1"># and current windowed average of objective values</span>
         <span class="n">prev_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span><span class="p">[:</span><span class="n">window_size</span><span class="p">])</span>
-        <span class="n">curr_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">curr_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_avg_objval</span> <span class="o">=</span> <span class="n">curr_avg</span>
 
         <span class="c1"># Update window of objective values</span>
@@ -585,14 +611,17 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="AQGD.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.AQGD.html#qiskit.algorithms.optimizers.AQGD.optimize">[documentos]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">objective_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-                 <span class="n">gradient_function</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span>
-                         <span class="n">initial_point</span><span class="p">)</span>
+<div class="viewcode-block" id="AQGD.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.AQGD.html#qiskit.algorithms.optimizers.AQGD.optimize">[documentos]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+            <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span>
+        <span class="p">)</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
         <span class="n">momentum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,))</span>
@@ -601,7 +630,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_prev_loss</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prev_grad</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prev_param</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_count</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># function evaluations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_count</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># function evaluations</span>
 
         <span class="n">iter_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initial Params: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
@@ -611,7 +640,7 @@
         <span class="k">for</span> <span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">mom_coeff</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_momenta_coeff</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Epoch: </span><span class="si">%4d</span><span class="s2"> | Stepsize: </span><span class="si">%6.4f</span><span class="s2"> | Momentum: </span><span class="si">%6.4f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">mom_coeff</span><span class="p">)</span>
 
-            <span class="n">sum_max_iters</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">sum_max_iters</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
             <span class="k">while</span> <span class="n">iter_count</span> <span class="o">&lt;</span> <span class="n">sum_max_iters</span><span class="p">:</span>
                 <span class="c1"># update the iteration count</span>
                 <span class="n">iter_count</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -623,14 +652,19 @@
 
                 <span class="c1"># Calculate objective function and estimate of analytical gradient</span>
                 <span class="k">if</span> <span class="n">gradient_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">objval</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> \
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_compute_objective_fn_and_gradient</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">)</span>
+                    <span class="n">objval</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_objective_fn_and_gradient</span><span class="p">(</span>
+                        <span class="n">params</span><span class="p">,</span> <span class="n">objective_function</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">objval</span> <span class="o">=</span> <span class="n">objective_function</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
                     <span class="n">gradient</span> <span class="o">=</span> <span class="n">gradient_function</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot; Iter: </span><span class="si">%4d</span><span class="s2"> | Obj: </span><span class="si">%11.6f</span><span class="s2"> | Grad Norm: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
-                            <span class="n">iter_count</span><span class="p">,</span> <span class="n">objval</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot; Iter: </span><span class="si">%4d</span><span class="s2"> | Obj: </span><span class="si">%11.6f</span><span class="s2"> | Grad Norm: </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">iter_count</span><span class="p">,</span>
+                    <span class="n">objval</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+                <span class="p">)</span>
 
                 <span class="c1"># Check for objective convergence</span>
                 <span class="n">converged</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converged_objective</span><span class="p">(</span><span class="n">objval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_averaging</span><span class="p">)</span>
@@ -665,7 +699,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -700,7 +734,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

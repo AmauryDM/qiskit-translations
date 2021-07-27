@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.converters.circuit_to_instruction &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.converters.circuit_to_instruction &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -338,7 +338,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.circuit.classicalregister</span> <span class="kn">import</span> <span class="n">ClassicalRegister</span>
 
 
-<div class="viewcode-block" id="circuit_to_instruction"><a class="viewcode-back" href="../../../stubs/qiskit.converters.circuit_to_instruction.html#qiskit.converters.circuit_to_instruction">[문서]</a><span class="k">def</span> <span class="nf">circuit_to_instruction</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">parameter_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">equivalence_library</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="circuit_to_instruction"><a class="viewcode-back" href="../../../stubs/qiskit.converters.circuit_to_instruction.html#qiskit.converters.circuit_to_instruction">[문서]</a><span class="k">def</span> <span class="nf">circuit_to_instruction</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">parameter_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">equivalence_library</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Build an ``Instruction`` object from a ``QuantumCircuit``.</span>
 
 <span class="sd">    The instruction is anonymous (not tied to a named quantum register),</span>
@@ -353,6 +353,7 @@
 <span class="sd">           instruction.</span>
 <span class="sd">        equivalence_library (EquivalenceLibrary): Optional equivalence library</span>
 <span class="sd">           where the converted instruction will be registered.</span>
+<span class="sd">        label (str): Optional instruction label.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        QiskitError: if parameter_map is not compatible with circuit</span>
@@ -387,14 +388,20 @@
         <span class="n">parameter_dict</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">_unroll_param_dict</span><span class="p">(</span><span class="n">parameter_map</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">parameter_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">((</span><span class="s1">&#39;parameter_map should map all circuit parameters. &#39;</span>
-                           <span class="s1">&#39;Circuit parameters: </span><span class="si">{}</span><span class="s1">, parameter_map: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                               <span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;parameter_map should map all circuit parameters. &quot;</span>
+                <span class="s2">&quot;Circuit parameters: </span><span class="si">{}</span><span class="s2">, parameter_map: </span><span class="si">{}</span><span class="s2">&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="n">instruction</span> <span class="o">=</span> <span class="n">Instruction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                              <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">([</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">]),</span>
-                              <span class="n">num_clbits</span><span class="o">=</span><span class="nb">sum</span><span class="p">([</span><span class="n">creg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">creg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">cregs</span><span class="p">]),</span>
-                              <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">parameter_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="n">instruction</span> <span class="o">=</span> <span class="n">Instruction</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">),</span>
+        <span class="n">num_clbits</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">creg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">creg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">cregs</span><span class="p">),</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">parameter_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">instruction</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">target</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">parameter_dict</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -406,20 +413,20 @@
 
     <span class="n">regs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">instruction</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">)</span>
         <span class="n">regs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">instruction</span><span class="o">.</span><span class="n">num_clbits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">instruction</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
         <span class="n">regs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
     <span class="n">qubit_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="n">q</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">)}</span>
     <span class="n">clbit_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">clbits</span><span class="p">)}</span>
 
-    <span class="n">definition</span> <span class="o">=</span> <span class="p">[(</span><span class="n">inst</span><span class="p">,</span>
-                   <span class="p">[</span><span class="n">qubit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">],</span>
-                   <span class="p">[</span><span class="n">clbit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">cargs</span><span class="p">])</span>
-                  <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span> <span class="ow">in</span> <span class="n">definition</span><span class="p">]</span>
+    <span class="n">definition</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">],</span> <span class="p">[</span><span class="n">clbit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">cargs</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span> <span class="ow">in</span> <span class="n">definition</span>
+    <span class="p">]</span>
 
     <span class="c1"># fix condition</span>
     <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">definition</span><span class="p">:</span>
@@ -429,8 +436,10 @@
             <span class="k">if</span> <span class="n">reg</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
                 <span class="n">rule</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Cannot convert condition in circuit with &#39;</span>
-                                  <span class="s1">&#39;multiple classical registers to instruction&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot convert condition in circuit with &quot;</span>
+                    <span class="s2">&quot;multiple classical registers to instruction&quot;</span>
+                <span class="p">)</span>
 
     <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="n">regs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">instruction</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">instr</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span> <span class="ow">in</span> <span class="n">definition</span><span class="p">:</span>
@@ -458,7 +467,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -493,7 +502,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

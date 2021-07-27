@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.snobfit &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.algorithms.optimizers.snobfit &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -226,7 +226,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -332,6 +332,8 @@
 
 <span class="sd">&quot;&quot;&quot;Stable Noisy Optimization by Branch and FIT algorithm (SNOBFIT) optimizer.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 <span class="kn">from</span> <span class="nn">.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">OptimizerSupportLevel</span>
@@ -339,12 +341,14 @@
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">skquant.opt</span> <span class="k">as</span> <span class="nn">skq</span>
+
     <span class="n">_HAS_SKQUANT</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_SKQUANT</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">SQSnobFit</span> <span class="kn">import</span> <span class="n">optset</span>
+
     <span class="n">_HAS_SKSNOBFIT</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_SKSNOBFIT</span> <span class="o">=</span> <span class="kc">False</span>
@@ -361,12 +365,13 @@
 <span class="sd">    https://github.com/scikit-quant/scikit-quant and https://qat4chem.lbl.gov/software.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SNOBFIT.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SNOBFIT.html#qiskit.algorithms.optimizers.SNOBFIT.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">maxfail</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-                 <span class="n">maxmp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="SNOBFIT.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SNOBFIT.html#qiskit.algorithms.optimizers.SNOBFIT.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">maxfail</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">maxmp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            maxiter: Maximum number of function evaluations.</span>
@@ -381,14 +386,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_SKQUANT</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;scikit-quant&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SNOBFIT&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install scikit-quant&#39;</span><span class="p">)</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;scikit-quant&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SNOBFIT&quot;</span><span class="p">,</span> <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install scikit-quant&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_SKSNOBFIT</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;SQSnobFit&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SNOBFIT&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install SQSnobFit&#39;</span><span class="p">)</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;SQSnobFit&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SNOBFIT&quot;</span><span class="p">,</span> <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install SQSnobFit&quot;</span>
+            <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxfail</span> <span class="o">=</span> <span class="n">maxfail</span>
@@ -396,22 +399,38 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">verbose</span></div>
 
 <div class="viewcode-block" id="SNOBFIT.get_support_level"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SNOBFIT.html#qiskit.algorithms.optimizers.SNOBFIT.get_support_level">[docs]</a>    <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns support level dictionary. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns support level dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
+            <span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
+            <span class="s2">&quot;initial_point&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="SNOBFIT.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SNOBFIT.html#qiskit.algorithms.optimizers.SNOBFIT.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Runs the optimization. &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span>
-                         <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">,</span>
+            <span class="s2">&quot;maxfail&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxfail</span><span class="p">,</span>
+            <span class="s2">&quot;maxmp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxmp</span><span class="p">,</span>
+            <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="SNOBFIT.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.SNOBFIT.html#qiskit.algorithms.optimizers.SNOBFIT.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Runs the optimization.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+            <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span>
+        <span class="p">)</span>
         <span class="n">snobfit_settings</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;maxmp&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxmp</span><span class="p">,</span>
-            <span class="s1">&#39;maxfail&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxfail</span><span class="p">,</span>
-            <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">,</span>
+            <span class="s2">&quot;maxmp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxmp</span><span class="p">,</span>
+            <span class="s2">&quot;maxfail&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxfail</span><span class="p">,</span>
+            <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">options</span> <span class="o">=</span> <span class="n">optset</span><span class="p">(</span><span class="n">optin</span><span class="o">=</span><span class="n">snobfit_settings</span><span class="p">)</span>
         <span class="c1"># counters the error when initial point is outside the acceptable bounds</span>
@@ -420,9 +439,14 @@
                 <span class="n">initial_point</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial_point</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">%</span> <span class="n">variable_bounds</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">variable_bounds</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="n">initial_point</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial_point</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">%</span> <span class="n">variable_bounds</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">res</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">skq</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">objective_function</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initial_point</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-                                    <span class="n">bounds</span><span class="o">=</span><span class="n">variable_bounds</span><span class="p">,</span> <span class="n">budget</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">,</span>
-                                    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;snobfit&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">skq</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+            <span class="n">objective_function</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">initial_point</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="n">variable_bounds</span><span class="p">,</span>
+            <span class="n">budget</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxiter</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;snobfit&quot;</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">optpar</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">optval</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -441,7 +465,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -476,7 +500,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

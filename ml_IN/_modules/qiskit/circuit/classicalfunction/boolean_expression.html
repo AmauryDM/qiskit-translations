@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.classicalfunction.boolean_expression &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.circuit.classicalfunction.boolean_expression &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -332,14 +332,14 @@
 
 <span class="sd">&quot;&quot;&quot;A quantum oracle constructed from a logical expression or a string in the DIMACS format.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">isfile</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">isfile</span>
+<span class="kn">from</span> <span class="nn">tweedledum</span> <span class="kn">import</span> <span class="n">BitVec</span><span class="p">,</span> <span class="n">BoolFunction</span>
+<span class="kn">from</span> <span class="nn">tweedledum.synthesis</span> <span class="kn">import</span> <span class="n">pkrm_synth</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
-<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 <span class="kn">from</span> <span class="nn">.classical_element</span> <span class="kn">import</span> <span class="n">ClassicalElement</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">HAS_TWEEDLEDUM</span>
 
 
 <div class="viewcode-block" id="BooleanExpression"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.BooleanExpression.html#qiskit.circuit.classicalfunction.BooleanExpression">[docs]</a><span class="k">class</span> <span class="nc">BooleanExpression</span><span class="p">(</span><span class="n">ClassicalElement</span><span class="p">):</span>
@@ -351,21 +351,15 @@
 <span class="sd">            expression (str): The logical expression string.</span>
 <span class="sd">            name (str): Optional. Instruction gate name. Otherwise part of</span>
 <span class="sd">                        the expression is going to be used.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            MissingOptionalLibraryError: If tweedledum is not installed. Tweedledum is required.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_TWEEDLEDUM</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;tweedledum&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BooleanExpression compiler&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install tweedledum&#39;</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">tweedledum</span> <span class="kn">import</span> <span class="n">BoolFunction</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span> <span class="o">=</span> <span class="n">BoolFunction</span><span class="o">.</span><span class="n">from_expression</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
 
-        <span class="n">short_expr_for_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">expression</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">13</span> <span class="k">else</span> <span class="n">expression</span>
-        <span class="n">num_qubits</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_outputs</span><span class="p">()</span> <span class="o">+</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_inputs</span><span class="p">())</span>
+        <span class="n">short_expr_for_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">expression</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">13</span> <span class="k">else</span> <span class="n">expression</span>
+        <span class="n">num_qubits</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_outputs</span><span class="p">()</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_inputs</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span> <span class="ow">or</span> <span class="n">short_expr_for_name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[])</span></div>
 
 <div class="viewcode-block" id="BooleanExpression.simulate"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.BooleanExpression.html#qiskit.circuit.classicalfunction.BooleanExpression.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -379,14 +373,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: result of the evaluation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">tweedledum</span> <span class="kn">import</span> <span class="n">BitVec</span>
         <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">bitstring</span><span class="p">:</span>
             <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BitVec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bit</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">*</span><span class="n">bits</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="BooleanExpression.synth"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.BooleanExpression.html#qiskit.circuit.classicalfunction.BooleanExpression.synth">[docs]</a>    <span class="k">def</span> <span class="nf">synth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registerless</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-              <span class="n">synthesizer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;BooleanExpression&quot;</span><span class="p">],</span> <span class="n">QuantumCircuit</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BooleanExpression.synth"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.BooleanExpression.html#qiskit.circuit.classicalfunction.BooleanExpression.synth">[docs]</a>    <span class="k">def</span> <span class="nf">synth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">registerless</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">synthesizer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;BooleanExpression&quot;</span><span class="p">],</span> <span class="n">QuantumCircuit</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Synthesis the logic network into a :class:`~qiskit.circuit.QuantumCircuit`.</span>
 
 <span class="sd">        Args:</span>
@@ -404,8 +400,8 @@
             <span class="n">qregs</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># TODO: Probably from self._tweedledum_bool_expression._signature</span>
 
         <span class="k">if</span> <span class="n">synthesizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">tweedledum.synthesis</span> <span class="kn">import</span> <span class="n">pkrm_synth</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
-            <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tweedledum2qiskit</span>
+            <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tweedledum2qiskit</span>  <span class="c1"># Avoid an import cycle</span>
+
             <span class="n">truth_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">truth_table</span><span class="p">(</span><span class="n">output_bit</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">tweedledum2qiskit</span><span class="p">(</span><span class="n">pkrm_synth</span><span class="p">(</span><span class="n">truth_table</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">qregs</span><span class="o">=</span><span class="n">qregs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">synthesizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -424,25 +420,21 @@
 <span class="sd">            BooleanExpression: A gate for the input string</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            MissingOptionalLibraryError: If tweedledum is not installed. Tweedledum is required.</span>
 <span class="sd">            FileNotFoundError: If filename is not found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_TWEEDLEDUM</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;tweedledum&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BooleanExpression compiler&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install tweedledum&#39;</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">tweedledum</span> <span class="kn">import</span> <span class="n">BoolFunction</span>
 
         <span class="n">expr_obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;The file </span><span class="si">%s</span><span class="s1"> does not exists.&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;The file </span><span class="si">%s</span><span class="s2"> does not exists.&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
         <span class="n">expr_obj</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span> <span class="o">=</span> <span class="n">BoolFunction</span><span class="o">.</span><span class="n">from_dimacs_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="n">num_qubits</span> <span class="o">=</span> <span class="p">(</span><span class="n">expr_obj</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_inputs</span><span class="p">()</span> <span class="o">+</span>
-                      <span class="n">expr_obj</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_outputs</span><span class="p">())</span>
+        <span class="n">num_qubits</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">expr_obj</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_inputs</span><span class="p">()</span>
+            <span class="o">+</span> <span class="n">expr_obj</span><span class="o">.</span><span class="n">_tweedledum_bool_expression</span><span class="o">.</span><span class="n">num_outputs</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BooleanExpression</span><span class="p">,</span> <span class="n">expr_obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># pylint: disable=no-value-for-parameter</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[])</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[]</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">expr_obj</span></div></div>
 </pre></div>
 
@@ -461,7 +453,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -496,7 +488,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

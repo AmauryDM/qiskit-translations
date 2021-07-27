@@ -58,6 +58,7 @@
       ~RealAmplitudes.from_qasm_file
       ~RealAmplitudes.from_qasm_str
       ~RealAmplitudes.get_entangler_map
+      ~RealAmplitudes.get_instructions
       ~RealAmplitudes.get_unentangled_qubits
       ~RealAmplitudes.h
       ~RealAmplitudes.hamiltonian

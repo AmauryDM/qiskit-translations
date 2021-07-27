@@ -53,5 +53,6 @@
       ~OperatorStateFn.num_qubits
       ~OperatorStateFn.parameters
       ~OperatorStateFn.primitive
+      ~OperatorStateFn.settings
    
    

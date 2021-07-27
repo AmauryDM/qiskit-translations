@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.arithmetic.linear_amplitude_function &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.circuit.library.arithmetic.linear_amplitude_function &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -320,7 +320,7 @@
   <h1>qiskit.circuit.library.arithmetic.linear_amplitude_function forráskódja</h1><div class="highlight"><pre>
 <span></span><span class="c1"># This code is part of Qiskit.</span>
 <span class="c1">#</span>
-<span class="c1"># (C) Copyright IBM 2017, 2020.</span>
+<span class="c1"># (C) Copyright IBM 2017, 2021.</span>
 <span class="c1">#</span>
 <span class="c1"># This code is licensed under the Apache License, Version 2.0. You may</span>
 <span class="c1"># obtain a copy of this license in the LICENSE.txt file in the root directory</span>
@@ -349,8 +349,8 @@
 <span class="sd">        F|x\rangle|0\rangle = \sqrt{1 - \hat{f}(x)} |x\rangle|0\rangle + \sqrt{\hat{f}(x)}</span>
 <span class="sd">            |x\rangle|1\rangle.</span>
 
-<span class="sd">    for a function :math:`\hat{f}: \{0, ..., 2^n - 1} \rightarrow [0, 1]`, where :math:`|x\rangle`</span>
-<span class="sd">    is a :math:`n` qubit state.</span>
+<span class="sd">    for a function :math:`\hat{f}: \{ 0, ..., 2^n - 1 \} \rightarrow [0, 1]`, where</span>
+<span class="sd">    :math:`|x\rangle` is a :math:`n` qubit state.</span>
 
 <span class="sd">    This circuit implements :math:`F` for piecewise linear functions :math:`\hat{f}`.</span>
 <span class="sd">    In this case, the mapping :math:`F` can be approximately implemented using a Taylor expansion</span>
@@ -358,12 +358,12 @@
 <span class="sd">    uses a ``rescaling_factor`` to determine the accuracy of the Taylor expansion.</span>
 
 <span class="sd">    In general, the function of interest :math:`f` is defined from some interval :math:`[a,b]`,</span>
-<span class="sd">    the ``domain`` to :math:`[c,d]`, the ``image``, instead of :math`\{1, ..., N}` to</span>
+<span class="sd">    the ``domain`` to :math:`[c,d]`, the ``image``, instead of :math:`\{ 1, ..., N \}` to</span>
 <span class="sd">    :math:`[0, 1]`. Using an affine transformation we can rescale :math:`f` to :math:`\hat{f}`:</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \hat{f(x)} = \frac{f(\phi(x)) - c}{d - c}</span>
+<span class="sd">        \hat{f}(x) = \frac{f(\phi(x)) - c}{d - c}</span>
 
 <span class="sd">    with</span>
 
@@ -373,18 +373,15 @@
 
 <span class="sd">    If :math:`f` is a piecewise linear function on :math:`m` intervals</span>
 <span class="sd">    :math:`[p_{i-1}, p_i], i \in \{1, ..., m\}` with slopes :math:`\alpha_i` and</span>
-<span class="sd">    offsets `\beta_i` it can be written as</span>
+<span class="sd">    offsets :math:`\beta_i` it can be written as</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        f(x) = \sum_{i=1}^m 1_{[p_{i-1}, p_i}(x) (\alpha_i x + \beta_i)</span>
+<span class="sd">        f(x) = \sum_{i=1}^m 1_{[p_{i-1}, p_i]}(x) (\alpha_i x + \beta_i)</span>
 
-<span class="sd">    where :math:`1_[a, b]` is an indication function that is 1 if the argument is in the interval</span>
+<span class="sd">    where :math:`1_{[a, b]}` is an indication function that is 1 if the argument is in the interval</span>
 <span class="sd">    :math:`[a, b]` and otherwise 0. The breakpoints :math:`p_i` can be specified by the</span>
 <span class="sd">    ``breakpoints`` argument.</span>
-
-<span class="sd">    Examples:</span>
-
 
 <span class="sd">    References:</span>
 
@@ -397,16 +394,17 @@
 <span class="sd">             `arXiv:2005.10780 &lt;http://arxiv.org/abs/2005.10780&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="LinearAmplitudeFunction.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.LinearAmplitudeFunction.html#qiskit.circuit.library.LinearAmplitudeFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">slope</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-                 <span class="n">offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-                 <span class="n">domain</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-                 <span class="n">image</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-                 <span class="n">rescaling_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LinearAmplitudeFunction.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.LinearAmplitudeFunction.html#qiskit.circuit.library.LinearAmplitudeFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">slope</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">offset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">domain</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">image</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">rescaling_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_state_qubits: The number of qubits used to encode the variable :math:`x`.</span>
@@ -422,9 +420,9 @@
 <span class="sd">                is not piecewise.</span>
 <span class="sd">            name: Name of the circuit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">):</span>
             <span class="n">slope</span> <span class="o">=</span> <span class="p">[</span><span class="n">slope</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">):</span>
             <span class="n">offset</span> <span class="o">=</span> <span class="p">[</span><span class="n">offset</span><span class="p">]</span>
 
         <span class="c1"># ensure that the breakpoints include the first point of the domain</span>
@@ -449,13 +447,13 @@
         <span class="n">mapped_slope</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">mapped_offset</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">):</span>
-            <span class="n">mapped_breakpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_state_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">mapped_breakpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">num_state_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">mapped_breakpoints</span> <span class="o">+=</span> <span class="p">[</span><span class="n">mapped_breakpoint</span><span class="p">]</span>
 
             <span class="c1"># factor (upper - lower) / (2^n - 1) is for the scaling of x to [l,u]</span>
             <span class="c1"># note that the +l for mapping to [l,u] is already included in</span>
             <span class="c1"># the offsets given as parameters</span>
-            <span class="n">mapped_slope</span> <span class="o">+=</span> <span class="p">[</span><span class="n">slope</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_state_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="n">mapped_slope</span> <span class="o">+=</span> <span class="p">[</span><span class="n">slope</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">num_state_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
             <span class="n">mapped_offset</span> <span class="o">+=</span> <span class="p">[</span><span class="n">offset</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
 
         <span class="c1"># approximate linear behavior by scaling and contracting around pi/4</span>
@@ -467,15 +465,11 @@
 
         <span class="c1"># use PWLPauliRotations to implement the function</span>
         <span class="n">pwl_pauli_rotation</span> <span class="o">=</span> <span class="n">PiecewiseLinearPauliRotations</span><span class="p">(</span>
-            <span class="n">num_state_qubits</span><span class="p">,</span>
-            <span class="n">mapped_breakpoints</span><span class="p">,</span>
-            <span class="mi">2</span> <span class="o">*</span> <span class="n">slope_angles</span><span class="p">,</span>
-            <span class="mi">2</span> <span class="o">*</span> <span class="n">offset_angles</span>
+            <span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">mapped_breakpoints</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">slope_angles</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">offset_angles</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span>
         <span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">pwl_pauli_rotation</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">pwl_pauli_rotation</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
-        <span class="c1"># self.compose(pwl_pauli_rotation, inplace=True)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pwl_pauli_rotation</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LinearAmplitudeFunction.post_processing"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.LinearAmplitudeFunction.html#qiskit.circuit.library.LinearAmplitudeFunction.post_processing">[docs]</a>    <span class="k">def</span> <span class="nf">post_processing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaled_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Map the function value of the approximated :math:`\hat{f}` to :math:`f`.</span>
@@ -505,20 +499,21 @@
 
     <span class="c1"># check if sorted</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Breakpoints must be unique and sorted.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Breakpoints must be unique and sorted.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Breakpoints must be included in domain.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Breakpoints must be included in domain.&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_check_sizes_match</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">):</span>
     <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Size mismatch of slope (</span><span class="si">{}</span><span class="s1">) and offset (</span><span class="si">{}</span><span class="s1">).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">offset</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Size mismatch of slope (</span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">) and offset (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">breakpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Size mismatch of slope (</span><span class="si">{}</span><span class="s1">) and breakpoints (</span><span class="si">{}</span><span class="s1">).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Size mismatch of slope (</span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">) and breakpoints (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">breakpoints</span><span class="p">)</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
 </pre></div>
 
              </article>
@@ -536,7 +531,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -571,7 +566,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

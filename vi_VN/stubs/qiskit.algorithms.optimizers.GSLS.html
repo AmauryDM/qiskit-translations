@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.GSLS &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.optimizers.GSLS &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="../_static/panels-variables.ade9f9d55df9d2893fc676ecd59723a1.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Tìm Kiếm" href="../search.html" />
-    <link rel="next" title="qiskit.algorithms.optimizers.NELDER_MEAD" href="qiskit.algorithms.optimizers.NELDER_MEAD.html" />
+    <link rel="next" title="qiskit.algorithms.optimizers.GradientDescent" href="qiskit.algorithms.optimizers.GradientDescent.html" />
     <link rel="prev" title="qiskit.algorithms.optimizers.L_BFGS_B" href="qiskit.algorithms.optimizers.L_BFGS_B.html" /> 
 
   
@@ -337,6 +337,12 @@
 <p>An implementation of the line search algorithm described in
 <a class="reference external" href="https://arxiv.org/pdf/1905.01332.pdf">https://arxiv.org/pdf/1905.01332.pdf</a>, using gradient approximation
 based on Gaussian-smoothed samples on a sphere.</p>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>This component has some function that is normally random. If you want to reproduce behavior
+then you should set the random number generator seed in the algorithm_globals
+(<code class="docutils literal notranslate"><span class="pre">qiskit.utils.algorithm_globals.random_seed</span> <span class="pre">=</span> <span class="pre">seed</span></code>).</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Tham số</dt>
 <dd class="field-odd"><ul class="simple">
@@ -479,6 +485,9 @@ bounds.</p></li>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.GSLS.setting" title="qiskit.algorithms.optimizers.GSLS.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
 <td><p>Return setting</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.GSLS.settings" title="qiskit.algorithms.optimizers.GSLS.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>The optimizer settings in a dictionary format.</p></td>
 </tr>
 </tbody>
 </table>
@@ -767,6 +776,25 @@ a set of key/values when the given optimizer is constructed.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.algorithms.optimizers.GSLS.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.algorithms.optimizers.GSLS.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>The optimizer settings in a dictionary format.</p>
+<p>The settings can for instance be used for JSON-serialization (if all settings are
+serializable, which e.g. doesn't hold per default for callables), such that the
+optimizer object can be reconstructed as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">settings</span>
+<span class="c1"># JSON serialize and send to another server</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClass</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Kiểu trả về</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.algorithms.optimizers.GSLS.wrap_function">
 <em class="property">static </em><code class="sig-name descname">wrap_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.GSLS.wrap_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap the function to implicitly inject the args at the call of the function.</p>
@@ -798,7 +826,7 @@ a set of key/values when the given optimizer is constructed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="qiskit.algorithms.optimizers.NELDER_MEAD.html" class="btn btn-neutral float-right" title="qiskit.algorithms.optimizers.NELDER_MEAD" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="qiskit.algorithms.optimizers.GradientDescent.html" class="btn btn-neutral float-right" title="qiskit.algorithms.optimizers.GradientDescent" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
         <a href="qiskit.algorithms.optimizers.L_BFGS_B.html" class="btn btn-neutral" title="qiskit.algorithms.optimizers.L_BFGS_B" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
@@ -815,7 +843,7 @@ a set of key/values when the given optimizer is constructed.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -853,7 +881,7 @@ a set of key/values when the given optimizer is constructed.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

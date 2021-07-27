@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.converters.circuit_to_instruction &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.converters.circuit_to_instruction &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -330,7 +330,7 @@
 <h1>qiskit.converters.circuit_to_instruction<a class="headerlink" href="#qiskit-converters-circuit-to-instruction" title="इस शीर्ष-पंक्ति की स्थायी कड़ी">¶</a></h1>
 <dl class="py function">
 <dt id="qiskit.converters.circuit_to_instruction">
-<code class="sig-name descname">circuit_to_instruction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span></em>, <em class="sig-param"><span class="n">parameter_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">equivalence_library</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/converters/circuit_to_instruction.html#circuit_to_instruction"><span class="viewcode-link">[स्रोत]</span></a><a class="headerlink" href="#qiskit.converters.circuit_to_instruction" title="इस परिभाषा की स्थायी कड़ी">¶</a></dt>
+<code class="sig-name descname">circuit_to_instruction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span></em>, <em class="sig-param"><span class="n">parameter_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">equivalence_library</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/converters/circuit_to_instruction.html#circuit_to_instruction"><span class="viewcode-link">[स्रोत]</span></a><a class="headerlink" href="#qiskit.converters.circuit_to_instruction" title="इस परिभाषा की स्थायी कड़ी">¶</a></dt>
 <dd><p>Build an <code class="docutils literal notranslate"><span class="pre">Instruction</span></code> object from a <code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>.</p>
 <p>The instruction is anonymous (not tied to a named quantum register),
 and so can be inserted into another circuit. The instruction will
@@ -345,6 +345,7 @@ If None, existing circuit parameters will also parameterize the
 instruction.</p></li>
 <li><p><strong>equivalence_library</strong> (<a class="reference internal" href="qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary" title="qiskit.circuit.EquivalenceLibrary"><em>EquivalenceLibrary</em></a>) -- Optional equivalence library
 where the converted instruction will be registered.</p></li>
+<li><p><strong>label</strong> (<em>str</em>) -- Optional instruction label.</p></li>
 </ul>
 </dd>
 <dt class="field-even">उभारता है </dt>
@@ -378,7 +379,7 @@ yield the components comprising the original circuit.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;qiskit.circuit.instruction.Instruction at 0x7f24b871ce50&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;qiskit.circuit.instruction.Instruction at 0x7fbf10eeab50&gt;
 </pre></div>
 </div>
 </div>
@@ -412,7 +413,7 @@ yield the components comprising the original circuit.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -451,7 +452,7 @@ yield the components comprising the original circuit.</p>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.runningpassmanager &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.transpiler.runningpassmanager &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -372,7 +372,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">valid_passes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
         <span class="c1"># pass manager&#39;s overriding options for the passes it runs (for debugging)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">passmanager_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_iteration&#39;</span><span class="p">:</span> <span class="n">max_iteration</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passmanager_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_iteration&quot;</span><span class="p">:</span> <span class="n">max_iteration</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -406,9 +406,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">flow_controller_conditions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_flow_controller</span><span class="p">(</span><span class="n">flow_controller_conditions</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">working_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">FlowController</span><span class="o">.</span><span class="n">controller_factory</span><span class="p">(</span><span class="n">passes</span><span class="p">,</span>
-                                                  <span class="bp">self</span><span class="o">.</span><span class="n">passmanager_options</span><span class="p">,</span>
-                                                  <span class="o">**</span><span class="n">flow_controller_conditions</span><span class="p">))</span>
+                <span class="n">FlowController</span><span class="o">.</span><span class="n">controller_factory</span><span class="p">(</span>
+                    <span class="n">passes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passmanager_options</span><span class="p">,</span> <span class="o">**</span><span class="n">flow_controller_conditions</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">_normalize_flow_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_controller</span><span class="p">):</span>
@@ -416,7 +417,7 @@
             <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
                 <span class="n">flow_controller</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fenced_property_set</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;The flow controller parameter </span><span class="si">%s</span><span class="s1"> is not callable&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;The flow controller parameter </span><span class="si">%s</span><span class="s2"> is not callable&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">flow_controller</span>
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">output_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -446,7 +447,7 @@
             <span class="n">circuit</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">output_name</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">circuit</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="n">circuit</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">circuit</span>
 
@@ -487,18 +488,22 @@
             <span class="n">run_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
             <span class="c1"># Execute the callback function if one is set</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">pass_</span><span class="o">=</span><span class="n">pass_</span><span class="p">,</span> <span class="n">dag</span><span class="o">=</span><span class="n">new_dag</span><span class="p">,</span>
-                              <span class="n">time</span><span class="o">=</span><span class="n">run_time</span><span class="p">,</span>
-                              <span class="n">property_set</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">,</span>
-                              <span class="n">count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+                    <span class="n">pass_</span><span class="o">=</span><span class="n">pass_</span><span class="p">,</span>
+                    <span class="n">dag</span><span class="o">=</span><span class="n">new_dag</span><span class="p">,</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">run_time</span><span class="p">,</span>
+                    <span class="n">property_set</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">,</span>
+                    <span class="n">count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_log_pass</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">pass_</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_dag</span><span class="p">,</span> <span class="n">DAGCircuit</span><span class="p">):</span>
                 <span class="n">new_dag</span><span class="o">.</span><span class="n">calibrations</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">calibrations</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;Transformation passes should return a transformed dag.&quot;</span>
-                                      <span class="s2">&quot;The pass </span><span class="si">%s</span><span class="s2"> is returning a </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pass_</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-                                                                         <span class="nb">type</span><span class="p">(</span><span class="n">new_dag</span><span class="p">)))</span>
+                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                    <span class="s2">&quot;Transformation passes should return a transformed dag.&quot;</span>
+                    <span class="s2">&quot;The pass </span><span class="si">%s</span><span class="s2"> is returning a </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pass_</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">new_dag</span><span class="p">))</span>
+                <span class="p">)</span>
             <span class="n">dag</span> <span class="o">=</span> <span class="n">new_dag</span>
         <span class="k">elif</span> <span class="n">pass_</span><span class="o">.</span><span class="n">is_analysis_pass</span><span class="p">:</span>
             <span class="c1"># Measure time if we have a callback or logging set</span>
@@ -508,10 +513,13 @@
             <span class="n">run_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
             <span class="c1"># Execute the callback function if one is set</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">pass_</span><span class="o">=</span><span class="n">pass_</span><span class="p">,</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">,</span>
-                              <span class="n">time</span><span class="o">=</span><span class="n">run_time</span><span class="p">,</span>
-                              <span class="n">property_set</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">,</span>
-                              <span class="n">count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+                    <span class="n">pass_</span><span class="o">=</span><span class="n">pass_</span><span class="p">,</span>
+                    <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">,</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">run_time</span><span class="p">,</span>
+                    <span class="n">property_set</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">,</span>
+                    <span class="n">count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_log_pass</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">pass_</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
@@ -519,8 +527,7 @@
         <span class="k">return</span> <span class="n">dag</span>
 
     <span class="k">def</span> <span class="nf">_log_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="n">log_msg</span> <span class="o">=</span> <span class="s2">&quot;Pass: </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%.5f</span><span class="s2"> (ms)&quot;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">log_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Pass: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> (ms)&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">log_msg</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_valid_passes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_</span><span class="p">):</span>
@@ -529,7 +536,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">valid_passes</span><span class="o">.</span><span class="n">intersection_update</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pass_</span><span class="o">.</span><span class="n">preserves</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="FlowController"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.FlowController.html#qiskit.transpiler.FlowController">[dokumentacja]</a><span class="k">class</span> <span class="nc">FlowController</span><span class="p">():</span>
+<div class="viewcode-block" id="FlowController"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.FlowController.html#qiskit.transpiler.FlowController">[dokumentacja]</a><span class="k">class</span> <span class="nc">FlowController</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Base class for multiple types of working list.</span>
 
 <span class="sd">    This class is a base class for multiple types of working list. When you iterate on it, it</span>
@@ -553,12 +560,12 @@
 <span class="sd">             dict: {&#39;options&#39;: self.options, &#39;passes&#39;: [passes], &#39;type&#39;: type(self)}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO remove</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="s1">&#39;passes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)}</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="s2">&quot;passes&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)}</span>
         <span class="k">for</span> <span class="n">pass_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passes</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pass_</span><span class="p">,</span> <span class="n">FlowController</span><span class="p">):</span>
-                <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;passes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pass_</span><span class="o">.</span><span class="n">dump_passes</span><span class="p">())</span>
+                <span class="n">ret</span><span class="p">[</span><span class="s2">&quot;passes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pass_</span><span class="o">.</span><span class="n">dump_passes</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;passes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pass_</span><span class="p">)</span>
+                <span class="n">ret</span><span class="p">[</span><span class="s2">&quot;passes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pass_</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
 <div class="viewcode-block" id="FlowController.add_flow_controller"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.FlowController.html#qiskit.transpiler.FlowController.add_flow_controller">[dokumentacja]</a>    <span class="nd">@classmethod</span>
@@ -601,13 +608,14 @@
 <span class="sd">            FlowController: A FlowController instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">partial_controller</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;The controller needs a condition.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;The controller needs a condition.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">partial_controller</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">registered_controller</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">registered_controllers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">registered_controller</span> <span class="ow">in</span> <span class="n">partial_controller</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">registered_controllers</span><span class="p">[</span><span class="n">registered_controller</span><span class="p">](</span><span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span>
-                                                                             <span class="o">**</span><span class="n">partial_controller</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">registered_controllers</span><span class="p">[</span><span class="n">registered_controller</span><span class="p">](</span>
+                        <span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">partial_controller</span>
+                    <span class="p">)</span>
             <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;The controllers for </span><span class="si">%s</span><span class="s2"> are not registered&quot;</span> <span class="o">%</span> <span class="n">partial_controller</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">FlowControllerLinear</span><span class="p">(</span><span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span></div></div>
@@ -624,10 +632,9 @@
 <span class="k">class</span> <span class="nc">DoWhileController</span><span class="p">(</span><span class="n">FlowController</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implements a set of passes in a do-while loop.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">do_while</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">partial_controller</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">do_while</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">partial_controller</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">do_while</span> <span class="o">=</span> <span class="n">do_while</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_iteration</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;max_iteration&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">options</span> <span class="k">else</span> <span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iteration</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;max_iteration&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">options</span> <span class="k">else</span> <span class="mi">1000</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">partial_controller</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -643,8 +650,7 @@
 <span class="k">class</span> <span class="nc">ConditionalController</span><span class="p">(</span><span class="n">FlowController</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implements a set of passes under a certain condition.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">partial_controller</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">partial_controller</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">passes</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">partial_controller</span><span class="p">)</span>
 
@@ -654,8 +660,8 @@
 
 
 <span class="c1"># Default controllers</span>
-<span class="n">FlowController</span><span class="o">.</span><span class="n">add_flow_controller</span><span class="p">(</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="n">ConditionalController</span><span class="p">)</span>
-<span class="n">FlowController</span><span class="o">.</span><span class="n">add_flow_controller</span><span class="p">(</span><span class="s1">&#39;do_while&#39;</span><span class="p">,</span> <span class="n">DoWhileController</span><span class="p">)</span>
+<span class="n">FlowController</span><span class="o">.</span><span class="n">add_flow_controller</span><span class="p">(</span><span class="s2">&quot;condition&quot;</span><span class="p">,</span> <span class="n">ConditionalController</span><span class="p">)</span>
+<span class="n">FlowController</span><span class="o">.</span><span class="n">add_flow_controller</span><span class="p">(</span><span class="s2">&quot;do_while&quot;</span><span class="p">,</span> <span class="n">DoWhileController</span><span class="p">)</span>
 </pre></div>
 
              </article>
@@ -673,7 +679,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -708,7 +714,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -44,5 +44,6 @@
       ~DIRECT_L_RAND.is_initial_point_required
       ~DIRECT_L_RAND.is_initial_point_supported
       ~DIRECT_L_RAND.setting
+      ~DIRECT_L_RAND.settings
    
    

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.runtime.runtime_job &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.providers.ibmq.runtime.runtime_job &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -346,7 +346,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.providers.backend</span> <span class="kn">import</span> <span class="n">Backend</span>
 <span class="kn">from</span> <span class="nn">qiskit.providers.jobstatus</span> <span class="kn">import</span> <span class="n">JobStatus</span><span class="p">,</span> <span class="n">JOB_FINAL_STATES</span>
 
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">API_TO_JOB_STATUS</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">API_TO_JOB_ERROR_MESSAGE</span><span class="p">,</span> <span class="n">API_TO_JOB_STATUS</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">RuntimeJobFailureError</span><span class="p">,</span> <span class="n">RuntimeInvalidStateError</span><span class="p">,</span> <span class="n">QiskitRuntimeError</span>
 <span class="kn">from</span> <span class="nn">.program.result_decoder</span> <span class="kn">import</span> <span class="n">ResultDecoder</span>
 <span class="kn">from</span> <span class="nn">..api.clients</span> <span class="kn">import</span> <span class="n">RuntimeClient</span><span class="p">,</span> <span class="n">RuntimeWebsocketClient</span><span class="p">,</span> <span class="n">WebsocketClientCloseCode</span>
@@ -429,6 +429,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_creation_date</span> <span class="o">=</span> <span class="n">creation_date</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_program_id</span> <span class="o">=</span> <span class="n">program_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">JobStatus</span><span class="o">.</span><span class="n">INITIALIZING</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[str]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_result_decoder</span> <span class="o">=</span> <span class="n">result_decoder</span>
 
         <span class="c1"># Used for streaming</span>
@@ -465,10 +466,10 @@
         <span class="n">_decoder</span> <span class="o">=</span> <span class="n">decoder</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_decoder</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="ow">or</span> <span class="p">(</span><span class="n">_decoder</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_result_decoder</span><span class="p">):</span>  <span class="c1"># type: ignore[unreachable]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_final_state</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="n">wait</span><span class="p">)</span>
-            <span class="n">result_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api_client</span><span class="o">.</span><span class="n">job_results</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">==</span> <span class="n">JobStatus</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">RuntimeJobFailureError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to retrieve result for job </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">()</span><span class="si">}</span><span class="s2">. &quot;</span>
-                                             <span class="sa">f</span><span class="s2">&quot;Job has failed:</span><span class="se">\n</span><span class="si">{</span><span class="n">result_raw</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">RuntimeJobFailureError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to retrieve job result. &quot;</span>
+                                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">error_message</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">result_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api_client</span><span class="o">.</span><span class="n">job_results</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="n">_decoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">result_raw</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span></div>
 
@@ -493,17 +494,18 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Status of this job.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            IBMQError: If an unknown status is returned from the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">JOB_FINAL_STATES</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api_client</span><span class="o">.</span><span class="n">job_get</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">API_TO_JOB_STATUS</span><span class="p">[</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">IBMQError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown status: </span><span class="si">{</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_status_and_error_message</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span></div>
+
+<div class="viewcode-block" id="RuntimeJob.error_message"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.RuntimeJob.html#qiskit.providers.ibmq.runtime.RuntimeJob.error_message">[документация]</a>    <span class="k">def</span> <span class="nf">error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the reason if the job failed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Error message string or ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_status_and_error_message</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span></div>
 
 <div class="viewcode-block" id="RuntimeJob.wait_for_final_state"><a class="viewcode-back" href="../../../../../stubs/qiskit.providers.ibmq.runtime.RuntimeJob.html#qiskit.providers.ibmq.runtime.RuntimeJob.wait_for_final_state">[документация]</a>    <span class="k">def</span> <span class="nf">wait_for_final_state</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -587,6 +589,40 @@
             <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;&quot;</span>
             <span class="k">raise</span> <span class="n">QiskitRuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to get job logs: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_status_and_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fetch and set status and error message.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">JOB_FINAL_STATES</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api_client</span><span class="o">.</span><span class="n">job_get</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_status</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_error_message</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set status.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            job_response: Job response from runtime API.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IBMQError: If an unknown status is returned from the server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">API_TO_JOB_STATUS</span><span class="p">[</span><span class="n">job_response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IBMQError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown status: </span><span class="si">{</span><span class="n">job_response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set error message if the job failed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            job_response: Job response from runtime API.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">==</span> <span class="n">JobStatus</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span>
+            <span class="n">job_result_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_api_client</span><span class="o">.</span><span class="n">job_results</span><span class="p">(</span><span class="n">job_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span> <span class="o">=</span> <span class="n">API_TO_JOB_ERROR_MESSAGE</span><span class="p">[</span><span class="n">job_response</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">(),</span> <span class="n">job_result_raw</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error_message</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_is_streaming</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return whether job results are being streamed.</span>
@@ -722,7 +758,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -757,7 +793,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

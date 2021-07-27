@@ -56,6 +56,7 @@
       ~QFT.fredkin
       ~QFT.from_qasm_file
       ~QFT.from_qasm_str
+      ~QFT.get_instructions
       ~QFT.h
       ~QFT.hamiltonian
       ~QFT.has_register

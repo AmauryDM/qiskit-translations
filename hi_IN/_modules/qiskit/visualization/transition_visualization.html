@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.transition_visualization &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.visualization.transition_visualization &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -337,6 +337,8 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">acos</span><span class="p">,</span> <span class="n">sqrt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
+
 
 <span class="k">def</span> <span class="nf">_normalize</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Makes sure magnitude of the vector is 1 with given tolerance&quot;&quot;&quot;</span>
@@ -350,6 +352,7 @@
 
 <span class="k">class</span> <span class="nc">_Quaternion</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;For calculating vectors on unit sphere&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_val</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -375,10 +378,10 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
 
@@ -389,10 +392,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multiply_with_quaternion</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Input vector has invalid length </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input vector has invalid length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multiply_with_vector</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Multiplication with unknown type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiplication with unknown type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_multiply_with_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q_2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Multiplication of quaternion with quaternion&quot;&quot;&quot;</span>
@@ -419,7 +422,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">theta</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_axisangle</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s2">&quot;((</span><span class="si">{}</span><span class="s2">; </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">))&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;((</span><span class="si">{</span><span class="n">theta</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">))&quot;</span>
 
     <span class="k">def</span> <span class="nf">get_axisangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns angle and vector of quaternion&quot;&quot;&quot;</span>
@@ -438,11 +441,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="visualize_transition"><a class="viewcode-back" href="../../../stubs/qiskit.visualization.visualize_transition.html#qiskit.visualization.visualize_transition">[docs]</a><span class="k">def</span> <span class="nf">visualize_transition</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span>
-                         <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">saveas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">fpg</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                         <span class="n">spg</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="visualize_transition"><a class="viewcode-back" href="../../../stubs/qiskit.visualization.visualize_transition.html#qiskit.visualization.visualize_transition">[docs]</a><span class="k">def</span> <span class="nf">visualize_transition</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">saveas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fpg</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">spg</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates animation showing transitions between states of a single</span>
 <span class="sd">    qubit by applying quantum gates.</span>
@@ -467,12 +466,13 @@
 <span class="sd">            after the GUI is closed.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ImportError: Must have Matplotlib (and/or IPython) installed.</span>
+<span class="sd">        MissingOptionalLibraryError: Must have Matplotlib (and/or IPython) installed.</span>
 <span class="sd">        VisualizationError: Given gate(s) are not supported.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
         <span class="n">has_ipython</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="n">has_ipython</span> <span class="o">=</span> <span class="kc">False</span>
@@ -484,63 +484,87 @@
         <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
         <span class="kn">from</span> <span class="nn">qiskit.visualization.bloch</span> <span class="kn">import</span> <span class="n">Bloch</span>
         <span class="kn">from</span> <span class="nn">qiskit.visualization.exceptions</span> <span class="kn">import</span> <span class="n">VisualizationError</span>
+
         <span class="n">has_matplotlib</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="n">has_matplotlib</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">jupyter</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;ipykernel&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;spyder&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;ipykernel&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;spyder&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">):</span>
         <span class="n">jupyter</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">has_matplotlib</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Must have Matplotlib installed.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+            <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;Matplotlib&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;visualize_transition&quot;</span><span class="p">,</span>
+            <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install matplotlib&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">has_ipython</span> <span class="ow">and</span> <span class="n">jupyter</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Must have IPython installed.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+            <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;IPython&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;visualize_transition&quot;</span><span class="p">,</span>
+            <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install ipython&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s2">&quot;Only one qubit circuits are supported&quot;</span><span class="p">)</span>
 
     <span class="n">frames_per_gate</span> <span class="o">=</span> <span class="n">fpg</span>
-    <span class="n">time_between_frames</span> <span class="o">=</span> <span class="p">(</span><span class="n">spg</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">/</span><span class="n">fpg</span>
+    <span class="n">time_between_frames</span> <span class="o">=</span> <span class="p">(</span><span class="n">spg</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">fpg</span>
 
     <span class="c1"># quaternions of gates which don&#39;t take parameters</span>
     <span class="n">gates</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;#1abc9c&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;#2ecc71&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;#3498db&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span>
-                                                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;#9b59b6&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;sdg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
-                    <span class="s1">&#39;#8e44ad&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="n">_normalize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])),</span>
-                  <span class="s1">&#39;#34495e&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
-                  <span class="s1">&#39;#e74c3c&#39;</span><span class="p">)</span>
-    <span class="n">gates</span><span class="p">[</span><span class="s1">&#39;tdg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;tdg&#39;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
-                    <span class="s1">&#39;#c0392b&#39;</span><span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;#1abc9c&quot;</span><span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;#2ecc71&quot;</span><span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="s2">&quot;#3498db&quot;</span><span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;#9b59b6&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;sdg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;sdg&quot;</span><span class="p">,</span>
+        <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;#8e44ad&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;h&quot;</span><span class="p">,</span>
+        <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="n">_normalize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])),</span>
+        <span class="s2">&quot;#34495e&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;t&quot;</span><span class="p">,</span>
+        <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;#e74c3c&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">gates</span><span class="p">[</span><span class="s2">&quot;tdg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;tdg&quot;</span><span class="p">,</span>
+        <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;#c0392b&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">implemented_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="s1">&#39;ry&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">,</span> <span class="s1">&#39;u1&#39;</span><span class="p">]</span>
-    <span class="n">simple_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">]</span>
+    <span class="n">implemented_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;rx&quot;</span><span class="p">,</span> <span class="s2">&quot;ry&quot;</span><span class="p">,</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;sdg&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;tdg&quot;</span><span class="p">,</span> <span class="s2">&quot;u1&quot;</span><span class="p">]</span>
+    <span class="n">simple_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;sdg&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;tdg&quot;</span><span class="p">]</span>
     <span class="n">list_of_circuit_gates</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">implemented_gates</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s2">&quot;Gate </span><span class="si">{}</span><span class="s2"> is not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gate </span><span class="si">{</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not supported&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">simple_gates</span><span class="p">:</span>
             <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gates</span><span class="p">[</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">theta</span> <span class="o">=</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;rx&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;rx&quot;</span><span class="p">:</span>
                 <span class="n">quaternion</span> <span class="o">=</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;rx:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s1">&#39;#16a085&#39;</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ry&#39;</span><span class="p">:</span>
+                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;rx:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s2">&quot;#16a085&quot;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ry&quot;</span><span class="p">:</span>
                 <span class="n">quaternion</span> <span class="o">=</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;ry:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s1">&#39;#27ae60&#39;</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;rz&#39;</span><span class="p">:</span>
+                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;ry:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s2">&quot;#27ae60&quot;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;rz&quot;</span><span class="p">:</span>
                 <span class="n">quaternion</span> <span class="o">=</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;rz:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s1">&#39;#2980b9&#39;</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;u1&#39;</span><span class="p">:</span>
+                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;rz:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s2">&quot;#2980b9&quot;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;u1&quot;</span><span class="p">:</span>
                 <span class="n">quaternion</span> <span class="o">=</span> <span class="n">_Quaternion</span><span class="o">.</span><span class="n">from_axisangle</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="n">frames_per_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;u1:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s1">&#39;#f1c40f&#39;</span><span class="p">))</span>
+                <span class="n">list_of_circuit_gates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;u1:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">quaternion</span><span class="p">,</span> <span class="s2">&quot;#f1c40f&quot;</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_circuit_gates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s2">&quot;Nothing to visualize.&quot;</span><span class="p">)</span>
@@ -555,6 +579,7 @@
 
     <span class="k">class</span> <span class="nc">Namespace</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Helper class serving as scope container&quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_vec</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_gate</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
@@ -568,7 +593,7 @@
         <span class="n">sphere</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="c1"># starting gate count from -1 which is the initial vector</span>
-        <span class="n">gate_counter</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">frames_per_gate</span>
+        <span class="n">gate_counter</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">frames_per_gate</span>
         <span class="k">if</span> <span class="n">gate_counter</span> <span class="o">!=</span> <span class="n">namespace</span><span class="o">.</span><span class="n">last_gate</span><span class="p">:</span>
             <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="o">.</span><span class="n">append</span><span class="p">([[],</span> <span class="p">[],</span> <span class="p">[]])</span>
             <span class="n">namespace</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
@@ -579,15 +604,15 @@
             <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-            <span class="n">namespace</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
+            <span class="n">namespace</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
             <span class="n">sphere</span><span class="o">.</span><span class="n">make_sphere</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">_ax</span>
 
         <span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span> <span class="o">=</span> <span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span>
 
-        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">namespace</span><span class="o">.</span><span class="n">pnts</span><span class="p">[</span><span class="n">gate_counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
         <span class="n">sphere</span><span class="o">.</span><span class="n">add_vectors</span><span class="p">(</span><span class="n">namespace</span><span class="o">.</span><span class="n">new_vec</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">trace</span><span class="p">:</span>
@@ -597,15 +622,17 @@
 
         <span class="n">sphere</span><span class="o">.</span><span class="n">vector_color</span> <span class="o">=</span> <span class="p">[</span><span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
         <span class="n">sphere</span><span class="o">.</span><span class="n">point_color</span> <span class="o">=</span> <span class="n">namespace</span><span class="o">.</span><span class="n">colors</span>
-        <span class="n">sphere</span><span class="o">.</span><span class="n">point_marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span>
+        <span class="n">sphere</span><span class="o">.</span><span class="n">point_marker</span> <span class="o">=</span> <span class="s2">&quot;o&quot;</span>
 
         <span class="n">annotation_text</span> <span class="o">=</span> <span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">annotationvector</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]</span>
-        <span class="n">sphere</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">annotationvector</span><span class="p">,</span>
-                              <span class="n">annotation_text</span><span class="p">,</span>
-                              <span class="n">color</span><span class="o">=</span><span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
-                              <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-                              <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">sphere</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
+            <span class="n">annotationvector</span><span class="p">,</span>
+            <span class="n">annotation_text</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">list_of_circuit_gates</span><span class="p">[</span><span class="n">gate_counter</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">sphere</span><span class="o">.</span><span class="n">make_sphere</span><span class="p">()</span>
 
@@ -613,22 +640,24 @@
         <span class="k">return</span> <span class="n">_ax</span>
 
     <span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
-        <span class="n">sphere</span><span class="o">.</span><span class="n">vector_color</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">]</span>
+        <span class="n">sphere</span><span class="o">.</span><span class="n">vector_color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">_ax</span>
 
-    <span class="n">ani</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span>
-                                  <span class="n">animate</span><span class="p">,</span>
-                                  <span class="nb">range</span><span class="p">(</span><span class="n">frames_per_gate</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_circuit_gates</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-                                  <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span>
-                                  <span class="n">blit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                  <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                  <span class="n">interval</span><span class="o">=</span><span class="n">time_between_frames</span><span class="p">)</span>
+    <span class="n">ani</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">animate</span><span class="p">,</span>
+        <span class="nb">range</span><span class="p">(</span><span class="n">frames_per_gate</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_circuit_gates</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span>
+        <span class="n">blit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">interval</span><span class="o">=</span><span class="n">time_between_frames</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">saveas</span><span class="p">:</span>
         <span class="n">ani</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">saveas</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">jupyter</span><span class="p">:</span>
         <span class="c1"># This is necessary to overcome matplotlib memory limit</span>
-        <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;animation.embed_limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;animation.embed_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
         <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">ani</span><span class="o">.</span><span class="n">to_jshtml</span><span class="p">())</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
@@ -650,7 +679,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -686,7 +715,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.qobj.common &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.qobj.common &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -341,10 +341,8 @@
 <span class="kn">import</span> <span class="nn">fastjsonschema</span>
 
 
-<span class="n">path_part</span> <span class="o">=</span> <span class="s1">&#39;schemas/qobj_schema.json&#39;</span>
-<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))),</span>
-    <span class="n">path_part</span><span class="p">)</span>
+<span class="n">path_part</span> <span class="o">=</span> <span class="s2">&quot;schemas/qobj_schema.json&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))),</span> <span class="n">path_part</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
     <span class="n">json_schema</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">validator</span> <span class="o">=</span> <span class="n">fastjsonschema</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">json_schema</span><span class="p">)</span>
@@ -397,11 +395,13 @@
 
 <div class="viewcode-block" id="QobjHeader"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.QobjHeader.html#qiskit.qobj.QobjHeader">[docs]</a><span class="k">class</span> <span class="nc">QobjHeader</span><span class="p">(</span><span class="n">QobjDictField</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class used to represent a dictionary header in Qobj objects.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="QobjExperimentHeader"><a class="viewcode-back" href="../../../stubs/qiskit.qobj.QobjExperimentHeader.html#qiskit.qobj.QobjExperimentHeader">[docs]</a><span class="k">class</span> <span class="nc">QobjExperimentHeader</span><span class="p">(</span><span class="n">QobjHeader</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class representing a header dictionary for a Qobj Experiment.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 </pre></div>
 
@@ -420,7 +420,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -456,7 +456,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

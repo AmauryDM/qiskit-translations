@@ -27,6 +27,7 @@
    
       ~PhaseEstimationResult.circuit_result
       ~PhaseEstimationResult.most_likely_phase
+      ~PhaseEstimationResult.phase
       ~PhaseEstimationResult.phases
    
    

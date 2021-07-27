@@ -40,6 +40,7 @@
       ~Delay.decompositions
       ~Delay.definition
       ~Delay.duration
+      ~Delay.label
       ~Delay.params
       ~Delay.unit
    

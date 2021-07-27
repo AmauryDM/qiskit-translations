@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.minimum_eigen_solvers.minimum_eigen_solver &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.algorithms.minimum_eigen_solvers.minimum_eigen_solver &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -350,10 +350,8 @@
 
 <div class="viewcode-block" id="MinimumEigensolver.compute_minimum_eigenvalue"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.MinimumEigensolver.html#qiskit.algorithms.MinimumEigensolver.compute_minimum_eigenvalue">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">compute_minimum_eigenvalue</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-            <span class="n">aux_operators</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">OperatorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MinimumEigensolverResult&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span> <span class="n">aux_operators</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">OperatorBase</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MinimumEigensolverResult&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes minimum eigenvalue. Operator and aux_operators can be supplied here and</span>
 <span class="sd">        if not None will override any already set into algorithm so it can be reused with</span>
@@ -387,7 +385,7 @@
 
 
 <div class="viewcode-block" id="MinimumEigensolverResult"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.MinimumEigensolverResult.html#qiskit.algorithms.MinimumEigensolverResult">[documentos]</a><span class="k">class</span> <span class="nc">MinimumEigensolverResult</span><span class="p">(</span><span class="n">AlgorithmResult</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Minimum Eigensolver Result.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Minimum Eigensolver Result.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="MinimumEigensolverResult.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.MinimumEigensolverResult.html#qiskit.algorithms.MinimumEigensolverResult.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -397,32 +395,32 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eigenvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">complex</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot; returns eigen value &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;returns eigen value&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eigenvalue</span>
 
     <span class="nd">@eigenvalue</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">eigenvalue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; set eigen value &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;set eigen value&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eigenvalue</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eigenstate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot; return eigen state &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;return eigen state&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eigenstate</span>
 
     <span class="nd">@eigenstate</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">eigenstate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; set eigen state &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;set eigen state&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eigenstate</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">aux_operator_eigenvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot; return aux operator eigen values &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;return aux operator eigen values&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aux_operator_eigenvalues</span>
 
     <span class="nd">@aux_operator_eigenvalues</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">aux_operator_eigenvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; set aux operator eigen values &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;set aux operator eigen values&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_aux_operator_eigenvalues</span> <span class="o">=</span> <span class="n">value</span></div>
 </pre></div>
 
@@ -441,7 +439,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -476,7 +474,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

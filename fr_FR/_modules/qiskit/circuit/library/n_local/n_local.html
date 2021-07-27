@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.n_local.n_local &mdash; Documentation Qiskit 0.27.0</title>
+  <title>qiskit.circuit.library.n_local.n_local &mdash; Documentation Qiskit 0.28.0</title>
   
 
   
@@ -219,36 +219,36 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Page d'accueil de la documentation</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Avant propos</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">L’informatique quantique en bref</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Introduction à Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../contributing_to_qiskit.html">Contribuer à Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../configuration.html">Configuration locale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Questions fréquentes</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Bibliothèques</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Bibliothèque de circuits</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Références de l'API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Simulateur Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Expériences Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Modules d'applications Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Fournisseur)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Guide de migration des applications Qiskit (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Guide de migration des applications Qiskit (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Déboggage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Codes d'erreur de l'API IBM Quantum</a></li>
 </ul>
 
             
@@ -334,12 +334,14 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.quantumcircuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.quantumregister</span> <span class="kn">import</span> <span class="n">QuantumRegister</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">,</span> <span class="n">ParameterExpression</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.parametertable</span> <span class="kn">import</span> <span class="n">ParameterTable</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_arguments</span>
 
 <span class="kn">from</span> <span class="nn">..blueprintcircuit</span> <span class="kn">import</span> <span class="n">BlueprintCircuit</span>
@@ -383,21 +385,25 @@
 <span class="sd">    If an initial state object of Qiskit Aqua is provided, it is added in front of the NLocal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="NLocal.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">rotation_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
-                                                 <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">entanglement_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
-                                                     <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;θ&#39;</span><span class="p">,</span>
-                 <span class="n">overwrite_block_parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                 <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nlocal&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="NLocal.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">entanglement_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">parameter_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;θ&quot;</span><span class="p">,</span>
+        <span class="n">overwrite_block_parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">skip_final_rotation_layer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_unentangled_qubits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nlocal&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a new n-local circuit.</span>
 
 <span class="sd">        Args:</span>
@@ -428,6 +434,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ImportError: If an ``initial_state`` is specified but Qiskit Aqua is not installed.</span>
 <span class="sd">            ValueError: If reps parameter is less than or equal to 0.</span>
+<span class="sd">            TypeError: If reps parameter is not an int value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
@@ -450,8 +457,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">reps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The value of reps should be larger than or equal to 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">reps</span><span class="p">)</span> <span class="o">!=</span> <span class="n">reps</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The value of reps should be int&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">reps</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The value of reps should be larger than or equal to 0&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">num_qubits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">=</span> <span class="n">num_qubits</span>
@@ -488,7 +498,7 @@
             <span class="c1"># invalidate the circuit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span> <span class="o">=</span> <span class="n">num_qubits</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">qregs</span> <span class="o">=</span> <span class="p">[</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;q&#39;</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qregs</span> <span class="o">=</span> <span class="p">[</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q&quot;</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_convert_to_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Try to convert ``layer`` to a QuantumCircuit.</span>
@@ -517,7 +527,7 @@
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span>
 
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Adding a </span><span class="si">{}</span><span class="s1"> to an NLocal is not supported.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">layer</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span><span class="si">}</span><span class="s2"> to an NLocal is not supported.&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rotation_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]:</span>
@@ -529,8 +539,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation_blocks</span>
 
     <span class="nd">@rotation_blocks</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">rotation_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
-                                            <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">rotation_blocks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set the blocks in the rotation layers.</span>
 
 <span class="sd">        Args:</span>
@@ -553,8 +564,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entanglement_blocks</span>
 
     <span class="nd">@entanglement_blocks</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">entanglement_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
-                                                <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">entanglement_blocks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set the blocks in the entanglement layers.</span>
 
 <span class="sd">        Args:</span>
@@ -568,9 +580,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_entanglement_blocks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_to_block</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">entanglement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
-                                    <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]],</span>
-                                    <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]:</span>
+    <span class="k">def</span> <span class="nf">entanglement</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span>
+        <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+        <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]],</span>
+        <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+    <span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get the entanglement strategy.</span>
 
 <span class="sd">        Returns:</span>
@@ -580,11 +602,22 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entanglement</span>
 
     <span class="nd">@entanglement</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">entanglement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-                                                        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
-                                                        <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]],</span>
-                                                        <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
-                                                        <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">entanglement</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span>
+                <span class="nb">str</span><span class="p">,</span>
+                <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+                <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]],</span>
+                <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
+                <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+            <span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set the entanglement strategy.</span>
 
 <span class="sd">        Args:</span>
@@ -628,13 +661,13 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No number of qubits specified.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No number of qubits specified.&quot;</span><span class="p">)</span>
 
         <span class="c1"># check no needed parameters are None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_blocks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_blocks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The blocks are not set.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The blocks are not set.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">valid</span>
 
@@ -677,12 +710,16 @@
 <span class="sd">                parameters in the circuit and they are not a ``ParameterVector`` (which could</span>
 <span class="sd">                be resized to fit the number of parameters).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">)</span> \
-                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters_settable</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The length of ordered parameters must be equal to the number of &#39;</span>
-                             <span class="s1">&#39;settable parameters in the circuit (</span><span class="si">{}</span><span class="s1">), but is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters_settable</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-                             <span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters_settable</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The length of ordered parameters must be equal to the number of &quot;</span>
+                <span class="s2">&quot;settable parameters in the circuit (</span><span class="si">{}</span><span class="s2">), but is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters_settable</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_parameters</span> <span class="o">=</span> <span class="n">parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
 
@@ -754,8 +791,11 @@
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">//</span> <span class="n">block</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_unentangled_qubits</span><span class="p">:</span>
-                <span class="n">block_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices</span> <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">block_indices</span>
-                                 <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">unentangled_qubits</span><span class="p">)]</span>
+                <span class="n">block_indices</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">indices</span>
+                    <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">block_indices</span>
+                    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">unentangled_qubits</span><span class="p">)</span>
+                <span class="p">]</span>
             <span class="n">num_rot</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">block_indices</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">block</span><span class="p">))</span>
 
         <span class="n">num</span> <span class="o">+=</span> <span class="n">num_rot</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_final_rotation_layer</span><span class="p">))</span>
@@ -775,14 +815,17 @@
     <span class="k">def</span> <span class="nf">reps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set the repetitions.</span>
 
+<span class="sd">        If the repetitions are `0`, only one rotation layer with no entanglement</span>
+<span class="sd">        layers is applied (unless ``self.skip_final_rotation_layer`` is set to ``True``).</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            repetitions: The new repetitions.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If reps setter has parameter repetitions &lt;= 0.</span>
+<span class="sd">            ValueError: If reps setter has parameter repetitions &lt; 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">repetitions</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The repetitions should be larger than or equal to 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">repetitions</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The repetitions should be larger than or equal to 0&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">repetitions</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">=</span> <span class="n">repetitions</span>
@@ -793,12 +836,12 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The class name and the attributes/parameters of the instance as ``str``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;NLocal: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;NLocal: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
-                <span class="n">params</span> <span class="o">+=</span> <span class="s1">&#39;-- </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">value</span><span class="p">)</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;_&quot;</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-- </span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
     <span class="nd">@property</span>
@@ -811,8 +854,9 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># pylint: disable=too-many-return-statements</span>
-<div class="viewcode-block" id="NLocal.get_entangler_map"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.get_entangler_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_entangler_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rep_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_block_qubits</span><span class="p">:</span> <span class="nb">int</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<div class="viewcode-block" id="NLocal.get_entangler_map"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.get_entangler_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_entangler_map</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">rep_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_block_qubits</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Get the entangler map for in the repetition ``rep_num`` and the block ``block_num``.</span>
 
 <span class="sd">        The entangler map for the current block is derived from the value of ``self.entanglement``.</span>
@@ -865,48 +909,69 @@
 
         <span class="c1"># check if entanglement is list of something</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entanglement</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value of entanglement: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value of entanglement: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">num_i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">entanglement</span><span class="p">)</span>
 
         <span class="c1"># entanglement is List[str]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">en</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">get_entangler_map</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">],</span> <span class="n">offset</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
 
         <span class="c1"># entanglement is List[int]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">entanglement</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">en</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">en</span><span class="p">)</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">]]</span>
 
         <span class="c1"># check if entanglement is List[List]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value of entanglement: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">en</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value of entanglement: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">num_j</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">])</span>
 
         <span class="c1"># entanglement is List[List[str]]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">get_entangler_map</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">][</span><span class="n">j</span> <span class="o">%</span> <span class="n">num_j</span><span class="p">],</span>
-                                     <span class="n">offset</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">get_entangler_map</span><span class="p">(</span>
+                <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">][</span><span class="n">j</span> <span class="o">%</span> <span class="n">num_j</span><span class="p">],</span> <span class="n">offset</span><span class="o">=</span><span class="n">i</span>
+            <span class="p">)</span>
 
         <span class="c1"># entanglement is List[List[int]]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">en</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">entanglement</span><span class="p">):</span>
+                <span class="n">entanglement</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">en</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">entanglement</span>
 
         <span class="c1"># check if entanglement is List[List[List]]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value of entanglement: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value of entanglement: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># entanglement is List[List[List[int]]]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e3</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">e3</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span>
+            <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span>
+            <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span>
+        <span class="p">):</span>
+            <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">e2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">en</span><span class="p">):</span>
+                    <span class="n">en</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">e2</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">]</span>
 
         <span class="c1"># check if entanglement is List[List[List[List]]]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e3</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value of entanglement: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e3</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span> <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value of entanglement: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># entanglement is List[List[List[List[int]]]]</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e4</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entanglement</span> <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span> <span class="k">for</span> <span class="n">e4</span> <span class="ow">in</span> <span class="n">e3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">e4</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span>
+            <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span>
+            <span class="k">for</span> <span class="n">e3</span> <span class="ow">in</span> <span class="n">e2</span>
+            <span class="k">for</span> <span class="n">e4</span> <span class="ow">in</span> <span class="n">e3</span>
+        <span class="p">):</span>
+            <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">entanglement</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">e2</span> <span class="ow">in</span> <span class="n">en</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">e3</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">e2</span><span class="p">):</span>
+                        <span class="n">e2</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">entanglement</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_i</span><span class="p">][</span><span class="n">j</span> <span class="o">%</span> <span class="n">num_j</span><span class="p">]</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value of entanglement: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value of entanglement: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -934,13 +999,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span> <span class="o">=</span> <span class="n">initial_state</span>
 
         <span class="c1"># construct the circuit of the initial state</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state_circuit</span> <span class="o">=</span> <span class="n">initial_state</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;circuit&#39;</span><span class="p">)</span>
+        <span class="c1"># if initial state is an instance of QuantumCircuit do not call construct circuit</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The initial_state argument of the NLocal class &quot;</span>
+                <span class="s2">&quot;should be a QuantumCircuit. Passing any other type is &quot;</span>
+                <span class="s2">&quot;deprecated as of Qiskit Terra 0.18.0, and &quot;</span>
+                <span class="s2">&quot;will be removed no earlier than 3 months after that &quot;</span>
+                <span class="s2">&quot;release date.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state_circuit</span> <span class="o">=</span> <span class="n">initial_state</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;circuit&quot;</span><span class="p">)</span>
 
         <span class="c1"># the initial state dictates the number of qubits since we do not have information</span>
         <span class="c1"># about on which qubits the initial state acts</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state_circuit</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mismatching number of qubits in initial state and n-local circuit.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state_circuit</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_qubits</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mismatching number of qubits in initial state and n-local circuit.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
 
@@ -970,11 +1050,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_table</span> <span class="o">=</span> <span class="n">ParameterTable</span><span class="p">()</span>
 
-<div class="viewcode-block" id="NLocal.add_layer"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.add_layer">[docs]</a>    <span class="k">def</span> <span class="nf">add_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;NLocal&#39;</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
-                  <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                  <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                  <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;NLocal&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="NLocal.add_layer"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.add_layer">[docs]</a>    <span class="k">def</span> <span class="nf">add_layer</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;NLocal&quot;</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
+        <span class="n">entanglement</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;NLocal&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Append another layer to the NLocal.</span>
 
 <span class="sd">        Args:</span>
@@ -1022,7 +1103,7 @@
 
             <span class="n">layer</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">entangler_map</span><span class="p">:</span>
-                <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered_parameters</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">block</span><span class="p">)):]</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered_parameters</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">block</span><span class="p">))</span> <span class="p">:]</span>
                 <span class="n">parameterized_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameterize_block</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
                 <span class="n">layer</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">parameterized_block</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 
@@ -1033,12 +1114,13 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="NLocal.assign_parameters"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.assign_parameters">[docs]</a>    <span class="nd">@deprecate_arguments</span><span class="p">({</span><span class="s1">&#39;param_dict&#39;</span><span class="p">:</span> <span class="s1">&#39;parameters&#39;</span><span class="p">})</span>
-    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span>
-                                                  <span class="n">ParameterVector</span><span class="p">],</span>
-                          <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                          <span class="n">param_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># pylint: disable=unused-argument</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]:</span>
+<div class="viewcode-block" id="NLocal.assign_parameters"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.NLocal.html#qiskit.circuit.library.NLocal.assign_parameters">[docs]</a>    <span class="nd">@deprecate_arguments</span><span class="p">({</span><span class="s2">&quot;param_dict&quot;</span><span class="p">:</span> <span class="s2">&quot;parameters&quot;</span><span class="p">})</span>
+    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">ParameterVector</span><span class="p">],</span>
+        <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">param_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Assign parameters to the n-local circuit.</span>
 
 <span class="sd">        This method also supports passing a list instead of a dictionary. If a list</span>
@@ -1058,12 +1140,17 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;If the parameters are provided as list, the size must match &#39;</span>
-                                     <span class="s1">&#39;the number of parameters (</span><span class="si">{}</span><span class="s1">), but </span><span class="si">{}</span><span class="s1"> are given.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                         <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-                                     <span class="p">))</span>
-            <span class="n">unbound_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_parameters</span> <span class="k">if</span>
-                                  <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)]</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;If the parameters are provided as list, the size must match &quot;</span>
+                    <span class="s2">&quot;the number of parameters (</span><span class="si">{}</span><span class="s2">), but </span><span class="si">{}</span><span class="s2"> are given.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">unbound_parameters</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">param</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_parameters</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span>
+            <span class="p">]</span>
 
             <span class="c1"># to get a sorted list of unique parameters, keep track of the already used parameters</span>
             <span class="c1"># in a set and add the parameters to the unique list only if not existing in the set</span>
@@ -1082,8 +1169,9 @@
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_parameterize_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">param_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">block_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_parameterize_block</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">param_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rep_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">block_num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert ``block`` to a circuit of correct width and parameterized using the iterator.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_overwrite_block_parameters</span><span class="p">:</span>
             <span class="c1"># check if special parameters should be used</span>
@@ -1098,7 +1186,7 @@
 
         <span class="k">return</span> <span class="n">block</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_build_rotation_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_rotation_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Build a rotation layer.&quot;&quot;&quot;</span>
         <span class="c1"># if the unentangled qubits are skipped, compute the set of qubits that are not entangled</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_unentangled_qubits</span><span class="p">:</span>
@@ -1119,8 +1207,11 @@
             <span class="c1"># if unentangled qubits should not be acted on, remove all operations that</span>
             <span class="c1"># touch an unentangled qubit</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_unentangled_qubits</span><span class="p">:</span>
-                <span class="n">block_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices</span> <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">block_indices</span>
-                                 <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">unentangled_qubits</span><span class="p">)]</span>
+                <span class="n">block_indices</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">indices</span>
+                    <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">block_indices</span>
+                    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">unentangled_qubits</span><span class="p">)</span>
+                <span class="p">]</span>
 
             <span class="c1"># apply the operations in the layer</span>
             <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">block_indices</span><span class="p">:</span>
@@ -1128,9 +1219,9 @@
                 <span class="n">layer</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">parameterized_block</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="c1"># add the layer to the circuit</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_build_entanglement_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_entanglement_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Build an entanglement layer.&quot;&quot;&quot;</span>
         <span class="c1"># iterate over all entanglement blocks</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entanglement_blocks</span><span class="p">):</span>
@@ -1144,17 +1235,17 @@
                 <span class="n">layer</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">parameterized_block</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="c1"># add the layer to the circuit</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_build_additional_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">which</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">which</span> <span class="o">==</span> <span class="s1">&#39;appended&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_build_additional_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">which</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">which</span> <span class="o">==</span> <span class="s2">&quot;appended&quot;</span><span class="p">:</span>
             <span class="n">blocks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_appended_blocks</span>
             <span class="n">entanglements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_appended_entanglement</span>
-        <span class="k">elif</span> <span class="n">which</span> <span class="o">==</span> <span class="s1">&#39;prepended&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">which</span> <span class="o">==</span> <span class="s2">&quot;prepended&quot;</span><span class="p">:</span>
             <span class="n">blocks</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepended_blocks</span><span class="p">)</span>
             <span class="n">entanglements</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepended_entanglement</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;`which` must be either `appended` or `prepended`.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`which` must be either `appended` or `prepended`.&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">block</span><span class="p">,</span> <span class="n">ent</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">entanglements</span><span class="p">):</span>
             <span class="n">layer</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span>
@@ -1163,7 +1254,7 @@
             <span class="k">for</span> <span class="n">indices</span> <span class="ow">in</span> <span class="n">ent</span><span class="p">:</span>
                 <span class="n">layer</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Build the circuit.&quot;&quot;&quot;</span>
@@ -1177,40 +1268,52 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="c1"># use the initial state circuit if it is not None</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># use the initial state as starting circuit, if it is set</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="p">:</span>
-            <span class="n">circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="s1">&#39;circuit&#39;</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
+                <span class="n">initial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">initial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_state</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="s2">&quot;circuit&quot;</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">param_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ordered_parameters</span><span class="p">)</span>
 
         <span class="c1"># build the prepended layers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_build_additional_layers</span><span class="p">(</span><span class="s1">&#39;prepended&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_additional_layers</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="s2">&quot;prepended&quot;</span><span class="p">)</span>
 
         <span class="c1"># main loop to build the entanglement and rotation layers</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">):</span>
             <span class="c1"># insert barrier if specified and there is a preceding layer</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_barriers</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepended_blocks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
             <span class="c1"># build the rotation layer</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_build_rotation_layer</span><span class="p">(</span><span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_rotation_layer</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 
             <span class="c1"># barrier in between rotation and entanglement layer</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_barriers</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rotation_blocks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
 
             <span class="c1"># build the entanglement layer</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_build_entanglement_layer</span><span class="p">(</span><span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_entanglement_layer</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 
         <span class="c1"># add the final rotation layer</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_final_rotation_layer</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert_barriers</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_build_rotation_layer</span><span class="p">(</span><span class="n">param_iter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert_barriers</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_rotation_layer</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">param_iter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">)</span>
 
         <span class="c1"># add the appended layers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_build_additional_layers</span><span class="p">(</span><span class="s1">&#39;appended&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_additional_layers</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="s2">&quot;appended&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">QiskitError</span><span class="p">:</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
 
     <span class="c1"># pylint: disable=unused-argument</span>
     <span class="k">def</span> <span class="nf">_parameter_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rep</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
@@ -1224,11 +1327,43 @@
 <span class="sd">            A single string representing this NLocal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">transpile</span>
-        <span class="n">basis_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">,</span> <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="s1">&#39;ry&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span>
-                       <span class="s1">&#39;rxx&#39;</span><span class="p">,</span> <span class="s1">&#39;ryy&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;crx&#39;</span><span class="p">,</span> <span class="s1">&#39;cry&#39;</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">,</span> <span class="s1">&#39;swap&#39;</span><span class="p">,</span>
-                       <span class="s1">&#39;cswap&#39;</span><span class="p">,</span> <span class="s1">&#39;ccx&#39;</span><span class="p">,</span> <span class="s1">&#39;cu1&#39;</span><span class="p">,</span> <span class="s1">&#39;cu3&#39;</span><span class="p">,</span> <span class="s1">&#39;u1&#39;</span><span class="p">,</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span> <span class="s1">&#39;u3&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">transpile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span>
-                         <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">single_string</span><span class="p">()</span></div>
+
+        <span class="n">basis_gates</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;z&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;h&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;t&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sdg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tdg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ry&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rxx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ryy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ch&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;crx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cry&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;crz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;swap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cswap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ccx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cu1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cu3&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;u3&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">transpile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis_gates</span><span class="o">=</span><span class="n">basis_gates</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">single_string</span><span class="p">()</span>
+        <span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
@@ -1244,8 +1379,9 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">params</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)]</span>
 
 
-<span class="k">def</span> <span class="nf">get_entangler_map</span><span class="p">(</span><span class="n">num_block_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_circuit_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                      <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="k">def</span> <span class="nf">get_entangler_map</span><span class="p">(</span>
+    <span class="n">num_block_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_circuit_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">entanglement</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Get an entangler map for an arbitrary number of qubits.</span>
 
 <span class="sd">    Args:</span>
@@ -1264,21 +1400,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">num_circuit_qubits</span><span class="p">,</span> <span class="n">num_block_qubits</span>
     <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of block qubits must be smaller or equal to the number of &#39;</span>
-                         <span class="s1">&#39;qubits in the circuit.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The number of block qubits must be smaller or equal to the number of &quot;</span>
+            <span class="s2">&quot;qubits in the circuit.&quot;</span>
+        <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s1">&#39;pairwise&#39;</span> <span class="ow">and</span> <span class="n">num_block_qubits</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Pairwise entanglement is only defined for blocks of 2 qubits.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s2">&quot;pairwise&quot;</span> <span class="ow">and</span> <span class="n">num_block_qubits</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pairwise entanglement is only defined for blocks of 2 qubits.&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)),</span> <span class="n">m</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">entanglement</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;circular&#39;</span><span class="p">,</span> <span class="s1">&#39;sca&#39;</span><span class="p">,</span> <span class="s1">&#39;pairwise&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">entanglement</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;circular&quot;</span><span class="p">,</span> <span class="s2">&quot;sca&quot;</span><span class="p">,</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">]:</span>
         <span class="n">linear</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">m</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
         <span class="c1"># if the number of block qubits is 1, we don&#39;t have to add the &#39;circular&#39; part</span>
-        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">linear</span>
 
-        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s1">&#39;pairwise&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">linear</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">linear</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
 
         <span class="c1"># circular equals linear plus top-bottom entanglement (if there&#39;s space for it)</span>
@@ -1286,7 +1424,7 @@
             <span class="n">circular</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)]</span> <span class="o">+</span> <span class="n">linear</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">circular</span> <span class="o">=</span> <span class="n">linear</span>
-        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s1">&#39;circular&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entanglement</span> <span class="o">==</span> <span class="s2">&quot;circular&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">circular</span>
 
         <span class="c1"># sca is circular plus shift and reverse</span>
@@ -1299,7 +1437,7 @@
         <span class="k">return</span> <span class="n">sca</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported entanglement type: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">entanglement</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported entanglement type: </span><span class="si">{</span><span class="n">entanglement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
              </article>
@@ -1317,7 +1455,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Mis à jour le 2021/07/12.
+      Mis à jour le 2021/07/27.
 
     </p>
   </div>
@@ -1352,7 +1490,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

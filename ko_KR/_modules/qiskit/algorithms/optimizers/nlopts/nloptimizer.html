@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.nlopts.nloptimizer &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.algorithms.optimizers.nlopts.nloptimizer &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -344,15 +344,21 @@
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">nlopt</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;NLopt version: </span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nlopt</span><span class="o">.</span><span class="n">version_major</span><span class="p">(),</span>
-                <span class="n">nlopt</span><span class="o">.</span><span class="n">version_minor</span><span class="p">(),</span> <span class="n">nlopt</span><span class="o">.</span><span class="n">version_bugfix</span><span class="p">())</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;NLopt version: </span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">nlopt</span><span class="o">.</span><span class="n">version_major</span><span class="p">(),</span>
+        <span class="n">nlopt</span><span class="o">.</span><span class="n">version_minor</span><span class="p">(),</span>
+        <span class="n">nlopt</span><span class="o">.</span><span class="n">version_bugfix</span><span class="p">(),</span>
+    <span class="p">)</span>
     <span class="n">_HAS_NLOPT</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_NLOPT</span> <span class="o">=</span> <span class="kc">False</span>
 
 
 <span class="k">class</span> <span class="nc">NLoptOptimizerType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; NLopt Valid Optimizer &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;NLopt Valid Optimizer&quot;&quot;&quot;</span>
+
     <span class="n">GN_CRS2_LM</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">GN_DIRECT_L_RAND</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">GN_DIRECT_L</span> <span class="o">=</span> <span class="mi">3</span>
@@ -365,7 +371,7 @@
 <span class="sd">    NLopt global optimizer base class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;max_evals&#39;</span><span class="p">]</span>
+    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;max_evals&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -377,11 +383,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_NLOPT</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;nlopt&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;NLoptOptimizer&#39;</span><span class="p">,</span>
-                <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;See https://qiskit.org/documentation/apidoc/&#39;</span>
-                    <span class="s1">&#39;qiskit.aqua.components.optimizers.nlopts.html&#39;</span>
-                    <span class="s1">&#39; for installation information&#39;</span><span class="p">)</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;nlopt&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NLoptOptimizer&quot;</span><span class="p">,</span>
+                <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;See https://qiskit.org/documentation/apidoc/&quot;</span>
+                <span class="s2">&quot;qiskit.algorithms.optimizers.nlopts.html&quot;</span>
+                <span class="s2">&quot; for installation information&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
@@ -398,34 +405,50 @@
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_nlopt_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NLoptOptimizerType</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; return NLopt optimizer enum type &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;return NLopt optimizer enum type&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return support level dictionary &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;return support level dictionary&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
+            <span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">ignored</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
+            <span class="s2">&quot;initial_point&quot;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span>
-                         <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;max_evals&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_evals&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)}</span>
+
+    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+            <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">variable_bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">variable_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">num_vars</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_optimizer_names</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_nlopt_optimizer</span><span class="p">()],</span>
-                              <span class="n">objective_function</span><span class="p">,</span>
-                              <span class="n">variable_bounds</span><span class="p">,</span>
-                              <span class="n">initial_point</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minimize</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer_names</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_nlopt_optimizer</span><span class="p">()],</span>
+            <span class="n">objective_function</span><span class="p">,</span>
+            <span class="n">variable_bounds</span><span class="p">,</span>
+            <span class="n">initial_point</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                  <span class="n">objective_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-                  <span class="n">variable_bounds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]],</span>
-                  <span class="n">initial_point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                  <span class="n">max_evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_minimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]],</span>
+        <span class="n">initial_point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_evals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Minimize using objective function</span>
 
 <span class="sd">        Args:</span>
@@ -465,7 +488,7 @@
         <span class="n">xopt</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
         <span class="n">minf</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">last_optimum_value</span><span class="p">()</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Global minimize found </span><span class="si">%s</span><span class="s1"> eval count </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">minf</span><span class="p">,</span> <span class="n">eval_count</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Global minimize found </span><span class="si">%s</span><span class="s2"> eval count </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">minf</span><span class="p">,</span> <span class="n">eval_count</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xopt</span><span class="p">,</span> <span class="n">minf</span><span class="p">,</span> <span class="n">eval_count</span>
 </pre></div>
 
@@ -484,7 +507,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -519,7 +542,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

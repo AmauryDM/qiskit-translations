@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Коротко о квантовых вычислениях &mdash; документация Qiskit 0.27.0</title>
+  <title>Коротко о квантовых вычислениях &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -42,7 +42,7 @@
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Введение в Qiskit" href="intro_tutorial1.html" />
-    <link rel="prev" title="Qiskit 0.27.0 documentation" href="index.html" /> 
+    <link rel="prev" title="Документация Qiskit 0.28.0" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -222,9 +222,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -233,25 +233,25 @@
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -350,19 +350,7 @@
 </section>
 <section id="entanglement">
 <span id="qc-intro-entanglement"></span><h2>Запутанность<a class="headerlink" href="#entanglement" title="Ссылка на этот заголовок">¶</a></h2>
-<p>The second principle of quantum mechanics that quantum computation can utilize is the
-phenomena of <strong>entanglement</strong>.  Entanglement refers to states of more than one qubit
-(or particles in general) in which the combined state of the qubits contains more
-information than the qubits do independently.  The overwhelming majority of multi-qubit quantum
-states are entangled, and represent a valuable resource.  For example, entangled states between
-qubits can be used for quantum teleportation, where a shared entangled
-state of two qubits can be manipulated to transfer information from one qubit to another,
-regardless of the relative physical proximity of the qubits. Entangled states, as natural
-states of quantum systems, are also of importance in disciplines
-such as quantum chemistry and quantum simulation where the solution(s) often take the form
-of entangled multi-qubit states.  One can also utilize highly-entangled quantum states
-of multiple qubits to, for example, generate certifiably random numbers.  There is even a <a class="reference external" href="https://qiskit-rng.readthedocs.io/en/latest/">Qiskit
-package</a> to do this!</p>
+<p>Второй принцип квантовой механики, который могут использоваться квантовые вычисления, - это явление <strong>запутанности</strong>.  Запутанность относится к состояниям более чем одного кубита (или частицы в целом), в которых объединенное состояние кубитов содержит больше информации, чем кубиты по отдельности.  Подавляющее большинство многокубитных квантовых состояний являются запутанными и представляют собой ценный ресурс.  Например, запутанные состояния между кубитами могут быть использованы для квантовой телепортации, когда общим запутанным состоянием двух кубитов можно манипулировать для передачи информации от одного кубита к другому, независимо от физической близости кубитов. Запутанные состояния, как естественные состояния квантовых систем, также важны в таких дисциплинах, как квантовая химия и квантовое моделирование, где решение (решения) часто принимают форму запутанных мультикубитных состояний.  Можно также использовать сильно запутанные квантовые состояния нескольких кубитов, например, для проверяемой генерации случайных чисел.  Для этого даже существует пакет <a class="reference external" href="https://qiskit-rng.readthedocs.io/en/latest/">Qiskit</a>!</p>
 </section>
 <section id="quantum-circuits">
 <span id="qc-intro-circuits"></span><h2>Квантовые цепи<a class="headerlink" href="#quantum-circuits" title="Ссылка на этот заголовок">¶</a></h2>
@@ -370,23 +358,23 @@ package</a> to do this!</p>
 <figure class="align-center" id="id3">
 <img alt="_images/teleportation_detailed.png" src="_images/teleportation_detailed.png" />
 <figcaption>
-<p><span class="caption-number">Рис. 3 </span><span class="caption-text">Quantum state teleportation circuit revisited.</span><a class="headerlink" href="#id3" title="Постоянная ссылка на рисунок">¶</a></p>
+<p><span class="caption-number">Рис. 3 </span><span class="caption-text">Пересмотрена схема телепортации квантового состояния.</span><a class="headerlink" href="#id3" title="Постоянная ссылка на рисунок">¶</a></p>
 </figcaption>
 </figure>
 <p>Квантовые цепи позволяют квантовому компьютеру принимать на входе классическую информацию и выводить классическое решение, используя такие квантовые принципы, как <a class="reference internal" href="#qc-intro-interference"><span class="std std-ref">интерференция</span></a> и <span class="xref std std-ref">запутанность</span> для выполнения вычислений.</p>
 <p>Типичный ход квантового алгоритма состоит из:</p>
 <ul class="simple">
-<li><p>The problem we want to solve,</p></li>
+<li><p>Задача, которую мы хотим решить,</p></li>
 <li><p>Классического алгоритма, задающего вид квантовой цепи,</p></li>
 <li><p>Квантовой цепи, которую нужно запустить на квантовом оборудовании,</p></li>
-<li><p>And the output classical solution to the problem that it produces.</p></li>
+<li><p>И выходное классическое решение проблемы, которую она производит.</p></li>
 </ul>
 <p>Quantum gates form the primitive operations on quantum data.  Quantum gates represent
 information preserving, reversible transformations on the quantum data stored in qubits.
 These «unitary» transformations represent the quantum mechanical core of a quantum
 circuit.  Some gates such as <span class="math notranslate nohighlight">\(X\)</span> (also written as <span class="math notranslate nohighlight">\(\oplus\)</span>) and <span class="math notranslate nohighlight">\(CX\)</span>
 have classical analogs such as bit-flip and <span class="math notranslate nohighlight">\(XOR\)</span> operations, respectively,
-while others do not.  The Hadamand (<span class="math notranslate nohighlight">\(H\)</span>) gate, along with the parameterized rotates
+while others do not.  The Hadamard (<span class="math notranslate nohighlight">\(H\)</span>) gate, along with the parameterized rotates
 <span class="math notranslate nohighlight">\(rX(\theta)\)</span> and <span class="math notranslate nohighlight">\(rY(\theta)\)</span>, generate superposition states,
 while gates such as <span class="math notranslate nohighlight">\(Z\)</span>, <span class="math notranslate nohighlight">\(rZ(\theta)\)</span>, <span class="math notranslate nohighlight">\(S\)</span>, and <span class="math notranslate nohighlight">\(T\)</span> impart phases that
 can be used for interference.  Two-qubit gates like the <span class="math notranslate nohighlight">\(CX\)</span> gate are used
@@ -399,16 +387,7 @@ wire in some readout device). This is the typical way to take information from t
 quantum data into a classical device.  Note that with only <span class="math notranslate nohighlight">\(H\)</span>, <span class="math notranslate nohighlight">\(rZ(\theta)\)</span>,
 <span class="math notranslate nohighlight">\(CX\)</span>, and measurement gates, i.e. a universal gate set, we can construct any quantum circuit,
 including those efficiently computing the dynamics of any physical system in nature.</p>
-<p>Some workloads contain an extended sequence of interleaved quantum circuits and classical
-computation, for example variational quantum algorithms execute quantum circuits within an
-optimization loop. For these workloads, system performance increases substantially if the
-quantum circuits are parameterized, and transitions between circuit execution and non-current
-classical computation are made efficient.
-Consequently, we define <strong>near-time computation</strong> to refer to computations with algorithms that make
-repeated use of quantum circuits with hardware developed to speed up the computation time. In
-near-time computation, the classical computation occurs on a time scale longer than the coherence
-of the quantum computation. Contrast this with <strong>real-time computation</strong>, where the classical
-computation occurs within the decoherence time of the quantum device.</p>
+<p>Некоторые рабочие задания содержат расширенную последовательность чередующихся квантовых схем и классических вычислений, например, вариационные квантовые алгоритмы выполняют квантовые цепи в рамках цикла оптимизации. Для таких рабочих задач производительность системы существенно возрастает, если квантовые схемы параметризованы, а переходы между выполнением схем и бездействующими классическими вычислениями эффективно реализованы. Следовательно, мы определяем <strong>вычисления в ближнем времени</strong> для обозначения вычислений с алгоритмами, которые неоднократно используют квантовые схемы с аппаратным обеспечением, разработанным для ускорения времени вычислений. При вычислениях в ближнем времени классические вычисления происходят на шкале времени, превышающем когерентность квантовых вычислений. Напротив, при <strong>вычислениях в реальном времени</strong> классические вычисления происходят в пределах времени декогеренции квантового устройства.</p>
 <p>Построение сложных квантовых схем с минимальными усилиями лежит в основе Qiskit. С помощью всего нескольких строк кода можно построить сложные схемы, подобные приведенной выше</p>
 <div class="jupyter_cell docutils container">
 <div class="cell_output docutils container">
@@ -476,7 +455,7 @@ computation occurs within the decoherence time of the quantum device.</p>
         <a href="intro_tutorial1.html" class="btn btn-neutral float-right" title="Введение в Qiskit" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Qiskit 0.27.0 documentation" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Документация Qiskit 0.28.0" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -490,7 +469,7 @@ computation occurs within the decoherence time of the quantum device.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -535,7 +514,7 @@ computation occurs within the decoherence time of the quantum device.</p>
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

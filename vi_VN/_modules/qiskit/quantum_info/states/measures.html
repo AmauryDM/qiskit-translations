@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.states.measures &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.quantum_info.states.measures &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -338,8 +338,12 @@
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.states.statevector</span> <span class="kn">import</span> <span class="n">Statevector</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.states.densitymatrix</span> <span class="kn">import</span> <span class="n">DensityMatrix</span>
-<span class="kn">from</span> <span class="nn">qiskit.quantum_info.states.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">partial_trace</span><span class="p">,</span> <span class="n">shannon_entropy</span><span class="p">,</span>
-                                              <span class="n">_format_state</span><span class="p">,</span> <span class="n">_funm_svd</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.quantum_info.states.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">partial_trace</span><span class="p">,</span>
+    <span class="n">shannon_entropy</span><span class="p">,</span>
+    <span class="n">_format_state</span><span class="p">,</span>
+    <span class="n">_funm_svd</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="state_fidelity"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.state_fidelity.html#qiskit.quantum_info.state_fidelity">[docs]</a><span class="k">def</span> <span class="nf">state_fidelity</span><span class="p">(</span><span class="n">state1</span><span class="p">,</span> <span class="n">state2</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -377,7 +381,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state1</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state2</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">):</span>
             <span class="c1"># Fidelity of two Statevectors</span>
-            <span class="n">fid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr2</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">arr1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr2</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">arr1</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Fidelity of Statevector(1) and DensityMatrix(2)</span>
             <span class="n">fid</span> <span class="o">=</span> <span class="n">arr1</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span>
@@ -388,7 +392,7 @@
         <span class="c1"># Fidelity of two DensityMatrices</span>
         <span class="n">s1sq</span> <span class="o">=</span> <span class="n">_funm_svd</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">)</span>
         <span class="n">s2sq</span> <span class="o">=</span> <span class="n">_funm_svd</span><span class="p">(</span><span class="n">arr2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">)</span>
-        <span class="n">fid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s1sq</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s2sq</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="s1">&#39;nuc&#39;</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s1sq</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s2sq</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="s2">&quot;nuc&quot;</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="c1"># Convert to py float rather than return np.float</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">fid</span><span class="p">))</span></div>
 
@@ -439,7 +443,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span>
     <span class="c1"># Density matrix case</span>
-    <span class="n">evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">la</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">data</span><span class="p">)),</span> <span class="mf">0.</span><span class="p">)</span>
+    <span class="n">evals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">la</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">data</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">shannon_entropy</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span></div>
 
 
@@ -468,11 +472,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">_format_state</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input must be a bipartite quantum state.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input must be a bipartite quantum state.&quot;</span><span class="p">)</span>
     <span class="n">rho_a</span> <span class="o">=</span> <span class="n">partial_trace</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">rho_b</span> <span class="o">=</span> <span class="n">partial_trace</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">entropy</span><span class="p">(</span><span class="n">rho_a</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span> <span class="o">+</span> <span class="n">entropy</span><span class="p">(</span>
-        <span class="n">rho_b</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span> <span class="o">-</span> <span class="n">entropy</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">entropy</span><span class="p">(</span><span class="n">rho_a</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span> <span class="o">+</span> <span class="n">entropy</span><span class="p">(</span><span class="n">rho_b</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span> <span class="o">-</span> <span class="n">entropy</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="concurrence"><a class="viewcode-back" href="../../../../stubs/qiskit.quantum_info.concurrence.html#qiskit.quantum_info.concurrence">[docs]</a><span class="k">def</span> <span class="nf">concurrence</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
@@ -518,18 +521,18 @@
         <span class="c1"># Pure state concurrence</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input is not a bipartite quantum state.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input is not a bipartite quantum state.&quot;</span><span class="p">)</span>
         <span class="n">qargs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">rho</span> <span class="o">=</span> <span class="n">partial_trace</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">qargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">purity</span><span class="p">(</span><span class="n">rho</span><span class="p">)))))</span>
     <span class="c1"># If input is a density matrix it must be a 2-qubit state</span>
     <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input density matrix must be a 2-qubit state.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input density matrix must be a 2-qubit state.&quot;</span><span class="p">)</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="n">DensityMatrix</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
     <span class="n">yy_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">rho</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">yy_mat</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rho</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">yy_mat</span><span class="p">)</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">la</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">sigma</span><span class="p">)))</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
 
 
@@ -556,13 +559,13 @@
         <span class="c1"># entropy</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input is not a bipartite quantum state.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input is not a bipartite quantum state.&quot;</span><span class="p">)</span>
         <span class="n">qargs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">entropy</span><span class="p">(</span><span class="n">partial_trace</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">qargs</span><span class="p">),</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># If input is a density matrix it must be a 2-qubit state</span>
     <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Input density matrix must be a 2-qubit state.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Input density matrix must be a 2-qubit state.&quot;</span><span class="p">)</span>
     <span class="n">conc</span> <span class="o">=</span> <span class="n">concurrence</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
     <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">conc</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">shannon_entropy</span><span class="p">([</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">val</span><span class="p">])</span></div>
@@ -583,7 +586,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -618,7 +621,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

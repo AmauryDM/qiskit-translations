@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.classicalfunction.classicalfunction &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>qiskit.circuit.classicalfunction.classicalfunction &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -335,11 +335,14 @@
 <span class="kn">import</span> <span class="nn">ast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">tweedledum.classical</span> <span class="kn">import</span> <span class="n">simulate</span>
+<span class="kn">from</span> <span class="nn">tweedledum.synthesis</span> <span class="kn">import</span> <span class="n">pkrm_synth</span>
+
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span>
-<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span><span class="p">,</span> <span class="n">QiskitError</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">.classical_element</span> <span class="kn">import</span> <span class="n">ClassicalElement</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">HAS_TWEEDLEDUM</span>
 <span class="kn">from</span> <span class="nn">.classical_function_visitor</span> <span class="kn">import</span> <span class="n">ClassicalFunctionVisitor</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tweedledum2qiskit</span>
 
 
 <div class="viewcode-block" id="ClassicalFunction"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.ClassicalFunction.html#qiskit.circuit.classicalfunction.ClassicalFunction">[belgeler]</a><span class="k">class</span> <span class="nc">ClassicalFunction</span><span class="p">(</span><span class="n">ClassicalElement</span><span class="p">):</span>
@@ -355,24 +358,20 @@
 <span class="sd">            name (str): Optional. Default: &quot;*classicalfunction*&quot;. ClassicalFunction name.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            MissingOptionalLibraryError: If tweedledum is not installed.</span>
 <span class="sd">            QiskitError: If source is not a string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;ClassicalFunction needs a source code as a string.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_TWEEDLEDUM</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
-                <span class="n">libname</span><span class="o">=</span><span class="s1">&#39;tweedledum&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;classical function compiler&#39;</span><span class="p">,</span>
-                <span class="n">pip_install</span><span class="o">=</span><span class="s1">&#39;pip install tweedledum&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;ClassicalFunction needs a source code as a string.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_network</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scopes</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_truth_table</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;*classicalfunction*&#39;</span><span class="p">,</span>
-                         <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">([</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">]),</span>
-                         <span class="n">params</span><span class="o">=</span><span class="p">[])</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;*classicalfunction*&quot;</span><span class="p">,</span>
+            <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">),</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">[],</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ClassicalFunction.compile"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.ClassicalFunction.html#qiskit.circuit.classicalfunction.ClassicalFunction.compile">[belgeler]</a>    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parses and creates the logical circuit&quot;&quot;&quot;</span>
@@ -427,8 +426,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: result of the evaluation.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">tweedledum.classical</span> <span class="kn">import</span> <span class="n">simulate</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">simulate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_network</span><span class="p">,</span> <span class="n">bitstring</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ClassicalFunction.simulate_all"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.ClassicalFunction.html#qiskit.circuit.classicalfunction.ClassicalFunction.simulate_all">[belgeler]</a>    <span class="k">def</span> <span class="nf">simulate_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -440,22 +438,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">_network</span><span class="o">.</span><span class="n">num_pis</span><span class="p">()):</span>
-            <span class="n">sim_result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">position</span><span class="p">]))</span> <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="p">])</span>
+            <span class="n">sim_result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">position</span><span class="p">]))</span> <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="p">])</span>
             <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim_result</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">result</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">result</span><span class="p">))</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">truth_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns (and computes) the truth table&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_truth_table</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">tweedledum.classical</span> <span class="kn">import</span> <span class="n">simulate</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_truth_table</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_network</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_truth_table</span>
 
-<div class="viewcode-block" id="ClassicalFunction.synth"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.ClassicalFunction.html#qiskit.circuit.classicalfunction.ClassicalFunction.synth">[belgeler]</a>    <span class="k">def</span> <span class="nf">synth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registerless</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-              <span class="n">synthesizer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ClassicalElement</span><span class="p">],</span> <span class="n">QuantumCircuit</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>\
-            <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<div class="viewcode-block" id="ClassicalFunction.synth"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.classicalfunction.ClassicalFunction.html#qiskit.circuit.classicalfunction.ClassicalFunction.synth">[belgeler]</a>    <span class="k">def</span> <span class="nf">synth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">registerless</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">synthesizer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ClassicalElement</span><span class="p">],</span> <span class="n">QuantumCircuit</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Synthesis the logic network into a :class:`~qiskit.circuit.QuantumCircuit`.</span>
 
 <span class="sd">        Args:</span>
@@ -474,11 +473,7 @@
         <span class="k">if</span> <span class="n">synthesizer</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">synthesizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tweedledum2qiskit</span>
-        <span class="kn">from</span> <span class="nn">tweedledum.synthesis</span> <span class="kn">import</span> <span class="n">pkrm_synth</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
-
-        <span class="k">return</span> <span class="n">tweedledum2qiskit</span><span class="p">(</span><span class="n">pkrm_synth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-                                 <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">qregs</span><span class="o">=</span><span class="n">qregs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">tweedledum2qiskit</span><span class="p">(</span><span class="n">pkrm_synth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">qregs</span><span class="o">=</span><span class="n">qregs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_define</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The definition of the classical function is its synthesis&quot;&quot;&quot;</span>
@@ -487,10 +482,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">qregs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The list of qregs used by the classicalfunction&quot;&quot;&quot;</span>
-        <span class="n">qregs</span> <span class="o">=</span> <span class="p">[</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Int1&#39;</span><span class="p">]</span>
+        <span class="n">qregs</span> <span class="o">=</span> <span class="p">[</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">arg</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Int1&quot;</span><span class="p">]</span>
         <span class="n">qregs</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Int1&#39;</span><span class="p">:</span>
-            <span class="n">qregs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;return&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;return&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Int1&quot;</span><span class="p">:</span>
+            <span class="n">qregs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;return&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">qregs</span></div>
 </pre></div>
 
@@ -509,7 +504,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -544,7 +539,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

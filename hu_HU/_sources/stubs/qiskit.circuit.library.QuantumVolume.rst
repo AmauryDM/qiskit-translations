@@ -56,6 +56,7 @@
       ~QuantumVolume.fredkin
       ~QuantumVolume.from_qasm_file
       ~QuantumVolume.from_qasm_str
+      ~QuantumVolume.get_instructions
       ~QuantumVolume.h
       ~QuantumVolume.hamiltonian
       ~QuantumVolume.has_register

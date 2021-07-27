@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.validation.jsonschema.exceptions &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.validation.jsonschema.exceptions &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -337,6 +337,7 @@
 
 <div class="viewcode-block" id="SchemaValidationError"><a class="viewcode-back" href="../../../../stubs/qiskit.validation.jsonschema.SchemaValidationError.html#qiskit.validation.jsonschema.SchemaValidationError">[docs]</a><span class="k">class</span> <span class="nc">SchemaValidationError</span><span class="p">(</span><span class="n">QiskitError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Represents an error during JSON Schema validation.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
@@ -359,8 +360,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_shorten_message</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;Original message too long to be useful: </span><span class="si">{}</span><span class="s1">[...]&#39;</span>\
-                   <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">message</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span>
+            <span class="k">return</span> <span class="s2">&quot;Original message too long to be useful: </span><span class="si">{}</span><span class="s2">[...]&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">message</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">message</span>
 </pre></div>
@@ -380,7 +380,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -415,7 +415,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

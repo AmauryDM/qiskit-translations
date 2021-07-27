@@ -56,6 +56,7 @@
       ~QAOAAnsatz.fredkin
       ~QAOAAnsatz.from_qasm_file
       ~QAOAAnsatz.from_qasm_str
+      ~QAOAAnsatz.get_instructions
       ~QAOAAnsatz.h
       ~QAOAAnsatz.hamiltonian
       ~QAOAAnsatz.has_register
@@ -171,6 +172,7 @@
       ~QAOAAnsatz.clbits
       ~QAOAAnsatz.cost_operator
       ~QAOAAnsatz.data
+      ~QAOAAnsatz.evolution
       ~QAOAAnsatz.extension_lib
       ~QAOAAnsatz.global_phase
       ~QAOAAnsatz.header
@@ -182,8 +184,10 @@
       ~QAOAAnsatz.num_clbits
       ~QAOAAnsatz.num_parameters
       ~QAOAAnsatz.num_qubits
+      ~QAOAAnsatz.operators
       ~QAOAAnsatz.parameter_bounds
       ~QAOAAnsatz.parameters
+      ~QAOAAnsatz.preferred_init_points
       ~QAOAAnsatz.prefix
       ~QAOAAnsatz.qregs
       ~QAOAAnsatz.qubits

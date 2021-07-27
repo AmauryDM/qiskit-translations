@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.linear_solvers.hhl &mdash; Documentation Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.linear_solvers.hhl &mdash; Documentation Qiskit 0.28.0</title>
   
 
   
@@ -219,36 +219,36 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Page d'accueil de la documentation</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Avant propos</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">L’informatique quantique en bref</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Introduction à Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Contribuer à Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration locale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Questions fréquentes</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Bibliothèques</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Bibliothèque de circuits</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Références de l'API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Simulateur Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Expériences Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Modules d'applications Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Fournisseur)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Guide de migration des applications Qiskit (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Guide de migration des applications Qiskit (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Déboggage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Codes d'erreur de l'API IBM Quantum</a></li>
 </ul>
 
             
@@ -339,8 +339,16 @@
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library</span> <span class="kn">import</span> <span class="n">PhaseEstimation</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.arithmetic.piecewise_chebyshev</span> <span class="kn">import</span> <span class="n">PiecewiseChebyshev</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.arithmetic.exact_reciprocal</span> <span class="kn">import</span> <span class="n">ExactReciprocal</span>
-<span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">StateFn</span><span class="p">,</span> <span class="n">TensoredOp</span><span class="p">,</span> <span class="n">ExpectationBase</span><span class="p">,</span> <span class="n">CircuitSampler</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">,</span>
-                           <span class="n">ExpectationFactory</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Z</span><span class="p">,</span>
+    <span class="n">I</span><span class="p">,</span>
+    <span class="n">StateFn</span><span class="p">,</span>
+    <span class="n">TensoredOp</span><span class="p">,</span>
+    <span class="n">ExpectationBase</span><span class="p">,</span>
+    <span class="n">CircuitSampler</span><span class="p">,</span>
+    <span class="n">ListOp</span><span class="p">,</span>
+    <span class="n">ExpectationFactory</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">qiskit.providers</span> <span class="kn">import</span> <span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.base_operator</span> <span class="kn">import</span> <span class="n">BaseOperator</span>
 <span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">QuantumInstance</span>
@@ -408,11 +416,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="HHL.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-2</span><span class="p">,</span>
-                 <span class="n">expectation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExpectationBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>\
-            <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="HHL.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-2</span><span class="p">,</span>
+        <span class="n">expectation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExpectationBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            epsilon: Error tolerance of the approximation to the solution, i.e. if :math:`x` is the</span>
@@ -455,8 +464,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span><span class="o">.</span><span class="n">quantum_instance</span>
 
     <span class="nd">@quantum_instance</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span>
-                                                       <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set quantum instance.</span>
 
 <span class="sd">        Args:</span>
@@ -477,7 +487,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExpectationBase</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The expectation value algorithm used to construct the expectation measurement from</span>
-<span class="sd">        the observable. &quot;&quot;&quot;</span>
+<span class="sd">        the observable.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expectation</span>
 
     <span class="nd">@expectation</span><span class="o">.</span><span class="n">setter</span>
@@ -531,13 +541,15 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm_2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_calculate_observable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solution</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-                              <span class="n">observable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">LinearSystemObservable</span><span class="p">,</span>
-                                                         <span class="n">BaseOperator</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                              <span class="n">observable_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                              <span class="n">post_processing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
-                                                                 <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]]</span> <span class="o">=</span>
-                              <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
+    <span class="k">def</span> <span class="nf">_calculate_observable</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">solution</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
+        <span class="n">observable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">LinearSystemObservable</span><span class="p">,</span> <span class="n">BaseOperator</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">observable_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_processing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;Calculates the value of the observable(s) given.</span>
 
 <span class="sd">        Args:</span>
@@ -614,8 +626,11 @@
 
         <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">expectation_results</span>
 
-<div class="viewcode-block" id="HHL.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.construct_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
-                          <span class="n">vector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<div class="viewcode-block" id="HHL.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.construct_circuit">[docs]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">matrix</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
+        <span class="n">vector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Construct the HHL circuit.</span>
 
 <span class="sd">        Args:</span>
@@ -633,11 +648,12 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
             <span class="n">nb</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">num_qubits</span>
             <span class="n">vector_circuit</span> <span class="o">=</span> <span class="n">vector</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
             <span class="n">nb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vector</span><span class="p">)))</span>
             <span class="n">vector_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
-            <span class="n">vector_circuit</span><span class="o">.</span><span class="n">isometry</span><span class="p">(</span><span class="n">vector</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span>
-                                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">vector_circuit</span><span class="o">.</span><span class="n">isometry</span><span class="p">(</span><span class="n">vector</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="c1"># If state preparation is probabilistic the number of qubit flags should increase</span>
         <span class="n">nf</span> <span class="o">=</span> <span class="mi">1</span>
@@ -656,22 +672,26 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input matrix must be hermitian!&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">vector_circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input vector dimension does not match input &quot;</span>
-                                 <span class="s2">&quot;matrix dimension! Vector dimension: &quot;</span> <span class="o">+</span>
-                                 <span class="nb">str</span><span class="p">(</span><span class="n">vector_circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">+</span>
-                                 <span class="s2">&quot;. Matrix dimension: &quot;</span> <span class="o">+</span>
-                                 <span class="nb">str</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Input vector dimension does not match input &quot;</span>
+                    <span class="s2">&quot;matrix dimension! Vector dimension: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vector_circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="s2">&quot;. Matrix dimension: &quot;</span>
+                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="p">)</span>
             <span class="n">matrix_circuit</span> <span class="o">=</span> <span class="n">NumPyMatrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">evolution_time</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid type for matrix: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid type for matrix: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Set the tolerance for the matrix approximation</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">matrix_circuit</span><span class="p">,</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">):</span>
             <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">tolerance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon_a</span>
 
         <span class="c1"># check if the matrix can calculate the condition number and store the upper bound</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">matrix_circuit</span><span class="p">,</span> <span class="s2">&quot;condition_bounds&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">condition_bounds</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span>\
-                <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">matrix_circuit</span><span class="p">,</span> <span class="s2">&quot;condition_bounds&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">condition_bounds</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">):</span>
             <span class="n">kappa</span> <span class="o">=</span> <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">condition_bounds</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">kappa</span> <span class="o">=</span> <span class="mi">1</span>
@@ -704,9 +724,21 @@
 
             <span class="c1"># Calculate the degree of the polynomial and the number of intervals</span>
             <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">constant</span> <span class="o">/</span> <span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">constant</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-            <span class="n">degree</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mf">16.23</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span>
-                                             <span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kappa</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon_r</span><span class="p">))</span> <span class="o">/</span>
-                                        <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon_r</span><span class="p">)))</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="n">nb</span><span class="p">,</span>
+                <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                        <span class="mi">1</span>
+                        <span class="o">+</span> <span class="p">(</span>
+                            <span class="mf">16.23</span>
+                            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                            <span class="o">*</span> <span class="n">kappa</span>
+                            <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kappa</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon_r</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon_r</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
             <span class="n">num_intervals</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">num_values</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span>
 
             <span class="c1"># Calculate breakpoints and polynomials</span>
@@ -719,8 +751,9 @@
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_intervals</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">breakpoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_values</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-            <span class="n">reciprocal_circuit</span> <span class="o">=</span> <span class="n">PiecewiseChebyshev</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">constant</span> <span class="o">/</span> <span class="n">x</span><span class="p">),</span> <span class="n">degree</span><span class="p">,</span>
-                                                    <span class="n">breakpoints</span><span class="p">,</span> <span class="n">nl</span><span class="p">)</span>
+            <span class="n">reciprocal_circuit</span> <span class="o">=</span> <span class="n">PiecewiseChebyshev</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">constant</span> <span class="o">/</span> <span class="n">x</span><span class="p">),</span> <span class="n">degree</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">,</span> <span class="n">nl</span>
+            <span class="p">)</span>
             <span class="n">na</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">matrix_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span> <span class="n">reciprocal_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">)</span>
 
         <span class="c1"># Initialise the quantum registers</span>
@@ -740,31 +773,41 @@
         <span class="c1"># QPE</span>
         <span class="n">phase_estimation</span> <span class="o">=</span> <span class="n">PhaseEstimation</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">matrix_circuit</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">na</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="p">,</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qa</span><span class="p">[:</span><span class="n">matrix_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="p">,</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qa</span><span class="p">[:</span> <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="p">,</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:])</span>
         <span class="c1"># Conditioned rotation</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exact_reciprocal</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reciprocal_circuit</span><span class="p">,</span> <span class="n">ql</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">qf</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reciprocal_circuit</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">(),</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">qf</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span>
-                      <span class="n">qa</span><span class="p">[:</span><span class="n">reciprocal_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">reciprocal_circuit</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">(),</span>
+                <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">qf</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">qa</span><span class="p">[:</span> <span class="n">reciprocal_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">],</span>
+            <span class="p">)</span>
         <span class="c1"># QPE inverse</span>
         <span class="k">if</span> <span class="n">na</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:]</span> <span class="o">+</span>
-                      <span class="n">qa</span><span class="p">[:</span><span class="n">matrix_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qa</span><span class="p">[:</span> <span class="n">matrix_circuit</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_estimation</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">ql</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qb</span><span class="p">[:])</span>
         <span class="k">return</span> <span class="n">qc</span></div>
 
-<div class="viewcode-block" id="HHL.solve"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
-              <span class="n">vector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
-              <span class="n">observable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">LinearSystemObservable</span><span class="p">,</span> <span class="n">BaseOperator</span><span class="p">,</span>
-                                         <span class="n">List</span><span class="p">[</span><span class="n">LinearSystemObservable</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseOperator</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">observable_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">post_processing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
-                                                 <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
-            <span class="o">-&gt;</span> <span class="n">LinearSolverResult</span><span class="p">:</span>
+<div class="viewcode-block" id="HHL.solve"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.HHL.html#qiskit.algorithms.HHL.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">matrix</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
+        <span class="n">vector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">],</span>
+        <span class="n">observable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span>
+                <span class="n">LinearSystemObservable</span><span class="p">,</span>
+                <span class="n">BaseOperator</span><span class="p">,</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">LinearSystemObservable</span><span class="p">],</span>
+                <span class="n">List</span><span class="p">[</span><span class="n">BaseOperator</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">observable_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_processing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearSolverResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Tries to solve the given linear system of equations.</span>
 
 <span class="sd">        Args:</span>
@@ -788,17 +831,19 @@
         <span class="c1"># verify input</span>
         <span class="k">if</span> <span class="n">observable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">observable_circuit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">post_processing</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;If observable is passed, observable_circuit and post_processing &#39;</span>
-                                 <span class="s1">&#39;cannot be set.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;If observable is passed, observable_circuit and post_processing &quot;</span>
+                    <span class="s2">&quot;cannot be set.&quot;</span>
+                <span class="p">)</span>
 
         <span class="n">solution</span> <span class="o">=</span> <span class="n">LinearSolverResult</span><span class="p">()</span>
         <span class="n">solution</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span>
         <span class="n">solution</span><span class="o">.</span><span class="n">euclidean_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_norm</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">observable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">observable_circuit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">solution</span><span class="o">.</span><span class="n">observable</span><span class="p">,</span> <span class="n">solution</span><span class="o">.</span><span class="n">circuit_results</span> <span class="o">=</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_observable</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">observable_circuit</span><span class="p">,</span>
-                                           <span class="n">post_processing</span><span class="p">)</span>
+            <span class="n">solution</span><span class="o">.</span><span class="n">observable</span><span class="p">,</span> <span class="n">solution</span><span class="o">.</span><span class="n">circuit_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_observable</span><span class="p">(</span>
+                <span class="n">solution</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">observable</span><span class="p">,</span> <span class="n">observable_circuit</span><span class="p">,</span> <span class="n">post_processing</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">solution</span></div></div>
 </pre></div>
@@ -818,7 +863,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Mis à jour le 2021/07/12.
+      Mis à jour le 2021/07/27.
 
     </p>
   </div>
@@ -853,7 +898,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

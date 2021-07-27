@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contribuindo para o Qiskit &mdash; documentação Qiskit 0.27.0</title>
+  <title>Contribuindo para o Qiskit &mdash; documentação Qiskit 0.28.0</title>
   
 
   
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="_static/panels-variables.ade9f9d55df9d2893fc676ecd59723a1.css" type="text/css" />
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Pesquisar" href="search.html" />
-    <link rel="next" title="Local Configuration" href="configuration.html" />
+    <link rel="next" title="Configuração local" href="configuration.html" />
     <link rel="prev" title="Release Notes" href="release_notes.html" /> 
 
   
@@ -222,16 +222,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Página de documentação</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Índice</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qc_intro.html">Quantum computing in a nutshell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_tutorial1.html">Introdução ao Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contribuindo para o Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuração local</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Perguntas Frequentes</a></li>
 </ul>
 <p><span class="caption-text">Libraries</span></p>
 <ul>
@@ -240,14 +240,14 @@
 <p><span class="caption-text">API References</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Simulador do Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Experimentos Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Módulos De Aplicação Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provedor)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Aplicações do Qiskit (Aqua) Guia de Migração</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Aplicações do Qiskit (Aqua) Guia de Migração</a></li>
 </ul>
 <p><span class="caption-text">Troubleshooting</span></p>
 <ul>
@@ -437,98 +437,46 @@
 </table>
 </section>
 <section id="commit-messages">
-<h3>Commit Messages<a class="headerlink" href="#commit-messages" title="Link permanente para este título">¶</a></h3>
-<p>The content of the commit message describing a change is just as important as the
-change itself. The commit message provides the context for
-not only code review but also the change history in the git log. A detailed
-commit message will make it easier for your code to be reviewed, and will also provide
-context to the change when someone looks at it in the future. When writing a commit
-message, remember these important details:</p>
+<h3>Mensagens de Commit<a class="headerlink" href="#commit-messages" title="Link permanente para este título">¶</a></h3>
+<p>O conteúdo da mensagem de commit que descreve uma mudança é tão importante quanto a própria mudança. A mensagem de commit fornece o contexto não só para revisão de código mas também para o histórico de alterações no log do git. Uma mensagem detalhada do commit facilitará a revisão do seu código, e também fornecerá contexto para a mudança quando alguém olhar para ela no futuro. Ao escrever uma mensagem de commit, lembre-se destes detalhes importantes:</p>
 <dl>
-<dt>Do not assume the reviewer understands what the original problem was.</dt><dd><p>When reading an issue, after a number of back &amp; forth comments, it is often
-clear what the root cause problem is. The commit message should have a clear
-statement as to what the original problem is. The bug is merely interesting
-historical background on <em>how</em> the problem was identified. It should be
-possible to review a proposed patch for correctness from the commit message,
-without needing to read the bug ticket.</p>
+<dt>Não suponha que o revisor entenda qual era o problema original.</dt><dd><p>Ao ler uma issue, depois de uma série de troca de comentários, muitas vezes é possível perceber qual a raiz do problema. A mensagem de commit deve ter uma declaração clara sobre qual é o problema original. O bug é apenas um histórico interessante sobre <em>como</em> o problema foi identificado. Deve ser possível analisar uma atualização proposta para correção a partir da mensagem de commit, sem a necessidade de ler o ticket de bug.</p>
 </dd>
-<dt>Do not assume the code is self-evident/self-documenting.</dt><dd><p>What is self-evident to one person, might not be clear to another person. Always
-document what the original problem was and how it is being fixed, for any change
-except the most obvious typos, or whitespace-only commits.</p>
+<dt>Não suponha que o código seja auto-evidente/auto-documentado.</dt><dd><p>O que é óbvio para uma pessoa pode não ser para outra. Sempre documente qual foi o problema original e como ele está sendo corrigido. Para qualquer alteração, evite erros de digitação óbvios ou commits contendo apenas espaços em branco.</p>
 </dd>
-<dt>Describe why a change is being made.</dt><dd><p>A common mistake is only to document how the code has been written, without
-describing <em>why</em> the developer chose to do it that way. Certainly, you should describe
-the overall code structure, particularly for large changes, but more importantly,
-be sure to describe the intent/motivation behind the changes.</p>
+<dt>Descreva por que uma mudança está sendo feita.</dt><dd><p>Um erro comum é apenas documentar como o código foi escrito, sem descrever o <em>por que</em> o desenvolvedor escolheu fazer isso dessa maneira. Você deve descrever a estrutura geral do código, particularmente para grandes mudanças, porém, mais importante, certifique-se de descrever a intenção/motivação por trás das mudanças.</p>
 </dd>
-<dt>Read the commit message to see if it hints at improved code structure.</dt><dd><p>Often when describing a large commit message, it becomes obvious that a commit
-should have been split into two or more parts. Don’t be afraid to go back
-and rebase the change to split it up into separate pull requests.</p>
+<dt>Leia a mensagem de commit para ver se ele mostra a estrutura de código melhorada.</dt><dd><p>Muitas vezes, ao descrever uma grande mensagem de commit, torna-se óbvio que o commit deveria ter sido dividido em duas ou mais partes. Não tenha medo de voltar e reestruturar a mudança para dividi-la em pull requests separados.</p>
 </dd>
-<dt>Ensure sufficient information to decide whether to review.</dt><dd><p>When GitHub sends out email alerts for new pull request submissions, there is
-minimal information included - usually just the commit message and the list of
-files changes. Because of the high volume of patches, a commit message must
-contain sufficient information for potential reviewers to find the patch that
-they need to review.</p>
+<dt>Garanta informações suficientes para decidir se deve revisar.</dt><dd><p>Quando o GitHub envia alertas de e-mail para novas submissões de pull request há informações mínimas incluídas - geralmente apenas a mensagem de commit e a lista de alterações de arquivos. Por causa do alto volume de patches, uma mensagem de commit deve conter informações suficientes para potenciais revisores conseguirem encontrar a atualização que eles precisam revisar.</p>
 </dd>
-<dt>The first commit line is the most important.</dt><dd><p>In Git commits, the first line of the commit message has special significance.
-It is used as the default pull request title, email notification subject line,
-git annotate messages, gitk viewer annotations, merge commit messages, and many
-more places where space is at a premium. As well as summarizing the change
-itself, it should take care to detail what part of the code is affected.</p>
-<p>In addition, the first line of the commit message becomes an entry in the
-generated changelog if the PR is tagged as being included in the changelog.
-It is critically important that you write clear and succinct summary lines.</p>
+<dt>A primeira linha do commit é a mais importante.</dt><dd><p>Nos commits do Git, a primeira linha da mensagem de submissão tem um significado especial. É usada como título padrão do pull request, título do assunto da notificação por e-mail, mensagem de anotação do Git, comentários de revisores gitk, merge de mensagens de commit, e muitos outros lugares. Além de resumir a alteração em si, deve especificar a parte do código que é afetada.</p>
+<p>Além disso, a primeira linha da mensagem de commit se torna uma entrada no log de mudanças, caso o pull request seja marcado para ser incluído. É muito importante que as linhas sejam claras e sucintas.</p>
 </dd>
-<dt>Describe any limitations of the current code.</dt><dd><p>If the code being changed still has future scope for improvements, or any known
-limitations, mention these in the commit message. This demonstrates to the
-reviewer that the broader picture has been considered, and what tradeoffs have
-been done in terms of short-term goals versus long-term wishes.</p>
+<dt>Descreva quaisquer limitações do código atual.</dt><dd><p>Se o código a ser alterado ainda tiver oportunidades para melhorias futuras, ou quaisquer limitações conhecidas, mencione-as na mensagem de commit. Isto demonstra ao revisor que um escopo mais amplo foi considerado, e que alterações que foram escolhidas levam em conta objetivos conflitantes de curto e longo prazo.</p>
 </dd>
-<dt>Include references to issues.</dt><dd><p>If the commit fixes are related to an issue, make sure you annotate that in
-the commit message. Use the syntax:</p>
+<dt>Incluir referências para issues.</dt><dd><p>Se as correções do commit estiverem relacionadas a uma issue, certifique-se de anotá-la na mensagem de commit. Use a sintaxe:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fixes</span> <span class="c1">#1234</span>
 </pre></div>
 </div>
-<p>if it fixes the issue (GitHub will close the issue when the PR merges).</p>
+<p>se ele corrigir o problema (o GitHub irá fechar o problema quando o PR mesclar).</p>
 </dd>
 </dl>
-<p>The main rule to follow is:</p>
-<p>The commit message must contain all the information required to fully
-understand and review the patch for correctness. Less is not more.</p>
+<p>A regra principal a seguir é:</p>
+<p>A mensagem de commit deve conter todas as informações necessárias para entender completamente e revisar o patch para correção. Menos não é mais.</p>
 </section>
 <section id="documenting-your-code">
-<h3>Documenting Your Code<a class="headerlink" href="#documenting-your-code" title="Link permanente para este título">¶</a></h3>
-<p>If you make a change to an element, make sure you update the associated
-<em>docstrings</em> and parts of the documentation under <code class="docutils literal notranslate"><span class="pre">docs/apidocs</span></code> in the
-corresponding repo. To locally build the element-specific
-documentation, run <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-edocs</span></code> to compile and build the
-documentation locally and save the output to <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code>.
-Additionally, the Docs CI job on azure pipelines will run this and host a zip
-file of the output that you can download and view locally.</p>
-<p>If you have an issue with the <a class="reference external" href="https://qiskit.org/documentation/">combined documentation</a>
-that is maintained in the <a class="reference external" href="https://github.com/Qiskit/qiskit">Qiskit/qiskit repo</a>,
-you can open a <a class="reference external" href="https://github.com/Qiskit/qiskit/issues/new/choose">documentation issue</a>
-if you see doc bugs, have a new feature that needs to be documented, or think
-that material could be added to the existing docs.</p>
+<h3>Documentando Seu Código<a class="headerlink" href="#documenting-your-code" title="Link permanente para este título">¶</a></h3>
+<p>Se você fizer uma alteração para um elemento, certifique-se de atualizar as <em>docstrings</em> associadas e partes da documentação em <code class="docutils literal notranslate"><span class="pre">docs/apidocs</span></code> no repositório correspondente. Para build local da documentação específica dos elementos, execute <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-edocs</span></code> para compilar e fazer o build da documentação localmente e salve o destino para <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code>. Adicionalmente, o trabalho Docs CI no azure pipelines será executado e hospedará um arquivo zip da saída que você poderá baixar e ver localmente.</p>
+<p>Se você encontrar um problema com a <a class="reference external" href="https://qiskit.org/documentation/">documentação</a> que é mantida no <a class="reference external" href="https://github.com/Qiskit/qiskit">repositório Qiskit/qiskit</a>, você pode abrir uma <a class="reference external" href="https://github.com/Qiskit/qiskit/issues/new/choose">issue de documentação</a> se você encontrar bugs na documentação, se houver um novo recurso que precisa ser documentado, ou acredita que adições podem ser feitas à documentação existente.</p>
 </section>
 <section id="good-first-contributions">
-<h3>Good First Contributions<a class="headerlink" href="#good-first-contributions" title="Link permanente para este título">¶</a></h3>
-<p>If you would like to contribute to Qiskit, but aren’t sure
-where to get started, the <code class="docutils literal notranslate"><span class="pre">good</span> <span class="pre">first</span> <span class="pre">issue</span></code> label on issues for a project
-highlights items appropriate for people new to the project.
-These are all issues that have been reviewed and tagged by contributors
-as something a new contributor should be able to work on. In other
-words, intimate familiarity with Qiskit is not a requirement to develop a fix
-for the issue.</p>
+<h3>Boas Primeiras Contribuições<a class="headerlink" href="#good-first-contributions" title="Link permanente para este título">¶</a></h3>
+<p>Se você quer contribuir com o Qiskit, mas não sabe por onde começar, a label <code class="docutils literal notranslate"><span class="pre">good</span> <span class="pre">first</span> <span class="pre">issue</span></code> em issues para um projeto destaca itens adequados para pessoas novas no projeto. Todos estes são issues que foram revisados e marcados pelos contribuidores como algo que um novo colaborador pode trabalhar. Em outras palavras, familiaridade com Qiskit não é uma exigência para desenvolver uma correção para um problema.</p>
 </section>
 <section id="deprecation-policy">
-<h3>Deprecation Policy<a class="headerlink" href="#deprecation-policy" title="Link permanente para este título">¶</a></h3>
-<p>Qiskit users need to know if a feature or an API they rely
-upon will continue to be supported by the software tomorrow. Knowing under which conditions
-the project can remove (or change in a backwards-incompatible manner) a feature or
-API is important to the user. To manage expectations, the following policy is how API
-and feature deprecation/removal is handled by Qiskit:</p>
+<h3>Política de Descontinuação<a class="headerlink" href="#deprecation-policy" title="Link permanente para este título">¶</a></h3>
+<p>Os usuários do Qiskit precisam saber se um recurso ou uma API com a qual eles dependem continuarão a ser suportados pelo software amanhã. Saber em que condições o projeto pode remover (ou alterar versões anteriores incompatíveis) uma funcionalidade ou API é importante para o usuário. Para gerenciar isso, a seguinte política descreve como a API e a depreciação/remoção de funcionalidades são tratadas pelo Qiskit:</p>
 <p>1. Features, APIs, or configuration options are marked deprecated in the code.
 Appropriate <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> class warnings will be sent to the user. The
 deprecated code will be frozen and receive only minimal maintenance (just so
@@ -550,16 +498,10 @@ feature were deprecated in the 0.9.0 release of Terra, which was released on
 August 22, 2019, then that feature should still appear in all releases until at
 least November 22, 2019. Since releases do not occur at fixed time intervals,
 a deprecation warning may only occur in one release prior to removal.</p>
-<p>Note that this delay is a minimum. For significant features, it is recommended
-that the deprecated feature appears for at least double that time. Also, per
-the stable branch policy, deprecation removals can only occur during minor
-version releases; they are not appropriate for backporting.</p>
+<p>Note que este atraso é um mínimo. Para features significativas, é recomendado que o recurso depreciado esteja presente por pelo menos o dobro desse tempo. Além disso, de acordo com a política da ramificação estável, as remoções de depreciação só podem ocorrer durante releases de versão menor; elas não são apropriadas para backporting.</p>
 <section id="deprecation-warnings">
-<h4>Deprecation Warnings<a class="headerlink" href="#deprecation-warnings" title="Link permanente para este título">¶</a></h4>
-<p>The proper way to raise a deprecation warning is to use the <code class="docutils literal notranslate"><span class="pre">warn</span></code> function
-from the <a class="reference external" href="https://docs.python.org/3/library/warnings.html">warnings module</a>
-in the Python standard library. The warning category class
-should be a <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code>. An example would be:</p>
+<h4>Avisos de Descontinuação<a class="headerlink" href="#deprecation-warnings" title="Link permanente para este título">¶</a></h4>
+<p>A maneira adequada de gerar um aviso de descontinuação é usar a função <code class="docutils literal notranslate"><span class="pre">warn</span></code> do <a class="reference external" href="https://docs.python.org/3/library/warnings.html">warnings module</a> na biblioteca padrão do Python. A classe de advertência deve ser um <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code>. Um exemplo seria:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
@@ -569,66 +511,33 @@ should be a <code class="docutils literal notranslate"><span class="pre">Depreca
                   <span class="s1">&#39;instead.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>One thing to note here is the <code class="docutils literal notranslate"><span class="pre">stack_level</span></code> kwarg on the warn() call. This
-argument is used to specify which level in the call stack will be used as
-the line initiating the warning. Typically, <code class="docutils literal notranslate"><span class="pre">stack_level</span></code> should be set to 2,
-as this will show the line calling the context where the warning was raised.
-In the above example, it would be the caller of <code class="docutils literal notranslate"><span class="pre">foo()</span></code>. If you did not set this,
-the warning would show that it was caused by the line in the foo()
-function, which is not helpful for users trying to determine the origin
-of a deprecated call. However, this value may be adjusted, depending on the call
-stack and where <code class="docutils literal notranslate"><span class="pre">warn()</span></code> gets called from. For example, if the warning is always
-raised by a private method that only has one caller, <code class="docutils literal notranslate"><span class="pre">stack_level=3</span></code> might be
-appropriate.</p>
+<p>Uma coisa a observar aqui é a chamada <code class="docutils literal notranslate"><span class="pre">stack_level</span></code> kwarg on the warn(). Esse argumento é usado para especificar qual nível na pilha de chamadas será usado como a linha que inicia o aviso. Normalmente, <code class="docutils literal notranslate"><span class="pre">stack_level</span></code> deve ser definido como 2, pois isto irá mostrar a linha que chama o contexto em que o aviso foi gerado. No exemplo acima, seria o autor da chamada de <code class="docutils literal notranslate"><span class="pre">foo()</span></code>. Se você não definir isso, o aviso mostrará que ele foi causado pela função na linha foo(), o que não é útil para usuários que tentam determinar a origem de uma chamada obsoleta. No entanto, este valor pode ser ajustado, dependendo da pilha de chamadas e de onde o <code class="docutils literal notranslate"><span class="pre">warn()</span></code> é chamado. Por exemplo, se o aviso é sempre criado por um método privado que tem apenas um chamador, pode ser apropriado usar <code class="docutils literal notranslate"><span class="pre">stack_level=3</span></code>.</p>
 </section>
 </section>
 <section id="stable-branch-policy">
-<h3>Stable Branch Policy<a class="headerlink" href="#stable-branch-policy" title="Link permanente para este título">¶</a></h3>
-<p>The stable branch is intended to be a safe source of fixes for high-impact
-bugs and security issues that have been fixed on master since a
-release. When reviewing a stable branch PR, we must balance the risk
-of any given patch with the value that it will provide to users of the
-stable branch. Only a limited class of changes are appropriate for
-inclusion on the stable branch. A large, risky patch for a major issue
-might make sense, as might a trivial fix for a fairly obscure error-handling
-case. A number of factors must be weighed when considering a
-change:</p>
+<h3>Política de Branch Estável<a class="headerlink" href="#stable-branch-policy" title="Link permanente para este título">¶</a></h3>
+<p>O branch estável se destina a ser uma fonte segura de correções para bugs de alto impacto e problemas de segurança que foram corrigidos no master desde um lançamento. Ao revisar uma PR de branch estável, temos que balancear o risco de qualquer correção com o valor que ela proporcionará aos usuários da branch estável. Apenas uma classe de alterações limitada é apropriada para a inclusão na branch estável. Uma atualização grande e arriscada para um problema importante pode fazer sentido, assim como uma correção trivial para um caso de de erros obscuros. Vários fatores devem ser ponderados ao considerar uma mudança:</p>
 <ul class="simple">
-<li><p>The risk of regression: even the tiniest changes carry some risk of
-breaking something, and we really want to avoid regressions on the
-stable branch.</p></li>
-<li><p>The user visibility benefit: are we fixing something that users might
-actually notice, and if so, how important is it?</p></li>
-<li><p>How self-contained the fix is: if it fixes a significant issue but
-also refactors a lot of code, it’s probably worth thinking about
-what a less risky fix might look like.</p></li>
-<li><p>Whether the fix is already on master: a change must be a backport of
-a change already merged onto master, unless the change simply does
-not make sense on master.</p></li>
+<li><p>O risco de regressão: mesmo as menores alterações correm o risco de quebrar algo, e queremos realmente evitar regressões na branch estável.</p></li>
+<li><p>O benefício da visibilidade do usuário: estamos corrigindo algo que os usuários podem notar, nesse caso, o quão importante é essa modificação?</p></li>
+<li><p>O quão auto-contida a correção é: se ela corrige um problema significativo, mas também refatora muitos códigos, provavelmente vale a pena pensar sobre como um conserto menos arriscado poderia ser escrito.</p></li>
+<li><p>Se a correção já está na master: uma mudança deve ser uma backport de uma mudança já combinada com a master, a não ser que a mudança simplesmente não faça sentido na master.</p></li>
 </ul>
 <section id="backporting-procedure">
-<h4>Backporting procedure:<a class="headerlink" href="#backporting-procedure" title="Link permanente para este título">¶</a></h4>
-<p>When backporting a patch from master to stable, we want to keep a
-reference to the change on master. When you create the branch for the
-stable PR, use:</p>
+<h4>Processo de Backport:<a class="headerlink" href="#backporting-procedure" title="Link permanente para este título">¶</a></h4>
+<p>Ao realizar uma backporting de um patch de master para estável, queremos manter uma referência às mudanças na master. Ao criar a branch para a versão PR, use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git cherry-pick -x $master_commit_id
 </pre></div>
 </div>
-<p>However, this only works for small self-contained patches from master.
-If you need to backport a subset of a larger commit (from a squashed PR,
-for example) from master, do this manually. In these cases, add:</p>
+<p>No entanto, isto só funciona para pequenos patches da master. Se você precisar enviar um subconjunto de um commit maior (de um PR, por exemplo) da master, faça isso manualmente. Nestes casos, adicione:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Backported</span> <span class="n">from</span><span class="p">:</span> <span class="c1">#master pr number</span>
 </pre></div>
 </div>
-<p>so that we can track the source of the change subset, even if
-a strict cherry-pick doesn't make sense.</p>
-<p>If the patch you’re proposing will not cherry-pick cleanly, you can help
-by resolving the conflicts yourself and proposing the resulting patch.
-Please keep Conflicts lines in the commit message to help review of the
-stable patch.</p>
+<p>para que possamos rastrear a fonte do subconjunto da mudança, mesmo que uma rigorosa escolha a dedo não faça sentido.</p>
+<p>Se a atualização que você está propondo não faz cherry-pick corretamente, você pode ajudar resolvendo os conflitos por conta própria e propondo a atualização resultante. Por favor, mantenha linhas de conflito na mensagem do commit para ajudar a rever a atualização estável.</p>
 </section>
 <section id="backport-labels">
-<h4>Backport labels<a class="headerlink" href="#backport-labels" title="Link permanente para este título">¶</a></h4>
+<h4>Rótulos de backport<a class="headerlink" href="#backport-labels" title="Link permanente para este título">¶</a></h4>
 <p>Bugs ou PRs marcados com <code class="docutils literal notranslate"><span class="pre">estável</span> <span class="pre">potencial</span> <span class="pre">de</span> <span class="pre">backport</span></code> são bugs que se aplicam ao lançamento estável também e podem ser adequados para backporting uma vez que uma correção chegue na master. Depois que o backport for proposto, a tag deverá ser removida.</p>
 <p>Inclua <code class="docutils literal notranslate"><span class="pre">[Stable]</span></code> no título do PR contra a branch estável, como sinal de que a definição da branch alvo como estável não foi um erro. Além disso, referêncie o número do PR na master que você está portando.</p>
 </section>
@@ -787,13 +696,13 @@ conda activate QiskitDevenv
 <span id="install-qiskit-terra"></span><h3>Instalando Terra a partir do Código Fonte<a class="headerlink" href="#installing-terra-from-source" title="Link permanente para este título">¶</a></h3>
 <p>Instalar a partir do código fonte requer que você tenha um compilador C++ em seu sistema que suporte C++11.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="b2ad3c59-6c00-411b-b6c3-6742ac04b026" name="8819c40b-4263-4e30-b535-9707f88140c6" type="radio">
-</input><label class="tabbed-label" for="b2ad3c59-6c00-411b-b6c3-6742ac04b026">
+<input checked="checked" id="1d4fd030-285d-4e8d-af46-dfe04c41a8bb" name="c395fa7f-57a2-4225-a55d-25215a55a0b6" type="radio">
+</input><label class="tabbed-label" for="1d4fd030-285d-4e8d-af46-dfe04c41a8bb">
 Compiler for Linux</label><div class="tabbed-content docutils">
 <p>On most Linux platforms, the necessary GCC compiler is already installed.</p>
 </div>
-<input id="6177383c-b414-493f-8868-c7d402d0a190" name="8819c40b-4263-4e30-b535-9707f88140c6" type="radio">
-</input><label class="tabbed-label" for="6177383c-b414-493f-8868-c7d402d0a190">
+<input id="612dd84e-4c4c-48df-9eda-077cbbfc649d" name="c395fa7f-57a2-4225-a55d-25215a55a0b6" type="radio">
+</input><label class="tabbed-label" for="612dd84e-4c4c-48df-9eda-077cbbfc649d">
 Compiler for macOS</label><div class="tabbed-content docutils">
 <p>If you use macOS, you can install the Clang compiler by installing XCode.
 Check if you have XCode and Clang installed by opening a terminal window and entering the
@@ -806,8 +715,8 @@ following.</p>
 </pre></div>
 </div>
 </div>
-<input id="5eb270fc-acca-4d63-bb10-86e37e997747" name="8819c40b-4263-4e30-b535-9707f88140c6" type="radio">
-</input><label class="tabbed-label" for="5eb270fc-acca-4d63-bb10-86e37e997747">
+<input id="9adcfac9-7296-4462-aba9-5bc316686e82" name="c395fa7f-57a2-4225-a55d-25215a55a0b6" type="radio">
+</input><label class="tabbed-label" for="9adcfac9-7296-4462-aba9-5bc316686e82">
 Compiler for Windows</label><div class="tabbed-content docutils">
 <p>On Windows, it is easiest to install the Visual C++ compiler from the
 <a class="reference external" href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2017">Build Tools for Visual Studio 2017</a>.
@@ -878,8 +787,8 @@ options for installing the C++ compiler.</p>
 </ol>
 <p>Depois disso, os passos para instalar Aer dependem de qual sistema operacional você está usando. Uma vez que Aer é um programa compilado em C++ com uma interface em Python, existem dependências não-Python para construir o binário Aer, que não podem ser instaladas universalmente, dependendo do sistema operacional.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="3914ecc4-04f4-47bd-9c81-22ff91509ff7" name="1b3e42a1-ab12-472e-8743-3d9706f2371f" type="radio">
-</input><label class="tabbed-label" for="3914ecc4-04f4-47bd-9c81-22ff91509ff7">
+<input checked="checked" id="7d0e7ac0-42d2-4293-ba65-a4f47b02e324" name="a363ec8f-8cd6-41bb-a784-f564f389cdd9" type="radio">
+</input><label class="tabbed-label" for="7d0e7ac0-42d2-4293-ba65-a4f47b02e324">
 Linux</label><div class="tabbed-content docutils">
 <ol class="arabic" start="3">
 <li><p>Instalar requisitos do compilador.</p>
@@ -905,8 +814,8 @@ Linux</label><div class="tabbed-content docutils">
 </li>
 </ol>
 </div>
-<input id="215eca7f-7c67-480d-95a4-9dd695801bd3" name="1b3e42a1-ab12-472e-8743-3d9706f2371f" type="radio">
-</input><label class="tabbed-label" for="215eca7f-7c67-480d-95a4-9dd695801bd3">
+<input id="f10f45a1-dae4-4333-8d39-c12d0542e48b" name="a363ec8f-8cd6-41bb-a784-f564f389cdd9" type="radio">
+</input><label class="tabbed-label" for="f10f45a1-dae4-4333-8d39-c12d0542e48b">
 macOS</label><div class="tabbed-content docutils">
 <ol class="arabic" start="3">
 <li><p>Instalar dependências.</p>
@@ -926,8 +835,8 @@ macOS</label><div class="tabbed-content docutils">
 </li>
 </ol>
 </div>
-<input id="94f7afcf-1263-437d-8bd8-3fa0dd8a1de7" name="1b3e42a1-ab12-472e-8743-3d9706f2371f" type="radio">
-</input><label class="tabbed-label" for="94f7afcf-1263-437d-8bd8-3fa0dd8a1de7">
+<input id="55a2d540-8743-4403-952b-239e66bab3e6" name="a363ec8f-8cd6-41bb-a784-f564f389cdd9" type="radio">
+</input><label class="tabbed-label" for="55a2d540-8743-4403-952b-239e66bab3e6">
 Windows</label><div class="tabbed-content docutils">
 <p>No Windows você precisa usar o <a class="reference external" href="https://www.anaconda.com/distribution/#windows">Anaconda3</a> ou o <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda3</a> para instalar todas as dependências.</p>
 <ol class="arabic" start="3">
@@ -1169,7 +1078,7 @@ project don’t require a reinstall to be applied:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="configuration.html" class="btn btn-neutral float-right" title="Local Configuration" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuração local" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
         <a href="release_notes.html" class="btn btn-neutral" title="Release Notes" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
@@ -1186,7 +1095,7 @@ project don’t require a reinstall to be applied:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Última atualização em 2021/07/12.
+      Última atualização em 2021/07/27.
 
     </p>
   </div>
@@ -1214,16 +1123,16 @@ project don’t require a reinstall to be applied:</p>
 <li><a class="reference internal" href="#contributor-license-agreement">Acordo de Licença do Contribuidor</a></li>
 <li><a class="reference internal" href="#pull-requests">Pull Requests</a></li>
 <li><a class="reference internal" href="#code-review">Revisão de Código</a></li>
-<li><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
-<li><a class="reference internal" href="#documenting-your-code">Documenting Your Code</a></li>
-<li><a class="reference internal" href="#good-first-contributions">Good First Contributions</a></li>
-<li><a class="reference internal" href="#deprecation-policy">Deprecation Policy</a><ul>
-<li><a class="reference internal" href="#deprecation-warnings">Deprecation Warnings</a></li>
+<li><a class="reference internal" href="#commit-messages">Mensagens de Commit</a></li>
+<li><a class="reference internal" href="#documenting-your-code">Documentando Seu Código</a></li>
+<li><a class="reference internal" href="#good-first-contributions">Boas Primeiras Contribuições</a></li>
+<li><a class="reference internal" href="#deprecation-policy">Política de Descontinuação</a><ul>
+<li><a class="reference internal" href="#deprecation-warnings">Avisos de Descontinuação</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#stable-branch-policy">Stable Branch Policy</a><ul>
-<li><a class="reference internal" href="#backporting-procedure">Backporting procedure:</a></li>
-<li><a class="reference internal" href="#backport-labels">Backport labels</a></li>
+<li><a class="reference internal" href="#stable-branch-policy">Política de Branch Estável</a><ul>
+<li><a class="reference internal" href="#backporting-procedure">Processo de Backport:</a></li>
+<li><a class="reference internal" href="#backport-labels">Rótulos de backport</a></li>
 </ul>
 </li>
 </ul>
@@ -1270,7 +1179,7 @@ project don’t require a reinstall to be applied:</p>
          <script src="_static/thebelab-helper.js"></script>
          <script src="_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

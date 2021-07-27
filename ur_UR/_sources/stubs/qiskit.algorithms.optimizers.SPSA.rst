@@ -45,5 +45,6 @@
       ~SPSA.is_initial_point_required
       ~SPSA.is_initial_point_supported
       ~SPSA.setting
+      ~SPSA.settings
    
    

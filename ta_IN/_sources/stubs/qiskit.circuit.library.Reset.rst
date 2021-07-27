@@ -39,6 +39,7 @@
       ~Reset.decompositions
       ~Reset.definition
       ~Reset.duration
+      ~Reset.label
       ~Reset.params
       ~Reset.unit
    

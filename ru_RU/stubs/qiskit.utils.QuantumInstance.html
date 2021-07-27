@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.utils.QuantumInstance &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.utils.QuantumInstance &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -222,9 +222,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -233,25 +233,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -330,7 +330,7 @@
 <h1>qiskit.utils.QuantumInstance<a class="headerlink" href="#qiskit-utils-quantuminstance" title="Ссылка на этот заголовок">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.utils.QuantumInstance">
-<em class="property">class </em><code class="sig-name descname">QuantumInstance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_simulator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_credits</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">basis_gates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_layout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_manager</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_transpiler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">noise_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wait</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">skip_qobj_validation</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_cls</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cals_matrix_refresh_period</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">job_callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/utils/quantum_instance.html#QuantumInstance"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.utils.QuantumInstance" title="Ссылка на это определение">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">QuantumInstance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_simulator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_credits</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">basis_gates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_layout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_manager</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_transpiler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">noise_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wait</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">skip_qobj_validation</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_cls</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cals_matrix_refresh_period</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">job_callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mit_pattern</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/utils/quantum_instance.html#QuantumInstance"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.utils.QuantumInstance" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Quantum Backend including execution setting.</p>
 <p>Quantum Instance holds a Qiskit Terra backend as well as configuration for circuit
 transpilation and execution. When provided to an Aqua algorithm the algorithm will
@@ -361,8 +361,9 @@ to the provider of the backend for information as to what options it supports.</
 processing time during submission to backend.</p></li>
 <li><p><strong>measurement_error_mitigation_cls</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – The approach to mitigate
 measurement errors. Qiskit Ignis provides fitter classes for this functionality
-and CompleteMeasFitter from qiskit.ignis.mitigation.measurement module can be used
-here. (TensoredMeasFitter is not supported).</p></li>
+and CompleteMeasFitter or TensoredMeasFitter
+from qiskit.ignis.mitigation.measurement module can be used here.
+TensoredMeasFitter doesn’t support subset fitter.</p></li>
 <li><p><strong>cals_matrix_refresh_period</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – How often to refresh the calibration
 matrix in measurement mitigation. in minutes</p></li>
 <li><p><strong>measurement_error_mitigation_shots</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of shots number for
@@ -371,6 +372,10 @@ building calibration matrix. If None, the main <cite>shots</cite> parameter valu
 to monitor job progress as jobs are submitted for processing by an Aqua algorithm.
 The callback is provided the following arguments: <cite>job_id, job_status,
 queue_position, job</cite></p></li>
+<li><p><strong>mit_pattern</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]]) – Qubits on which to perform the TensoredMeasFitter
+measurement correction, divided to groups according to tensors.
+If <cite>None</cite> and <cite>qr</cite> is given then assumed to be performed over the entire
+<cite>qr</cite> as one group (default <cite>None</cite>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Исключение</dt>
@@ -383,7 +388,7 @@ queue_position, job</cite></p></li>
 </dl>
 <dl class="py method">
 <dt id="qiskit.utils.QuantumInstance.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_simulator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_credits</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">basis_gates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_layout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_manager</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_transpiler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">noise_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wait</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">skip_qobj_validation</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_cls</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cals_matrix_refresh_period</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">job_callback</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/utils/quantum_instance.html#QuantumInstance.__init__"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.utils.QuantumInstance.__init__" title="Ссылка на это определение">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_simulator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_credits</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">basis_gates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coupling_map</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_layout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_manager</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seed_transpiler</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">backend_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">noise_model</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wait</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">skip_qobj_validation</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_cls</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cals_matrix_refresh_period</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">measurement_error_mitigation_shots</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">job_callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mit_pattern</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/utils/quantum_instance.html#QuantumInstance.__init__"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.utils.QuantumInstance.__init__" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Quantum Instance holds a Qiskit Terra backend as well as configuration for circuit
 transpilation and execution. When provided to an Aqua algorithm the algorithm will
 execute the circuits it needs to run using the instance.</p>
@@ -413,8 +418,9 @@ to the provider of the backend for information as to what options it supports.</
 processing time during submission to backend.</p></li>
 <li><p><strong>measurement_error_mitigation_cls</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – The approach to mitigate
 measurement errors. Qiskit Ignis provides fitter classes for this functionality
-and CompleteMeasFitter from qiskit.ignis.mitigation.measurement module can be used
-here. (TensoredMeasFitter is not supported).</p></li>
+and CompleteMeasFitter or TensoredMeasFitter
+from qiskit.ignis.mitigation.measurement module can be used here.
+TensoredMeasFitter doesn’t support subset fitter.</p></li>
 <li><p><strong>cals_matrix_refresh_period</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – How often to refresh the calibration
 matrix in measurement mitigation. in minutes</p></li>
 <li><p><strong>measurement_error_mitigation_shots</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of shots number for
@@ -423,6 +429,10 @@ building calibration matrix. If None, the main <cite>shots</cite> parameter valu
 to monitor job progress as jobs are submitted for processing by an Aqua algorithm.
 The callback is provided the following arguments: <cite>job_id, job_status,
 queue_position, job</cite></p></li>
+<li><p><strong>mit_pattern</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]]) – Qubits on which to perform the TensoredMeasFitter
+measurement correction, divided to groups according to tensors.
+If <cite>None</cite> and <cite>qr</cite> is given then assumed to be performed over the entire
+<cite>qr</cite> as one group (default <cite>None</cite>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Исключение</dt>
@@ -612,11 +622,18 @@ in a dictionary.</p>
 <li><p><strong>had_transpiled</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – whether or not circuits had been transpiled</p></li>
 </ul>
 </dd>
-<dt class="field-even">Результат</dt>
-<dd class="field-even"><p>result object</p>
+<dt class="field-even">Исключение</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>QiskitError</strong> – Invalid error mitigation fitter class</p></li>
+<li><p><strong>QiskitError</strong> – TensoredMeasFitter class doesn’t support subset fitter</p></li>
+<li><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – Ignis not installed</p></li>
+</ul>
 </dd>
-<dt class="field-odd">Тип результата</dt>
-<dd class="field-odd"><p><a class="reference internal" href="qiskit.result.Result.html#qiskit.result.Result" title="qiskit.result.Result">Result</a></p>
+<dt class="field-odd">Результат</dt>
+<dd class="field-odd"><p>result object</p>
+</dd>
+<dt class="field-even">Тип результата</dt>
+<dd class="field-even"><p><a class="reference internal" href="qiskit.result.Result.html#qiskit.result.Result" title="qiskit.result.Result">Result</a></p>
 </dd>
 </dl>
 <dl class="simple">
@@ -773,7 +790,7 @@ in a dictionary.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -811,7 +828,7 @@ in a dictionary.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

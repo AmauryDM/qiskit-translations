@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Введение в Qiskit &mdash; документация Qiskit 0.27.0</title>
+  <title>Введение в Qiskit &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -222,9 +222,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Введение в Qiskit</a></li>
@@ -233,25 +233,25 @@
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -327,15 +327,11 @@
 <p>При работе с Qiskit последовательность действий можно формально разбить на четыре основные стадии:</p>
 <ul class="simple">
 <li><p><strong>Создание</strong>: Проектирование квантовой цепи (цепей) для рассматриваемой задачи.</p></li>
-<li><p><strong>Compile</strong>: Compile circuits for a specific quantum service, e.g. a quantum
-system or classical simulator.</p></li>
-<li><p><strong>Run</strong>: Run the compiled circuits on the specified quantum service(s).  These
-services can be cloud-based or local.</p></li>
-<li><p><strong>Analyze</strong>: Compute summary statistics and visualize the results of the
-experiments.</p></li>
+<li><p><strong>Компиляция</strong>: Перевод на язык конкретного устройства, например квантовой системы или классического симулятора.</p></li>
+<li><p><strong>Запуск</strong>: Запуск на нем полученной собранной цепи. Доступ при этом может осуществляться как облачно, так и локально.</p></li>
+<li><p><strong>Анализ</strong>: Сбор статистических данных и визуализация результатов.</p></li>
 </ul>
-<p>Here is an example of the entire workflow, with each step explained in detail in
-subsequent sections:</p>
+<p>Приведем пример полного рабочего процесса с последующим подробным разбором этапов:</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -369,7 +365,7 @@ subsequent sections:</p>
 <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="c1"># Returns counts</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">compiled_circuit</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total count for 00 and 11 are:&quot;</span><span class="p">,</span><span class="n">counts</span><span class="p">)</span>
 
 <span class="c1"># Draw the circuit</span>
@@ -379,7 +375,7 @@ subsequent sections:</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;11&#39;: 486, &#39;00&#39;: 514}
+Total count for 00 and 11 are: {&#39;11&#39;: 506, &#39;00&#39;: 494}
 </pre></div>
 </div>
 <div class="output text_html"><pre style="word-wrap: normal;white-space: pre;background: #fff0;line-height: 1.1;font-family: &quot;Courier New&quot;,Courier,monospace">     ┌───┐     ┌─┐   
@@ -403,74 +399,66 @@ c: 2/═══════════╩══╩═
 </div>
 </div>
 <section id="workflow-step-by-step">
-<h2>Workflow Step–by–Step<a class="headerlink" href="#workflow-step-by-step" title="Ссылка на этот заголовок">¶</a></h2>
-<p>The program above can be broken down into six steps:</p>
+<h2>Пошаговый алгоритм<a class="headerlink" href="#workflow-step-by-step" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Данную программу можно разбить на шесть блоков:</p>
 <ol class="arabic simple">
-<li><p>Import packages</p></li>
-<li><p>Initialize variables</p></li>
-<li><p>Add gates</p></li>
-<li><p>Visualize the circuit</p></li>
-<li><p>Simulate the experiment</p></li>
-<li><p>Visualize the results</p></li>
+<li><p>Импорт пакетов</p></li>
+<li><p>Инициализация переменных</p></li>
+<li><p>Применение вентилей</p></li>
+<li><p>Визуализация цепи</p></li>
+<li><p>Симуляция эксперимента</p></li>
+<li><p>Отображение результатов</p></li>
 </ol>
 <section id="step-1-import-packages">
-<h3>Step 1 : Import Packages<a class="headerlink" href="#step-1-import-packages" title="Ссылка на этот заголовок">¶</a></h3>
-<p>The basic elements needed for your program are imported as follows:</p>
+<h3>Шаг 1. Импорт пакетов<a class="headerlink" href="#step-1-import-packages" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Импорт основных элементов, необходимых для работы программы, задается следующим образом:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.providers.aer</span> <span class="kn">import</span> <span class="n">QasmSimulator</span>
 <span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
 </pre></div>
 </div>
-<p>In more detail, the imports are</p>
+<p>Краткое описание каждого пакета</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>: can be thought as the instructions of the quantum system.
-It holds all your quantum operations.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">QasmSimulator</span></code>: is the Aer high performance circuit simulator.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">plot_histogram</span></code>: creates histograms.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> создает цепь, которая будет содержать все используемые вами операторы.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QasmSimulator</span></code> представляет собой высокопроизводительный симулятор цепей из Aer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_histogram</span></code> создает гистограммы.</p></li>
 </ul>
 </section>
 <section id="step-2-initialize-variables">
-<h3>Step 2 : Initialize Variables<a class="headerlink" href="#step-2-initialize-variables" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Consider the next line of code</p>
+<h3>Шаг 2: Инициализация переменных<a class="headerlink" href="#step-2-initialize-variables" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Рассмотрим следующую строку кода</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here, you are initializing with 2 qubits in the zero state; with 2
-classical bits set to zero; and <code class="docutils literal notranslate"><span class="pre">circuit</span></code> is the quantum circuit.</p>
-<p>Syntax:</p>
+<p>Здесь вы запускаете квантовую цепь с 2 кубитами в начальном нулевом состоянии и 2 классическими битами равными нулю; <code class="docutils literal notranslate"><span class="pre">circuit</span></code> — квантовая цепь.</p>
+<p>Синтаксис:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit(int,</span> <span class="pre">int)</span></code></p></li>
 </ul>
 </section>
 <section id="step-3-add-gates">
-<h3>Step 3 : Add Gates<a class="headerlink" href="#step-3-add-gates" title="Ссылка на этот заголовок">¶</a></h3>
-<p>You can add gates (operations) to manipulate the registers of your circuit.</p>
-<p>Consider the following three lines of code:</p>
+<h3>Шаг 3: Применение вентилей<a class="headerlink" href="#step-3-add-gates" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Теперь вы можете добавить вентили (операторы) для управления квантовым регистром вашей цепи.</p>
+<p>Рассмотрим следующие три строки кода:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circuit</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>The gates are added to the circuit one-by-one to form the Bell state</p>
+<p>Последовательное применение этих вентилей формирует состояние Белла</p>
 <div class="math notranslate nohighlight">
 \[|\psi\rangle = \left(|00\rangle+|11\rangle\right)/\sqrt{2}.\]</div>
-<p>The code above applies the following gates:</p>
+<p>Приведенный выше код содержит следующие вентили:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.h(0)</span></code>: A Hadamard gate <span class="math notranslate nohighlight">\(H\)</span> on qubit 0,
-which puts it into a <strong>superposition state</strong>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.cx(0,</span> <span class="pre">1)</span></code>: A controlled-Not operation
-(<span class="math notranslate nohighlight">\(CNOT\)</span>) on control qubit 0 and target qubit 1, putting the qubits in
-an <strong>entangled state</strong>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.measure([0,1],</span> <span class="pre">[0,1])</span></code>: if you pass
-the entire quantum and classical registers to <code class="docutils literal notranslate"><span class="pre">measure</span></code>, the ith qubit’s
-measurement result will be stored in the ith classical bit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.h(0)</span></code>: вентиль Адамара <span class="math notranslate nohighlight">\(H\)</span>, приводящий кубит 0 в <strong>состояние суперпозиции</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.cx(0,</span> <span class="pre">1)</span></code>: оператор контролируемого отрицания (<span class="math notranslate nohighlight">\(CNOT\)</span>), который создает из управляющего (кубит 0) и управляемого (кубит 1) кубитов <strong>запутанное состояние</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QuantumCircuit.measure</span> <span class="pre">([</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[</span> <span class="pre">0,</span> <span class="pre">1])</span></code>: проводя измерение <code class="docutils literal notranslate"><span class="pre">measure</span></code> квантового регистра, результат измерения каждого кубита будет сохранен в соответствующем классическом бите.</p></li>
 </ul>
 </section>
 <section id="step-4-visualize-the-circuit">
-<h3>Step 4 : Visualize the Circuit<a class="headerlink" href="#step-4-visualize-the-circuit" title="Ссылка на этот заголовок">¶</a></h3>
-<p>You can use <a class="reference internal" href="stubs/qiskit.circuit.QuantumCircuit.html#qiskit.circuit.QuantumCircuit.draw" title="qiskit.circuit.QuantumCircuit.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qiskit.circuit.QuantumCircuit.draw()</span></code></a> to view the circuit that you have designed
-in the various forms used in many textbooks and research articles.</p>
+<h3>Шаг 4: Визуализация цепи<a class="headerlink" href="#step-4-visualize-the-circuit" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Вы можете использовать <a class="reference internal" href="stubs/qiskit.circuit.QuantumCircuit.html#qiskit.circuit.QuantumCircuit.draw" title="qiskit.circuit.QuantumCircuit.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qiskit.circuit.QuantumCircuit.draw()</span></code></a> для просмотра созданной вами цепи в различных форматах, используемых во многих учебниках и исследовательских статьях.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
@@ -486,38 +474,26 @@ q_1: ─────┤ X ├─╫─┤M├
 c: 2/═══════════╩══╩═
                 0  1 </pre></div></div>
 </div>
-<p>In this circuit, the qubits are ordered with qubit zero at the top and
-qubit one at the bottom. The circuit is read left-to-right, meaning that gates
-which are applied earlier in the circuit show up farther to the left.</p>
-<p>The default backend for <code class="docutils literal notranslate"><span class="pre">QuantumCircuit.draw()</span></code> or <code class="docutils literal notranslate"><span class="pre">qiskit.visualization.circuit_drawer()</span></code>
-is the text backend. However, depending on your local environment you may want to change
-these defaults to something better suited for your use case. This is done with the user
-config file.  By default the user config file should be located in
-<code class="docutils literal notranslate"><span class="pre">~/.qiskit/settings.conf</span></code> and is a <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file.</p>
-<p>For example, a <code class="docutils literal notranslate"><span class="pre">settings.conf</span></code> file for setting a Matplotlib drawer is:</p>
+<p>Здесь кубиты нумеруются сверху вниз, начиная с нулевого. Цепь читается слева направо, то есть вентили (гейты), которые применяются раньше других, расположены левее.</p>
+<p>Обычно <code class="docutils literal notranslate"><span class="pre">QuantumCircuit.draw()</span></code> или <code class="docutils literal notranslate"><span class="pre">qiskit.visualization.circuit_drawer()</span></code> использует текстовую графику. Однако можно выбрать более удобный для вас вид, внеся изменения в файл конфигурации. По умолчанию он расположен в <code class="docutils literal notranslate"><span class="pre">~/.qiskit/settings.conf</span></code> и имеет разрешение``.ini``.</p>
+<p>Например так должен выглядеть файл <code class="docutils literal notranslate"><span class="pre">settings.conf</span></code> при использовании Mathplotlib:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[default]
 circuit_drawer = mpl
 </pre></div>
 </div>
-<p>You can use any of the valid circuit drawer backends as the value for this config, this includes
-text, mpl, latex, and latex_source.</p>
+<p>Вы можете выбрать любой разрешенный стиль, задавая значение переменной одним из вариантов text, mpl, latex или latex_source.</p>
 </section>
 <section id="step-5-simulate-the-experiment">
-<h3>Step 5 : Simulate the Experiment<a class="headerlink" href="#step-5-simulate-the-experiment" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Qiskit Aer is a high performance simulator framework for quantum circuits. It
-provides <a class="reference external" href="apidoc/providers/aer/aer_backends.html">several backends</a>
-to achieve different simulation goals.</p>
-<p>If you have issues installing Aer, you can alternatively use the Basic Aer
-provider by replacing <cite>Aer</cite> with <cite>BasicAer</cite>. Basic Aer is included in Qiskit
-Terra.</p>
+<h3>Шаг 5. Симуляция эксперимента<a class="headerlink" href="#step-5-simulate-the-experiment" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Qiskit Aer представляет собой мощную платформу симуляции квантовых цепей. Для достижения конкретных целей предусмотрены <cite>различные симуляторы &lt;apidoc/providers/aer/aer_backends.html&gt;</cite> __.</p>
+<p>При возникновении проблем с установкой Aer, вы можете использовать Basic Aer, заменив <cite>Aer</cite> на <cite>BasicAer</cite>. Basic Aer входит в Qiskit Terra.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>import numpy as np
 from qiskit import QuantumCircuit, transpile
 from qiskit.providers.basicaer import QasmSimulatorPy
 ...
 </pre></div>
 </div>
-<p>To simulate this circuit, you will use the <code class="docutils literal notranslate"><span class="pre">qasm_simulator</span></code>. Each run of this
-circuit will yield either the bit string 00 or 11.</p>
+<p>Для симуляции в данном случае используется <code class="docutils literal notranslate"><span class="pre">qasm_simulator</span></code>. Каждый отдельный запуск приводит к получению в классическом регистре битовой строки 00 или 11.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulator</span> <span class="o">=</span> <span class="n">QasmSimulator</span><span class="p">()</span>
@@ -531,23 +507,18 @@ circuit will yield either the bit string 00 or 11.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;00&#39;: 498, &#39;11&#39;: 502}
+Total count for 00 and 11 are: {&#39;11&#39;: 518, &#39;00&#39;: 482}
 </pre></div>
 </div>
 </div>
 </div>
-<p>As expected, the output bit string is 00 approximately 50 percent of the time.
-The number of times the circuit is run can be specified via the <code class="docutils literal notranslate"><span class="pre">shots</span></code>
-argument of the <code class="docutils literal notranslate"><span class="pre">execute</span></code> method. The number of shots of the simulation was
-set to be 1000 (the default is 1024).</p>
-<p>Once you have a <code class="docutils literal notranslate"><span class="pre">result</span></code> object, you can access the counts via the method
-<code class="docutils literal notranslate"><span class="pre">get_counts(circuit)</span></code>. This gives you the aggregate outcomes of the
-experiment you ran.</p>
+<p>Как и ожидалось, строки 00 и 11 были получены приблизительно равное число раз. Количество запусков можно варьировать с помощью параметра <code class="docutils literal notranslate"><span class="pre">shots</span></code> в методе <code class="docutils literal notranslate"><span class="pre">execute</span></code>. В данном случае оно было установлено равным 1000 (по умолчанию 1024).</p>
+<p>После получения объекта <code class="docutils literal notranslate"><span class="pre">result</span></code> метод <code class="docutils literal notranslate"><span class="pre">get_counts(circuit)</span></code> дает доступ к данным счетчика. Это формирует итоговый результат эксперимента, который вы запускали.</p>
 </section>
 <section id="step-6-visualize-the-results">
-<h3>Step 6 : Visualize the Results<a class="headerlink" href="#step-6-visualize-the-results" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Qiskit provides <a class="reference external" href="apidoc/visualization.html">many visualizations</a>,</p>
-<p>including the function <code class="docutils literal notranslate"><span class="pre">plot_histogram</span></code>, to view your results.</p>
+<h3>Шаг 6: Отображение результатов<a class="headerlink" href="#step-6-visualize-the-results" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Qiskit предоставляет широкие возможности <cite>визуализации &lt;apidoc/visualization.html&gt;</cite> __,</p>
+<p>включая функцию <code class="docutils literal notranslate"><span class="pre">plot_histogram</span></code> для просмотра результатов.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
@@ -559,22 +530,20 @@ experiment you ran.</p>
 <img alt="_images/intro_tutorial1_4_1.png" src="_images/intro_tutorial1_4_1.png" />
 </div>
 </div>
-<p>The observed probabilities <span class="math notranslate nohighlight">\(Pr(00)\)</span> and <span class="math notranslate nohighlight">\(Pr(11)\)</span> are computed by
-taking the respective counts and dividing by the total number of shots.</p>
+<p>Наблюдаемые вероятности <span class="math notranslate nohighlight">\(Pr(00)\)</span> и <span class="math notranslate nohighlight">\(Pr(11)\)</span> вычисляются путём деления соответствующих данным строкам чисел в счетчике на общее число запусков.</p>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
-<p>Try changing the <code class="docutils literal notranslate"><span class="pre">shots</span></code> keyword in the <code class="docutils literal notranslate"><span class="pre">execute</span></code> method to see how
-the estimated probabilities change.</p>
+<p>Попробуйте изменить ключевое слово <code class="docutils literal notranslate"><span class="pre">shots</span></code> в методе <code class="docutils literal notranslate"><span class="pre">run()</span></code>, чтобы увидеть, как изменяется предполагаемая вероятность.</p>
 </div>
 </section>
 </section>
 <section id="next-steps">
-<h2>Next Steps<a class="headerlink" href="#next-steps" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Now that you have learnt the basics, consider these learning resources:</p>
+<h2>Далее<a class="headerlink" href="#next-steps" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Теперь, прочитав об основах, посмотрите другие обучающие ресурсы:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="tutorials.html#tutorials"><span class="std std-ref">Qiskit tutorials</span></a></p></li>
-<li><p><a class="reference external" href="https://qiskit.org/textbook">Textbook: Learn Quantum Computing using Qiskit</a></p></li>
-<li><p><a class="reference external" href="https://www.youtube.com/playlist?list=PLOFEBzvs-Vvp2xg9-POLJhQwtVktlYGbY">Video series: Coding with Qiskit</a></p></li>
+<li><p>:ref:` Учебник Qiskit&lt;tutorials&gt;`</p></li>
+<li><p><a class="reference external" href="https://qiskit.org/textbook">Учебник: Изучение квантовых вычислений с помощью Qiskit</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/playlist?list=PLOFEBzvs-Vvp2xg9-POLJhQwtVktlYGbY">Видео плейлист: Coding with Qiskit</a></p></li>
 </ul>
 </section>
 </section>
@@ -604,7 +573,7 @@ the estimated probabilities change.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -624,16 +593,16 @@ the estimated probabilities change.</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Введение в Qiskit</a><ul>
-<li><a class="reference internal" href="#workflow-step-by-step">Workflow Step–by–Step</a><ul>
-<li><a class="reference internal" href="#step-1-import-packages">Step 1 : Import Packages</a></li>
-<li><a class="reference internal" href="#step-2-initialize-variables">Step 2 : Initialize Variables</a></li>
-<li><a class="reference internal" href="#step-3-add-gates">Step 3 : Add Gates</a></li>
-<li><a class="reference internal" href="#step-4-visualize-the-circuit">Step 4 : Visualize the Circuit</a></li>
-<li><a class="reference internal" href="#step-5-simulate-the-experiment">Step 5 : Simulate the Experiment</a></li>
-<li><a class="reference internal" href="#step-6-visualize-the-results">Step 6 : Visualize the Results</a></li>
+<li><a class="reference internal" href="#workflow-step-by-step">Пошаговый алгоритм</a><ul>
+<li><a class="reference internal" href="#step-1-import-packages">Шаг 1. Импорт пакетов</a></li>
+<li><a class="reference internal" href="#step-2-initialize-variables">Шаг 2: Инициализация переменных</a></li>
+<li><a class="reference internal" href="#step-3-add-gates">Шаг 3: Применение вентилей</a></li>
+<li><a class="reference internal" href="#step-4-visualize-the-circuit">Шаг 4: Визуализация цепи</a></li>
+<li><a class="reference internal" href="#step-5-simulate-the-experiment">Шаг 5. Симуляция эксперимента</a></li>
+<li><a class="reference internal" href="#step-6-visualize-the-results">Шаг 6: Отображение результатов</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li><a class="reference internal" href="#next-steps">Далее</a></li>
 </ul>
 </li>
 </ul>
@@ -654,7 +623,7 @@ the estimated probabilities change.</p>
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

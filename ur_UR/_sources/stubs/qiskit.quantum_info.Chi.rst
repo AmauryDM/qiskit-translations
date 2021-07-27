@@ -47,5 +47,6 @@
       ~Chi.num_qubits
       ~Chi.qargs
       ~Chi.rtol
+      ~Chi.settings
    
    

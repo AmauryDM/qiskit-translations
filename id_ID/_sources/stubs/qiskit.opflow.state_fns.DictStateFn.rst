@@ -54,5 +54,6 @@
       ~DictStateFn.num_qubits
       ~DictStateFn.parameters
       ~DictStateFn.primitive
+      ~DictStateFn.settings
    
    

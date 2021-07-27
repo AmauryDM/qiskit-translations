@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.assembler.assemble_circuits &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.assembler.assemble_circuits &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -331,17 +331,29 @@
 <span class="c1"># that they have been altered from the originals.</span>
 
 <span class="sd">&quot;&quot;&quot;Assemble function for converting a list of circuits into a qobj.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.assembler.run_config</span> <span class="kn">import</span> <span class="n">RunConfig</span>
 <span class="kn">from</span> <span class="nn">qiskit.assembler.assemble_schedules</span> <span class="kn">import</span> <span class="n">_assemble_instructions</span> <span class="k">as</span> <span class="n">_assemble_schedule</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.classicalregister</span> <span class="kn">import</span> <span class="n">Clbit</span>
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
-<span class="kn">from</span> <span class="nn">qiskit.qobj</span> <span class="kn">import</span> <span class="p">(</span><span class="n">QasmQobj</span><span class="p">,</span> <span class="n">QobjExperimentHeader</span><span class="p">,</span>
-                         <span class="n">QasmQobjInstruction</span><span class="p">,</span> <span class="n">QasmQobjExperimentConfig</span><span class="p">,</span> <span class="n">QasmQobjExperiment</span><span class="p">,</span>
-                         <span class="n">QasmQobjConfig</span><span class="p">,</span> <span class="n">QasmExperimentCalibrations</span><span class="p">,</span> <span class="n">GateCalibration</span><span class="p">,</span>
-                         <span class="n">PulseQobjInstruction</span><span class="p">,</span> <span class="n">PulseLibraryItem</span><span class="p">,</span> <span class="n">converters</span><span class="p">,</span> <span class="n">QobjHeader</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.qobj</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QasmQobj</span><span class="p">,</span>
+    <span class="n">QobjExperimentHeader</span><span class="p">,</span>
+    <span class="n">QasmQobjInstruction</span><span class="p">,</span>
+    <span class="n">QasmQobjExperimentConfig</span><span class="p">,</span>
+    <span class="n">QasmQobjExperiment</span><span class="p">,</span>
+    <span class="n">QasmQobjConfig</span><span class="p">,</span>
+    <span class="n">QasmExperimentCalibrations</span><span class="p">,</span>
+    <span class="n">GateCalibration</span><span class="p">,</span>
+    <span class="n">PulseQobjInstruction</span><span class="p">,</span>
+    <span class="n">PulseLibraryItem</span><span class="p">,</span>
+    <span class="n">converters</span><span class="p">,</span>
+    <span class="n">QobjHeader</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">qiskit.tools.parallel</span> <span class="kn">import</span> <span class="n">parallel_map</span>
 
 
@@ -349,8 +361,7 @@
 
 
 <span class="k">def</span> <span class="nf">_assemble_circuit</span><span class="p">(</span>
-        <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span>
+    <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">QasmQobjExperiment</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PulseLibrary</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Assemble one circuit.</span>
 
@@ -364,9 +375,10 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        QiskitError: when the circuit has unit other than &#39;dt&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">circuit</span><span class="o">.</span><span class="n">unit</span> <span class="o">!=</span> <span class="s1">&#39;dt&#39;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Unable to assemble circuit with unit &#39;</span><span class="si">{}</span><span class="s2">&#39;, which must be &#39;dt&#39;.&quot;</span>
-                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">circuit</span><span class="o">.</span><span class="n">unit</span> <span class="o">!=</span> <span class="s2">&quot;dt&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unable to assemble circuit with unit &#39;</span><span class="si">{</span><span class="n">circuit</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">&#39;, which must be &#39;dt&#39;.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># header data</span>
     <span class="n">num_qubits</span> <span class="o">=</span> <span class="mi">0</span>
@@ -395,15 +407,17 @@
     <span class="n">metadata</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">metadata</span>
     <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">header</span> <span class="o">=</span> <span class="n">QobjExperimentHeader</span><span class="p">(</span><span class="n">qubit_labels</span><span class="o">=</span><span class="n">qubit_labels</span><span class="p">,</span>
-                                  <span class="n">n_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
-                                  <span class="n">qreg_sizes</span><span class="o">=</span><span class="n">qreg_sizes</span><span class="p">,</span>
-                                  <span class="n">clbit_labels</span><span class="o">=</span><span class="n">clbit_labels</span><span class="p">,</span>
-                                  <span class="n">memory_slots</span><span class="o">=</span><span class="n">memory_slots</span><span class="p">,</span>
-                                  <span class="n">creg_sizes</span><span class="o">=</span><span class="n">creg_sizes</span><span class="p">,</span>
-                                  <span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                                  <span class="n">global_phase</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">global_phase</span><span class="p">),</span>
-                                  <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">QobjExperimentHeader</span><span class="p">(</span>
+        <span class="n">qubit_labels</span><span class="o">=</span><span class="n">qubit_labels</span><span class="p">,</span>
+        <span class="n">n_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="n">qreg_sizes</span><span class="o">=</span><span class="n">qreg_sizes</span><span class="p">,</span>
+        <span class="n">clbit_labels</span><span class="o">=</span><span class="n">clbit_labels</span><span class="p">,</span>
+        <span class="n">memory_slots</span><span class="o">=</span><span class="n">memory_slots</span><span class="p">,</span>
+        <span class="n">creg_sizes</span><span class="o">=</span><span class="n">creg_sizes</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">global_phase</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">global_phase</span><span class="p">),</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># TODO: why do we need n_qubits and memory_slots in both the header and the config</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">QasmQobjExperimentConfig</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">memory_slots</span><span class="o">=</span><span class="n">memory_slots</span><span class="p">)</span>
@@ -440,21 +454,29 @@
         <span class="c1"># To convert to a qobj-style conditional, insert a bfunc prior</span>
         <span class="c1"># to the conditional instruction to map the creg ?= val condition</span>
         <span class="c1"># onto a gating register bit.</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="s1">&#39;_condition&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="s2">&quot;_condition&quot;</span><span class="p">):</span>
             <span class="n">ctrl_reg</span><span class="p">,</span> <span class="n">ctrl_val</span> <span class="o">=</span> <span class="n">instruction</span><span class="o">.</span><span class="n">_condition</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">clbit</span> <span class="ow">in</span> <span class="n">clbit_labels</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">clbit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">ctrl_reg</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-                    <span class="n">mask</span> <span class="o">|=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">clbit</span><span class="p">))</span>
-                    <span class="n">val</span> <span class="o">|=</span> <span class="p">(((</span><span class="n">ctrl_val</span> <span class="o">&gt;&gt;</span> <span class="n">clbit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">clbit</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ctrl_reg</span><span class="p">,</span> <span class="n">Clbit</span><span class="p">):</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_indices</span><span class="p">[</span><span class="n">ctrl_reg</span><span class="p">]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctrl_val</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_indices</span><span class="p">[</span><span class="n">ctrl_reg</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">clbit</span> <span class="ow">in</span> <span class="n">clbit_indices</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">clbit</span> <span class="ow">in</span> <span class="n">ctrl_reg</span><span class="p">:</span>
+                        <span class="n">mask</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_indices</span><span class="p">[</span><span class="n">clbit</span><span class="p">]</span>
+                        <span class="n">val</span> <span class="o">|=</span> <span class="p">((</span><span class="n">ctrl_val</span> <span class="o">&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">ctrl_reg</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">clbit</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">clbit_indices</span><span class="p">[</span>
+                            <span class="n">clbit</span>
+                        <span class="p">]</span>
 
             <span class="n">conditional_reg_idx</span> <span class="o">=</span> <span class="n">memory_slots</span> <span class="o">+</span> <span class="n">max_conditional_idx</span>
-            <span class="n">conversion_bfunc</span> <span class="o">=</span> <span class="n">QasmQobjInstruction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;bfunc&#39;</span><span class="p">,</span>
-                                                   <span class="n">mask</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">%X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">mask</span><span class="p">,</span>
-                                                   <span class="n">relation</span><span class="o">=</span><span class="s1">&#39;==&#39;</span><span class="p">,</span>
-                                                   <span class="n">val</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">%X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">val</span><span class="p">,</span>
-                                                   <span class="n">register</span><span class="o">=</span><span class="n">conditional_reg_idx</span><span class="p">)</span>
+            <span class="n">conversion_bfunc</span> <span class="o">=</span> <span class="n">QasmQobjInstruction</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bfunc&quot;</span><span class="p">,</span>
+                <span class="n">mask</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">%X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">mask</span><span class="p">,</span>
+                <span class="n">relation</span><span class="o">=</span><span class="s2">&quot;==&quot;</span><span class="p">,</span>
+                <span class="n">val</span><span class="o">=</span><span class="s2">&quot;0x</span><span class="si">%X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">val</span><span class="p">,</span>
+                <span class="n">register</span><span class="o">=</span><span class="n">conditional_reg_idx</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conversion_bfunc</span><span class="p">)</span>
             <span class="n">instruction</span><span class="o">.</span><span class="n">conditional</span> <span class="o">=</span> <span class="n">conditional_reg_idx</span>
             <span class="n">max_conditional_idx</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -463,13 +485,14 @@
             <span class="k">del</span> <span class="n">instruction</span><span class="o">.</span><span class="n">_condition</span>
 
         <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">QasmQobjExperiment</span><span class="p">(</span><span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-            <span class="n">pulse_library</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">QasmQobjExperiment</span><span class="p">(</span><span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="n">pulse_library</span><span class="p">,</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_assemble_pulse_gates</span><span class="p">(</span>
-        <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span>
+    <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">QasmExperimentCalibrations</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PulseLibrary</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Assemble and return the circuit calibrations and associated pulse library, if there are any.</span>
 <span class="sd">    The calibrations themselves may reference the pulse library which is returned as a dict.</span>
@@ -483,7 +506,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">circuit</span><span class="o">.</span><span class="n">calibrations</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s1">&#39;parametric_pulses&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;parametric_pulses&quot;</span><span class="p">):</span>
         <span class="n">run_config</span><span class="o">.</span><span class="n">parametric_pulses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">calibrations</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">pulse_library</span> <span class="o">=</span> <span class="p">{}</span>
@@ -493,14 +516,16 @@
                 <span class="n">schedule</span><span class="p">,</span>
                 <span class="n">converters</span><span class="o">.</span><span class="n">InstructionToQobjConverter</span><span class="p">(</span><span class="n">PulseQobjInstruction</span><span class="p">),</span>
                 <span class="n">run_config</span><span class="p">,</span>
-                <span class="n">pulse_library</span><span class="p">)</span>
+                <span class="n">pulse_library</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">calibrations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">GateCalibration</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">qobj_instructions</span><span class="p">))</span>
+                <span class="n">GateCalibration</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">gate</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">qobj_instructions</span><span class="p">)</span>
+            <span class="p">)</span>
     <span class="k">return</span> <span class="n">QasmExperimentCalibrations</span><span class="p">(</span><span class="n">gates</span><span class="o">=</span><span class="n">calibrations</span><span class="p">),</span> <span class="n">pulse_library</span>
 
 
 <span class="k">def</span> <span class="nf">_extract_common_calibrations</span><span class="p">(</span>
-        <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QasmQobjExperiment</span><span class="p">]</span>
+    <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QasmQobjExperiment</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QasmQobjExperiment</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QasmExperimentCalibrations</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Given a list of ``QasmQobjExperiment``s, each of which may have calibrations in their</span>
 <span class="sd">    ``config``, collect common calibrations into a global ``QasmExperimentCalibrations``</span>
@@ -513,6 +538,7 @@
 <span class="sd">        The input experiments with modified calibrations, and common calibrations, if there</span>
 <span class="sd">        are any</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">index_calibrations</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">GateCalibration</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;Map each calibration to all experiments that contain it.&quot;&quot;&quot;</span>
         <span class="n">exp_indices</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -539,7 +565,7 @@
                 <span class="k">for</span> <span class="n">exp_idx</span><span class="p">,</span> <span class="n">gate_cal</span> <span class="ow">in</span> <span class="n">exps_w_cal</span><span class="p">:</span>
                     <span class="n">exps</span><span class="p">[</span><span class="n">exp_idx</span><span class="p">]</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">calibrations</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">gate_cal</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">experiments</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;calibrations&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">experiments</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;calibrations&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">experiments</span><span class="p">)):</span>
         <span class="c1"># No common calibrations</span>
         <span class="k">return</span> <span class="n">experiments</span><span class="p">,</span> <span class="kc">None</span>
 
@@ -555,11 +581,45 @@
     <span class="k">return</span> <span class="n">experiments</span><span class="p">,</span> <span class="n">QasmExperimentCalibrations</span><span class="p">(</span><span class="n">gates</span><span class="o">=</span><span class="n">common_calibrations</span><span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">_configure_experiment_los</span><span class="p">(</span>
+    <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QasmQobjExperiment</span><span class="p">],</span>
+    <span class="n">lo_converter</span><span class="p">:</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">,</span>
+    <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="c1"># get per experiment los</span>
+    <span class="n">freq_configs</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_converter</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">lo_dict</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run_config</span><span class="p">,</span> <span class="s2">&quot;schedule_los&quot;</span><span class="p">,</span> <span class="p">[])]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_configs</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)]:</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid &#39;schedule_los&#39; setting specified. If specified, it should be &quot;</span>
+            <span class="s2">&quot;either have a single entry to apply the same LOs for each experiment or &quot;</span>
+            <span class="s2">&quot;have length equal to the number of experiments.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_configs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">expt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">experiments</span><span class="p">):</span>
+                <span class="n">freq_config</span> <span class="o">=</span> <span class="n">freq_configs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">expt</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">qubit_lo_freq</span> <span class="o">=</span> <span class="n">freq_config</span><span class="o">.</span><span class="n">qubit_lo_freq</span>
+                <span class="n">expt</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">meas_lo_freq</span> <span class="o">=</span> <span class="n">freq_config</span><span class="o">.</span><span class="n">meas_lo_freq</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">expt</span> <span class="o">=</span> <span class="n">experiments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">experiments</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">freq_config</span> <span class="ow">in</span> <span class="n">freq_configs</span><span class="p">:</span>
+                <span class="n">expt_config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">expt</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+                <span class="n">expt_config</span><span class="o">.</span><span class="n">qubit_lo_freq</span> <span class="o">=</span> <span class="n">freq_config</span><span class="o">.</span><span class="n">qubit_lo_freq</span>
+                <span class="n">expt_config</span><span class="o">.</span><span class="n">meas_lo_freq</span> <span class="o">=</span> <span class="n">freq_config</span><span class="o">.</span><span class="n">meas_lo_freq</span>
+                <span class="n">experiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">QasmQobjExperiment</span><span class="p">(</span>
+                        <span class="n">header</span><span class="o">=</span><span class="n">expt</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="n">expt</span><span class="o">.</span><span class="n">instructions</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">expt_config</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">experiments</span>
+
+
 <div class="viewcode-block" id="assemble_circuits"><a class="viewcode-back" href="../../../stubs/qiskit.assembler.assemble_circuits.html#qiskit.assembler.assemble_circuits">[docs]</a><span class="k">def</span> <span class="nf">assemble_circuits</span><span class="p">(</span>
-        <span class="n">circuits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span>
-        <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span>
-        <span class="n">qobj_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">qobj_header</span><span class="p">:</span> <span class="n">QobjHeader</span>
+    <span class="n">circuits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">],</span> <span class="n">run_config</span><span class="p">:</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">qobj_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qobj_header</span><span class="p">:</span> <span class="n">QobjHeader</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QasmQobj</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Assembles a list of circuits into a qobj that can be run on the backend.</span>
 
@@ -572,9 +632,54 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        The qobj to be run on the backends</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># assemble the circuit experiments</span>
+    <span class="n">experiments_and_pulse_libs</span> <span class="o">=</span> <span class="n">parallel_map</span><span class="p">(</span><span class="n">_assemble_circuit</span><span class="p">,</span> <span class="n">circuits</span><span class="p">,</span> <span class="p">[</span><span class="n">run_config</span><span class="p">])</span>
+    <span class="n">experiments</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pulse_library</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">exp</span><span class="p">,</span> <span class="n">lib</span> <span class="ow">in</span> <span class="n">experiments_and_pulse_libs</span><span class="p">:</span>
+        <span class="n">experiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lib</span><span class="p">:</span>
+            <span class="n">pulse_library</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span>
+
+    <span class="c1"># extract common calibrations</span>
+    <span class="n">experiments</span><span class="p">,</span> <span class="n">calibrations</span> <span class="o">=</span> <span class="n">_extract_common_calibrations</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
+
+    <span class="c1"># configure LO freqs per circuit</span>
+    <span class="n">lo_converter</span> <span class="o">=</span> <span class="n">converters</span><span class="o">.</span><span class="n">LoConfigConverter</span><span class="p">(</span><span class="n">QasmQobjExperimentConfig</span><span class="p">,</span> <span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+    <span class="n">experiments</span> <span class="o">=</span> <span class="n">_configure_experiment_los</span><span class="p">(</span><span class="n">experiments</span><span class="p">,</span> <span class="n">lo_converter</span><span class="p">,</span> <span class="n">run_config</span><span class="p">)</span>
+
     <span class="n">qobj_config</span> <span class="o">=</span> <span class="n">QasmQobjConfig</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">run_config</span><span class="p">:</span>
-        <span class="n">qobj_config</span> <span class="o">=</span> <span class="n">QasmQobjConfig</span><span class="p">(</span><span class="o">**</span><span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+        <span class="n">qobj_config_dict</span> <span class="o">=</span> <span class="n">run_config</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="c1"># remove LO ranges, not needed in qobj</span>
+        <span class="n">qobj_config_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;qubit_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">qobj_config_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;meas_lo_range&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># convert LO frequencies to GHz, if they exist</span>
+        <span class="k">if</span> <span class="s2">&quot;qubit_lo_freq&quot;</span> <span class="ow">in</span> <span class="n">qobj_config_dict</span><span class="p">:</span>
+            <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;meas_lo_freq&quot;</span> <span class="ow">in</span> <span class="n">qobj_config_dict</span><span class="p">:</span>
+            <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+
+        <span class="c1"># override default los if single ``schedule_los`` entry set</span>
+        <span class="n">schedule_los</span> <span class="o">=</span> <span class="n">qobj_config_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schedule_los&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">schedule_los</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">lo_dict</span> <span class="o">=</span> <span class="n">schedule_los</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">q_los</span> <span class="o">=</span> <span class="n">lo_converter</span><span class="o">.</span><span class="n">get_qubit_los</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span>
+            <span class="c1"># Hz -&gt; GHz</span>
+            <span class="k">if</span> <span class="n">q_los</span><span class="p">:</span>
+                <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;qubit_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">q_los</span><span class="p">]</span>
+            <span class="n">m_los</span> <span class="o">=</span> <span class="n">lo_converter</span><span class="o">.</span><span class="n">get_meas_los</span><span class="p">(</span><span class="n">lo_dict</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">m_los</span><span class="p">:</span>
+                <span class="n">qobj_config_dict</span><span class="p">[</span><span class="s2">&quot;meas_lo_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">freq</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">m_los</span><span class="p">]</span>
+
+        <span class="n">qobj_config</span> <span class="o">=</span> <span class="n">QasmQobjConfig</span><span class="p">(</span><span class="o">**</span><span class="n">qobj_config_dict</span><span class="p">)</span>
+
     <span class="n">qubit_sizes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">memory_slot_sizes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="n">circuits</span><span class="p">:</span>
@@ -589,24 +694,17 @@
     <span class="n">qobj_config</span><span class="o">.</span><span class="n">memory_slots</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">memory_slot_sizes</span><span class="p">)</span>
     <span class="n">qobj_config</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qubit_sizes</span><span class="p">)</span>
 
-    <span class="n">experiments_and_pulse_libs</span> <span class="o">=</span> <span class="n">parallel_map</span><span class="p">(</span><span class="n">_assemble_circuit</span><span class="p">,</span> <span class="n">circuits</span><span class="p">,</span> <span class="p">[</span><span class="n">run_config</span><span class="p">])</span>
-    <span class="n">experiments</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">pulse_library</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">exp</span><span class="p">,</span> <span class="n">lib</span> <span class="ow">in</span> <span class="n">experiments_and_pulse_libs</span><span class="p">:</span>
-        <span class="n">experiments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">lib</span><span class="p">:</span>
-            <span class="n">pulse_library</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pulse_library</span><span class="p">:</span>
-        <span class="n">qobj_config</span><span class="o">.</span><span class="n">pulse_library</span> <span class="o">=</span> <span class="p">[</span><span class="n">PulseLibraryItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
-                                     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">pulse_library</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-    <span class="n">experiments</span><span class="p">,</span> <span class="n">calibrations</span> <span class="o">=</span> <span class="n">_extract_common_calibrations</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
+        <span class="n">qobj_config</span><span class="o">.</span><span class="n">pulse_library</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">PulseLibraryItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">pulse_library</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">]</span>
+
     <span class="k">if</span> <span class="n">calibrations</span> <span class="ow">and</span> <span class="n">calibrations</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
         <span class="n">qobj_config</span><span class="o">.</span><span class="n">calibrations</span> <span class="o">=</span> <span class="n">calibrations</span>
 
-    <span class="k">return</span> <span class="n">QasmQobj</span><span class="p">(</span><span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span>
-                    <span class="n">config</span><span class="o">=</span><span class="n">qobj_config</span><span class="p">,</span>
-                    <span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span>
-                    <span class="n">header</span><span class="o">=</span><span class="n">qobj_header</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">QasmQobj</span><span class="p">(</span>
+        <span class="n">qobj_id</span><span class="o">=</span><span class="n">qobj_id</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">qobj_config</span><span class="p">,</span> <span class="n">experiments</span><span class="o">=</span><span class="n">experiments</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">qobj_header</span>
+    <span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -624,7 +722,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -659,7 +757,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

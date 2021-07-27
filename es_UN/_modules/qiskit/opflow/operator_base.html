@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.operator_base &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.opflow.operator_base &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -342,12 +342,13 @@
 
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span>
 <span class="kn">from</span> <span class="nn">qiskit.opflow.exceptions</span> <span class="kn">import</span> <span class="n">OpflowError</span>
+<span class="kn">from</span> <span class="nn">qiskit.opflow.mixins</span> <span class="kn">import</span> <span class="n">StarAlgebraMixin</span><span class="p">,</span> <span class="n">TensorMixin</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info</span> <span class="kn">import</span> <span class="n">Statevector</span>
 <span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">algorithm_globals</span>
 
 
-<div class="viewcode-block" id="OperatorBase"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase">[documentos]</a><span class="k">class</span> <span class="nc">OperatorBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A base class for all Operators: PrimitiveOps, StateFns, ListOps, etc. Operators are</span>
+<div class="viewcode-block" id="OperatorBase"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase">[documentos]</a><span class="k">class</span> <span class="nc">OperatorBase</span><span class="p">(</span><span class="n">StarAlgebraMixin</span><span class="p">,</span> <span class="n">TensorMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A base class for all Operators: PrimitiveOps, StateFns, ListOps, etc. Operators are</span>
 <span class="sd">    defined as functions which take one complex binary function to another. These complex binary</span>
 <span class="sd">    functions are represented by StateFns, which are themselves a special class of Operators</span>
 <span class="sd">    taking only the ``Zero`` StateFn to the complex binary function they represent.</span>
@@ -356,14 +357,29 @@
 <span class="sd">    building blocks for algorithms.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Indentation used in string representation of list operators</span>
     <span class="c1"># Can be changed to use another indentation than two whitespaces</span>
-    <span class="n">INDENTATION</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span>
+    <span class="n">INDENTATION</span> <span class="o">=</span> <span class="s2">&quot;  &quot;</span>
 
     <span class="n">_count</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 
 <div class="viewcode-block" id="OperatorBase.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_instance_id</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings of this object in a dictionary.</span>
+
+<span class="sd">        You can, for example, use this ``settings`` dictionary to serialize the</span>
+<span class="sd">        object in JSON format, if the JSON encoder you use supports all types in</span>
+<span class="sd">        the dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Object settings in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">instance_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -373,7 +389,7 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; The number of qubits over which the Operator is defined. If</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The number of qubits over which the Operator is defined. If</span>
 <span class="sd">        ``op.num_qubits == 5``, then ``op.eval(&#39;1&#39; * 5)`` will be valid, but</span>
 <span class="sd">        ``op.eval(&#39;11&#39;)`` will not.</span>
 
@@ -384,7 +400,7 @@
 
 <div class="viewcode-block" id="OperatorBase.primitive_strings"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.primitive_strings">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">primitive_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return a set of strings describing the primitives contained in the Operator. For</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a set of strings describing the primitives contained in the Operator. For</span>
 <span class="sd">        example, ``{&#39;QuantumCircuit&#39;, &#39;Pauli&#39;}``. For hierarchical Operators, such as ``ListOps``,</span>
 <span class="sd">        this can help illuminate the primitives represented in the various recursive levels,</span>
 <span class="sd">        and therefore which conversions can be applied.</span>
@@ -434,7 +450,7 @@
 
 <div class="viewcode-block" id="OperatorBase.reduce"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.reduce">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Try collapsing the Operator structure, usually after some type of conversion,</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Try collapsing the Operator structure, usually after some type of conversion,</span>
 <span class="sd">        e.g. trying to add Operators in a SummedOp or delete needless IGates in a CircuitOp.</span>
 <span class="sd">        If no reduction is available, just returns self.</span>
 
@@ -445,7 +461,7 @@
 
 <div class="viewcode-block" id="OperatorBase.to_matrix"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.to_matrix">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return NumPy representation of the Operator. Represents the evaluation of</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return NumPy representation of the Operator. Represents the evaluation of</span>
 <span class="sd">        the Operator&#39;s underlying function on every combination of basis binary strings.</span>
 <span class="sd">        Warn if more than 16 qubits to force having to set ``massive=True`` if such a</span>
 <span class="sd">        large vector is desired.</span>
@@ -457,16 +473,16 @@
 
 <div class="viewcode-block" id="OperatorBase.to_matrix_op"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.to_matrix_op">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">to_matrix_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Returns a ``MatrixOp`` equivalent to this Operator. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns a ``MatrixOp`` equivalent to this Operator.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="OperatorBase.to_circuit_op"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.to_circuit_op">[documentos]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">to_circuit_op</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Returns a ``CircuitOp`` equivalent to this Operator. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns a ``CircuitOp`` equivalent to this Operator.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="OperatorBase.to_spmatrix"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.to_spmatrix">[documentos]</a>    <span class="k">def</span> <span class="nf">to_spmatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">spmatrix</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return SciPy sparse matrix representation of the Operator. Represents the evaluation of</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return SciPy sparse matrix representation of the Operator. Represents the evaluation of</span>
 <span class="sd">        the Operator&#39;s underlying function on every combination of basis binary strings.</span>
 
 <span class="sd">        Returns:</span>
@@ -476,53 +492,17 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_indent</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">INDENTATION</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Indented representation to allow pretty representation of nested operators. &quot;&quot;&quot;</span>
-        <span class="n">indented_str</span> <span class="o">=</span> <span class="n">indentation</span> <span class="o">+</span> <span class="n">lines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indentation</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">indented_str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indentation</span><span class="p">)):</span>
-            <span class="n">indented_str</span> <span class="o">=</span> <span class="n">indented_str</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">indentation</span><span class="p">)]</span>
+        <span class="sd">&quot;&quot;&quot;Indented representation to allow pretty representation of nested operators.&quot;&quot;&quot;</span>
+        <span class="n">indented_str</span> <span class="o">=</span> <span class="n">indentation</span> <span class="o">+</span> <span class="n">lines</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">indentation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">indented_str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">indentation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="n">indented_str</span> <span class="o">=</span> <span class="n">indented_str</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">indentation</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">indented_str</span>
 
     <span class="c1"># Addition / Subtraction</span>
 
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``+`` operation for Operator addition.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: An ``OperatorBase`` with the same number of qubits as self, and in the same</span>
-<span class="sd">                &#39;Operator&#39;, &#39;State function&#39;, or &#39;Measurement&#39; category as self (i.e. the same type</span>
-<span class="sd">                of underlying function).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the sum of self and other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Hack to be able to use sum(list_of_ops) nicely,</span>
-        <span class="c1"># because sum adds 0 to the first element of the list.</span>
-        <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload right ``+`` operation for Operator addition.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: An ``OperatorBase`` with the same number of qubits as self, and in the same</span>
-<span class="sd">                &#39;Operator&#39;, &#39;State function&#39;, or &#39;Measurement&#39; category as self (i.e. the same type</span>
-<span class="sd">                of underlying function).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the sum of self and other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Hack to be able to use sum(list_of_ops) nicely because</span>
-        <span class="c1"># sum adds 0 to the first element of the list.</span>
-        <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
 <div class="viewcode-block" id="OperatorBase.add"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.add">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return Operator addition of self and other, overloaded by ``+``.</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return Operator addition of self and other, overloaded by ``+``.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: An ``OperatorBase`` with the same number of qubits as self, and in the same</span>
@@ -534,44 +514,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``-`` operation for Operator subtraction.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: An ``OperatorBase`` with the same number of qubits as self, and in the same</span>
-<span class="sd">                &#39;Operator&#39;, &#39;State function&#39;, or &#39;Measurement&#39; category as self (i.e. the same type</span>
-<span class="sd">                of underlying function).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to self - other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="o">-</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload right ``-`` operation for Operator subtraction.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: An ``OperatorBase`` with the same number of qubits as self, and in the same</span>
-<span class="sd">                &#39;Operator&#39;, &#39;State function&#39;, or &#39;Measurement&#39; category as self (i.e. the same type</span>
-<span class="sd">                of underlying function).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to self - other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
     <span class="c1"># Negation</span>
 
-    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload unary ``-`` to return Operator negation.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the negation of self.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg</span><span class="p">()</span>
-
-<div class="viewcode-block" id="OperatorBase.neg"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.neg">[documentos]</a>    <span class="k">def</span> <span class="nf">neg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return the Operator&#39;s negation, effectively just multiplying by -1.0,</span>
+<div class="viewcode-block" id="OperatorBase.neg"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.neg">[documentos]</a>    <span class="k">def</span> <span class="nf">neg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the Operator&#39;s negation, effectively just multiplying by -1.0,</span>
 <span class="sd">        overloaded by ``-``.</span>
 
 <span class="sd">        Returns:</span>
@@ -581,17 +527,9 @@
 
     <span class="c1"># Adjoint</span>
 
-    <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload unary ``~`` to return Operator adjoint.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the adjoint of self.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
-
 <div class="viewcode-block" id="OperatorBase.adjoint"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.adjoint">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return a new Operator equal to the Operator&#39;s adjoint (conjugate transpose),</span>
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a new Operator equal to the Operator&#39;s adjoint (conjugate transpose),</span>
 <span class="sd">        overloaded by ``~``. For StateFns, this also turns the StateFn into a measurement.</span>
 
 <span class="sd">        Returns:</span>
@@ -602,7 +540,7 @@
     <span class="c1"># Equality</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``==`` operation to evaluate equality between Operators.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Overload ``==`` operation to evaluate equality between Operators.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: The ``OperatorBase`` to compare to self.</span>
@@ -615,7 +553,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">OperatorBase</span><span class="p">,</span> <span class="n">other</span><span class="p">))</span>
 
 <div class="viewcode-block" id="OperatorBase.equals"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.equals">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluate Equality between Operators, overloaded by ``==``. Only returns True if self and</span>
 <span class="sd">        other are of the same representation (e.g. a DictStateFn and CircuitStateFn will never be</span>
@@ -634,8 +572,9 @@
 
     <span class="c1"># Scalar Multiplication</span>
 
+    <span class="c1"># pylint: disable=arguments-differ</span>
 <div class="viewcode-block" id="OperatorBase.mul"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.mul">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the scalar multiplication of the Operator, overloaded by ``*``, including</span>
 <span class="sd">        support for Terra&#39;s ``Parameters``, which can be bound to values later (via</span>
@@ -650,76 +589,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``*`` for Operator scalar multiplication.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The real or complex scalar by which to multiply the Operator,</span>
-<span class="sd">                or the ``ParameterExpression`` to serve as a placeholder for a scalar factor.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to product of self and scalar.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload right ``*`` for Operator scalar multiplication.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The real or complex scalar by which to multiply the Operator,</span>
-<span class="sd">                or the ``ParameterExpression`` to serve as a placeholder for a scalar factor.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to product of self and scalar.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``/`` for scalar Operator division.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The real or complex scalar by which to divide the Operator,</span>
-<span class="sd">                or the ``ParameterExpression`` to serve as a placeholder for a scalar divisor.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to self divided by scalar.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__xor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``^`` for tensor product or tensorpower if other is an int.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The ``OperatorBase`` to tensor product with self, or the int number of times</span>
-<span class="sd">                to tensor self with itself via ``tensorpower``.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to tensor product of self and other,</span>
-<span class="sd">                or the tensorpower of self by other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">OperatorBase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensorpower</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__rxor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload right ``^`` for tensor product, a hack to make (I^0)^Z work as intended.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The ``OperatorBase`` for self to tensor product with, or 1, which indicates to</span>
-<span class="sd">                return self.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the tensor product of other and self, or self.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">OperatorBase</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
 <div class="viewcode-block" id="OperatorBase.tensor"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.tensor">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return tensor product between self and other, overloaded by ``^``.</span>
+    <span class="k">def</span> <span class="nf">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return tensor product between self and other, overloaded by ``^``.</span>
 <span class="sd">        Note: You must be conscious of Qiskit&#39;s big-endian bit printing convention.</span>
 <span class="sd">        Meaning, X.tensor(Y) produces an X on qubit 0 and an Y on qubit 1, or X⨂Y,</span>
 <span class="sd">        but would produce a QuantumCircuit which looks like</span>
@@ -739,8 +611,8 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="OperatorBase.tensorpower"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.tensorpower">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">tensorpower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return tensor product with self multiple times, overloaded by ``^``.</span>
+    <span class="k">def</span> <span class="nf">tensorpower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;OperatorBase&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return tensor product with self multiple times, overloaded by ``^``.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: The int number of times to tensor product self with itself via ``tensorpower``.</span>
@@ -753,20 +625,20 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return a set of Parameter objects contained in the Operator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a set of Parameter objects contained in the Operator.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="c1"># Utility functions for parameter binding</span>
 
 <div class="viewcode-block" id="OperatorBase.assign_parameters"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.assign_parameters">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">param_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span>
-                                           <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span>
-                                                 <span class="n">ParameterExpression</span><span class="p">,</span>
-                                                 <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]]]]</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Binds scalar values to any Terra ``Parameters`` in the coefficients or primitives of</span>
+    <span class="k">def</span> <span class="nf">assign_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
+            <span class="n">ParameterExpression</span><span class="p">,</span>
+            <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]]],</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Binds scalar values to any Terra ``Parameters`` in the coefficients or primitives of</span>
 <span class="sd">        the Operator, or substitutes one ``Parameter`` for another. This method differs from</span>
 <span class="sd">        Terra&#39;s ``assign_parameters`` in that it also supports lists of values to assign for a</span>
 <span class="sd">        give ``Parameter``, in which case self will be copied for each parameterization in the</span>
@@ -786,7 +658,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Expands the operator with identity operator of dimension 2**num_qubits.</span>
 
 <span class="sd">        Returns:</span>
@@ -796,7 +668,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <div class="viewcode-block" id="OperatorBase.permute"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.permute">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Permutes the qubits of the operator.</span>
 
 <span class="sd">        Args:</span>
@@ -811,12 +683,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="OperatorBase.bind_parameters"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.bind_parameters">[documentos]</a>    <span class="k">def</span> <span class="nf">bind_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">param_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span>
-                                         <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span>
-                                               <span class="n">ParameterExpression</span><span class="p">,</span>
-                                               <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]]]]</span>
-                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="OperatorBase.bind_parameters"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.bind_parameters">[documentos]</a>    <span class="k">def</span> <span class="nf">bind_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
+            <span class="n">ParameterExpression</span><span class="p">,</span>
+            <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]]],</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Same as assign_parameters, but maintained for consistency with QuantumCircuit in</span>
 <span class="sd">        Terra (which has both assign_parameters and bind_parameters).</span>
@@ -825,12 +698,11 @@
 
     <span class="c1"># Mostly copied from terra, but with list unrolling added:</span>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_unroll_param_dict</span><span class="p">(</span><span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">],</span>
-                                            <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]]]</span>
-                           <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="nb">complex</span><span class="p">],</span>
-                                      <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="nb">complex</span><span class="p">]]]:</span>
-        <span class="sd">&quot;&quot;&quot; Unrolls the ParameterVectors in a param_dict into separate Parameters, and unrolls</span>
-<span class="sd">        parameterization value lists into separate param_dicts without list nesting. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_unroll_param_dict</span><span class="p">(</span>
+        <span class="n">value_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="nb">complex</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="nb">complex</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;Unrolls the ParameterVectors in a param_dict into separate Parameters, and unrolls</span>
+<span class="sd">        parameterization value lists into separate param_dicts without list nesting.&quot;&quot;&quot;</span>
         <span class="n">unrolled_value_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">value_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
@@ -838,8 +710,9 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">ParameterVector</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s1">&#39;ParameterVector </span><span class="si">{}</span><span class="s1"> has length </span><span class="si">{}</span><span class="s1">, which differs from value list </span><span class="si">{}</span><span class="s1"> of &#39;</span>
-                        <span class="s1">&#39;len </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+                        <span class="s2">&quot;ParameterVector </span><span class="si">{}</span><span class="s2"> has length </span><span class="si">{}</span><span class="s2">, which differs from value list </span><span class="si">{}</span><span class="s2"> of &quot;</span>
+                        <span class="s2">&quot;len </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                    <span class="p">)</span>
                 <span class="n">unrolled_value_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">unrolled_value_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="c1"># check that all are same length</span>
@@ -847,31 +720,33 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">unrolled_value_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])):</span>  <span class="c1"># type: ignore</span>
                     <span class="n">unrolled_value_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_get_param_dict_for_index</span><span class="p">(</span><span class="n">unrolled_value_dict</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-                                                               <span class="n">i</span><span class="p">))</span>
+                        <span class="n">OperatorBase</span><span class="o">.</span><span class="n">_get_param_dict_for_index</span><span class="p">(</span>
+                            <span class="n">unrolled_value_dict</span><span class="p">,</span> <span class="n">i</span>  <span class="c1"># type: ignore</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="k">return</span> <span class="n">unrolled_value_dict_list</span>
             <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;Parameter binding lists must all be the same length.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+                <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s2">&quot;Parameter binding lists must all be the same length.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
         <span class="k">return</span> <span class="n">unrolled_value_dict</span>  <span class="c1"># type: ignore</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_param_dict_for_index</span><span class="p">(</span><span class="n">unrolled_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]],</span>
-                                  <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Gets a single non-list-nested param_dict for a given list index from a nested one. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_get_param_dict_for_index</span><span class="p">(</span><span class="n">unrolled_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]],</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets a single non-list-nested param_dict for a given list index from a nested one.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unrolled_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-    <span class="k">def</span> <span class="nf">_expand_shorter_operator_and_permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span>
-                                             <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
-            <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_expand_shorter_operator_and_permute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;OperatorBase&quot;</span><span class="p">,</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">permutation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
         <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="c1"># pylint: disable=cyclic-import</span>
             <span class="kn">from</span> <span class="nn">.operator_globals</span> <span class="kn">import</span> <span class="n">Zero</span>
+
             <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="n">Zero</span><span class="p">:</span>
                 <span class="c1"># Zero is special - we&#39;ll expand it to the correct qubit number.</span>
-                <span class="n">other</span> <span class="o">=</span> <span class="n">Zero</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+                <span class="n">other</span> <span class="o">=</span> <span class="n">Zero</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
                 <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
@@ -884,21 +759,12 @@
 
     <span class="c1"># Composition</span>
 
-    <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``@`` for Operator composition.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other: The ``OperatorBase`` with which to compose self.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to the function composition of self and other.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
+    <span class="c1"># pylint: disable=arguments-differ</span>
 <div class="viewcode-block" id="OperatorBase.compose"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.compose">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">,</span>
-                <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return Operator Composition between self and other (linear algebra-style:</span>
+    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OperatorBase&quot;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return Operator Composition between self and other (linear algebra-style:</span>
 <span class="sd">        A@B(x) = A(B(x))), overloaded by ``@``.</span>
 
 <span class="sd">        Note: You must be conscious of Quantum Circuit vs. Linear Algebra ordering</span>
@@ -919,34 +785,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="OperatorBase.power"><a class="viewcode-back" href="../../../stubs/qiskit.opflow.OperatorBase.html#qiskit.opflow.OperatorBase.power">[documentos]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Return Operator composed with self multiple times, overloaded by ``**``.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            exponent: The int number of times to compose self with itself.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to self composed with itself exponent times.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperatorBase&#39;</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Overload ``**`` for composition power.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            exponent: The int number of times to compose self with itself.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            An ``OperatorBase`` equivalent to self composed with itself exponent times.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span>
-
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_massive</span><span class="p">(</span><span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                       <span class="n">matrix</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                       <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                       <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_check_massive</span><span class="p">(</span><span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">massive</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if matrix or vector generated will be too large.</span>
 
@@ -962,16 +802,17 @@
         <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">16</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">massive</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">algorithm_globals</span><span class="o">.</span><span class="n">massive</span><span class="p">:</span>
             <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">num_qubits</span>
             <span class="k">if</span> <span class="n">matrix</span><span class="p">:</span>
-                <span class="n">obj_type</span> <span class="o">=</span> <span class="s1">&#39;matrix&#39;</span>
-                <span class="n">dimensions</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">x</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">obj_type</span> <span class="o">=</span> <span class="s2">&quot;matrix&quot;</span>
+                <span class="n">dimensions</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">obj_type</span> <span class="o">=</span> <span class="s1">&#39;vector&#39;</span>
-                <span class="n">dimensions</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">obj_type</span> <span class="o">=</span> <span class="s2">&quot;vector&quot;</span>
+                <span class="n">dimensions</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39; will return an exponentially large </span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2">, &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;in this case &#39;</span><span class="si">{</span><span class="n">dimensions</span><span class="si">}</span><span class="s2">&#39; elements. &quot;</span>
                 <span class="s2">&quot;Set algorithm_globals.massive=True or the method argument massive=True &quot;</span>
-                <span class="s2">&quot;if you want to proceed.&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;if you want to proceed.&quot;</span>
+            <span class="p">)</span>
 
     <span class="c1"># Printing</span>
 
@@ -995,7 +836,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -1030,7 +871,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

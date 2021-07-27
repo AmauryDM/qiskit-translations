@@ -44,5 +44,6 @@
       ~DIRECT_L.is_initial_point_required
       ~DIRECT_L.is_initial_point_supported
       ~DIRECT_L.setting
+      ~DIRECT_L.settings
    
    

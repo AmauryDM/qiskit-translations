@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.qasm.pygments.lexer &mdash; Qiskit 0.27.0 文档</title>
+  <title>qiskit.qasm.pygments.lexer &mdash; Qiskit 0.28.0 文档</title>
   
 
   
@@ -332,100 +332,131 @@
 <span class="sd">&quot;&quot;&quot;Pygments tools for Qasm.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pygments.lexer</span> <span class="kn">import</span> <span class="n">RegexLexer</span>
-    <span class="kn">from</span> <span class="nn">pygments.token</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span>
-                                <span class="n">Name</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="n">Text</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">pygments.token</span> <span class="kn">import</span> <span class="n">Comment</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="n">Text</span>
     <span class="kn">from</span> <span class="nn">pygments.style</span> <span class="kn">import</span> <span class="n">Style</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;To use &#39;qiskit.qasm.pygments&#39; pygments&gt;2.4 must be &quot;</span>
-                      <span class="s1">&#39;installed. To install run &quot;pip install pygments&quot;.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+    <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+        <span class="s2">&quot;pygments&gt;2.4&quot;</span><span class="p">,</span> <span class="s2">&quot;qiskit.qasm.pygments&quot;</span><span class="p">,</span> <span class="s2">&quot;pip install pygments&quot;</span>
+    <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
 
 
 <div class="viewcode-block" id="QasmTerminalStyle"><a class="viewcode-back" href="../../../../stubs/qiskit.qasm.QasmTerminalStyle.html#qiskit.qasm.QasmTerminalStyle">[文档]</a><span class="k">class</span> <span class="nc">QasmTerminalStyle</span><span class="p">(</span><span class="n">Style</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A style for OpenQasm in a Terminal env (e.g. Jupyter print).&quot;&quot;&quot;</span>
+
     <span class="n">styles</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">String</span><span class="p">:</span>              <span class="s1">&#39;ansibrightred&#39;</span><span class="p">,</span>
-        <span class="n">Number</span><span class="p">:</span>              <span class="s1">&#39;ansibrightcyan&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">:</span>    <span class="s1">&#39;ansibrightgreen&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">:</span> <span class="s1">&#39;ansibrightgreen&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>        <span class="s1">&#39;ansibrightmagenta&#39;</span><span class="p">,</span>
-        <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">:</span>        <span class="s1">&#39;ansibrightblue&#39;</span><span class="p">,</span>
-        <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">:</span>       <span class="s1">&#39;ansibrightyellow&#39;</span><span class="p">}</span></div>
+        <span class="n">String</span><span class="p">:</span> <span class="s2">&quot;ansibrightred&quot;</span><span class="p">,</span>
+        <span class="n">Number</span><span class="p">:</span> <span class="s2">&quot;ansibrightcyan&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">:</span> <span class="s2">&quot;ansibrightgreen&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">:</span> <span class="s2">&quot;ansibrightgreen&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span> <span class="s2">&quot;ansibrightmagenta&quot;</span><span class="p">,</span>
+        <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">:</span> <span class="s2">&quot;ansibrightblue&quot;</span><span class="p">,</span>
+        <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">:</span> <span class="s2">&quot;ansibrightyellow&quot;</span><span class="p">,</span>
+    <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="QasmHTMLStyle"><a class="viewcode-back" href="../../../../stubs/qiskit.qasm.QasmHTMLStyle.html#qiskit.qasm.QasmHTMLStyle">[文档]</a><span class="k">class</span> <span class="nc">QasmHTMLStyle</span><span class="p">(</span><span class="n">Style</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A style for OpenQasm in a HTML env (e.g. Jupyter widget).&quot;&quot;&quot;</span>
+
     <span class="n">styles</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">String</span><span class="p">:</span>              <span class="s1">&#39;ansired&#39;</span><span class="p">,</span>
-        <span class="n">Number</span><span class="p">:</span>              <span class="s1">&#39;ansicyan&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">:</span>    <span class="s1">&#39;ansigreen&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">:</span> <span class="s1">&#39;ansigreen&#39;</span><span class="p">,</span>
-        <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>        <span class="s1">&#39;ansimagenta&#39;</span><span class="p">,</span>
-        <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">:</span>        <span class="s1">&#39;ansiblue&#39;</span><span class="p">,</span>
-        <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">:</span>       <span class="s1">&#39;ansiyellow&#39;</span><span class="p">}</span></div>
+        <span class="n">String</span><span class="p">:</span> <span class="s2">&quot;ansired&quot;</span><span class="p">,</span>
+        <span class="n">Number</span><span class="p">:</span> <span class="s2">&quot;ansicyan&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">:</span> <span class="s2">&quot;ansigreen&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">:</span> <span class="s2">&quot;ansigreen&quot;</span><span class="p">,</span>
+        <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span> <span class="s2">&quot;ansimagenta&quot;</span><span class="p">,</span>
+        <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">:</span> <span class="s2">&quot;ansiblue&quot;</span><span class="p">,</span>
+        <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">:</span> <span class="s2">&quot;ansiyellow&quot;</span><span class="p">,</span>
+    <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="OpenQASMLexer"><a class="viewcode-back" href="../../../../stubs/qiskit.qasm.OpenQASMLexer.html#qiskit.qasm.OpenQASMLexer">[文档]</a><span class="k">class</span> <span class="nc">OpenQASMLexer</span><span class="p">(</span><span class="n">RegexLexer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A pygments lexer for OpenQasm.&quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;OpenQASM&#39;</span>
-    <span class="n">aliases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;qasm&#39;</span><span class="p">]</span>
-    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*.qasm&#39;</span><span class="p">]</span>
 
-    <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;sdg&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">,</span> <span class="s1">&#39;ccx&#39;</span><span class="p">,</span> <span class="s1">&#39;c3x&#39;</span><span class="p">,</span> <span class="s1">&#39;c4x&#39;</span><span class="p">,</span> <span class="s1">&#39;c3sqrtx&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;rx&#39;</span><span class="p">,</span> <span class="s1">&#39;ry&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;swap&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;cswap&#39;</span><span class="p">,</span> <span class="s1">&#39;crx&#39;</span><span class="p">,</span> <span class="s1">&#39;cry&#39;</span><span class="p">,</span> <span class="s1">&#39;crz&#39;</span><span class="p">,</span> <span class="s1">&#39;cu1&#39;</span><span class="p">,</span> <span class="s1">&#39;cu3&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;rxx&#39;</span><span class="p">,</span> <span class="s1">&#39;rzz&#39;</span><span class="p">,</span> <span class="s1">&#39;rccx&#39;</span><span class="p">,</span> <span class="s1">&#39;rc3x&#39;</span><span class="p">,</span> <span class="s1">&#39;u1&#39;</span><span class="p">,</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span> <span class="s1">&#39;u3&#39;</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;OpenQASM&quot;</span>
+    <span class="n">aliases</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;qasm&quot;</span><span class="p">]</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.qasm&quot;</span><span class="p">]</span>
+
+    <span class="n">gates</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sdg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;h&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;t&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tdg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ccx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;c3x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;c4x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;c3sqrtx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ry&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cy&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ch&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cswap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;crx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cry&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;crz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cu1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cu3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rxx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rzz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rccx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rc3x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u3&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="n">tokens</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">),</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^\S\n]+&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">),</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;//\n&#39;</span><span class="p">,</span> <span class="n">Comment</span><span class="p">),</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;//.*?$&#39;</span><span class="p">,</span> <span class="n">Comment</span><span class="o">.</span><span class="n">Single</span><span class="p">),</span>
-
+        <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\n&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^\S\n]+&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;//\n&quot;</span><span class="p">,</span> <span class="n">Comment</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;//.*?$&quot;</span><span class="p">,</span> <span class="n">Comment</span><span class="o">.</span><span class="n">Single</span><span class="p">),</span>
             <span class="c1"># Keywords</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(OPENQASM|include)\b&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(qreg|creg)\b&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(OPENQASM|include)\b&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">,</span> <span class="s2">&quot;keywords&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(qreg|creg)\b&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Declaration</span><span class="p">),</span>
             <span class="c1"># Treat &#39;if&#39; special</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(if)\b&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">,</span> <span class="s1">&#39;if_keywords&#39;</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(if)\b&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Reserved</span><span class="p">,</span> <span class="s2">&quot;if_keywords&quot;</span><span class="p">),</span>
             <span class="c1"># Constants</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(pi)\b&#39;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Constant</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(pi)\b&quot;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Constant</span><span class="p">),</span>
             <span class="c1"># Special</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(barrier|measure|reset)\b&#39;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(barrier|measure|reset)\b&quot;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">),</span>
             <span class="c1"># Gates (Types)</span>
-            <span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;)\b&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[unitary\d+]&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gates</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;)\b&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[unitary\d+]&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">),</span>
             <span class="c1"># Functions</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(gate)\b&#39;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span> <span class="s1">&#39;gate&#39;</span><span class="p">),</span>
-
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(gate)\b&quot;</span><span class="p">,</span> <span class="n">Name</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span> <span class="s2">&quot;gate&quot;</span><span class="p">),</span>
             <span class="c1"># Generic text</span>
-            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z_][a-zA-Z0-9_]*&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)],</span>
-
-        <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s1">&#39;\s*(&quot;([^&quot;]|&quot;&quot;)*&quot;)&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*\(&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">)],</span>
-
-        <span class="s1">&#39;if_keywords&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s1">&#39;[a-zA-Z0-9_]*&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="s1">&#39;#pop&#39;</span><span class="p">),</span>
-                        <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                        <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*\(&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">)],</span>
-
-        <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z_][a-zA-Z0-9_]*&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                   <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                   <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+\.\d*|\d*\.\d+)([eEf][+-]?[0-9]+)?&#39;</span><span class="p">,</span>
-                    <span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                   <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\)&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">)],</span>
-
-        <span class="s1">&#39;gate&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s1">&#39;[unitary\d+]&#39;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">),</span>
-                 <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;p\d+&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s1">&#39;#push&#39;</span><span class="p">)],</span>
-
-        <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;#pop&#39;</span><span class="p">)]</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z_][a-zA-Z0-9_]*&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s*(&quot;([^&quot;]|&quot;&quot;)*&quot;)&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*\(&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;if_keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z0-9_]*&quot;</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="s2">&quot;#pop&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*\(&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-zA-Z_][a-zA-Z0-9_]*&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\d+\.\d*|\d*\.\d+)([eEf][+-]?[0-9]+)?&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\)&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;gate&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s2">&quot;[unitary\d+]&quot;</span><span class="p">,</span> <span class="n">Keyword</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;p\d+&quot;</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="s2">&quot;#push&quot;</span><span class="p">)],</span>
+        <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="s2">&quot;#pop&quot;</span><span class="p">)],</span>
     <span class="p">}</span></div>
 </pre></div>
 
@@ -444,7 +475,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最后更新于 2021/07/12.
+      最后更新于 2021/07/27.
 
     </p>
   </div>
@@ -480,7 +511,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

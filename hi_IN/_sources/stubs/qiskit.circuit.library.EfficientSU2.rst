@@ -58,6 +58,7 @@
       ~EfficientSU2.from_qasm_file
       ~EfficientSU2.from_qasm_str
       ~EfficientSU2.get_entangler_map
+      ~EfficientSU2.get_instructions
       ~EfficientSU2.get_unentangled_qubits
       ~EfficientSU2.h
       ~EfficientSU2.hamiltonian

@@ -43,5 +43,6 @@
       ~Optimizer.is_initial_point_required
       ~Optimizer.is_initial_point_supported
       ~Optimizer.setting
+      ~Optimizer.settings
    
    

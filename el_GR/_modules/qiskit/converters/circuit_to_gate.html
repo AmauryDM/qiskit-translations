@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.converters.circuit_to_gate &mdash; Τεκμηρίωση του Qiskit - 0.27.0</title>
+  <title>qiskit.converters.circuit_to_gate &mdash; Τεκμηρίωση του Qiskit - 0.28.0</title>
   
 
   
@@ -365,15 +365,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=cyclic-import</span>
     <span class="kn">from</span> <span class="nn">qiskit.circuit.quantumcircuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
+
     <span class="k">if</span> <span class="n">circuit</span><span class="o">.</span><span class="n">clbits</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Circuit with classical bits cannot be converted &#39;</span>
-                          <span class="s1">&#39;to gate.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Circuit with classical bits cannot be converted &quot;</span> <span class="s2">&quot;to gate.&quot;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">Gate</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">((</span><span class="s1">&#39;One or more instructions cannot be converted to&#39;</span>
-                               <span class="s1">&#39; a gate. &quot;</span><span class="si">{}</span><span class="s1">&quot; is not a gate instruction&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                   <span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;One or more instructions cannot be converted to&quot;</span>
+                    <span class="s1">&#39; a gate. &quot;</span><span class="si">{}</span><span class="s1">&quot; is not a gate instruction&#39;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">parameter_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">parameter_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
@@ -381,14 +384,19 @@
         <span class="n">parameter_dict</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">_unroll_param_dict</span><span class="p">(</span><span class="n">parameter_map</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">parameter_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">((</span><span class="s1">&#39;parameter_map should map all circuit parameters. &#39;</span>
-                           <span class="s1">&#39;Circuit parameters: </span><span class="si">{}</span><span class="s1">, parameter_map: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                               <span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;parameter_map should map all circuit parameters. &quot;</span>
+                <span class="s2">&quot;Circuit parameters: </span><span class="si">{}</span><span class="s2">, parameter_map: </span><span class="si">{}</span><span class="s2">&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="n">gate</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">([</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">]),</span>
-                <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">parameter_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
-                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">num_qubits</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">qreg</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">),</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">parameter_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">gate</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">target</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">parameter_dict</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -399,15 +407,14 @@
     <span class="n">rules</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">data</span>
 
     <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">)</span>
 
     <span class="n">qubit_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="n">q</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">)}</span>
 
     <span class="c1"># The 3rd parameter in the output tuple) is hard coded to [] because</span>
     <span class="c1"># Gate objects do not have cregs set and we&#39;ve verified that all</span>
     <span class="c1"># instructions are gates</span>
-    <span class="n">rules</span> <span class="o">=</span> <span class="p">[(</span><span class="n">inst</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">],</span> <span class="p">[])</span>
-             <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">]</span>
+    <span class="n">rules</span> <span class="o">=</span> <span class="p">[(</span><span class="n">inst</span><span class="p">,</span> <span class="p">[</span><span class="n">qubit_map</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">],</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">]</span>
     <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">global_phase</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">global_phase</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">instr</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
         <span class="n">qc</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span><span class="p">)</span>
@@ -430,7 +437,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Τελευταία ενημέρωση στις 2021/07/12.
+      Τελευταία ενημέρωση στις 2021/07/27.
 
     </p>
   </div>
@@ -465,7 +472,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

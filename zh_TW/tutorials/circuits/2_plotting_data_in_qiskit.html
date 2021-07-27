@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Qiskit 視覺化 &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>Qiskit 視覺化 &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -570,7 +570,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="admonition note">
 <p class="admonition-title">備註</p>
-<p>這個頁面是由 <a href="#id1"><span class="problematic" id="id2">`</span></a>tutorials/circuits/2_plotting_data_in_qiskit.ipynb`__產生。</p>
+<p>這個頁面是由 <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/circuits/2_plotting_data_in_qiskit.ipynb">tutorials/circuits/2_plotting_data_in_qiskit.ipynb</a> 產生。</p>
 </div>
 <section id="Qiskit-視覺化">
 <h1>Qiskit 視覺化<a class="headerlink" href="#Qiskit-視覺化" title="本標題的永久連結">¶</a></h1>
@@ -585,8 +585,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<section id="顯示直方圖">
-<h2>顯示直方圖<a class="headerlink" href="#顯示直方圖" title="本標題的永久連結">¶</a></h2>
+<section id="Plot-histogram">
+<h2>Plot histogram<a class="headerlink" href="#Plot-histogram" title="本標題的永久連結">¶</a></h2>
 <p>To visualize the data from a quantum circuit run on a real device or <code class="docutils literal notranslate"><span class="pre">qasm_simulator</span></code> we have made a simple function</p>
 <p><code class="docutils literal notranslate"><span class="pre">plot_histogram(data)</span></code></p>
 <p>As an example we make a 2-qubit Bell state</p>
@@ -683,8 +683,8 @@ output figure.</p>
 </div>
 </div>
 </section>
-<section id="使用plot_histogram（）的輸出">
-<h3>使用plot_histogram（）的輸出<a class="headerlink" href="#使用plot_histogram（）的輸出" title="本標題的永久連結">¶</a></h3>
+<section id="Using-the-output-from-plot_histogram()">
+<h3>Using the output from plot_histogram()<a class="headerlink" href="#Using-the-output-from-plot_histogram()" title="本標題的永久連結">¶</a></h3>
 <p>When using the plot_histogram() function it returns a <code class="docutils literal notranslate"><span class="pre">matplotlib.Figure</span></code> for the rendered visualization. Jupyter notebooks understand this return type and render it for us in this tutorial, but when running outside of Jupyter you do not have this feature automatically. However, the <code class="docutils literal notranslate"><span class="pre">matplotlib.Figure</span></code> class natively has methods to both display and save the visualization. You can call <code class="docutils literal notranslate"><span class="pre">.show()</span></code> on the returned object from <code class="docutils literal notranslate"><span class="pre">plot_histogram()</span></code> to open the image in a new window (assuming
 your configured matplotlib backend is interactive). Or alternatively you can call <code class="docutils literal notranslate"><span class="pre">.savefig('out.png')</span></code> to save the figure to <code class="docutils literal notranslate"><span class="pre">out.png</span></code>. The <code class="docutils literal notranslate"><span class="pre">savefig()</span></code> method takes a path so you can adjust the location and filename where you’re saving the output.</p>
 </section>
@@ -1039,7 +1039,7 @@ matplotlib backend is interactive). Or alternatively you can call <code class="d
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -1059,9 +1059,9 @@ matplotlib backend is interactive). Or alternatively you can call <code class="d
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Qiskit 視覺化</a><ul>
-<li><a class="reference internal" href="#顯示直方圖">顯示直方圖</a><ul>
+<li><a class="reference internal" href="#Plot-histogram">Plot histogram</a><ul>
 <li><a class="reference internal" href="#Options-when-plotting-a-histogram">Options when plotting a histogram</a></li>
-<li><a class="reference internal" href="#使用plot_histogram（）的輸出">使用plot_histogram（）的輸出</a></li>
+<li><a class="reference internal" href="#Using-the-output-from-plot_histogram()">Using the output from plot_histogram()</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#繪製狀態">繪製狀態</a><ul>
@@ -1095,7 +1095,7 @@ matplotlib backend is interactive). Or alternatively you can call <code class="d
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

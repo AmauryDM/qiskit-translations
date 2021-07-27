@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.equivalence &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.circuit.equivalence &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -337,21 +337,19 @@
 
 <span class="kn">import</span> <span class="nn">retworkx</span> <span class="k">as</span> <span class="nn">rx</span>
 
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">CircuitError</span>
 <span class="kn">from</span> <span class="nn">.parameterexpression</span> <span class="kn">import</span> <span class="n">ParameterExpression</span>
 
 
-<span class="n">Key</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Key&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;num_qubits&#39;</span><span class="p">])</span>
+<span class="n">Key</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Key&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;num_qubits&quot;</span><span class="p">])</span>
 
-<span class="n">Entry</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;search_base&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;equivalences&#39;</span><span class="p">])</span>
+<span class="n">Entry</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Entry&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;search_base&quot;</span><span class="p">,</span> <span class="s2">&quot;equivalences&quot;</span><span class="p">])</span>
 
-<span class="n">Equivalence</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Equivalence&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">,</span>  <span class="c1"># Ordered to match Gate.params</span>
-                                         <span class="s1">&#39;circuit&#39;</span><span class="p">])</span>
+<span class="n">Equivalence</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Equivalence&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="s2">&quot;circuit&quot;</span><span class="p">])</span>  <span class="c1"># Ordered to match Gate.params</span>
 
 
-<div class="viewcode-block" id="EquivalenceLibrary"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary">[문서]</a><span class="k">class</span> <span class="nc">EquivalenceLibrary</span><span class="p">():</span>
+<div class="viewcode-block" id="EquivalenceLibrary"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary">[문서]</a><span class="k">class</span> <span class="nc">EquivalenceLibrary</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A library providing a one-way mapping of Gates to their equivalent</span>
 <span class="sd">    implementations as QuantumCircuits.&quot;&quot;&quot;</span>
 
@@ -384,11 +382,9 @@
         <span class="n">_raise_if_shape_mismatch</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">equivalent_circuit</span><span class="p">)</span>
         <span class="n">_raise_if_param_mismatch</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">equivalent_circuit</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
 
-        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                  <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
 
-        <span class="n">equiv</span> <span class="o">=</span> <span class="n">Equivalence</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-                            <span class="n">circuit</span><span class="o">=</span><span class="n">equivalent_circuit</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">equiv</span> <span class="o">=</span> <span class="n">Equivalence</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">circuit</span><span class="o">=</span><span class="n">equivalent_circuit</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">search_base</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">equivalences</span><span class="o">=</span><span class="p">[])</span>
@@ -406,11 +402,9 @@
 <span class="sd">                False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                  <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base</span><span class="o">.</span><span class="n">has_entry</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base</span><span class="o">.</span><span class="n">has_entry</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EquivalenceLibrary.set_entry"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary.set_entry">[문서]</a>    <span class="k">def</span> <span class="nf">set_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set the equivalence record for a Gate. Future queries for the Gate</span>
@@ -430,15 +424,11 @@
             <span class="n">_raise_if_shape_mismatch</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">equiv</span><span class="p">)</span>
             <span class="n">_raise_if_param_mismatch</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">equiv</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
 
-        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                  <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
 
-        <span class="n">equivs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Equivalence</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-                              <span class="n">circuit</span><span class="o">=</span><span class="n">equiv</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-                  <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">]</span>
+        <span class="n">equivs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Equivalence</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">circuit</span><span class="o">=</span><span class="n">equiv</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span> <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">search_base</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                               <span class="n">equivalences</span><span class="o">=</span><span class="n">equivs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">search_base</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equivalences</span><span class="o">=</span><span class="n">equivs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EquivalenceLibrary.get_entry"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary.get_entry">[문서]</a>    <span class="k">def</span> <span class="nf">get_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the set of QuantumCircuits circuits from the library which</span>
@@ -460,13 +450,11 @@
 <span class="sd">                consistent across Qiskit versions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                  <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
 
         <span class="n">query_params</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">params</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">_rebind_equiv</span><span class="p">(</span><span class="n">equiv</span><span class="p">,</span> <span class="n">query_params</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_equivalences</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_rebind_equiv</span><span class="p">(</span><span class="n">equiv</span><span class="p">,</span> <span class="n">query_params</span><span class="p">)</span> <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_equivalences</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="EquivalenceLibrary.draw"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.EquivalenceLibrary.html#qiskit.circuit.EquivalenceLibrary.draw">[문서]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Draws the equivalence relations available in the library.</span>
@@ -480,45 +468,55 @@
 <span class="sd">                IPython SVG if in a jupyter notebook, or as a PIL.Image otherwise.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ImportError: when pydot or pillow are not installed.</span>
+<span class="sd">            MissingOptionalLibraryError: when pydot or pillow are not installed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">pydot</span>
+
             <span class="n">has_pydot</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
             <span class="n">has_pydot</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
             <span class="n">has_pil</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
             <span class="n">has_pil</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">has_pydot</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;EquivalenceLibrary.draw requires pydot. &#39;</span>
-                              <span class="s2">&quot;You can use &#39;pip install pydot&#39; to install&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pydot&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EquivalenceLibrary.draw&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pydot&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">has_pil</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;EquivalenceLibrary.draw requires pillow. &#39;</span>
-                              <span class="s2">&quot;You can use &#39;pip install pillow&#39; to install&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pillow&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EquivalenceLibrary.draw&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pillow&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">SVG</span>
+
             <span class="n">has_ipython</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
             <span class="n">has_ipython</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="n">dot_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_basis_graph</span><span class="p">()</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]},</span> <span class="k">lambda</span> <span class="n">edge</span><span class="p">:</span> <span class="n">edge</span><span class="p">)</span>
+            <span class="k">lambda</span> <span class="n">node</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">node</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]},</span> <span class="k">lambda</span> <span class="n">edge</span><span class="p">:</span> <span class="n">edge</span>
+        <span class="p">)</span>
         <span class="n">dot</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_str</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-            <span class="n">extension</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">dot</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">extension</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">has_ipython</span><span class="p">:</span>
-            <span class="n">svg</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_svg</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">)</span>
+            <span class="n">svg</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_svg</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;dot&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">SVG</span><span class="p">(</span><span class="n">svg</span><span class="p">)</span>
 
-        <span class="n">png</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_png</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">)</span>
+        <span class="n">png</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_png</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;dot&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">png</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_build_basis_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -529,26 +527,29 @@
             <span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">key</span>
             <span class="n">equivalences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_equivalences</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-            <span class="n">basis</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">)])</span>
+            <span class="n">basis</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
             <span class="k">for</span> <span class="n">params</span><span class="p">,</span> <span class="n">decomp</span> <span class="ow">in</span> <span class="n">equivalences</span><span class="p">:</span>
-                <span class="n">decomp_basis</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">)</span>
-                                         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="ow">in</span>
-                                         <span class="p">{(</span><span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
-                                          <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">__</span> <span class="ow">in</span> <span class="n">decomp</span><span class="o">.</span><span class="n">data</span><span class="p">})</span>
+                <span class="n">decomp_basis</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="ow">in</span> <span class="p">{</span>
+                        <span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span> <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">__</span> <span class="ow">in</span> <span class="n">decomp</span><span class="o">.</span><span class="n">data</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="n">basis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_map</span><span class="p">:</span>
-                    <span class="n">basis_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">({</span><span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">basis</span><span class="p">,</span>
-                                                 <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">basis</span><span class="p">))})</span>
+                    <span class="n">basis_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">({</span><span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">basis</span><span class="p">))})</span>
                     <span class="n">node_map</span><span class="p">[</span><span class="n">basis</span><span class="p">]</span> <span class="o">=</span> <span class="n">basis_node</span>
                 <span class="k">if</span> <span class="n">decomp_basis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_map</span><span class="p">:</span>
-                    <span class="n">decomp_basis_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">({</span><span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">decomp_basis</span><span class="p">,</span>
-                                                        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">decomp_basis</span><span class="p">))})</span>
+                    <span class="n">decomp_basis_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">decomp_basis</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">decomp_basis</span><span class="p">))}</span>
+                    <span class="p">)</span>
                     <span class="n">node_map</span><span class="p">[</span><span class="n">decomp_basis</span><span class="p">]</span> <span class="o">=</span> <span class="n">decomp_basis_node</span>
 
-                <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">decomp</span><span class="p">)</span> <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&lt;=</span> <span class="mi">5</span> <span class="k">else</span> <span class="s1">&#39;...&#39;</span><span class="p">)</span>
-                <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">node_map</span><span class="p">[</span><span class="n">basis</span><span class="p">],</span>
-                               <span class="n">node_map</span><span class="p">[</span><span class="n">decomp_basis</span><span class="p">],</span>
-                               <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s1">&#39;Courier&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="mi">8</span><span class="p">)))</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">decomp</span><span class="p">)</span> <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&lt;=</span> <span class="mi">5</span> <span class="k">else</span> <span class="s2">&quot;...&quot;</span><span class="p">)</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span>
+                    <span class="n">node_map</span><span class="p">[</span><span class="n">basis</span><span class="p">],</span>
+                    <span class="n">node_map</span><span class="p">[</span><span class="n">decomp_basis</span><span class="p">],</span>
+                    <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s2">&quot;Courier&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="mi">8</span><span class="p">)),</span>
+                <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">graph</span>
 
@@ -557,10 +558,11 @@
 
         <span class="n">self_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-        <span class="k">return</span> <span class="n">self_keys</span> <span class="o">|</span> <span class="p">{</span><span class="n">base_key</span>
-                            <span class="k">for</span> <span class="n">base_key</span> <span class="ow">in</span> <span class="n">base_keys</span>
-                            <span class="k">if</span> <span class="n">base_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span>
-                            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">base_key</span><span class="p">]</span><span class="o">.</span><span class="n">search_base</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">self_keys</span> <span class="o">|</span> <span class="p">{</span>
+            <span class="n">base_key</span>
+            <span class="k">for</span> <span class="n">base_key</span> <span class="ow">in</span> <span class="n">base_keys</span>
+            <span class="k">if</span> <span class="n">base_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">base_key</span><span class="p">]</span><span class="o">.</span><span class="n">search_base</span>
+        <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_get_equivalences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">search_base</span><span class="p">,</span> <span class="n">equivalences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="p">[]))</span>
@@ -571,25 +573,25 @@
 
 
 <span class="k">def</span> <span class="nf">_raise_if_param_mismatch</span><span class="p">(</span><span class="n">gate_params</span><span class="p">,</span> <span class="n">circuit_parameters</span><span class="p">):</span>
-    <span class="n">gate_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gate_params</span>
-                       <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)]</span>
+    <span class="n">gate_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gate_params</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">gate_parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="n">circuit_parameters</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Cannot add equivalence between circuit and gate &#39;</span>
-                           <span class="s1">&#39;of different parameters. Gate params: </span><span class="si">{}</span><span class="s1">. &#39;</span>
-                           <span class="s1">&#39;Circuit params: </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                               <span class="n">gate_parameters</span><span class="p">,</span>
-                               <span class="n">circuit_parameters</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+            <span class="s2">&quot;Cannot add equivalence between circuit and gate &quot;</span>
+            <span class="s2">&quot;of different parameters. Gate params: </span><span class="si">{}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;Circuit params: </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate_parameters</span><span class="p">,</span> <span class="n">circuit_parameters</span><span class="p">)</span>
+        <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_raise_if_shape_mismatch</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">circuit</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span>
-            <span class="ow">or</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_clbits</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Cannot add equivalence between circuit and gate &#39;</span>
-                           <span class="s1">&#39;of different shapes. Gate: </span><span class="si">{}</span><span class="s1"> qubits and </span><span class="si">{}</span><span class="s1"> clbits. &#39;</span>
-                           <span class="s1">&#39;Circuit: </span><span class="si">{}</span><span class="s1"> qubits and </span><span class="si">{}</span><span class="s1"> clbits.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                               <span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">,</span>
-                               <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span> <span class="ow">or</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_clbits</span> <span class="o">!=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+            <span class="s2">&quot;Cannot add equivalence between circuit and gate &quot;</span>
+            <span class="s2">&quot;of different shapes. Gate: </span><span class="si">{}</span><span class="s2"> qubits and </span><span class="si">{}</span><span class="s2"> clbits. &quot;</span>
+            <span class="s2">&quot;Circuit: </span><span class="si">{}</span><span class="s2"> qubits and </span><span class="si">{}</span><span class="s2"> clbits.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">gate</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">gate</span><span class="o">.</span><span class="n">num_clbits</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_clbits</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_rebind_equiv</span><span class="p">(</span><span class="n">equiv</span><span class="p">,</span> <span class="n">query_params</span><span class="p">):</span>
@@ -615,7 +617,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -650,7 +652,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

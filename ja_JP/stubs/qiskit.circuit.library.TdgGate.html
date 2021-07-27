@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.TdgGate &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.circuit.library.TdgGate &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -372,7 +372,7 @@ q_0: ┤ Tdg ├
 <td><p>Validation and handling of the arguments and its relationship.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.library.TdgGate.c_if" title="qiskit.circuit.library.TdgGate.c_if"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_if</span></code></a>(classical, val)</p></td>
-<td><p>Add classical condition on register classical and value val.</p></td>
+<td><p>Add classical condition on register or cbit classical and value val.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.library.TdgGate.control" title="qiskit.circuit.library.TdgGate.control"><code class="xref py py-obj docutils literal notranslate"><span class="pre">control</span></code></a>([num_ctrl_qubits, label, ctrl_state])</p></td>
 <td><p>Return controlled version of gate.</p></td>
@@ -429,7 +429,7 @@ q_0: ┤ Tdg ├
 <td><p>Get the duration.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.circuit.library.TdgGate.label" title="qiskit.circuit.library.TdgGate.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
-<td><p>Return gate label</p></td>
+<td><p>Return instruction label</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.circuit.library.TdgGate.params" title="qiskit.circuit.library.TdgGate.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>return instruction params.</p></td>
@@ -449,11 +449,6 @@ q_0: ┤ Tdg ├
 <dt id="qiskit.circuit.library.TdgGate.assemble">
 <code class="sig-name descname">assemble</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.library.TdgGate.assemble" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Assemble a QasmQobjInstruction</p>
-<dl class="field-list simple">
-<dt class="field-odd">戻り値の型</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -512,7 +507,7 @@ method yields the arguments in the right grouping. In the given example:</p>
 <dl class="py method">
 <dt id="qiskit.circuit.library.TdgGate.c_if">
 <code class="sig-name descname">c_if</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classical</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.circuit.library.TdgGate.c_if" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Add classical condition on register classical and value val.</p>
+<dd><p>Add classical condition on register or cbit classical and value val.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -597,7 +592,7 @@ if None then the name stays the same.</p>
 <dl class="py method">
 <dt id="qiskit.circuit.library.TdgGate.label">
 <em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#qiskit.circuit.library.TdgGate.label" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Return gate label</p>
+<dd><p>Return instruction label</p>
 <dl class="field-list simple">
 <dt class="field-odd">戻り値の型</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
@@ -776,7 +771,7 @@ account.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -814,7 +809,7 @@ account.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

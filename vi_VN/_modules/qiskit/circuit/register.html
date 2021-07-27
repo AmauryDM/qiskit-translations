@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.register &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.circuit.register &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -345,16 +345,16 @@
 <span class="k">class</span> <span class="nc">Register</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Implement a generic register.&quot;&quot;&quot;</span>
 
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_name&#39;</span><span class="p">,</span> <span class="s1">&#39;_size&#39;</span><span class="p">,</span> <span class="s1">&#39;_bits&#39;</span><span class="p">,</span> <span class="s1">&#39;_hash&#39;</span><span class="p">,</span> <span class="s1">&#39;_repr&#39;</span><span class="p">]</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_name&quot;</span><span class="p">,</span> <span class="s2">&quot;_size&quot;</span><span class="p">,</span> <span class="s2">&quot;_bits&quot;</span><span class="p">,</span> <span class="s2">&quot;_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;_repr&quot;</span><span class="p">]</span>
 
     <span class="c1"># Register name should conform to OpenQASM 2.0 specification</span>
     <span class="c1"># See appendix A of https://arxiv.org/pdf/1707.03429v2.pdf</span>
-    <span class="n">name_format</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[a-z][a-zA-Z0-9_]*&#39;</span><span class="p">)</span>
+    <span class="n">name_format</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;[a-z][a-zA-Z0-9_]*&quot;</span><span class="p">)</span>
 
     <span class="c1"># Counter for the number of instances in this class.</span>
     <span class="n">instances_counter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
     <span class="c1"># Prefix to use for auto naming.</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;reg&#39;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;reg&quot;</span>
     <span class="n">bit_type</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -380,13 +380,11 @@
 <span class="sd">            CircuitError: if ``bits`` contained bits of an incorrect type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="p">(</span>
-                <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="p">(</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="p">):</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Exactly one of the size or bits arguments can be &quot;</span>
-                               <span class="s2">&quot;provided. Provided size=</span><span class="si">%s</span><span class="s2"> bits=</span><span class="si">%s</span><span class="s2">.&quot;</span>
-                               <span class="o">%</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bits</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="s2">&quot;Exactly one of the size or bits arguments can be &quot;</span>
+                <span class="s2">&quot;provided. Provided size=</span><span class="si">%s</span><span class="s2"> bits=</span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># validate (or cast) size</span>
         <span class="k">if</span> <span class="n">bits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -398,26 +396,34 @@
             <span class="n">valid_size</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_size</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Register size must be an integer. (</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">&#39; was provided)&quot;</span>
-                               <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="s2">&quot;Register size must be an integer. (</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">&#39; was provided)&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>  <span class="c1"># cast to int</span>
 
         <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Register size must be positive (</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">&#39; was provided)&quot;</span>
-                               <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="s2">&quot;Register size must be positive (</span><span class="si">%s</span><span class="s2"> &#39;</span><span class="si">%s</span><span class="s2">&#39; was provided)&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># validate (or cast) name</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances_counter</span><span class="p">))</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances_counter</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;The circuit name should be castable to a string &quot;</span>
-                                   <span class="s2">&quot;(or None for autogenerate a name).&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                    <span class="s2">&quot;The circuit name should be castable to a string &quot;</span>
+                    <span class="s2">&quot;(or None for autogenerate a name).&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_format</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is an invalid OPENQASM register name. See appendix&quot;</span>
-                                   <span class="s2">&quot; A of https://arxiv.org/pdf/1707.03429v2.pdf.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is an invalid OPENQASM register name. See appendix&quot;</span>
+                    <span class="s2">&quot; A of https://arxiv.org/pdf/1707.03429v2.pdf.&quot;</span> <span class="o">%</span> <span class="n">name</span>
+                <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">size</span>
@@ -427,8 +433,9 @@
         <span class="k">if</span> <span class="n">bits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># pylint: disable=isinstance-second-argument-not-valid-type</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bit_type</span><span class="p">)</span> <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">bits</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Provided bits did not all match &quot;</span>
-                                   <span class="s2">&quot;register type. bits=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bits</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Provided bits did not all match &quot;</span> <span class="s2">&quot;register type. bits=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bits</span>
+                <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_bits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_bits</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bit_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
@@ -462,8 +469,7 @@
 <span class="sd">            key is int. If key is a slice, returns a list of these instances.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            CircuitError: if the `key` is not an integer.</span>
-<span class="sd">            QiskitIndexError: if the `key` is not in the range `(0, self.size)`.</span>
+<span class="sd">            CircuitError: if the `key` is not an integer or not in the range `(0, self.size)`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;expected integer or slice index into register&quot;</span><span class="p">)</span>
@@ -473,7 +479,7 @@
             <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_bits</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">key</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;register index out of range&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;register index out of range&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bits</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
@@ -498,16 +504,16 @@
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">_repr</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_repr</span> <span class="ow">and</span> \
-                <span class="nb">all</span><span class="p">(</span>
-                        <span class="c1"># For new-style bits, check bitwise equality.</span>
-                        <span class="n">sbit</span> <span class="o">==</span> <span class="n">obit</span>
-                        <span class="k">for</span> <span class="n">sbit</span><span class="p">,</span> <span class="n">obit</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span>
-                        <span class="p">(</span><span class="n">sbit</span><span class="o">.</span><span class="n">_register</span><span class="p">,</span> <span class="n">sbit</span><span class="o">.</span><span class="n">_index</span><span class="p">,</span>
-                         <span class="n">obit</span><span class="o">.</span><span class="n">_register</span><span class="p">,</span> <span class="n">obit</span><span class="o">.</span><span class="n">_index</span><span class="p">)</span>
-                <span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repr</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_repr</span>
+            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="c1"># For new-style bits, check bitwise equality.</span>
+                <span class="n">sbit</span> <span class="o">==</span> <span class="n">obit</span>
+                <span class="k">for</span> <span class="n">sbit</span><span class="p">,</span> <span class="n">obit</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+                <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">sbit</span><span class="o">.</span><span class="n">_register</span><span class="p">,</span> <span class="n">sbit</span><span class="o">.</span><span class="n">_index</span><span class="p">,</span> <span class="n">obit</span><span class="o">.</span><span class="n">_register</span><span class="p">,</span> <span class="n">obit</span><span class="o">.</span><span class="n">_index</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">res</span>
 
@@ -531,7 +537,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -566,7 +572,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

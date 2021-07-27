@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.arithmetic.piecewise_linear_pauli_rotations &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.circuit.library.arithmetic.piecewise_linear_pauli_rotations &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -337,7 +337,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">AncillaRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">AncillaRegister</span><span class="p">,</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.exceptions</span> <span class="kn">import</span> <span class="n">CircuitError</span>
 
 <span class="kn">from</span> <span class="nn">.functional_pauli_rotations</span> <span class="kn">import</span> <span class="n">FunctionalPauliRotations</span>
@@ -365,13 +365,15 @@
 <span class="sd">    where we implicitly assume :math:`x_{J+1} = 2^n`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PiecewiseLinearPauliRotations.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.PiecewiseLinearPauliRotations.html#qiskit.circuit.library.PiecewiseLinearPauliRotations.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_state_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">slopes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">offsets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pw_lin&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PiecewiseLinearPauliRotations.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.PiecewiseLinearPauliRotations.html#qiskit.circuit.library.PiecewiseLinearPauliRotations.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_state_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">breakpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">slopes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pw_lin&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Construct piecewise-linearly-controlled Pauli rotations.</span>
 
 <span class="sd">        Args:</span>
@@ -395,10 +397,13 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_ancilla_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Deprecated. Use num_ancillas instead.&quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The PiecewiseLinearPauliRotations.num_ancilla_qubits property is deprecated &#39;</span>
-                      <span class="s1">&#39;as of 0.16.0. It will be removed no earlier than 3 months after the release &#39;</span>
-                      <span class="s1">&#39;date. You should use the num_ancillas property instead.&#39;</span><span class="p">,</span>
-                      <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The PiecewiseLinearPauliRotations.num_ancilla_qubits property is deprecated &quot;</span>
+            <span class="s2">&quot;as of 0.16.0. It will be removed no earlier than 3 months after the release &quot;</span>
+            <span class="s2">&quot;date. You should use the num_ancillas property instead.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_ancillas</span>
 
     <span class="nd">@property</span>
@@ -482,9 +487,9 @@
 <span class="sd">            The mapped offsets.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mapped_offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span>
-                                                       <span class="bp">self</span><span class="o">.</span><span class="n">slopes</span><span class="p">,</span>
-                                                       <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">slopes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">-</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">point</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mapped_offsets</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">mapped_offsets</span>
@@ -510,8 +515,9 @@
 
         <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)):</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                                                  <span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">y</span></div>
 
@@ -521,18 +527,20 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;The number of qubits has not been set.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The number of qubits has not been set.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Not enough qubits in the circuit, need at least &#39;</span>
-                                   <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not enough qubits in the circuit, need at least &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slopes</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">):</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mismatching sizes of breakpoints, slopes and offsets.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mismatching sizes of breakpoints, slopes and offsets.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">valid</span>
 
@@ -555,19 +563,23 @@
     <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
 
-        <span class="n">qr_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]</span>
-        <span class="n">qr_target</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]]</span>
-        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancillas</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">qregs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">qr_state</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]</span>
+        <span class="n">qr_target</span> <span class="o">=</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">]]</span>
+        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">ancillas</span>
 
         <span class="c1"># apply comparators and controlled linear rotations</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_zero_breakpoint</span><span class="p">:</span>
                 <span class="c1"># apply rotation</span>
-                <span class="n">lin_r</span> <span class="o">=</span> <span class="n">LinearPauliRotations</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
-                                             <span class="n">slope</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                             <span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                             <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lin_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
+                <span class="n">lin_r</span> <span class="o">=</span> <span class="n">LinearPauliRotations</span><span class="p">(</span>
+                    <span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
+                    <span class="n">slope</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lin_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">qr_compare</span> <span class="o">=</span> <span class="p">[</span><span class="n">qr_ancilla</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -577,18 +589,21 @@
                 <span class="n">comp</span> <span class="o">=</span> <span class="n">IntegerComparator</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">point</span><span class="p">)</span>
                 <span class="n">qr</span> <span class="o">=</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_compare</span><span class="p">[:]</span>  <span class="c1"># add ancilla as compare qubit</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_helper</span><span class="p">[:</span><span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="n">qr</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_helper</span><span class="p">[:</span> <span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
 
                 <span class="c1"># apply controlled rotation</span>
-                <span class="n">lin_r</span> <span class="o">=</span> <span class="n">LinearPauliRotations</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
-                                             <span class="n">slope</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                             <span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                             <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lin_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span>
-                            <span class="n">qr_compare</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
+                <span class="n">lin_r</span> <span class="o">=</span> <span class="n">LinearPauliRotations</span><span class="p">(</span>
+                    <span class="n">num_state_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_state_qubits</span><span class="p">,</span>
+                    <span class="n">slope</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapped_offsets</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lin_r</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">control</span><span class="p">(),</span> <span class="n">qr_compare</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_state</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_target</span><span class="p">)</span>
 
                 <span class="c1"># uncompute comparator</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qr</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_helper</span><span class="p">[:</span><span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span></div>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qr</span><span class="p">[:]</span> <span class="o">+</span> <span class="n">qr_helper</span><span class="p">[:</span> <span class="n">comp</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">to_gate</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -606,7 +621,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -641,7 +656,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

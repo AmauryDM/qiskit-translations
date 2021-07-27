@@ -59,5 +59,6 @@
       ~PauliSumOp.num_qubits
       ~PauliSumOp.parameters
       ~PauliSumOp.primitive
+      ~PauliSumOp.settings
    
    

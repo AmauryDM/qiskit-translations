@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mwongozo wa Uhamiaji wa Qiskit Aqua &mdash; Qiskit 0.27.0 documentation</title>
+  <title>Mwongozo wa Uhamiaji wa Qiskit Aqua &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -42,7 +42,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Mafunzo ya Uhamiaji wa Qiskit Aqua" href="aqua_tutorials/index.html" />
-    <link rel="prev" title="qiskit.providers.ibmq.runtime.ResultDecoder" href="stubs/qiskit.providers.ibmq.runtime.ResultDecoder.html" /> 
+    <link rel="prev" title="qiskit.providers.ibmq.runtime.ParameterNamespace" href="stubs/qiskit.providers.ibmq.runtime.ParameterNamespace.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -333,8 +333,8 @@
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Optimizers">Optimizers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Grover">Grover</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Amplitude-estimation">Amplitude estimation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Minimum-eigenvalues">Minimum eigenvalues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#(General)-Eigenvalues">(General) Eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Eigenvalues-za-viwango-vya-chini">Eigenvalues za viwango vya chini</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Eigenvalues-(Kwa-ujumla)">Eigenvalues (Kwa ujumla)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Alogaridhimu-ya-Shor">Alogaridhimu ya Shor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#HHL">HHL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aqua_tutorials/Qiskit%20Algorithms%20Migration%20Guide.html#Phase-estimation">Phase estimation</a></li>
@@ -359,7 +359,7 @@
         <a href="aqua_tutorials/index.html" class="btn btn-neutral float-right" title="Mafunzo ya Uhamiaji wa Qiskit Aqua" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="stubs/qiskit.providers.ibmq.runtime.ResultDecoder.html" class="btn btn-neutral" title="qiskit.providers.ibmq.runtime.ResultDecoder" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="stubs/qiskit.providers.ibmq.runtime.ParameterNamespace.html" class="btn btn-neutral" title="qiskit.providers.ibmq.runtime.ParameterNamespace" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -373,7 +373,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -411,7 +411,7 @@
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

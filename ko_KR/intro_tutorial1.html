@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Qiskit 소개 &mdash; Qiskit 0.27.0 문서</title>
+  <title>Qiskit 소개 &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -42,7 +42,7 @@
     <link rel="index" title="색인" href="genindex.html" />
     <link rel="search" title="검색" href="search.html" />
     <link rel="next" title="Release Notes" href="release_notes.html" />
-    <link rel="prev" title="핵심적인 양자 컴퓨팀의 내용" href="qc_intro.html" /> 
+    <link rel="prev" title="핵심적인 양자 컴퓨팅의 내용" href="qc_intro.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -226,7 +226,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -365,7 +365,7 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="c1"># Returns counts</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">compiled_circuit</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total count for 00 and 11 are:&quot;</span><span class="p">,</span><span class="n">counts</span><span class="p">)</span>
 
 <span class="c1"># Draw the circuit</span>
@@ -375,7 +375,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;00&#39;: 534, &#39;11&#39;: 466}
+Total count for 00 and 11 are: {&#39;00&#39;: 467, &#39;11&#39;: 533}
 </pre></div>
 </div>
 <div class="output text_html"><pre style="word-wrap: normal;white-space: pre;background: #fff0;line-height: 1.1;font-family: &quot;Courier New&quot;,Courier,monospace">     ┌───┐     ┌─┐   
@@ -507,7 +507,7 @@ from qiskit.providers.basicaer import QasmSimulatorPy
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Total count for 00 and 11 are: {&#39;00&#39;: 516, &#39;11&#39;: 484}
+Total count for 00 and 11 are: {&#39;00&#39;: 470, &#39;11&#39;: 530}
 </pre></div>
 </div>
 </div>
@@ -533,7 +533,7 @@ Total count for 00 and 11 are: {&#39;00&#39;: 516, &#39;11&#39;: 484}
 <p>관측된 확률 <span class="math notranslate nohighlight">\(Pr(00)\)</span> 와 <span class="math notranslate nohighlight">\(Pr(11)\)</span> 는 각각의 값이 나온 실험의 수를 총 샷 수로 나누어 계산되었다.</p>
 <div class="admonition note">
 <p class="admonition-title">참고</p>
-<p><code class="docutils literal notranslate"><span class="pre">execute</span></code> 함수의 <code class="docutils literal notranslate"><span class="pre">shots</span></code> 인수를 바꿔서 입력해 보면 예측되는 확률들이 어떻게 바뀌는지 알아볼 수 있다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">run()</span></code> 메서드의 <code class="docutils literal notranslate"><span class="pre">shots</span></code> 전달 인자를 바꿔서 입력해 보고 각각의 경우에 따라 예상되는 확률이 어떻게 변하는 지를 확인해 보라.</p>
 </div>
 </section>
 </section>
@@ -559,7 +559,7 @@ Total count for 00 and 11 are: {&#39;00&#39;: 516, &#39;11&#39;: 484}
         <a href="release_notes.html" class="btn btn-neutral float-right" title="Release Notes" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="qc_intro.html" class="btn btn-neutral" title="핵심적인 양자 컴퓨팀의 내용" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="qc_intro.html" class="btn btn-neutral" title="핵심적인 양자 컴퓨팅의 내용" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -573,7 +573,7 @@ Total count for 00 and 11 are: {&#39;00&#39;: 516, &#39;11&#39;: 484}
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -623,7 +623,7 @@ Total count for 00 and 11 are: {&#39;00&#39;: 516, &#39;11&#39;: 484}
          <script src="_static/language_data.js"></script>
          <script src="_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

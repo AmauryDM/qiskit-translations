@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.symplectic.base_pauli &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.quantum_info.operators.symplectic.base_pauli &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -335,11 +335,12 @@
 <span class="c1"># pylint: disable=invalid-name</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.barrier</span> <span class="kn">import</span> <span class="n">Barrier</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.base_operator</span> <span class="kn">import</span> <span class="n">BaseOperator</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.mixins</span> <span class="kn">import</span> <span class="n">AdjointMixin</span><span class="p">,</span> <span class="n">MultiplyMixin</span>
 
@@ -390,9 +391,19 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_tensor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_z</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">_z</span><span class="p">])</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">_x</span><span class="p">])</span>
-        <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">_phase</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">)</span>
+        <span class="n">z1</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">_z</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_z</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">)</span>
+        <span class="n">phase1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_num_paulis</span> <span class="o">*</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">_phase</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">phase2</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stack</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">z2</span><span class="p">,</span> <span class="n">z1</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">phase1</span> <span class="o">+</span> <span class="n">phase2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BasePauli</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
 
     <span class="c1"># pylint: disable=arguments-differ</span>
@@ -411,21 +422,23 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            QiskitError: if number of qubits of other does not match qargs.</span>
-<span class="sd">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
         <span class="c1"># Validation</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="s2">&quot;other </span><span class="si">{}</span><span class="s2"> must be on the same number of qubits.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;other </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must be on the same number of qubits.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="s2">&quot;Number of qubits of the other </span><span class="si">{}</span><span class="s2"> does not match qargs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+                <span class="sa">f</span><span class="s2">&quot;Number of qubits of the other </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not match qargs.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">_num_paulis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_paulis</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Incompatible BasePaulis. Second list must &quot;</span>
-                              <span class="s2">&quot;either have 1 or the same number of Paulis.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;Incompatible BasePaulis. Second list must &quot;</span>
+                <span class="s2">&quot;either have 1 or the same number of Paulis.&quot;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Compute phase shift</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -472,7 +485,9 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            QiskitError: if the phase is not in the set ``[1, -1j, -1, 1j]``.</span>
-<span class="sd">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_phase_from_complex</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">other</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -511,11 +526,13 @@
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Number of qubits of other Pauli does not match number of &quot;</span>
-                <span class="s2">&quot;qargs (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)))</span>
+                <span class="s2">&quot;qargs (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">))</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Number of qubits of other Pauli does not match the current &quot;</span>
-                <span class="s2">&quot;Pauli (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="s2">&quot;Pauli (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">inds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
             <span class="n">x1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">[:,</span> <span class="n">inds</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">[:,</span> <span class="n">inds</span><span class="p">]</span>
@@ -544,11 +561,15 @@
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Incorrect number of qubits for Clifford circuit (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)))</span>
+                    <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Incorrect number of qubits for Clifford circuit (</span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                    <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Evolve via Pauli</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BasePauli</span><span class="p">):</span>
@@ -556,8 +577,61 @@
             <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ret</span>
 
+        <span class="c1"># pylint: disable=cyclic-import</span>
+        <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.clifford</span> <span class="kn">import</span> <span class="n">Clifford</span>
+
+        <span class="c1"># Convert Clifford to quantum circuits</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Clifford</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evolve_clifford</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
+
         <span class="c1"># Otherwise evolve by the inverse circuit to compute C^dg.P.C</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">_append_circuit</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_evolve_clifford</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Heisenberg picture evolution of a Pauli by a Clifford.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">num_act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
+            <span class="n">num_act</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+        <span class="c1"># Set return to I on qargs</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">_x</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">_z</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># pylint: disable=cyclic-import</span>
+        <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
+        <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.pauli_list</span> <span class="kn">import</span> <span class="n">PauliList</span>
+
+        <span class="c1"># Get action of Pauli&#39;s from Clifford</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]:</span>
+            <span class="n">pauli</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="s2">&quot;I&quot;</span> <span class="o">*</span> <span class="n">num_act</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">adj</span><span class="o">.</span><span class="n">stabilizer</span><span class="p">[</span><span class="n">z</span><span class="p">]:</span>
+                <span class="n">pauli</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">Pauli</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">Z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">row</span><span class="o">.</span><span class="n">phase</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pauli_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">PauliList</span><span class="p">(</span><span class="n">pauli_list</span><span class="p">),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">pauli_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]:</span>
+            <span class="n">pauli</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="s2">&quot;I&quot;</span> <span class="o">*</span> <span class="n">num_act</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">adj</span><span class="o">.</span><span class="n">destabilizer</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                <span class="n">pauli</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">Pauli</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">Z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">row</span><span class="o">.</span><span class="n">phase</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pauli_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">PauliList</span><span class="p">(</span><span class="n">pauli_list</span><span class="p">),</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span> <span class="nf">_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Entrywise comparison of Pauli equality.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span>
+            <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_z</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_x</span><span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Helper Methods</span>
@@ -576,11 +650,13 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_stack</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_stack</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">vertical</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Stack array.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">array</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">array</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">vertical</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">array</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">size</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">),)</span> <span class="o">+</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">array</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">size</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">),)</span> <span class="o">+</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_phase_from_complex</span><span class="p">(</span><span class="n">coeff</span><span class="p">):</span>
@@ -620,8 +696,7 @@
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;z and x vectors are different size.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Convert group phase convention to internal ZX-phase conversion.</span>
-        <span class="n">base_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">base_x</span><span class="p">,</span> <span class="n">base_z</span><span class="p">),</span>
-                                   <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">base_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">base_x</span><span class="p">,</span> <span class="n">base_z</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">,</span> <span class="n">base_phase</span>
 
     <span class="nd">@staticmethod</span>
@@ -653,7 +728,7 @@
             <span class="n">phase</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">z</span><span class="p">)</span>
             <span class="n">phase</span> <span class="o">%=</span> <span class="mi">4</span>
 
-        <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">num_qubits</span>
         <span class="n">twos_array</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
         <span class="n">x_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">twos_array</span><span class="p">)</span>
         <span class="n">z_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">twos_array</span><span class="p">)</span>
@@ -661,26 +736,24 @@
         <span class="n">indptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">)</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">indptr</span> <span class="o">^</span> <span class="n">x_indices</span>
         <span class="k">if</span> <span class="n">phase</span><span class="p">:</span>
-            <span class="n">coeff</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">**</span><span class="n">phase</span>
+            <span class="n">coeff</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span> <span class="o">**</span> <span class="n">phase</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coeff</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
-                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">z_indices</span> <span class="o">&amp;</span> <span class="n">indptr</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coeff</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">z_indices</span> <span class="o">&amp;</span> <span class="n">indptr</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">sparse</span><span class="p">:</span>
             <span class="c1"># Return sparse matrix</span>
             <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span>
-            <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indptr</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span>
-                              <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indptr</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
 
         <span class="c1"># Build dense matrix using csr format</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
-            <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">indices</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">indptr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
         <span class="k">return</span> <span class="n">mat</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_to_label</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">group_phase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                  <span class="n">full_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_phase</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_to_label</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">group_phase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">full_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_phase</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the label string for a Pauli.</span>
 
 <span class="sd">        Args:</span>
@@ -707,18 +780,18 @@
 <span class="sd">                            for the label from the full Pauli group.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">coeff_labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;i&#39;</span><span class="p">}</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">coeff_labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;i&quot;</span><span class="p">}</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">z</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;I&#39;</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="s2">&quot;I&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;X&#39;</span>
+                    <span class="n">label</span> <span class="o">+=</span> <span class="s2">&quot;X&quot;</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]:</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;Z&#39;</span>
+                <span class="n">label</span> <span class="o">+=</span> <span class="s2">&quot;Z&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">+=</span> <span class="s1">&#39;Y&#39;</span>
+                <span class="n">label</span> <span class="o">+=</span> <span class="s2">&quot;Y&quot;</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">group_phase</span><span class="p">:</span>
                     <span class="n">phase</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="n">phase</span> <span class="o">%=</span> <span class="mi">4</span>
@@ -754,32 +827,26 @@
 
         <span class="c1"># Basis Clifford Gates</span>
         <span class="n">basis_1q</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
-            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
-            <span class="s1">&#39;iden&#39;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
-            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">_evolve_x</span><span class="p">,</span>
-            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">_evolve_y</span><span class="p">,</span>
-            <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="n">_evolve_z</span><span class="p">,</span>
-            <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="n">_evolve_h</span><span class="p">,</span>
-            <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">_evolve_s</span><span class="p">,</span>
-            <span class="s1">&#39;sdg&#39;</span><span class="p">:</span> <span class="n">_evolve_sdg</span><span class="p">,</span>
-            <span class="s1">&#39;sinv&#39;</span><span class="p">:</span> <span class="n">_evolve_sdg</span>
+            <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
+            <span class="s2">&quot;iden&quot;</span><span class="p">:</span> <span class="n">_evolve_i</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">_evolve_x</span><span class="p">,</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">_evolve_y</span><span class="p">,</span>
+            <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">_evolve_z</span><span class="p">,</span>
+            <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="n">_evolve_h</span><span class="p">,</span>
+            <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="n">_evolve_s</span><span class="p">,</span>
+            <span class="s2">&quot;sdg&quot;</span><span class="p">:</span> <span class="n">_evolve_sdg</span><span class="p">,</span>
+            <span class="s2">&quot;sinv&quot;</span><span class="p">:</span> <span class="n">_evolve_sdg</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">basis_2q</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;cx&#39;</span><span class="p">:</span> <span class="n">_evolve_cx</span><span class="p">,</span>
-            <span class="s1">&#39;cz&#39;</span><span class="p">:</span> <span class="n">_evolve_cz</span><span class="p">,</span>
-            <span class="s1">&#39;cy&#39;</span><span class="p">:</span> <span class="n">_evolve_cy</span><span class="p">,</span>
-            <span class="s1">&#39;swap&#39;</span><span class="p">:</span> <span class="n">_evolve_swap</span>
-        <span class="p">}</span>
+        <span class="n">basis_2q</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">_evolve_cx</span><span class="p">,</span> <span class="s2">&quot;cz&quot;</span><span class="p">:</span> <span class="n">_evolve_cz</span><span class="p">,</span> <span class="s2">&quot;cy&quot;</span><span class="p">:</span> <span class="n">_evolve_cy</span><span class="p">,</span> <span class="s2">&quot;swap&quot;</span><span class="p">:</span> <span class="n">_evolve_swap</span><span class="p">}</span>
 
         <span class="c1"># Non-Clifford gates</span>
-        <span class="n">non_clifford</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;tdg&#39;</span><span class="p">,</span> <span class="s1">&#39;ccx&#39;</span><span class="p">,</span> <span class="s1">&#39;ccz&#39;</span><span class="p">]</span>
+        <span class="n">non_clifford</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;tdg&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx&quot;</span><span class="p">,</span> <span class="s2">&quot;ccz&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># Check if gate is a valid Clifford basis gate string</span>
             <span class="k">if</span> <span class="n">gate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">basis_1q</span> <span class="ow">and</span> <span class="n">gate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">basis_2q</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s2">&quot;Invalid Clifford gate name string </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid Clifford gate name string </span><span class="si">{</span><span class="n">gate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">gate</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Assume gate is an Instruction</span>
@@ -787,8 +854,7 @@
 
         <span class="c1"># Apply gate if it is a Clifford basis gate</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">non_clifford</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot update Pauli with non-Clifford gate </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot update Pauli with non-Clifford gate </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">basis_1q</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Invalid qubits for 1-qubit gate.&quot;</span><span class="p">)</span>
@@ -801,22 +867,26 @@
         <span class="c1"># If not a Clifford basis gate we try to unroll the gate and</span>
         <span class="c1"># raise an exception if unrolling reaches a non-Clifford gate.</span>
         <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Cannot apply Instruction: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot apply Instruction: </span><span class="si">{</span><span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">definition</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> instruction definition is </span><span class="si">{}</span><span class="s1">; expected QuantumCircuit&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">definition</span><span class="p">)))</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> instruction definition is </span><span class="si">{}</span><span class="s2">; expected QuantumCircuit&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">gate</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">gate</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">flat_instr</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">definition</span>
-        <span class="n">bit_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="n">index</span>
-                       <span class="k">for</span> <span class="n">bits</span> <span class="ow">in</span> <span class="p">[</span><span class="n">flat_instr</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">flat_instr</span><span class="o">.</span><span class="n">clbits</span><span class="p">]</span>
-                       <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bits</span><span class="p">)}</span>
+        <span class="n">bit_indices</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">bit</span><span class="p">:</span> <span class="n">index</span>
+            <span class="k">for</span> <span class="n">bits</span> <span class="ow">in</span> <span class="p">[</span><span class="n">flat_instr</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">flat_instr</span><span class="o">.</span><span class="n">clbits</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
+        <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">instr</span><span class="p">,</span> <span class="n">qregs</span><span class="p">,</span> <span class="n">cregs</span> <span class="ow">in</span> <span class="n">flat_instr</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cregs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s1">&#39;Cannot apply Instruction with classical registers: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot apply Instruction with classical registers: </span><span class="si">{</span><span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
             <span class="c1"># Get the integer position of the flat register</span>
             <span class="n">new_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">qargs</span><span class="p">[</span><span class="n">bit_indices</span><span class="p">[</span><span class="n">tup</span><span class="p">]]</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">qregs</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_append_circuit</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">new_qubits</span><span class="p">)</span>
@@ -830,6 +900,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Evolution by Clifford gates</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
+
 
 <span class="k">def</span> <span class="nf">_evolve_h</span><span class="p">(</span><span class="n">base_pauli</span><span class="p">,</span> <span class="n">qubit</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update P -&gt; H.P.H&quot;&quot;&quot;</span>
@@ -936,7 +1007,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -971,7 +1042,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

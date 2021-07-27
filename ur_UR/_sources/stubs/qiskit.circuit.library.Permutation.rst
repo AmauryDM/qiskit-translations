@@ -56,6 +56,7 @@
       ~Permutation.fredkin
       ~Permutation.from_qasm_file
       ~Permutation.from_qasm_str
+      ~Permutation.get_instructions
       ~Permutation.h
       ~Permutation.hamiltonian
       ~Permutation.has_register

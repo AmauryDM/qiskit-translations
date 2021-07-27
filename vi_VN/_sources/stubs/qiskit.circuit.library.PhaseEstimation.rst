@@ -56,6 +56,7 @@
       ~PhaseEstimation.fredkin
       ~PhaseEstimation.from_qasm_file
       ~PhaseEstimation.from_qasm_str
+      ~PhaseEstimation.get_instructions
       ~PhaseEstimation.h
       ~PhaseEstimation.hamiltonian
       ~PhaseEstimation.has_register

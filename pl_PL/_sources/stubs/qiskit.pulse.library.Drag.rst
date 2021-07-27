@@ -32,6 +32,7 @@ qiskit.pulse.library.Drag
       ~Drag.amp
       ~Drag.beta
       ~Drag.id
+      ~Drag.limit_amplitude
       ~Drag.parameters
       ~Drag.sigma
    

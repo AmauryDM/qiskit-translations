@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.evolutions.EvolvedOp &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.opflow.evolutions.EvolvedOp &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -476,6 +476,9 @@ but would have ended up copying and pasting a lot of code from PrimitiveOp.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.evolutions.EvolvedOp.primitive" title="qiskit.opflow.evolutions.EvolvedOp.primitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primitive</span></code></a></p></td>
 <td><p>The primitive defining the underlying function of the Operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.evolutions.EvolvedOp.settings" title="qiskit.opflow.evolutions.EvolvedOp.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Return operator settings.</p></td>
 </tr>
 </tbody>
 </table>
@@ -778,17 +781,6 @@ j should be permuted to position permutation[j].</p>
 <dt id="qiskit.opflow.evolutions.EvolvedOp.power">
 <code class="sig-name descname">power</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exponent</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.opflow.evolutions.EvolvedOp.power" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return Operator composed with self multiple times, overloaded by <code class="docutils literal notranslate"><span class="pre">**</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>exponent</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) -- The int number of times to compose self with itself.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">OperatorBase</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code> equivalent to self composed with itself exponent times.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -834,6 +826,17 @@ If no reduction is available, just returns self.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The reduced <code class="docutils literal notranslate"><span class="pre">OperatorBase</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.opflow.evolutions.EvolvedOp.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.opflow.evolutions.EvolvedOp.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return operator settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -997,7 +1000,7 @@ the Operator's underlying function on every combination of basis binary strings.
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -1035,7 +1038,7 @@ the Operator's underlying function on every combination of basis binary strings.
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

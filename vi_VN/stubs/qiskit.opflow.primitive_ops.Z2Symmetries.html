@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.primitive_ops.Z2Symmetries &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.opflow.primitive_ops.Z2Symmetries &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -411,16 +411,19 @@ the Clifford operators</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.cliffords" title="qiskit.opflow.primitive_ops.Z2Symmetries.cliffords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cliffords</span></code></a></p></td>
 <td><p>Get clifford operators, build based on symmetries and single-qubit X.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.sq_list" title="qiskit.opflow.primitive_ops.Z2Symmetries.sq_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sq_list</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.settings" title="qiskit.opflow.primitive_ops.Z2Symmetries.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Return operator settings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.sq_list" title="qiskit.opflow.primitive_ops.Z2Symmetries.sq_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sq_list</span></code></a></p></td>
 <td><p>returns sq list</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.sq_paulis" title="qiskit.opflow.primitive_ops.Z2Symmetries.sq_paulis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sq_paulis</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.sq_paulis" title="qiskit.opflow.primitive_ops.Z2Symmetries.sq_paulis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sq_paulis</span></code></a></p></td>
 <td><p>returns sq paulis</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.symmetries" title="qiskit.opflow.primitive_ops.Z2Symmetries.symmetries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symmetries</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.symmetries" title="qiskit.opflow.primitive_ops.Z2Symmetries.symmetries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symmetries</span></code></a></p></td>
 <td><p>return symmetries</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.tapering_values" title="qiskit.opflow.primitive_ops.Z2Symmetries.tapering_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tapering_values</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.opflow.primitive_ops.Z2Symmetries.tapering_values" title="qiskit.opflow.primitive_ops.Z2Symmetries.tapering_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tapering_values</span></code></a></p></td>
 <td><p>returns tapering values</p></td>
 </tr>
 </tbody>
@@ -482,6 +485,17 @@ is created. i.e., using the same Cliffords and tapering values.</p>
 <dd><p>Check the z2_symmetries is empty or not.
 :rtype: <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>
 :returns: Empty or not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.opflow.primitive_ops.Z2Symmetries.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.opflow.primitive_ops.Z2Symmetries.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return operator settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Kiểu trả về</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -558,7 +572,7 @@ The <cite>tapering_values</cite> will be stored into the resulted operator for a
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -596,7 +610,7 @@ The <cite>tapering_values</cite> will be stored into the resulted operator for a
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

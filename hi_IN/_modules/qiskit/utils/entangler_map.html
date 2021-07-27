@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.utils.entangler_map &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.utils.entangler_map &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -359,11 +359,11 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s1">&#39;sca&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">map_type</span> <span class="o">==</span> <span class="s2">&quot;sca&quot;</span><span class="p">:</span>
             <span class="n">offset_idx</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">%</span> <span class="n">num_qubits</span>
             <span class="k">if</span> <span class="n">offset_idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># even block numbers</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">offset_idx</span><span class="p">)):</span>
@@ -415,20 +415,18 @@
 
     <span class="k">for</span> <span class="n">src_to_targ</span> <span class="ow">in</span> <span class="n">entangler_map</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src_to_targ</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Entangle index list expected but got </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">src_to_targ</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entangle index list expected but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">src_to_targ</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">ret_map</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ret_map</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">src</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">targ</span><span class="p">)]</span> <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">targ</span> <span class="ow">in</span> <span class="n">entangler_map</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">targ</span> <span class="ow">in</span> <span class="n">ret_map</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">src</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">src</span> <span class="o">&gt;=</span> <span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Qubit entangle source value </span><span class="si">{}</span><span class="s1"> invalid for </span><span class="si">{}</span><span class="s1"> qubits&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubit entangle source value </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> invalid for </span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2"> qubits&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">targ</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">targ</span> <span class="o">&gt;=</span> <span class="n">num_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Qubit entangle target value </span><span class="si">{}</span><span class="s1"> invalid for </span><span class="si">{}</span><span class="s1"> qubits&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">targ</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubit entangle target value </span><span class="si">{</span><span class="n">targ</span><span class="si">}</span><span class="s2"> invalid for </span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2"> qubits&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_double_entanglement</span> <span class="ow">and</span> <span class="p">[</span><span class="n">targ</span><span class="p">,</span> <span class="n">src</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ret_map</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Qubit </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1"> cross-entangled.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">targ</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubit </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">targ</span><span class="si">}</span><span class="s2"> cross-entangled.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ret_map</span></div>
 </pre></div>
@@ -448,7 +446,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -484,7 +482,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

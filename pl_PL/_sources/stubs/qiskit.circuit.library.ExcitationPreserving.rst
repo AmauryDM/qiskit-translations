@@ -58,6 +58,7 @@
       ~ExcitationPreserving.from_qasm_file
       ~ExcitationPreserving.from_qasm_str
       ~ExcitationPreserving.get_entangler_map
+      ~ExcitationPreserving.get_instructions
       ~ExcitationPreserving.get_unentangled_qubits
       ~ExcitationPreserving.h
       ~ExcitationPreserving.hamiltonian

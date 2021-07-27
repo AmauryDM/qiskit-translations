@@ -42,5 +42,6 @@
       ~CNOTDihedral.dim
       ~CNOTDihedral.num_qubits
       ~CNOTDihedral.qargs
+      ~CNOTDihedral.settings
    
    

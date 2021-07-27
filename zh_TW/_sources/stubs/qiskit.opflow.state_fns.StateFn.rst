@@ -53,5 +53,6 @@
       ~StateFn.num_qubits
       ~StateFn.parameters
       ~StateFn.primitive
+      ~StateFn.settings
    
    

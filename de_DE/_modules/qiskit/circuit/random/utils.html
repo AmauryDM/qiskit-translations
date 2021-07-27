@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.random.utils &mdash; Qiskit 0.27.0 Dokumentation</title>
+  <title>qiskit.circuit.random.utils &mdash; Qiskit 0.28.0 Dokumentation</title>
   
 
   
@@ -336,17 +336,40 @@
 
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span><span class="p">,</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Reset</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="p">(</span><span class="n">IGate</span><span class="p">,</span> <span class="n">U1Gate</span><span class="p">,</span> <span class="n">U2Gate</span><span class="p">,</span> <span class="n">U3Gate</span><span class="p">,</span> <span class="n">XGate</span><span class="p">,</span>
-                                                   <span class="n">YGate</span><span class="p">,</span> <span class="n">ZGate</span><span class="p">,</span> <span class="n">HGate</span><span class="p">,</span> <span class="n">SGate</span><span class="p">,</span> <span class="n">SdgGate</span><span class="p">,</span> <span class="n">TGate</span><span class="p">,</span>
-                                                   <span class="n">TdgGate</span><span class="p">,</span> <span class="n">RXGate</span><span class="p">,</span> <span class="n">RYGate</span><span class="p">,</span> <span class="n">RZGate</span><span class="p">,</span> <span class="n">CXGate</span><span class="p">,</span>
-                                                   <span class="n">CYGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span> <span class="n">CHGate</span><span class="p">,</span> <span class="n">CRZGate</span><span class="p">,</span> <span class="n">CU1Gate</span><span class="p">,</span>
-                                                   <span class="n">CU3Gate</span><span class="p">,</span> <span class="n">SwapGate</span><span class="p">,</span> <span class="n">RZZGate</span><span class="p">,</span>
-                                                   <span class="n">CCXGate</span><span class="p">,</span> <span class="n">CSwapGate</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IGate</span><span class="p">,</span>
+    <span class="n">U1Gate</span><span class="p">,</span>
+    <span class="n">U2Gate</span><span class="p">,</span>
+    <span class="n">U3Gate</span><span class="p">,</span>
+    <span class="n">XGate</span><span class="p">,</span>
+    <span class="n">YGate</span><span class="p">,</span>
+    <span class="n">ZGate</span><span class="p">,</span>
+    <span class="n">HGate</span><span class="p">,</span>
+    <span class="n">SGate</span><span class="p">,</span>
+    <span class="n">SdgGate</span><span class="p">,</span>
+    <span class="n">TGate</span><span class="p">,</span>
+    <span class="n">TdgGate</span><span class="p">,</span>
+    <span class="n">RXGate</span><span class="p">,</span>
+    <span class="n">RYGate</span><span class="p">,</span>
+    <span class="n">RZGate</span><span class="p">,</span>
+    <span class="n">CXGate</span><span class="p">,</span>
+    <span class="n">CYGate</span><span class="p">,</span>
+    <span class="n">CZGate</span><span class="p">,</span>
+    <span class="n">CHGate</span><span class="p">,</span>
+    <span class="n">CRZGate</span><span class="p">,</span>
+    <span class="n">CU1Gate</span><span class="p">,</span>
+    <span class="n">CU3Gate</span><span class="p">,</span>
+    <span class="n">SwapGate</span><span class="p">,</span>
+    <span class="n">RZZGate</span><span class="p">,</span>
+    <span class="n">CCXGate</span><span class="p">,</span>
+    <span class="n">CSwapGate</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.exceptions</span> <span class="kn">import</span> <span class="n">CircuitError</span>
 
 
-<div class="viewcode-block" id="random_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.random.random_circuit.html#qiskit.circuit.random.random_circuit">[Doku]</a><span class="k">def</span> <span class="nf">random_circuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">max_operands</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                   <span class="n">conditional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="random_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.random.random_circuit.html#qiskit.circuit.random.random_circuit">[Doku]</a><span class="k">def</span> <span class="nf">random_circuit</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">max_operands</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">conditional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate random circuit of arbitrary size and form.</span>
 
 <span class="sd">    This function will generate a random circuit by randomly selecting gates</span>
@@ -377,20 +400,34 @@
     <span class="k">if</span> <span class="n">max_operands</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">max_operands</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;max_operands must be between 1 and 3&quot;</span><span class="p">)</span>
 
-    <span class="n">one_q_ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">IGate</span><span class="p">,</span> <span class="n">U1Gate</span><span class="p">,</span> <span class="n">U2Gate</span><span class="p">,</span> <span class="n">U3Gate</span><span class="p">,</span> <span class="n">XGate</span><span class="p">,</span> <span class="n">YGate</span><span class="p">,</span> <span class="n">ZGate</span><span class="p">,</span>
-                 <span class="n">HGate</span><span class="p">,</span> <span class="n">SGate</span><span class="p">,</span> <span class="n">SdgGate</span><span class="p">,</span> <span class="n">TGate</span><span class="p">,</span> <span class="n">TdgGate</span><span class="p">,</span> <span class="n">RXGate</span><span class="p">,</span> <span class="n">RYGate</span><span class="p">,</span> <span class="n">RZGate</span><span class="p">]</span>
+    <span class="n">one_q_ops</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">IGate</span><span class="p">,</span>
+        <span class="n">U1Gate</span><span class="p">,</span>
+        <span class="n">U2Gate</span><span class="p">,</span>
+        <span class="n">U3Gate</span><span class="p">,</span>
+        <span class="n">XGate</span><span class="p">,</span>
+        <span class="n">YGate</span><span class="p">,</span>
+        <span class="n">ZGate</span><span class="p">,</span>
+        <span class="n">HGate</span><span class="p">,</span>
+        <span class="n">SGate</span><span class="p">,</span>
+        <span class="n">SdgGate</span><span class="p">,</span>
+        <span class="n">TGate</span><span class="p">,</span>
+        <span class="n">TdgGate</span><span class="p">,</span>
+        <span class="n">RXGate</span><span class="p">,</span>
+        <span class="n">RYGate</span><span class="p">,</span>
+        <span class="n">RZGate</span><span class="p">,</span>
+    <span class="p">]</span>
     <span class="n">one_param</span> <span class="o">=</span> <span class="p">[</span><span class="n">U1Gate</span><span class="p">,</span> <span class="n">RXGate</span><span class="p">,</span> <span class="n">RYGate</span><span class="p">,</span> <span class="n">RZGate</span><span class="p">,</span> <span class="n">RZZGate</span><span class="p">,</span> <span class="n">CU1Gate</span><span class="p">,</span> <span class="n">CRZGate</span><span class="p">]</span>
     <span class="n">two_param</span> <span class="o">=</span> <span class="p">[</span><span class="n">U2Gate</span><span class="p">]</span>
     <span class="n">three_param</span> <span class="o">=</span> <span class="p">[</span><span class="n">U3Gate</span><span class="p">,</span> <span class="n">CU3Gate</span><span class="p">]</span>
-    <span class="n">two_q_ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">CXGate</span><span class="p">,</span> <span class="n">CYGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span> <span class="n">CHGate</span><span class="p">,</span> <span class="n">CRZGate</span><span class="p">,</span>
-                 <span class="n">CU1Gate</span><span class="p">,</span> <span class="n">CU3Gate</span><span class="p">,</span> <span class="n">SwapGate</span><span class="p">,</span> <span class="n">RZZGate</span><span class="p">]</span>
+    <span class="n">two_q_ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">CXGate</span><span class="p">,</span> <span class="n">CYGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span> <span class="n">CHGate</span><span class="p">,</span> <span class="n">CRZGate</span><span class="p">,</span> <span class="n">CU1Gate</span><span class="p">,</span> <span class="n">CU3Gate</span><span class="p">,</span> <span class="n">SwapGate</span><span class="p">,</span> <span class="n">RZZGate</span><span class="p">]</span>
     <span class="n">three_q_ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">CCXGate</span><span class="p">,</span> <span class="n">CSwapGate</span><span class="p">]</span>
 
-    <span class="n">qr</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
+    <span class="n">qr</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">)</span>
     <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">measure</span> <span class="ow">or</span> <span class="n">conditional</span><span class="p">:</span>
-        <span class="n">cr</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+        <span class="n">cr</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
         <span class="n">qc</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">cr</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
@@ -456,7 +493,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Zuletzt aktualisiert am 2021/07/12.
+      Zuletzt aktualisiert am 2021/07/27.
 
     </p>
   </div>
@@ -491,7 +528,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

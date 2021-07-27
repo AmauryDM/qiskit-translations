@@ -47,5 +47,6 @@
       ~Choi.num_qubits
       ~Choi.qargs
       ~Choi.rtol
+      ~Choi.settings
    
    

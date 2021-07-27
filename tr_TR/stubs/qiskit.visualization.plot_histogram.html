@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.plot_histogram &mdash; Qiskit 0.27.0 belgelendirmesi</title>
+  <title>qiskit.visualization.plot_histogram &mdash; Qiskit 0.28.0 belgelendirmesi</title>
   
 
   
@@ -341,7 +341,10 @@ dict containing the values to represent (ex {‘001’: 130})</p></li>
 <li><p><strong>color</strong> (<em>list</em><em> or </em><em>str</em>) – String or list of strings for histogram bar colors.</p></li>
 <li><p><strong>number_to_keep</strong> (<em>int</em>) – The number of terms to plot and rest
 is made into a single bar called ‘rest’.</p></li>
-<li><p><strong>sort</strong> (<em>string</em>) – Could be ‘asc’, ‘desc’, or ‘hamming’.</p></li>
+<li><p><strong>sort</strong> (<em>string</em>) – Could be <cite>‘asc’</cite>, <cite>‘desc’</cite>, <cite>‘hamming’</cite>, <cite>‘value’</cite>, or
+<cite>‘value_desc’</cite>. If set to <cite>‘value’</cite> or <cite>‘value_desc’</cite> the x axis
+will be sorted by the maximum probability for each bitstring.
+Defaults to <cite>‘asc’</cite>.</p></li>
 <li><p><strong>target_string</strong> (<em>str</em>) – Target string if ‘sort’ is a distance measure.</p></li>
 <li><p><strong>legend</strong> (<em>list</em>) – A list of strings to use for labels of the data.
 The number of entries must match the length of data (if data is a
@@ -363,7 +366,7 @@ kwarg is not set.</p>
 </dd>
 <dt class="field-even">Harekete geçirir</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ImportError</strong> – Matplotlib not available.</p></li>
+<li><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – Matplotlib not available.</p></li>
 <li><p><a class="reference internal" href="qiskit.visualization.VisualizationError.html#qiskit.visualization.VisualizationError" title="qiskit.visualization.VisualizationError"><strong>VisualizationError</strong></a> – When legend is provided and the length doesn’t
     match the input data.</p></li>
 </ul>
@@ -421,7 +424,7 @@ kwarg is not set.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Son güncelleme: 2021/07/12.
+      Son güncelleme: 2021/07/27.
 
     </p>
   </div>
@@ -459,7 +462,7 @@ kwarg is not set.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.expectations.expectation_factory &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.opflow.expectations.expectation_factory &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -349,14 +349,16 @@
 
 
 <div class="viewcode-block" id="ExpectationFactory"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.ExpectationFactory.html#qiskit.opflow.expectations.ExpectationFactory">[docs]</a><span class="k">class</span> <span class="nc">ExpectationFactory</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; A factory class for convenient automatic selection of an Expectation based on the</span>
+    <span class="sd">&quot;&quot;&quot;A factory class for convenient automatic selection of an Expectation based on the</span>
 <span class="sd">    Operator to be converted and backend used to sample the expectation value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ExpectationFactory.build"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.ExpectationFactory.html#qiskit.opflow.expectations.ExpectationFactory.build">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-              <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">include_custom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExpectationBase</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_custom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExpectationBase</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A factory method for convenient automatic selection of an Expectation based on the</span>
 <span class="sd">        Operator to be converted and backend used to sample the expectation value.</span>
@@ -382,29 +384,31 @@
 
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="n">primitives</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">primitives</span> <span class="ow">in</span> <span class="p">({</span><span class="s1">&#39;Pauli&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;SparsePauliOp&#39;</span><span class="p">}):</span>
+        <span class="k">if</span> <span class="n">primitives</span> <span class="ow">in</span> <span class="p">({</span><span class="s2">&quot;Pauli&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;SparsePauliOp&quot;</span><span class="p">}):</span>
 
             <span class="k">if</span> <span class="n">backend_to_check</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># If user has Aer but didn&#39;t specify a backend, use the Aer fast expectation</span>
                 <span class="k">if</span> <span class="n">has_aer</span><span class="p">():</span>
                     <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">Aer</span>
-                    <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">)</span>
+
+                    <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;qasm_simulator&quot;</span><span class="p">)</span>
                 <span class="c1"># If user doesn&#39;t have Aer, use statevector_simulator</span>
                 <span class="c1"># for &lt; 16 qubits, and qasm with warning for more.</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&lt;=</span> <span class="mi">16</span><span class="p">:</span>
-                        <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;statevector_simulator&#39;</span><span class="p">)</span>
+                        <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;statevector_simulator&quot;</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> qubits is a very large expectation value. &#39;</span>
-                            <span class="s1">&#39;Consider installing Aer to use &#39;</span>
-                            <span class="s1">&#39;Aer</span><span class="se">\&#39;</span><span class="s1">s fast expectation, which will perform better here. We</span><span class="se">\&#39;</span><span class="s1">ll use &#39;</span>
-                            <span class="s1">&#39;the BasicAer qasm backend for this expectation to avoid having to &#39;</span>
-                            <span class="s1">&#39;construct the </span><span class="si">%d</span><span class="s1">x</span><span class="si">%d</span><span class="s1"> operator matrix.&#39;</span><span class="p">,</span>
+                            <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> qubits is a very large expectation value. &quot;</span>
+                            <span class="s2">&quot;Consider installing Aer to use &quot;</span>
+                            <span class="s2">&quot;Aer&#39;s fast expectation, which will perform better here. We&#39;ll use &quot;</span>
+                            <span class="s2">&quot;the BasicAer qasm backend for this expectation to avoid having to &quot;</span>
+                            <span class="s2">&quot;construct the </span><span class="si">%d</span><span class="s2">x</span><span class="si">%d</span><span class="s2"> operator matrix.&quot;</span><span class="p">,</span>
                             <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
                             <span class="mi">2</span> <span class="o">**</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
-                            <span class="mi">2</span> <span class="o">**</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
-                        <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;qasm_simulator&#39;</span><span class="p">)</span>
+                            <span class="mi">2</span> <span class="o">**</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">backend_to_check</span> <span class="o">=</span> <span class="n">BasicAer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s2">&quot;qasm_simulator&quot;</span><span class="p">)</span>
 
             <span class="c1"># If the user specified Aer qasm backend and is using a</span>
             <span class="c1"># Pauli operator, use the Aer fast expectation if we are including such</span>
@@ -418,20 +422,22 @@
             <span class="k">elif</span> <span class="n">is_statevector_backend</span><span class="p">(</span><span class="n">backend_to_check</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;=</span> <span class="mi">16</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s1">&#39;Note: Using a statevector_simulator with </span><span class="si">%d</span><span class="s1"> qubits can be very expensive. &#39;</span>
-                        <span class="s1">&#39;Consider using the Aer qasm_simulator instead to take advantage of Aer</span><span class="se">\&#39;</span><span class="s1">s &#39;</span>
-                        <span class="s1">&#39;built-in fast Pauli Expectation&#39;</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+                        <span class="s2">&quot;Note: Using a statevector_simulator with </span><span class="si">%d</span><span class="s2"> qubits can be very expensive. &quot;</span>
+                        <span class="s2">&quot;Consider using the Aer qasm_simulator instead to take advantage of Aer&#39;s &quot;</span>
+                        <span class="s2">&quot;built-in fast Pauli Expectation&quot;</span><span class="p">,</span>
+                        <span class="n">operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">return</span> <span class="n">MatrixExpectation</span><span class="p">()</span>
 
             <span class="c1"># All other backends, including IBMQ, BasicAer QASM, go here.</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">PauliExpectation</span><span class="p">()</span>
 
-        <span class="k">elif</span> <span class="n">primitives</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;Matrix&#39;</span><span class="p">}:</span>
+        <span class="k">elif</span> <span class="n">primitives</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;Matrix&quot;</span><span class="p">}:</span>
             <span class="k">return</span> <span class="n">MatrixExpectation</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expectations of Mixed Operators not yet supported.&#39;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expectations of Mixed Operators not yet supported.&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -449,7 +455,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -484,7 +490,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

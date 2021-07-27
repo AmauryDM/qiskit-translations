@@ -46,5 +46,6 @@
       ~ADAM.is_initial_point_required
       ~ADAM.is_initial_point_supported
       ~ADAM.setting
+      ~ADAM.settings
    
    

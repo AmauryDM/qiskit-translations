@@ -39,6 +39,7 @@
       ~SetSuperOp.decompositions
       ~SetSuperOp.definition
       ~SetSuperOp.duration
+      ~SetSuperOp.label
       ~SetSuperOp.params
       ~SetSuperOp.unit
    

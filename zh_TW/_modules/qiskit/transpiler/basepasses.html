@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.basepasses &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.transpiler.basepasses &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -355,7 +355,7 @@
         <span class="n">self_guard</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
         <span class="n">init_signature</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">class_</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span>
         <span class="n">bound_signature</span> <span class="o">=</span> <span class="n">init_signature</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">self_guard</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;class_.__name__&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;class_.__name__&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">bound_signature</span><span class="o">.</span><span class="n">arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">self_guard</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -373,9 +373,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">requires</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of passes that requires</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preserves</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of passes that preserves</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span> <span class="o">=</span> <span class="n">PropertySet</span><span class="p">()</span>  <span class="c1"># This pass&#39;s pointer to the pass manager&#39;s property set.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
-    <span class="c1"># pylint: disable=invalid-hash-returned</span>
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash</span>
 
@@ -451,19 +450,21 @@
         <span class="k">elif</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">result_circuit</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s1">&#39;layout&#39;</span><span class="p">]:</span>
-            <span class="n">result_circuit</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">]:</span>
+            <span class="n">result_circuit</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">result_circuit</span>
 
 
 <div class="viewcode-block" id="AnalysisPass"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.AnalysisPass.html#qiskit.transpiler.AnalysisPass">[文件]</a><span class="k">class</span> <span class="nc">AnalysisPass</span><span class="p">(</span><span class="n">BasePass</span><span class="p">):</span>  <span class="c1"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;An analysis pass: change property set, not DAG.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="TransformationPass"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.TransformationPass.html#qiskit.transpiler.TransformationPass">[文件]</a><span class="k">class</span> <span class="nc">TransformationPass</span><span class="p">(</span><span class="n">BasePass</span><span class="p">):</span>  <span class="c1"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;A transformation pass: change DAG, not property set.&quot;&quot;&quot;</span>
+
     <span class="k">pass</span></div>
 </pre></div>
 
@@ -482,7 +483,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -518,7 +519,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

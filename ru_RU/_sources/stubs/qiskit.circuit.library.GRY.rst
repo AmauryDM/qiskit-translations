@@ -56,6 +56,7 @@
       ~GRY.fredkin
       ~GRY.from_qasm_file
       ~GRY.from_qasm_str
+      ~GRY.get_instructions
       ~GRY.h
       ~GRY.hamiltonian
       ~GRY.has_register

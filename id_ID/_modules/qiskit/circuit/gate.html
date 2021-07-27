@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.gate &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.circuit.gate &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -337,7 +337,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">schur</span>
 
-<span class="kn">from</span> <span class="nn">qiskit.circuit.parameter</span> <span class="kn">import</span> <span class="n">ParameterExpression</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.parameterexpression</span> <span class="kn">import</span> <span class="n">ParameterExpression</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.exceptions</span> <span class="kn">import</span> <span class="n">CircuitError</span>
 <span class="kn">from</span> <span class="nn">.instruction</span> <span class="kn">import</span> <span class="n">Instruction</span>
 
@@ -345,8 +345,9 @@
 <div class="viewcode-block" id="Gate"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate">[docs]</a><span class="k">class</span> <span class="nc">Gate</span><span class="p">(</span><span class="n">Instruction</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Unitary gate.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Gate.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
-                 <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Gate.__init__"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create a new gate.</span>
 
 <span class="sd">        Args:</span>
@@ -355,9 +356,8 @@
 <span class="sd">            params: A list of parameters.</span>
 <span class="sd">            label: An optional label for the gate.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
 
     <span class="c1"># Set higher priority than Numpy array and matrix classes</span>
     <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">20</span>
@@ -372,10 +372,10 @@
 <span class="sd">            CircuitError: If a Gate subclass does not implement this method an</span>
 <span class="sd">                exception will be raised when this base class method is called.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;__array__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;__array__&quot;</span><span class="p">):</span>
             <span class="c1"># pylint: disable=no-member</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;to_matrix not defined for this </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span></div>
+        <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_matrix not defined for this </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Gate.power"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.power">[docs]</a>    <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a unitary gate as `gate^exponent`.</span>
@@ -391,55 +391,32 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators</span> <span class="kn">import</span> <span class="n">Operator</span>  <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">qiskit.extensions.unitary</span> <span class="kn">import</span> <span class="n">UnitaryGate</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+
         <span class="c1"># Should be diagonalized because it&#39;s a unitary.</span>
-        <span class="n">decomposition</span><span class="p">,</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">schur</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;complex&#39;</span><span class="p">)</span>
+        <span class="n">decomposition</span><span class="p">,</span> <span class="n">unitary</span> <span class="o">=</span> <span class="n">schur</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
         <span class="c1"># Raise the diagonal entries to the specified power</span>
         <span class="n">decomposition_power</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
         <span class="n">decomposition_diagonal</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
         <span class="c1"># assert off-diagonal are 0</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">decomposition_diagonal</span><span class="p">),</span> <span class="n">decomposition</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;The matrix is not diagonal&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;The matrix is not diagonal&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">decomposition_diagonal</span><span class="p">:</span>
             <span class="n">decomposition_power</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">exponent</span><span class="p">))</span>
         <span class="c1"># Then reconstruct the resulting gate.</span>
         <span class="n">unitary_power</span> <span class="o">=</span> <span class="n">unitary</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">decomposition_power</span><span class="p">)</span> <span class="o">@</span> <span class="n">unitary</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">return</span> <span class="n">UnitaryGate</span><span class="p">(</span><span class="n">unitary_power</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">^</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">exponent</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">UnitaryGate</span><span class="p">(</span><span class="n">unitary_power</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">^</span><span class="si">{</span><span class="n">exponent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_return_repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Gate&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">*</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">exponent</span><span class="p">),</span> <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
-                    <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_return_repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Gate&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">*</span><span class="si">{</span><span class="n">exponent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Gate.assemble"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.assemble">[docs]</a>    <span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Instruction&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Assemble a QasmQobjInstruction&quot;&quot;&quot;</span>
-        <span class="n">instruction</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assemble</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
-            <span class="n">instruction</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
-        <span class="k">return</span> <span class="n">instruction</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return gate label&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
-
-    <span class="nd">@label</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set gate label to name</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str or None): label to assign unitary</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: name is not string or None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;label expects a string or None&#39;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="Gate.control"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.control">[docs]</a>    <span class="k">def</span> <span class="nf">control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_ctrl_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">ctrl_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Gate.control"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.control">[docs]</a>    <span class="k">def</span> <span class="nf">control</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_ctrl_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ctrl_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return controlled version of gate. See :class:`.ControlledGate` for usage.</span>
 
 <span class="sd">        Args:</span>
@@ -458,6 +435,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">.add_control</span> <span class="kn">import</span> <span class="n">add_control</span>
+
         <span class="k">return</span> <span class="n">add_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_ctrl_qubits</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ctrl_state</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
@@ -489,8 +467,9 @@
             <span class="k">for</span> <span class="n">arg0</span> <span class="ow">in</span> <span class="n">qarg0</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="p">[</span><span class="n">arg0</span><span class="p">,</span> <span class="n">qarg1</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;Not sure how to combine these two-qubit arguments:</span><span class="se">\n</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
-                               <span class="p">(</span><span class="n">qarg0</span><span class="p">,</span> <span class="n">qarg1</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Not sure how to combine these two-qubit arguments:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">qarg0</span><span class="si">}</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">qarg1</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_broadcast_3_or_more_args</span><span class="p">(</span><span class="n">qargs</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
@@ -498,8 +477,7 @@
             <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">qargs</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="nb">list</span><span class="p">(</span><span class="n">arg</span><span class="p">),</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
-                <span class="s1">&#39;Not sure how to combine these qubit arguments:</span><span class="se">\n</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">qargs</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Not sure how to combine these qubit arguments:</span><span class="se">\n</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">qargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Gate.broadcast_arguments"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.broadcast_arguments">[docs]</a>    <span class="k">def</span> <span class="nf">broadcast_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qargs</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">cargs</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Validation and handling of the arguments and its relationship.</span>
@@ -540,11 +518,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="ow">or</span> <span class="n">cargs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;The amount of qubit(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span><span class="si">}</span><span class="s1">)/clbit(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cargs</span><span class="p">)</span><span class="si">}</span><span class="s1">) arguments does&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39; not match the gate expectation (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s1">).&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;The amount of qubit(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span><span class="si">}</span><span class="s2">)/clbit(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cargs</span><span class="p">)</span><span class="si">}</span><span class="s2">) arguments does&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; not match the gate expectation (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="n">qarg</span> <span class="k">for</span> <span class="n">qarg</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;One or more of the arguments are empty&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;One or more of the arguments are empty&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Gate</span><span class="o">.</span><span class="n">_broadcast_single_argument</span><span class="p">(</span><span class="n">qargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -553,30 +532,33 @@
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Gate</span><span class="o">.</span><span class="n">_broadcast_3_or_more_args</span><span class="p">(</span><span class="n">qargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s1">&#39;This gate cannot handle </span><span class="si">%i</span><span class="s1"> arguments&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;This gate cannot handle </span><span class="si">%i</span><span class="s2"> arguments&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">qargs</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Gate.validate_parameter"><a class="viewcode-back" href="../../../stubs/qiskit.circuit.Gate.html#qiskit.circuit.Gate.validate_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">validate_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gate parameters should be int, float, or ParameterExpression&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">parameter</span>  <span class="c1"># expression has free parameters, we cannot validate it</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">parameter</span><span class="o">.</span><span class="n">_symbol_expr</span><span class="o">.</span><span class="n">is_real</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Bound parameter expression is complex in gate </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">parameter</span><span class="o">.</span><span class="n">is_real</span><span class="p">():</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bound parameter expression is complex in gate </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">parameter</span>  <span class="c1"># per default assume parameters must be real when bound</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">parameter</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">parameter</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Gate param type </span><span class="si">%s</span><span class="s2"> is being deprecated as of 0.16.0, and will be removed &quot;</span>
-                 <span class="s2">&quot;no earlier than 3 months after that release date. &quot;</span>
-                 <span class="s2">&quot;Considering creating your own Gate subclass with the method validate_parameter &quot;</span>
-                 <span class="s2">&quot; to allow this param type.&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Gate param type </span><span class="si">%s</span><span class="s2"> is being deprecated as of 0.16.0, and will be removed &quot;</span>
+                <span class="s2">&quot;no earlier than 3 months after that release date. &quot;</span>
+                <span class="s2">&quot;Considering creating your own Gate subclass with the method validate_parameter &quot;</span>
+                <span class="s2">&quot; to allow this param type.&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="n">parameter</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="s2">&quot;Invalid param type </span><span class="si">{0}</span><span class="s2"> for gate </span><span class="si">{1}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span>
-                                                                             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div></div>
+            <span class="k">raise</span> <span class="n">CircuitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid param type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2"> for gate </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -594,7 +576,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -629,7 +611,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

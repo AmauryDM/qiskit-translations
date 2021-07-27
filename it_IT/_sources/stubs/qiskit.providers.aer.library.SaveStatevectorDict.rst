@@ -39,6 +39,7 @@
       ~SaveStatevectorDict.decompositions
       ~SaveStatevectorDict.definition
       ~SaveStatevectorDict.duration
+      ~SaveStatevectorDict.label
       ~SaveStatevectorDict.params
       ~SaveStatevectorDict.unit
    

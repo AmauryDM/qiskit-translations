@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>基本電路 &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>基本電路 &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -570,7 +570,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="admonition note">
 <p class="admonition-title">備註</p>
-<p>這個頁面是從 <a href="#id1"><span class="problematic" id="id2">`</span></a>tutorials/circuits/01_circuit_basics.ipynb`__產生的。</p>
+<p>This page was generated from <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/circuits/01_circuit_basics.ipynb">tutorials/circuits/01_circuit_basics.ipynb</a>.</p>
 </div>
 <section id="基本電路">
 <h1>基本電路<a class="headerlink" href="#基本電路" title="本標題的永久連結">¶</a></h1>
@@ -651,8 +651,8 @@ div.rendered_html tbody tr:hover {
 <div class="output_area docutils container">
 <img alt="../../_images/tutorials_circuits_01_circuit_basics_7_0.svg" src="../../_images/tutorials_circuits_01_circuit_basics_7_0.svg" /></div>
 </div>
-<p>In this circuit, the qubits are put in order, with qubit zero at the top and qubit two at the bottom. The circuit is read left to right (meaning that gates that are applied earlier in the circuit show up further to the left).</p>
-<div class="alert alert-block alert-info"><p>When representing the state of a multi-qubit system, the tensor order used in Qiskit is different than that used in most physics textbooks. Suppose there are <span class="math notranslate nohighlight">\(n\)</span> qubits, and qubit <span class="math notranslate nohighlight">\(j\)</span> is labeled as <span class="math notranslate nohighlight">\(Q_{j}\)</span>. Qiskit uses an ordering in which the <span class="math notranslate nohighlight">\(n^{\mathrm{th}}\)</span> qubit is on the left side of the tensor product, so that the basis vectors are labeled as <span class="math notranslate nohighlight">\(Q_{n-1}\otimes \cdots \otimes Q_1\otimes Q_0\)</span>.</p>
+<p>在此電路中，量子位元是照順序排列的，qubit 0 在頂端，而 qubit 2在底端。電路是由左至右讀取（表示在電路中較早應用的閘會顯示在左側）。</p>
+<div class="alert alert-block alert-info"><p>在表示多量子位元系統的狀態時，Qiskit 中使用的張量順序與大多數物理教科書中所使用的不同。假設有 <span class="math notranslate nohighlight">\(n\)</span> 個量子元位，其中第 <span class="math notranslate nohighlight">\(j\)</span> 個被標記為 <span class="math notranslate nohighlight">\(Q_{j}\)</span>。Qiskit 使用的順序是第 <span class="math notranslate nohighlight">\(n\)</span> 個 qubit 放在張量積的最左邊，所以基底向量被標記為 <span class="math notranslate nohighlight">\(Q_{n-1}\otimes \cdots \otimes Q_1\otimes Q_0\)</span>。</p>
 <p>For example, if qubit zero is in state 0, qubit 1 is in state 0, and qubit 2 is in state 1, Qiskit would represent this state as <span class="math notranslate nohighlight">\(|100\rangle\)</span>, whereas many physics textbooks would represent it as <span class="math notranslate nohighlight">\(|001\rangle\)</span>.</p>
 <p>This difference in labeling affects the way multi-qubit operations are represented as matrices. For example, Qiskit represents a controlled-X (<span class="math notranslate nohighlight">\(C_{X}\)</span>) operation with qubit 0 being the control and qubit 1 being the target as</p>
 <div class="math notranslate nohighlight">
@@ -719,7 +719,7 @@ $$
 $$</div></div>
 </div>
 <p>Qiskit 還提供了視覺化工具盒，讓您檢視狀態。</p>
-<p>下面，我們使用視覺化功能來繪製 qsphere 和 hinton，代表狀態密度矩陣 <span class="math notranslate nohighlight">\(\rho\)</span> 的實部和虛部。</p>
+<p>Below, we use the visualization function to plot the qsphere and a hinton representing the real and imaginary components of the state density matrix <span class="math notranslate nohighlight">\(\rho\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -809,12 +809,12 @@ array([[ 0.70710678+0.j,  0.70710678+0.j,  0.        +0.j,
 <p>例如，假設我們在三量子位元 GHZ 狀態的每一個位元上進行獨立測量</p>
 <div class="math notranslate nohighlight">
 \[|\psi\rangle = (|000\rangle +|111\rangle)/\sqrt{2},\]</div>
-<p>並讓`xyz` 表示結果的位元字串。 在 Qiskit 使用的 quit 標籤下回復，<cite>x</cite> 將對應於 qubit 2的結果、<cite>y</cite> 對應於在 qubit 1 的結果，以及 <cite>z</cite> 相對應 qubit 0 的結果。</p>
+<p>and let <span class="math notranslate nohighlight">\(xyz\)</span> denote the bitstring that results. Recall that, under the qubit labeling used by Qiskit, <span class="math notranslate nohighlight">\(x\)</span> would correspond to the outcome on qubit 2, <span class="math notranslate nohighlight">\(y\)</span> to the outcome on qubit 1, and <span class="math notranslate nohighlight">\(z\)</span> to the outcome on qubit 0.</p>
 <div class="alert alert-block alert-info"><p>Note: This representation of the bitstring puts the most significant bit (MSB) on the left, and the least significant bit (LSB) on the right. This is the standard ordering of binary bitstrings. We order the qubits in the same way (qubit representing the MSB has index 0), which is why Qiskit uses a non-standard tensor product order.</p>
-</div><p>重新計算取得結果 xyz` 的機率，由</p>
+</div><p>Recall the probability of obtaining outcome <span class="math notranslate nohighlight">\(xyz\)</span> is given by</p>
 <div class="math notranslate nohighlight">
 \[\mathrm{Pr}(xyz) = |\langle xyz | \psi \rangle |^{2}\]</div>
-<p>而獲得 000 或 111 的 GHZ 狀態概率都是 1/2。</p>
+<p>and as such for the GHZ state probability of obtaining 000 or 111 are both 1/2.</p>
 <p>若要模擬包含測量的電路，我們需要將測量方法新增至上方的原始電路，並使用不同的 Aer 後端。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -845,7 +845,7 @@ array([[ 0.70710678+0.j,  0.70710678+0.j,  0.        +0.j,
 <img alt="../../_images/tutorials_circuits_01_circuit_basics_21_0.svg" src="../../_images/tutorials_circuits_01_circuit_basics_21_0.svg" /></div>
 </div>
 <p>This circuit adds a classical register, and three measurements that are used to map the outcome of qubits to the classical bits.</p>
-<p>如果要模擬此電路，我們使用 Qiskit Aer 中的 <code class="docutils literal notranslate"><span class="pre">qasm_模擬器</span></code> 。 每一個執行此迴路都會產生位元字串 000 或 111。 如果要建立關於位元字串分配的統計資料（例如，預估 :<cite>masthm（000）</cite>），我們需要多次重複此電路。 在 ` ` execute`` 函數中，透過關鍵字``shots <a href="#id1"><span class="problematic" id="id2">``</span></a>，可以指定電路重複的次數。</p>
+<p>To simulate this circuit, we use the <code class="docutils literal notranslate"><span class="pre">qasm_simulator</span></code> in Qiskit Aer. Each run of this circuit will yield either the bitstring 000 or 111. To build up statistics about the distribution of the bitstrings (to, e.g., estimate <span class="math notranslate nohighlight">\(\mathrm{Pr}(000)\)</span>), we need to repeat the circuit many times. The number of times the circuit is repeated can be specified in the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function, via the <code class="docutils literal notranslate"><span class="pre">shots</span></code> keyword.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -912,7 +912,7 @@ array([[ 0.70710678+0.j,  0.70710678+0.j,  0.        +0.j,
 <div class="output_area docutils container">
 <img alt="../../_images/tutorials_circuits_01_circuit_basics_27_0.svg" src="../../_images/tutorials_circuits_01_circuit_basics_27_0.svg" /></div>
 </div>
-<p>估計的結果機率為:<cite>masthm（000）</cite> 和`masthm（111）`，此機率是取總計數除以shots(電路回復的次數)請嘗試變更 <code class="docutils literal notranslate"><span class="pre">execute</span></code> 函數中的 ` ` shots `` 關鍵字，並查看估計機率變更的方式。</p>
+<p>The estimated outcome probabilities <span class="math notranslate nohighlight">\(\mathrm{Pr}(000)\)</span> and <span class="math notranslate nohighlight">\(\mathrm{Pr}(111)\)</span> are computed by taking the aggregate counts and dividing by the number of shots (times the circuit was repeated). Try changing the <code class="docutils literal notranslate"><span class="pre">shots</span></code> keyword in the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function and see how the estimated probabilities change.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -956,7 +956,7 @@ array([[ 0.70710678+0.j,  0.70710678+0.j,  0.        +0.j,
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -1002,7 +1002,7 @@ array([[ 0.70710678+0.j,  0.70710678+0.j,  0.        +0.j,
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

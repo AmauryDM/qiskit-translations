@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.converters.ast_to_dag &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.converters.ast_to_dag &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -344,6 +344,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.circuit.measure</span> <span class="kn">import</span> <span class="n">Measure</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.reset</span> <span class="kn">import</span> <span class="n">Reset</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.barrier</span> <span class="kn">import</span> <span class="n">Barrier</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.delay</span> <span class="kn">import</span> <span class="n">Delay</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates.x</span> <span class="kn">import</span> <span class="n">CCXGate</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates.swap</span> <span class="kn">import</span> <span class="n">CSwapGate</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates.x</span> <span class="kn">import</span> <span class="n">CXGate</span>
@@ -423,42 +424,45 @@
 <span class="k">class</span> <span class="nc">AstInterpreter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Interprets an OpenQASM by expanding subroutines and unrolling loops.&quot;&quot;&quot;</span>
 
-    <span class="n">standard_extension</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">U1Gate</span><span class="p">,</span>
-                          <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">U2Gate</span><span class="p">,</span>
-                          <span class="s2">&quot;u3&quot;</span><span class="p">:</span> <span class="n">U3Gate</span><span class="p">,</span>
-                          <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="n">UGate</span><span class="p">,</span>
-                          <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">PhaseGate</span><span class="p">,</span>
-                          <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">,</span>
-                          <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">,</span>
-                          <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">,</span>
-                          <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="n">TGate</span><span class="p">,</span>
-                          <span class="s2">&quot;tdg&quot;</span><span class="p">:</span> <span class="n">TdgGate</span><span class="p">,</span>
-                          <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="n">SGate</span><span class="p">,</span>
-                          <span class="s2">&quot;sdg&quot;</span><span class="p">:</span> <span class="n">SdgGate</span><span class="p">,</span>
-                          <span class="s2">&quot;sx&quot;</span><span class="p">:</span> <span class="n">SXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;sxdg&quot;</span><span class="p">:</span> <span class="n">SXdgGate</span><span class="p">,</span>
-                          <span class="s2">&quot;swap&quot;</span><span class="p">:</span> <span class="n">SwapGate</span><span class="p">,</span>
-                          <span class="s2">&quot;rx&quot;</span><span class="p">:</span> <span class="n">RXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;rxx&quot;</span><span class="p">:</span> <span class="n">RXXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;ry&quot;</span><span class="p">:</span> <span class="n">RYGate</span><span class="p">,</span>
-                          <span class="s2">&quot;rz&quot;</span><span class="p">:</span> <span class="n">RZGate</span><span class="p">,</span>
-                          <span class="s2">&quot;rzz&quot;</span><span class="p">:</span> <span class="n">RZZGate</span><span class="p">,</span>
-                          <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">,</span>
-                          <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="n">HGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">CXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cy&quot;</span><span class="p">:</span> <span class="n">CYGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cz&quot;</span><span class="p">:</span> <span class="n">CZGate</span><span class="p">,</span>
-                          <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="n">CHGate</span><span class="p">,</span>
-                          <span class="s2">&quot;crx&quot;</span><span class="p">:</span> <span class="n">CRXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cry&quot;</span><span class="p">:</span> <span class="n">CRYGate</span><span class="p">,</span>
-                          <span class="s2">&quot;crz&quot;</span><span class="p">:</span> <span class="n">CRZGate</span><span class="p">,</span>
-                          <span class="s2">&quot;csx&quot;</span><span class="p">:</span> <span class="n">CSXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cu1&quot;</span><span class="p">:</span> <span class="n">CU1Gate</span><span class="p">,</span>
-                          <span class="s2">&quot;cp&quot;</span><span class="p">:</span> <span class="n">CPhaseGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cu&quot;</span><span class="p">:</span> <span class="n">CUGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cu3&quot;</span><span class="p">:</span> <span class="n">CU3Gate</span><span class="p">,</span>
-                          <span class="s2">&quot;ccx&quot;</span><span class="p">:</span> <span class="n">CCXGate</span><span class="p">,</span>
-                          <span class="s2">&quot;cswap&quot;</span><span class="p">:</span> <span class="n">CSwapGate</span><span class="p">}</span>
+    <span class="n">standard_extension</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">U1Gate</span><span class="p">,</span>
+        <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">U2Gate</span><span class="p">,</span>
+        <span class="s2">&quot;u3&quot;</span><span class="p">:</span> <span class="n">U3Gate</span><span class="p">,</span>
+        <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="n">UGate</span><span class="p">,</span>
+        <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">PhaseGate</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">,</span>
+        <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="n">TGate</span><span class="p">,</span>
+        <span class="s2">&quot;tdg&quot;</span><span class="p">:</span> <span class="n">TdgGate</span><span class="p">,</span>
+        <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="n">SGate</span><span class="p">,</span>
+        <span class="s2">&quot;sdg&quot;</span><span class="p">:</span> <span class="n">SdgGate</span><span class="p">,</span>
+        <span class="s2">&quot;sx&quot;</span><span class="p">:</span> <span class="n">SXGate</span><span class="p">,</span>
+        <span class="s2">&quot;sxdg&quot;</span><span class="p">:</span> <span class="n">SXdgGate</span><span class="p">,</span>
+        <span class="s2">&quot;swap&quot;</span><span class="p">:</span> <span class="n">SwapGate</span><span class="p">,</span>
+        <span class="s2">&quot;rx&quot;</span><span class="p">:</span> <span class="n">RXGate</span><span class="p">,</span>
+        <span class="s2">&quot;rxx&quot;</span><span class="p">:</span> <span class="n">RXXGate</span><span class="p">,</span>
+        <span class="s2">&quot;ry&quot;</span><span class="p">:</span> <span class="n">RYGate</span><span class="p">,</span>
+        <span class="s2">&quot;rz&quot;</span><span class="p">:</span> <span class="n">RZGate</span><span class="p">,</span>
+        <span class="s2">&quot;rzz&quot;</span><span class="p">:</span> <span class="n">RZZGate</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">,</span>
+        <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="n">HGate</span><span class="p">,</span>
+        <span class="s2">&quot;cx&quot;</span><span class="p">:</span> <span class="n">CXGate</span><span class="p">,</span>
+        <span class="s2">&quot;cy&quot;</span><span class="p">:</span> <span class="n">CYGate</span><span class="p">,</span>
+        <span class="s2">&quot;cz&quot;</span><span class="p">:</span> <span class="n">CZGate</span><span class="p">,</span>
+        <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="n">CHGate</span><span class="p">,</span>
+        <span class="s2">&quot;crx&quot;</span><span class="p">:</span> <span class="n">CRXGate</span><span class="p">,</span>
+        <span class="s2">&quot;cry&quot;</span><span class="p">:</span> <span class="n">CRYGate</span><span class="p">,</span>
+        <span class="s2">&quot;crz&quot;</span><span class="p">:</span> <span class="n">CRZGate</span><span class="p">,</span>
+        <span class="s2">&quot;csx&quot;</span><span class="p">:</span> <span class="n">CSXGate</span><span class="p">,</span>
+        <span class="s2">&quot;cu1&quot;</span><span class="p">:</span> <span class="n">CU1Gate</span><span class="p">,</span>
+        <span class="s2">&quot;cp&quot;</span><span class="p">:</span> <span class="n">CPhaseGate</span><span class="p">,</span>
+        <span class="s2">&quot;cu&quot;</span><span class="p">:</span> <span class="n">CUGate</span><span class="p">,</span>
+        <span class="s2">&quot;cu3&quot;</span><span class="p">:</span> <span class="n">CU3Gate</span><span class="p">,</span>
+        <span class="s2">&quot;ccx&quot;</span><span class="p">:</span> <span class="n">CCXGate</span><span class="p">,</span>
+        <span class="s2">&quot;cswap&quot;</span><span class="p">:</span> <span class="n">CSwapGate</span><span class="p">,</span>
+        <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">Delay</span><span class="p">,</span>
+    <span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize interpreter&#39;s data.&quot;&quot;&quot;</span>
@@ -487,9 +491,9 @@
         <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">cregs</span><span class="p">:</span>
             <span class="n">reg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">cregs</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;expected qreg or creg name:&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
-                              <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;expected qreg or creg name:&quot;</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;indexed_id&quot;</span><span class="p">:</span>
             <span class="c1"># An indexed bit or qubit</span>
@@ -503,9 +507,9 @@
                 <span class="c1"># local scope</span>
                 <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                     <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;expected local bit name:&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
-                                  <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;expected local bit name:&quot;</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_process_custom_unitary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
@@ -515,21 +519,21 @@
             <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">bits</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node_element</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">node_element</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">bitlist</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node_element</span><span class="p">)</span> <span class="k">for</span> <span class="n">node_element</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">bitlist</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;internal error undefined gate:&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;internal error undefined gate:&quot;</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_process_u</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Process a U gate node.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_node</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
         <span class="n">bits</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">bitlist</span><span class="p">)]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_arguments</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="n">gargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">]</span>
@@ -537,16 +541,15 @@
 
         <span class="n">maxidx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">bits</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxidx</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">arg_stack</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">gargs</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span> <span class="n">args</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                                   <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gargs</span><span class="p">))})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arg_stack</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">gargs</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span> <span class="n">args</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gargs</span><span class="p">))})</span>
             <span class="c1"># Only index into register arguments.</span>
-            <span class="n">element</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                       <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">))]]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">gbits</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span> <span class="n">bits</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">element</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
-                                   <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gbits</span><span class="p">))})</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_create_dag_op</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
-                                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">arg_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">sym</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">gargs</span><span class="p">],</span>
-                                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">gbits</span><span class="p">])</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">))]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">gbits</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span> <span class="n">bits</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">element</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gbits</span><span class="p">))})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_create_dag_op</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">arg_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">sym</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">gargs</span><span class="p">],</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">gbits</span><span class="p">],</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">arg_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bit_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 
@@ -578,8 +581,9 @@
         <span class="n">id0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">id1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">id0</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">id1</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">id0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">id1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;internal error: qreg size mismatch&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;internal error: qreg size mismatch&quot;</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span>
+            <span class="p">)</span>
         <span class="n">maxidx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">id0</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">id1</span><span class="p">)])</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxidx</span><span class="p">):</span>
             <span class="n">cx_gate</span> <span class="o">=</span> <span class="n">CXGate</span><span class="p">()</span>
@@ -596,8 +600,9 @@
         <span class="n">id0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">id1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">id0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">id1</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;internal error: reg size mismatch&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;internal error: reg size mismatch&quot;</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span>
+            <span class="p">)</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">idy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">id0</span><span class="p">,</span> <span class="n">id1</span><span class="p">):</span>
             <span class="n">meas_gate</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">()</span>
             <span class="n">meas_gate</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span>
@@ -644,8 +649,7 @@
 
         <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;id_list&quot;</span><span class="p">:</span>
             <span class="c1"># We process id_list nodes when they are leaves of barriers.</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node_children</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">node_children</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_bit_id</span><span class="p">(</span><span class="n">node_children</span><span class="p">)</span> <span class="k">for</span> <span class="n">node_children</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
 
         <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;primary_list&quot;</span><span class="p">:</span>
             <span class="c1"># We should only be called for a barrier.</span>
@@ -703,25 +707,28 @@
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;internal error: _process_node on external&quot;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;internal error: undefined node type&quot;</span><span class="p">,</span>
-                              <span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
-                              <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                <span class="s2">&quot;internal error: undefined node type&quot;</span><span class="p">,</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                <span class="s2">&quot;line=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
+                <span class="s2">&quot;file=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">file</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_gate_rules_to_qiskit_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;From a gate definition in qasm, to a QuantumCircuit format.&quot;&quot;&quot;</span>
         <span class="n">rules</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;n_bits&#39;</span><span class="p">])</span>
-        <span class="n">bit_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;bits&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span> <span class="n">q</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qreg</span><span class="p">)}</span>
-        <span class="n">exp_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span> <span class="n">Real</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)}</span>
+        <span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s2">&quot;n_bits&quot;</span><span class="p">])</span>
+        <span class="n">bit_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">[</span><span class="s2">&quot;bits&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span> <span class="n">q</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qreg</span><span class="p">)}</span>
+        <span class="n">exp_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span> <span class="n">Real</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)}</span>
 
-        <span class="k">for</span> <span class="n">child_op</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">child_op</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
             <span class="n">qparams</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">eparams</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">param_list</span> <span class="ow">in</span> <span class="n">child_op</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                <span class="k">if</span> <span class="n">param_list</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;id_list&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">param_list</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;id_list&quot;</span><span class="p">:</span>
                     <span class="n">qparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_args</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_list</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="n">param_list</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;expression_list&#39;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">param_list</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;expression_list&quot;</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">param_list</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
                         <span class="n">eparams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">sym</span><span class="p">(</span><span class="n">nested_scope</span><span class="o">=</span><span class="p">[</span><span class="n">exp_args</span><span class="p">]))</span>
             <span class="n">op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_op</span><span class="p">(</span><span class="n">child_op</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">eparams</span><span class="p">)</span>
@@ -751,11 +758,10 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">standard_extension</span><span class="p">:</span>
             <span class="n">op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standard_extension</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
-            <span class="n">op</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;n_bits&#39;</span><span class="p">],</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;opaque&#39;</span><span class="p">]:</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">num_qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;n_bits&quot;</span><span class="p">],</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;opaque&quot;</span><span class="p">]:</span>
                 <span class="c1"># call a custom gate (otherwise, opaque)</span>
-                <span class="n">op</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate_rules_to_qiskit_circuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
-                                                                   <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate_rules_to_qiskit_circuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;unknown operation for ast node name </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">op</span>
@@ -776,7 +782,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -811,7 +817,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

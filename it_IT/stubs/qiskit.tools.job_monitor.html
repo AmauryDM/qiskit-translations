@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.tools.job_monitor &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.tools.job_monitor &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -231,7 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -330,7 +330,7 @@
 <h1>qiskit.tools.job_monitor<a class="headerlink" href="#qiskit-tools-job-monitor" title="Link a questa intestazione">¶</a></h1>
 <dl class="py function">
 <dt id="qiskit.tools.job_monitor">
-<code class="sig-name descname">job_monitor</code><span class="sig-paren">(</span><em class="sig-param">job</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">quiet=False</em>, <em class="sig-param">output=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='utf-8'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/tools/monitor/job_monitor.html#job_monitor"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.tools.job_monitor" title="Link a questa definizione">¶</a></dt>
+<code class="sig-name descname">job_monitor</code><span class="sig-paren">(</span><em class="sig-param">job</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">quiet=False</em>, <em class="sig-param">output=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='utf-8'&gt;</em>, <em class="sig-param">line_discipline='\r'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/tools/monitor/job_monitor.html#job_monitor"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.tools.job_monitor" title="Link a questa definizione">¶</a></dt>
 <dd><p>Monitor the status of a IBMQJob instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
@@ -340,6 +340,8 @@
 <li><p><strong>quiet</strong> (<em>bool</em>) – If True, do not print status messages.</p></li>
 <li><p><strong>output</strong> (<em>file</em>) – The file like object to write status messages to.</p></li>
 <li><p><strong>default this is sys.stdout.</strong> (<em>By</em>) – </p></li>
+<li><p><strong>line_discipline</strong> (<em>string</em>) – character emitted at start of a line of job monitor output,</p></li>
+<li><p><strong>defaults to r.</strong> (<em>This</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -372,7 +374,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -410,7 +412,7 @@
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

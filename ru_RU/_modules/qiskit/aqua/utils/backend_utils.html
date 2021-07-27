@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.aqua.utils.backend_utils &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.aqua.utils.backend_utils &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -320,7 +320,7 @@
   <h1>Исходный код qiskit.aqua.utils.backend_utils</h1><div class="highlight"><pre>
 <span></span><span class="c1"># This code is part of Qiskit.</span>
 <span class="c1">#</span>
-<span class="c1"># (C) Copyright IBM 2018, 2020.</span>
+<span class="c1"># (C) Copyright IBM 2018, 2021.</span>
 <span class="c1">#</span>
 <span class="c1"># This code is licensed under the Apache License, Version 2.0. You may</span>
 <span class="c1"># obtain a copy of this license in the LICENSE.txt file in the root directory</span>
@@ -336,7 +336,7 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">_UNSUPPORTED_BACKENDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;unitary_simulator&#39;</span><span class="p">,</span> <span class="s1">&#39;clifford_simulator&#39;</span><span class="p">]</span>
+<span class="n">_UNSUPPORTED_BACKENDS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;unitary_simulator&quot;</span><span class="p">,</span> <span class="s2">&quot;clifford_simulator&quot;</span><span class="p">]</span>
 
 <span class="c1"># pylint: disable=no-name-in-module, import-error, unused-import</span>
 
@@ -355,13 +355,12 @@
 
 
 <div class="viewcode-block" id="has_ibmq"><a class="viewcode-back" href="../../../../stubs/qiskit.aqua.utils.has_ibmq.html#qiskit.aqua.utils.has_ibmq">[документация]</a><span class="k">def</span> <span class="nf">has_ibmq</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Check if IBMQ is installed &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Check if IBMQ is installed&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">checked_ibmq</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># pylint: disable=import-outside-toplevel</span>
             <span class="kn">from</span> <span class="nn">qiskit.providers.ibmq</span> <span class="kn">import</span> <span class="n">IBMQFactory</span>
-            <span class="c1"># pylint: disable=syntax-error</span>
             <span class="kn">from</span> <span class="nn">qiskit.providers.ibmq.accountprovider</span> <span class="kn">import</span> <span class="n">AccountProvider</span>
+
             <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">has_ibmq</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
             <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">has_ibmq</span> <span class="o">=</span> <span class="kc">False</span>
@@ -373,11 +372,11 @@
 
 
 <div class="viewcode-block" id="has_aer"><a class="viewcode-back" href="../../../../stubs/qiskit.aqua.utils.has_aer.html#qiskit.aqua.utils.has_aer">[документация]</a><span class="k">def</span> <span class="nf">has_aer</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; check if Aer is installed &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;check if Aer is installed&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">checked_aer</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># pylint: disable=import-outside-toplevel</span>
             <span class="kn">from</span> <span class="nn">qiskit.providers.aer</span> <span class="kn">import</span> <span class="n">AerProvider</span>
+
             <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">has_aer</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
             <span class="n">_PROVIDER_CHECK</span><span class="o">.</span><span class="n">has_aer</span> <span class="o">=</span> <span class="kc">False</span>
@@ -397,9 +396,13 @@
 <span class="sd">        bool: True is AerProvider</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">has_aer</span><span class="p">():</span>
-        <span class="c1"># pylint: disable=import-outside-toplevel</span>
         <span class="kn">from</span> <span class="nn">qiskit.providers.aer</span> <span class="kn">import</span> <span class="n">AerProvider</span>
-        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">provider</span><span class="p">(),</span> <span class="n">AerProvider</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">provider</span><span class="p">(),</span> <span class="n">AerProvider</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="kn">from</span> <span class="nn">qiskit.providers.aer.backends.aerbackend</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">AerBackend</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">False</span>
 
@@ -412,7 +415,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: True is BasicAer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># pylint: disable=import-outside-toplevel</span>
     <span class="kn">from</span> <span class="nn">qiskit.providers.basicaer</span> <span class="kn">import</span> <span class="n">BasicAerProvider</span>
 
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">provider</span><span class="p">(),</span> <span class="n">BasicAerProvider</span><span class="p">)</span>
@@ -427,8 +429,8 @@
 <span class="sd">        bool: True is IBMQ</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">has_ibmq</span><span class="p">():</span>
-        <span class="c1"># pylint: disable=syntax-error,import-outside-toplevel</span>
         <span class="kn">from</span> <span class="nn">qiskit.providers.ibmq.accountprovider</span> <span class="kn">import</span> <span class="n">AccountProvider</span>
+
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">provider</span><span class="p">(),</span> <span class="n">AccountProvider</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">False</span>
@@ -455,7 +457,14 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: True is statevector</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;statevector&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">has_aer</span><span class="p">():</span>
+        <span class="kn">from</span> <span class="nn">qiskit.providers.aer.backends</span> <span class="kn">import</span> <span class="n">AerSimulator</span><span class="p">,</span> <span class="n">StatevectorSimulator</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">StatevectorSimulator</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">AerSimulator</span><span class="p">)</span> <span class="ow">and</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;aer_simulator_statevector&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;statevector&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
 
 <span class="k">def</span> <span class="nf">is_simulator_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">):</span>
@@ -528,7 +537,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -563,7 +572,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

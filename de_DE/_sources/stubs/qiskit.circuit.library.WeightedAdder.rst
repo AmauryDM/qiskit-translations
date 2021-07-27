@@ -56,6 +56,7 @@
       ~WeightedAdder.fredkin
       ~WeightedAdder.from_qasm_file
       ~WeightedAdder.from_qasm_str
+      ~WeightedAdder.get_instructions
       ~WeightedAdder.h
       ~WeightedAdder.hamiltonian
       ~WeightedAdder.has_register

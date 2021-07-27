@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.transforms.canonicalization &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.pulse.transforms.canonicalization &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -356,17 +356,39 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        UnassignedDurationError: When any instruction duration is not assigned.</span>
+<span class="sd">        PulseError: When the alignment context duration is shorter than the schedule duration.</span>
+
+<span class="sd">    .. note:: This transform may insert barriers in between contexts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">is_schedulable</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">UnassignedDurationError</span><span class="p">(</span>
-            <span class="s1">&#39;All instruction durations should be assigned before creating `Schedule`.&#39;</span>
-            <span class="s1">&#39;Please check `.parameters` to find unassigned parameter objects.&#39;</span><span class="p">)</span>
+            <span class="s2">&quot;All instruction durations should be assigned before creating `Schedule`.&quot;</span>
+            <span class="s2">&quot;Please check `.parameters` to find unassigned parameter objects.&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">op_data</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">op_data</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op_data</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
             <span class="n">context_schedule</span> <span class="o">=</span> <span class="n">block_to_schedule</span><span class="p">(</span><span class="n">op_data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">op_data</span><span class="o">.</span><span class="n">alignment_context</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="p">):</span>
+                <span class="c1"># context may have local scope duration, e.g. EquispacedAlignment for 1000 dt</span>
+                <span class="n">post_buffer</span> <span class="o">=</span> <span class="n">op_data</span><span class="o">.</span><span class="n">alignment_context</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">context_schedule</span><span class="o">.</span><span class="n">duration</span>
+                <span class="k">if</span> <span class="n">post_buffer</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;ScheduleBlock </span><span class="si">{</span><span class="n">op_data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has longer duration than &quot;</span>
+                        <span class="s2">&quot;the specified context duration &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">context_schedule</span><span class="o">.</span><span class="n">duration</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">op_data</span><span class="o">.</span><span class="n">duration</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">post_buffer</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context_schedule</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># prevent interruption by following instructions.</span>
+            <span class="c1"># padding with delay instructions is no longer necessary, thanks to alignment context.</span>
+            <span class="k">if</span> <span class="n">post_buffer</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">context_boundary</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">RelativeBarrier</span><span class="p">(</span><span class="o">*</span><span class="n">op_data</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+                <span class="n">schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context_boundary</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">post_buffer</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">op_data</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -387,18 +409,18 @@
     <span class="n">new_schedules</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">schedules</span><span class="p">:</span>
-        <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">pulse</span> <span class="ow">in</span> <span class="n">existing_pulses</span><span class="p">:</span>
                     <span class="n">idx</span> <span class="o">=</span> <span class="n">existing_pulses</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">pulse</span><span class="p">)</span>
                     <span class="n">identical_pulse</span> <span class="o">=</span> <span class="n">existing_pulses</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-                    <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="p">,</span>
-                                        <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span><span class="n">identical_pulse</span><span class="p">,</span>
-                                                          <span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
-                                                          <span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
-                                        <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                        <span class="n">time</span><span class="p">,</span>
+                        <span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span><span class="n">identical_pulse</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                        <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">existing_pulses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">pulse</span><span class="p">)</span>
                     <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -423,9 +445,12 @@
 <span class="sd">        PulseError: When invalid data format is given.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Schedule</span><span class="p">(</span><span class="o">*</span><span class="n">program</span><span class="o">.</span><span class="n">instructions</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">program</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">program</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">flat_sched</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">program</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+            <span class="n">flat_sched</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flat_sched</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid input program </span><span class="si">{</span><span class="n">program</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> is specified.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input program </span><span class="si">{</span><span class="n">program</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is specified.&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">inline_subroutines</span><span class="p">(</span><span class="n">program</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">]:</span>
@@ -448,7 +473,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_inline_block</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid program </span><span class="si">{</span><span class="n">program</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> is specified.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid program </span><span class="si">{</span><span class="n">program</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is specified.&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_inline_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
@@ -456,9 +481,10 @@
 
 <span class="sd">    .. note:: If subroutine is ``ScheduleBlock`` it is converted into Schedule to get ``t0``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ret_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                            <span class="n">metadata</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+    <span class="n">ret_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="c1"># note that schedule.instructions unintentionally flatten the nested schedule.</span>
+        <span class="c1"># this should be performed by another transformer node.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Call</span><span class="p">):</span>
             <span class="c1"># bind parameter</span>
             <span class="n">subroutine</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">assigned_subroutine</span><span class="p">()</span>
@@ -467,6 +493,10 @@
                 <span class="n">subroutine</span> <span class="o">=</span> <span class="n">block_to_schedule</span><span class="p">(</span><span class="n">subroutine</span><span class="p">)</span>
             <span class="c1"># recursively inline the program</span>
             <span class="n">inline_schedule</span> <span class="o">=</span> <span class="n">_inline_schedule</span><span class="p">(</span><span class="n">subroutine</span><span class="p">)</span>
+            <span class="n">ret_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">inline_schedule</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
+            <span class="c1"># recursively inline the program</span>
+            <span class="n">inline_schedule</span> <span class="o">=</span> <span class="n">_inline_schedule</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
             <span class="n">ret_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">inline_schedule</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -478,19 +508,23 @@
 
 <span class="sd">    .. note:: If subroutine is ``Schedule`` the function raises an error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ret_block</span> <span class="o">=</span> <span class="n">ScheduleBlock</span><span class="p">(</span><span class="n">alignment_context</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">alignment_context</span><span class="p">,</span>
-                              <span class="n">name</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                              <span class="n">metadata</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+    <span class="n">ret_block</span> <span class="o">=</span> <span class="n">ScheduleBlock</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Call</span><span class="p">):</span>
             <span class="c1"># bind parameter</span>
             <span class="n">subroutine</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">assigned_subroutine</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subroutine</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;A subroutine </span><span class="si">{</span><span class="n">subroutine</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> is a pulse Schedule. &#39;</span>
-                                 <span class="s1">&#39;This program cannot be inserted into ScheduleBlock because &#39;</span>
-                                 <span class="s1">&#39;t0 associated with instruction will be lost.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">PulseError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;A subroutine </span><span class="si">{</span><span class="n">subroutine</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is a pulse Schedule. &quot;</span>
+                    <span class="s2">&quot;This program cannot be inserted into ScheduleBlock because &quot;</span>
+                    <span class="s2">&quot;t0 associated with instruction will be lost.&quot;</span>
+                <span class="p">)</span>
             <span class="c1"># recursively inline the program</span>
             <span class="n">inline_block</span> <span class="o">=</span> <span class="n">_inline_block</span><span class="p">(</span><span class="n">subroutine</span><span class="p">)</span>
+            <span class="n">ret_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inline_block</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+            <span class="c1"># recursively inline the program</span>
+            <span class="n">inline_block</span> <span class="o">=</span> <span class="n">_inline_block</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
             <span class="n">ret_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inline_block</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -518,20 +552,21 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        schedule: A schedule without trivial barriers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">filter_func</span><span class="p">(</span><span class="n">inst</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">directives</span><span class="o">.</span><span class="n">RelativeBarrier</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="nb">len</span><span class="p">(</span><span class="n">inst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">directives</span><span class="o">.</span><span class="n">RelativeBarrier</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">inst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">schedule</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">filter_func</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="align_measures"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.transforms.align_measures.html#qiskit.pulse.transforms.align_measures">[документация]</a><span class="k">def</span> <span class="nf">align_measures</span><span class="p">(</span><span class="n">schedules</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ScheduleComponent</span><span class="p">],</span>
-                   <span class="n">inst_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstructionScheduleMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                   <span class="n">cal_gate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;u3&#39;</span><span class="p">,</span>
-                   <span class="n">max_calibration_duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                   <span class="n">align_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                   <span class="n">align_all</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]:</span>
+<div class="viewcode-block" id="align_measures"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.transforms.align_measures.html#qiskit.pulse.transforms.align_measures">[документация]</a><span class="k">def</span> <span class="nf">align_measures</span><span class="p">(</span>
+    <span class="n">schedules</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ScheduleComponent</span><span class="p">],</span>
+    <span class="n">inst_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstructionScheduleMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cal_gate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;u3&quot;</span><span class="p">,</span>
+    <span class="n">max_calibration_duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_all</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Return new schedules where measurements occur at the same physical time.</span>
 
 <span class="sd">    This transformation will align the first :class:`qiskit.pulse.Acquire` on</span>
@@ -556,11 +591,15 @@
 <span class="sd">        from qiskit import pulse</span>
 <span class="sd">        from qiskit.pulse import transforms</span>
 
-<span class="sd">        with pulse.build() as sched:</span>
-<span class="sd">            with pulse.align_sequential():</span>
-<span class="sd">                pulse.play(pulse.Constant(10, 0.5), pulse.DriveChannel(0))</span>
-<span class="sd">                pulse.play(pulse.Constant(10, 1.), pulse.MeasureChannel(0))</span>
-<span class="sd">                pulse.acquire(20, pulse.AcquireChannel(0), pulse.MemorySlot(0))</span>
+<span class="sd">        d0 = pulse.DriveChannel(0)</span>
+<span class="sd">        m0 = pulse.MeasureChannel(0)</span>
+<span class="sd">        a0 = pulse.AcquireChannel(0)</span>
+<span class="sd">        mem0 = pulse.MemorySlot(0)</span>
+
+<span class="sd">        sched = pulse.Schedule()</span>
+<span class="sd">        sched.append(pulse.Play(pulse.Constant(10, 0.5), d0), inplace=True)</span>
+<span class="sd">        sched.append(pulse.Play(pulse.Constant(10, 1.), m0).shift(sched.duration), inplace=True)</span>
+<span class="sd">        sched.append(pulse.Acquire(20, a0, mem0).shift(sched.duration), inplace=True)</span>
 
 <span class="sd">        sched_shifted = sched &lt;&lt; 20</span>
 
@@ -597,6 +636,7 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        PulseError: If the provided alignment time is negative.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">get_first_acquire_times</span><span class="p">(</span><span class="n">schedules</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a list of first acquire times for each schedule.&quot;&quot;&quot;</span>
         <span class="n">acquire_times</span> <span class="o">=</span> <span class="p">[]</span>
@@ -605,8 +645,7 @@
             <span class="n">qubit_first_acquire_times</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">)</span> <span class="ow">and</span>
-                        <span class="n">inst</span><span class="o">.</span><span class="n">channel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited_channels</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">)</span> <span class="ow">and</span> <span class="n">inst</span><span class="o">.</span><span class="n">channel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited_channels</span><span class="p">:</span>
                     <span class="n">visited_channels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
                     <span class="n">qubit_first_acquire_times</span><span class="p">[</span><span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
 
@@ -640,7 +679,7 @@
     <span class="c1"># Shift acquires according to the new scheduled time</span>
     <span class="n">new_schedules</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">sched_idx</span><span class="p">,</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">schedules</span><span class="p">):</span>
-        <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
         <span class="n">stop_time</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">stop_time</span>
 
         <span class="k">if</span> <span class="n">align_all</span><span class="p">:</span>
@@ -653,14 +692,17 @@
 
         <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
             <span class="n">measurement_channels</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">chan</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">inst</span><span class="o">.</span><span class="n">channels</span> <span class="k">if</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="p">(</span><span class="n">chans</span><span class="o">.</span><span class="n">MeasureChannel</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">))</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">index</span>
+                <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">inst</span><span class="o">.</span><span class="n">channels</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="p">(</span><span class="n">chans</span><span class="o">.</span><span class="n">MeasureChannel</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">))</span>
             <span class="p">}</span>
             <span class="k">if</span> <span class="n">measurement_channels</span><span class="p">:</span>
                 <span class="n">sched_first_acquire_times</span> <span class="o">=</span> <span class="n">first_acquire_times</span><span class="p">[</span><span class="n">sched_idx</span><span class="p">]</span>
-                <span class="n">max_start_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sched_first_acquire_times</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
-                                     <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">measurement_channels</span> <span class="k">if</span>
-                                     <span class="n">chan</span> <span class="ow">in</span> <span class="n">sched_first_acquire_times</span><span class="p">)</span>
+                <span class="n">max_start_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">sched_first_acquire_times</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">measurement_channels</span>
+                    <span class="k">if</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">sched_first_acquire_times</span>
+                <span class="p">)</span>
                 <span class="n">shift</span> <span class="o">=</span> <span class="n">align_time</span> <span class="o">-</span> <span class="n">max_start_time</span>
 
             <span class="k">if</span> <span class="n">shift</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -670,16 +712,14 @@
                     <span class="s2">&quot;This may result in an instruction being scheduled before t=0 and &quot;</span>
                     <span class="s2">&quot;an error being raised.&quot;</span>
                 <span class="p">)</span>
-            <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="o">+</span><span class="n">shift</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">new_schedules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_schedule</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">new_schedules</span></div>
 
 
-<div class="viewcode-block" id="add_implicit_acquires"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.transforms.add_implicit_acquires.html#qiskit.pulse.transforms.add_implicit_acquires">[документация]</a><span class="k">def</span> <span class="nf">add_implicit_acquires</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">ScheduleComponent</span><span class="p">,</span>
-                          <span class="n">meas_map</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
+<div class="viewcode-block" id="add_implicit_acquires"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.transforms.add_implicit_acquires.html#qiskit.pulse.transforms.add_implicit_acquires">[документация]</a><span class="k">def</span> <span class="nf">add_implicit_acquires</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">ScheduleComponent</span><span class="p">,</span> <span class="n">meas_map</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Return a new schedule with implicit acquires from the measurement mapping replaced by</span>
 <span class="sd">    explicit ones.</span>
 
@@ -693,14 +733,16 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A ``Schedule`` with the additional acquisition instructions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">schedule</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">new_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
     <span class="n">acquire_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">mem_slot</span> <span class="ow">and</span> <span class="n">inst</span><span class="o">.</span><span class="n">mem_slot</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">inst</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;One of your acquires was mapped to a memory slot which didn&#39;t match&quot;</span>
-                              <span class="s2">&quot; the qubit index. I&#39;m relabeling them to match.&quot;</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;One of your acquires was mapped to a memory slot which didn&#39;t match&quot;</span>
+                    <span class="s2">&quot; the qubit index. I&#39;m relabeling them to match.&quot;</span>
+                <span class="p">)</span>
 
             <span class="c1"># Get the label of all qubits that are measured with the qubit(s) in this instruction</span>
             <span class="n">all_qubits</span> <span class="o">=</span> <span class="p">[]</span>
@@ -710,11 +752,13 @@
             <span class="c1"># Replace the old acquire instruction by a new one explicitly acquiring all qubits in</span>
             <span class="c1"># the measurement group.</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">all_qubits</span><span class="p">:</span>
-                <span class="n">explicit_inst</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span>
-                                                     <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
-                                                     <span class="n">mem_slot</span><span class="o">=</span><span class="n">chans</span><span class="o">.</span><span class="n">MemorySlot</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
-                                                     <span class="n">kernel</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span>
-                                                     <span class="n">discriminator</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">discriminator</span><span class="p">)</span>
+                <span class="n">explicit_inst</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span>
+                    <span class="n">inst</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span>
+                    <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                    <span class="n">mem_slot</span><span class="o">=</span><span class="n">chans</span><span class="o">.</span><span class="n">MemorySlot</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                    <span class="n">kernel</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span>
+                    <span class="n">discriminator</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">discriminator</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">if</span> <span class="n">time</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">acquire_map</span><span class="p">:</span>
                     <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">explicit_inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="n">acquire_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">time</span><span class="p">:</span> <span class="p">{</span><span class="n">i</span><span class="p">}}</span>
@@ -725,6 +769,56 @@
             <span class="n">new_schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">new_schedule</span></div>
+
+
+<div class="viewcode-block" id="pad"><a class="viewcode-back" href="../../../../stubs/qiskit.pulse.transforms.pad.html#qiskit.pulse.transforms.pad">[документация]</a><span class="k">def</span> <span class="nf">pad</span><span class="p">(</span>
+    <span class="n">schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">,</span>
+    <span class="n">channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">until</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Pad the input Schedule with ``Delay``s on all unoccupied timeslots until</span>
+<span class="sd">    ``schedule.duration`` or ``until`` if not ``None``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        schedule: Schedule to pad.</span>
+<span class="sd">        channels: Channels to pad. Defaults to all channels in</span>
+<span class="sd">            ``schedule`` if not provided. If the supplied channel is not a member</span>
+<span class="sd">            of ``schedule`` it will be added.</span>
+<span class="sd">        until: Time to pad until. Defaults to ``schedule.duration`` if not provided.</span>
+<span class="sd">        inplace: Pad this schedule by mutating rather than returning a new schedule.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The padded schedule.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">until</span> <span class="o">=</span> <span class="n">until</span> <span class="ow">or</span> <span class="n">schedule</span><span class="o">.</span><span class="n">duration</span>
+    <span class="n">channels</span> <span class="o">=</span> <span class="n">channels</span> <span class="ow">or</span> <span class="n">schedule</span><span class="o">.</span><span class="n">channels</span>
+
+    <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">channel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schedule</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span>
+            <span class="n">schedule</span> <span class="o">|=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="n">until</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">curr_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Use the copy of timeslots. When a delay is inserted before the current interval,</span>
+        <span class="c1"># current timeslot is pointed twice and the program crashes with the wrong pointer index.</span>
+        <span class="n">timeslots</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">timeslots</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># TODO: Replace with method of getting instructions on a channel</span>
+        <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">timeslots</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">curr_time</span> <span class="o">&gt;=</span> <span class="n">until</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">curr_time</span><span class="p">:</span>
+                <span class="n">end_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">until</span><span class="p">)</span>
+                <span class="n">schedule</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                    <span class="n">curr_time</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">curr_time</span><span class="p">,</span> <span class="n">channel</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span>
+                <span class="p">)</span>
+            <span class="n">curr_time</span> <span class="o">=</span> <span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">curr_time</span> <span class="o">&lt;</span> <span class="n">until</span><span class="p">:</span>
+            <span class="n">schedule</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                <span class="n">curr_time</span><span class="p">,</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="n">until</span> <span class="o">-</span> <span class="n">curr_time</span><span class="p">,</span> <span class="n">channel</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">schedule</span></div>
 </pre></div>
 
              </article>
@@ -742,7 +836,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -777,7 +871,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

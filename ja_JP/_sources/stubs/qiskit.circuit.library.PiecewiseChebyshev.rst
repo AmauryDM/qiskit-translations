@@ -56,6 +56,7 @@
       ~PiecewiseChebyshev.fredkin
       ~PiecewiseChebyshev.from_qasm_file
       ~PiecewiseChebyshev.from_qasm_str
+      ~PiecewiseChebyshev.get_instructions
       ~PiecewiseChebyshev.h
       ~PiecewiseChebyshev.hamiltonian
       ~PiecewiseChebyshev.has_register

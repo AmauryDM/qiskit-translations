@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.scheduling.alap &mdash; Qiskit 0.27.0 Dokumentation</title>
+  <title>qiskit.transpiler.passes.scheduling.alap &mdash; Qiskit 0.28.0 Dokumentation</title>
   
 
   
@@ -335,6 +335,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.passes.scheduling.time_unit_conversion</span> <span class="kn">import</span> <span class="n">TimeUnitConversion</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.delay</span> <span class="kn">import</span> <span class="n">Delay</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.parameterexpression</span> <span class="kn">import</span> <span class="n">ParameterExpression</span>
 <span class="kn">from</span> <span class="nn">qiskit.dagcircuit</span> <span class="kn">import</span> <span class="n">DAGCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.basepasses</span> <span class="kn">import</span> <span class="n">TransformationPass</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.exceptions</span> <span class="kn">import</span> <span class="n">TranspilerError</span>
@@ -366,10 +367,10 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            TranspilerError: if the circuit is not mapped on physical qubits.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;ALAP schedule runs on physical circuits only&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;ALAP schedule runs on physical circuits only&quot;</span><span class="p">)</span>
 
-        <span class="n">time_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s1">&#39;time_unit&#39;</span><span class="p">]</span>
+        <span class="n">time_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;time_unit&quot;</span><span class="p">]</span>
         <span class="n">new_dag</span> <span class="o">=</span> <span class="n">DAGCircuit</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">new_dag</span><span class="o">.</span><span class="n">add_qreg</span><span class="p">(</span><span class="n">qreg</span><span class="p">)</span>
@@ -390,12 +391,20 @@
             <span class="n">start_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qubit_time_available</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">)</span>
             <span class="n">pad_with_delays</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">time_unit</span><span class="p">)</span>
 
-            <span class="n">new_dag</span><span class="o">.</span><span class="n">apply_operation_front</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">cargs</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+            <span class="n">new_dag</span><span class="o">.</span><span class="n">apply_operation_front</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">cargs</span><span class="p">)</span>
 
+            <span class="c1"># validate node.op.duration</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_indices</span><span class="p">[</span><span class="n">qarg</span><span class="p">]</span> <span class="k">for</span> <span class="n">qarg</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">]</span>
-                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duration of </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on qubits &quot;</span>
-                                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indices</span><span class="si">}</span><span class="s2"> is not found.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Duration of </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on qubits &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indices</span><span class="si">}</span><span class="s2"> is not found.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">bit_indices</span><span class="p">[</span><span class="n">qarg</span><span class="p">]</span> <span class="k">for</span> <span class="n">qarg</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">qargs</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Parameterized duration (</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">duration</span><span class="si">}</span><span class="s2">) &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;of </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> on qubits </span><span class="si">{</span><span class="n">indices</span><span class="si">}</span><span class="s2"> is not bounded.&quot;</span>
+                <span class="p">)</span>
 
             <span class="n">stop_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">duration</span>
             <span class="c1"># update time table</span>
@@ -429,7 +438,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Zuletzt aktualisiert am 2021/07/12.
+      Zuletzt aktualisiert am 2021/07/27.
 
     </p>
   </div>
@@ -464,7 +473,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

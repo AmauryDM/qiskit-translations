@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.phase_estimators.phase_estimation &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.algorithms.phase_estimators.phase_estimation &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -334,6 +334,7 @@
 <span class="sd">&quot;&quot;&quot;The Quantum Phase Estimation Algorithm.&quot;&quot;&quot;</span>
 
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
@@ -374,15 +375,18 @@
 <span class="sd">    across bitstrings, with amplitudes that decrease with distance from the bitstring most</span>
 <span class="sd">    closely approximating the eigenphase.</span>
 
-<span class="sd">    The main inputs are the number of qubits in the phase-reading register, a state preparation</span>
-<span class="sd">    circuit to prepare an input state, and either</span>
+<span class="sd">    The main input to the constructor is the number of qubits in the phase-reading register.</span>
+<span class="sd">    For phase estimation, there are two methods:</span>
 
-<span class="sd">    1) A unitary that will act on the the input state, or</span>
-<span class="sd">    2) A quantum-phase-estimation circuit in which the unitary is already embedded.</span>
+<span class="sd">    first. `estimate`, which takes a state preparation circuit to prepare an input state, and</span>
+<span class="sd">      a unitary that will act on the the input state. In this case, an instance of</span>
+<span class="sd">      :class:`qiskit.circuit.PhaseEstimation`, a QPE circuit, containing</span>
+<span class="sd">      the state preparation and input unitary will be constructed.</span>
+<span class="sd">    second. `estimate_from_pe_circuit`, which takes a quantum-phase-estimation circuit in which</span>
+<span class="sd">      the unitary and state preparation are already embedded.</span>
 
-<span class="sd">    In case 1), an instance of :class:`qiskit.circuit.PhaseEstimation`, a QPE circuit, containing</span>
-<span class="sd">    the input unitary will be constructed. After construction, the QPE circuit is run on a backend</span>
-<span class="sd">    via the `run` method, and the frequencies or counts of the phases represented by bitstrings</span>
+<span class="sd">    In both estimation methods, the QPE circuit is run on a backend</span>
+<span class="sd">    and the frequencies or counts of the phases represented by bitstrings</span>
 <span class="sd">    are recorded. The results are returned as an instance of</span>
 <span class="sd">    :class:`~qiskit.algorithms.phase_estimator_result.PhaseEstimationResult`.</span>
 
@@ -394,10 +398,11 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PhaseEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span>
-                                                  <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PhaseEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_evaluation_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_evaluation_qubits: The number of qubits used in estimating the phase. The phase will</span>
@@ -413,9 +418,9 @@
             <span class="n">quantum_instance</span> <span class="o">=</span> <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">quantum_instance</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span> <span class="o">=</span> <span class="n">quantum_instance</span></div>
 
-<div class="viewcode-block" id="PhaseEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.construct_circuit">[документация]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">unitary</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-                          <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<div class="viewcode-block" id="PhaseEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.construct_circuit">[документация]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">unitary</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the circuit to be executed to estimate phases.</span>
 
 <span class="sd">        This circuit includes as sub-circuits the core phase estimation circuit,</span>
@@ -429,30 +434,29 @@
         <span class="k">if</span> <span class="n">state_preparation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pe_circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
                 <span class="n">state_preparation</span><span class="p">,</span>
-                <span class="n">qubits</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span>
-                             <span class="n">num_evaluation_qubits</span> <span class="o">+</span> <span class="n">num_unitary_qubits</span><span class="p">),</span>
+                <span class="n">qubits</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span> <span class="n">num_evaluation_qubits</span> <span class="o">+</span> <span class="n">num_unitary_qubits</span><span class="p">),</span>
                 <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">front</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_add_measurement_if_required</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">)</span>
+                <span class="n">front</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">pe_circuit</span></div>
 
     <span class="k">def</span> <span class="nf">_add_measurement_if_required</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pe_circuit</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span><span class="o">.</span><span class="n">is_statevector</span><span class="p">:</span>
             <span class="c1"># Measure only the evaluation qubits.</span>
-            <span class="n">regname</span> <span class="o">=</span> <span class="s1">&#39;meas&#39;</span>
+            <span class="n">regname</span> <span class="o">=</span> <span class="s2">&quot;meas&quot;</span>
             <span class="n">creg</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">,</span> <span class="n">regname</span><span class="p">)</span>
             <span class="n">pe_circuit</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">creg</span><span class="p">)</span>
             <span class="n">pe_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-            <span class="n">pe_circuit</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">),</span>
-                               <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">))</span>
+            <span class="n">pe_circuit</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">circuit</span>
 
-    <span class="k">def</span> <span class="nf">_compute_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">num_unitary_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                        <span class="n">circuit_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">qiskit</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">Counts</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_compute_phases</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">num_unitary_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">circuit_result</span><span class="p">:</span> <span class="n">Result</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">qiskit</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">Counts</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Compute frequencies/counts of phases from the result of running the QPE circuit.</span>
 
 <span class="sd">        How the frequencies are computed depends on whether the backend computes amplitude or</span>
@@ -484,8 +488,9 @@
             <span class="n">state_vec</span> <span class="o">=</span> <span class="n">circuit_result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
             <span class="n">evaluation_density_matrix</span> <span class="o">=</span> <span class="n">qiskit</span><span class="o">.</span><span class="n">quantum_info</span><span class="o">.</span><span class="n">partial_trace</span><span class="p">(</span>
                 <span class="n">state_vec</span><span class="p">,</span>
-                <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">,</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span> <span class="o">+</span> <span class="n">num_unitary_qubits</span><span class="p">)</span>
+                <span class="nb">range</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span> <span class="o">+</span> <span class="n">num_unitary_qubits</span>
+                <span class="p">),</span>
             <span class="p">)</span>
             <span class="n">phases</span> <span class="o">=</span> <span class="n">evaluation_density_matrix</span><span class="o">.</span><span class="n">probabilities</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -494,55 +499,74 @@
             <span class="n">counts</span> <span class="o">=</span> <span class="n">circuit_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
             <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/</span> <span class="n">num_shots</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
             <span class="n">phases</span> <span class="o">=</span> <span class="n">_sort_phases</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
-            <span class="n">phases</span> <span class="o">=</span> <span class="n">qiskit</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">Counts</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span> <span class="n">memory_slots</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">memory_slots</span><span class="p">,</span>
-                                          <span class="n">creg_sizes</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">creg_sizes</span><span class="p">)</span>
+            <span class="n">phases</span> <span class="o">=</span> <span class="n">qiskit</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">Counts</span><span class="p">(</span>
+                <span class="n">phases</span><span class="p">,</span> <span class="n">memory_slots</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">memory_slots</span><span class="p">,</span> <span class="n">creg_sizes</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">creg_sizes</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">phases</span>
 
-<div class="viewcode-block" id="PhaseEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.estimate">[документация]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">unitary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">pe_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">num_unitary_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PhaseEstimationResult</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run the the phase estimation algorithm.</span>
+<div class="viewcode-block" id="PhaseEstimation.estimate_from_pe_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.estimate_from_pe_circuit">[документация]</a>    <span class="k">def</span> <span class="nf">estimate_from_pe_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pe_circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">num_unitary_qubits</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PhaseEstimationResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Run the the phase estimation algorithm on a phase estimation circuit</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            unitary: The circuit representing the unitary operator whose eigenvalues (via phase)</span>
-<span class="sd">                will be measured. Exactly one of `pe_circuit` and `unitary` must be passed.</span>
-<span class="sd">            state_preparation: The circuit that prepares the state whose eigenphase will be</span>
-<span class="sd">                measured.  If this parameter is omitted, no preparation circuit</span>
-<span class="sd">                will be run and input state will be the all-zero state in the</span>
-<span class="sd">                computational basis.</span>
 <span class="sd">            pe_circuit: The phase estimation circuit.</span>
-<span class="sd">            num_unitary_qubits: Must agree with the number of qubits in the unitary in `pe_circuit`</span>
-<span class="sd">                if `pe_circuit` is passed. This parameter will be set from `unitary`</span>
-<span class="sd">                if `unitary` is passed.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If both `pe_circuit` and `unitary` are passed.</span>
-<span class="sd">            ValueError: If neither `pe_circuit` nor `unitary` are passed.</span>
+<span class="sd">            num_unitary_qubits: Must agree with the number of qubits in the unitary in `pe_circuit`.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            An instance of qiskit.algorithms.phase_estimator_result.PhaseEstimationResult.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">num_evaluation_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_measurement_if_required</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">)</span>
+        <span class="n">circuit_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">)</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_phases</span><span class="p">(</span><span class="n">num_unitary_qubits</span><span class="p">,</span> <span class="n">circuit_result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PhaseEstimationResult</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_num_evaluation_qubits</span><span class="p">,</span> <span class="n">circuit_result</span><span class="o">=</span><span class="n">circuit_result</span><span class="p">,</span> <span class="n">phases</span><span class="o">=</span><span class="n">phases</span>
+        <span class="p">)</span></div>
 
+    <span class="c1"># pylint: disable=missing-raises-doc</span>
+    <span class="c1"># pylint: disable=missing-param-doc</span>
+<div class="viewcode-block" id="PhaseEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.PhaseEstimation.html#qiskit.algorithms.PhaseEstimation.estimate">[документация]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">unitary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pe_circuit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_unitary_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PhaseEstimationResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Build a phase estimation circuit and run the corresponding algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            unitary: The circuit representing the unitary operator whose eigenvalues (via phase)</span>
+<span class="sd">                will be measured.</span>
+<span class="sd">            state_preparation: The circuit that prepares the state whose eigenphase will be</span>
+<span class="sd">                measured.  If this parameter is omitted, no preparation circuit</span>
+<span class="sd">                will be run and input state will be the all-zero state in the</span>
+<span class="sd">                computational basis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An instance of qiskit.algorithms.phase_estimator_result.PhaseEstimationResult.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">unitary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pe_circuit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only one of `pe_circuit` and `unitary` may be passed.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of `pe_circuit` and `unitary` may be passed.&quot;</span><span class="p">)</span>
             <span class="n">pe_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">unitary</span><span class="p">,</span> <span class="n">state_preparation</span><span class="p">)</span>
             <span class="n">num_unitary_qubits</span> <span class="o">=</span> <span class="n">unitary</span><span class="o">.</span><span class="n">num_qubits</span>
 
         <span class="k">elif</span> <span class="n">pe_circuit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_measurement_if_required</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Passing `pe_circuit` to the PhaseEstimation.estimate() method &quot;</span>
+                <span class="s2">&quot;is deprecated as of 0.18, and will be removed no earlier than &quot;</span>
+                <span class="s2">&quot;3 months after that release date. &quot;</span>
+                <span class="s2">&quot;You should use the PhaseEstimation.estimate_from_pe_circuit() method &quot;</span>
+                <span class="s2">&quot;instead.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of `pe_circuit` and `unitary` must be passed.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;One of `pe_circuit` and `unitary` must be passed.&quot;</span><span class="p">)</span>
 
-        <span class="n">circuit_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">)</span>
-        <span class="n">phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_phases</span><span class="p">(</span><span class="n">num_unitary_qubits</span><span class="p">,</span> <span class="n">circuit_result</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">PhaseEstimationResult</span><span class="p">(</span><span class="n">num_evaluation_qubits</span><span class="p">,</span> <span class="n">circuit_result</span><span class="o">=</span><span class="n">circuit_result</span><span class="p">,</span>
-                                     <span class="n">phases</span><span class="o">=</span><span class="n">phases</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_from_pe_circuit</span><span class="p">(</span><span class="n">pe_circuit</span><span class="p">,</span> <span class="n">num_unitary_qubits</span><span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -560,7 +584,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -595,7 +619,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

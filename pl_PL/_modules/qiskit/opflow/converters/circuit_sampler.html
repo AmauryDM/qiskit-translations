@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.converters.circuit_sampler &mdash; Qiskit 0.27.0 - dokumentacja</title>
+  <title>qiskit.opflow.converters.circuit_sampler &mdash; Qiskit 0.28.0 - dokumentacja</title>
   
 
   
@@ -371,12 +371,14 @@
 <span class="sd">    you are better off using a different CircuitSampler for each Operator to avoid cache thrashing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CircuitSampler.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">backend</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">],</span>
-                 <span class="n">statevector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">param_qobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">attach_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">caching</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;last&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitSampler.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.__init__">[dokumentacja]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">backend</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">],</span>
+        <span class="n">statevector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">param_qobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">attach_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">caching</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            backend: The quantum backend or QuantumInstance to use to sample the circuits.</span>
@@ -394,10 +396,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Set statevector or param_qobj True when not supported by backend.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span> <span class="o">=</span> <span class="n">backend</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">)</span> <span class="k">else</span>\
-            <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span> <span class="o">=</span> <span class="n">statevector</span> <span class="k">if</span> <span class="n">statevector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">is_statevector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">backend</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">QuantumInstance</span><span class="p">)</span> <span class="k">else</span> <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">statevector</span> <span class="k">if</span> <span class="n">statevector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">is_statevector</span>
+        <span class="p">)</span>
+        <span class="c1"># Set to False until https://github.com/Qiskit/qiskit-aer/issues/1249 is closed.</span>
+        <span class="n">param_qobj</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_qobj</span> <span class="o">=</span> <span class="n">param_qobj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_attach_results</span> <span class="o">=</span> <span class="n">attach_results</span>
 
@@ -415,23 +421,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_transpile_before_bind</span> <span class="o">=</span> <span class="kc">True</span></div>
 
     <span class="k">def</span> <span class="nf">_check_quantum_instance_and_modes_consistent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Checks whether the statevector and param_qobj settings are compatible with the</span>
+        <span class="sd">&quot;&quot;&quot;Checks whether the statevector and param_qobj settings are compatible with the</span>
 <span class="sd">        backend</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: statevector or param_qobj are True when not supported by backend.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_statevector_backend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Statevector mode for circuit sampling requires statevector &#39;</span>
-                             <span class="s1">&#39;backend, not </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Statevector mode for circuit sampling requires statevector &quot;</span>
+                <span class="s2">&quot;backend, not </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_qobj</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_aer_provider</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameterized Qobj mode requires Aer &#39;</span>
-                             <span class="s1">&#39;backend, not </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Parameterized Qobj mode requires Aer &quot;</span>
+                <span class="s2">&quot;backend, not </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumInstance</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Returns the quantum instance.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the quantum instance.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">             The QuantumInstance used by the CircuitSampler</span>
@@ -439,9 +449,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span>
 
     <span class="nd">@quantum_instance</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span>
-                                                       <span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Sets the QuantumInstance.</span>
+    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">Backend</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets the QuantumInstance.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: statevector or param_qobj are True when not supported by backend.</span>
@@ -452,11 +463,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_quantum_instance_and_modes_consistent</span><span class="p">()</span>
 
     <span class="c1"># pylint: disable=arguments-differ</span>
-<div class="viewcode-block" id="CircuitSampler.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.convert">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span>
-                                      <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]]]</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="CircuitSampler.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.convert">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the Operator to one in which the CircuitStateFns are replaced by</span>
 <span class="sd">        DictStateFns or VectorStateFns. Extracts the CircuitStateFns out of the Operator,</span>
@@ -478,7 +489,7 @@
         <span class="c1"># op_id = id(operator)</span>
         <span class="k">if</span> <span class="n">op_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_ops</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="c1"># delete cache if we only want to cache one operator</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caching</span> <span class="o">==</span> <span class="s1">&#39;last&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caching</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
 
             <span class="c1"># convert to circuit and reduce</span>
@@ -490,8 +501,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_extract_circuitstatefns</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reduced_op_cache</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_ops_cache</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span>
-                    <span class="s1">&#39;Circuits are empty. &#39;</span>
-                    <span class="s1">&#39;Check that the operator is an instance of CircuitStateFn or its ListOp.&#39;</span>
+                    <span class="s2">&quot;Circuits are empty. &quot;</span>
+                    <span class="s2">&quot;Check that the operator is an instance of CircuitStateFn or its ListOp.&quot;</span>
                 <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transpile_before_bind</span> <span class="o">=</span> <span class="kc">True</span>
@@ -524,15 +535,15 @@
         <span class="c1"># Don&#39;t pass circuits if we have in the cache, the sampling function knows to use the cache</span>
         <span class="n">circs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit_ops_cache</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="n">p_b</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">param_bindings</span><span class="p">)</span>
-        <span class="n">sampled_statefn_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_circuits</span><span class="p">(</span><span class="n">circuit_sfns</span><span class="o">=</span><span class="n">circs</span><span class="p">,</span>
-                                                     <span class="n">param_bindings</span><span class="o">=</span><span class="n">p_b</span><span class="p">)</span>
+        <span class="n">sampled_statefn_dicts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_circuits</span><span class="p">(</span><span class="n">circuit_sfns</span><span class="o">=</span><span class="n">circs</span><span class="p">,</span> <span class="n">param_bindings</span><span class="o">=</span><span class="n">p_b</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">replace_circuits_with_dicts</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">param_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">CircuitStateFn</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">sampled_statefn_dicts</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">operator</span><span class="p">)][</span><span class="n">param_index</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">replace_circuits_with_dicts</span><span class="p">,</span>
-                                                 <span class="n">param_index</span><span class="o">=</span><span class="n">param_index</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span>
+                    <span class="n">partial</span><span class="p">(</span><span class="n">replace_circuits_with_dicts</span><span class="p">,</span> <span class="n">param_index</span><span class="o">=</span><span class="n">param_index</span><span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">operator</span>
 
@@ -547,8 +558,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_cached_ops</span><span class="p">[</span><span class="n">op_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">op_cache</span>
 
         <span class="k">if</span> <span class="n">return_as_list</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ListOp</span><span class="p">([</span><span class="n">replace_circuits_with_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reduced_op_cache</span><span class="p">,</span> <span class="n">param_index</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
-                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_parameterizations</span><span class="p">)])</span>
+            <span class="k">return</span> <span class="n">ListOp</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">replace_circuits_with_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reduced_op_cache</span><span class="p">,</span> <span class="n">param_index</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_parameterizations</span><span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">replace_circuits_with_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reduced_op_cache</span><span class="p">,</span> <span class="n">param_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
@@ -567,10 +582,11 @@
             <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_extract_circuitstatefns</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CircuitSampler.sample_circuits"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.sample_circuits">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">sample_circuits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">circuit_sfns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CircuitStateFn</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="n">param_bindings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">StateFn</span><span class="p">]]:</span>
+<div class="viewcode-block" id="CircuitSampler.sample_circuits"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.converters.CircuitSampler.html#qiskit.opflow.converters.CircuitSampler.sample_circuits">[dokumentacja]</a>    <span class="k">def</span> <span class="nf">sample_circuits</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">circuit_sfns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CircuitStateFn</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">param_bindings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">StateFn</span><span class="p">]]:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Samples the CircuitStateFns and returns a dict associating their ``id()`` values to their</span>
 <span class="sd">        replacement DictStateFn or VectorStateFn. If param_bindings is provided,</span>
@@ -590,11 +606,11 @@
 <span class="sd">            OpflowError: if extracted circuits are empty.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">circuit_sfns</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s1">&#39;CircuitStateFn is empty and there is no cache.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">OpflowError</span><span class="p">(</span><span class="s2">&quot;CircuitStateFn is empty and there is no cache.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">circuit_sfns</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span> <span class="ow">or</span> <span class="n">circuit_sfns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">from_operator</span><span class="p">:</span>
                 <span class="n">circuits</span> <span class="o">=</span> <span class="p">[</span><span class="n">op_c</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">(</span><span class="n">meas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">op_c</span> <span class="ow">in</span> <span class="n">circuit_sfns</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">circuits</span> <span class="o">=</span> <span class="p">[</span><span class="n">op_c</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">(</span><span class="n">meas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">op_c</span> <span class="ow">in</span> <span class="n">circuit_sfns</span><span class="p">]</span>
@@ -602,9 +618,11 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">QiskitError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;CircuitSampler failed to transpile circuits with unbound &#39;</span>
-                             <span class="sa">r</span><span class="s1">&#39;parameters. Attempting to transpile only when circuits are bound &#39;</span>
-                             <span class="sa">r</span><span class="s1">&#39;now, but this can hurt performance due to repeated transpilation.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">r</span><span class="s2">&quot;CircuitSampler failed to transpile circuits with unbound &quot;</span>
+                    <span class="sa">r</span><span class="s2">&quot;parameters. Attempting to transpile only when circuits are bound &quot;</span>
+                    <span class="sa">r</span><span class="s2">&quot;now, but this can hurt performance due to repeated transpilation.&quot;</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_transpile_before_bind</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span> <span class="o">=</span> <span class="n">circuits</span>
         <span class="k">else</span><span class="p">:</span>
@@ -615,19 +633,22 @@
                 <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
                 <span class="n">ready_circs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_parameterized_run_config</span><span class="p">(</span><span class="n">param_bindings</span><span class="p">)</span>
                 <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Parameter conversion </span><span class="si">%.5f</span><span class="s1"> (ms)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Parameter conversion </span><span class="si">%.5f</span><span class="s2"> (ms)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-                <span class="n">ready_circs</span> <span class="o">=</span> <span class="p">[</span><span class="n">circ</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">_filter_params</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">binding</span><span class="p">))</span>
-                               <span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span>
-                               <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">param_bindings</span><span class="p">]</span>
+                <span class="n">ready_circs</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">circ</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">_filter_params</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">binding</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span>
+                    <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">param_bindings</span>
+                <span class="p">]</span>
                 <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Parameter binding </span><span class="si">%.5f</span><span class="s1"> (ms)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Parameter binding </span><span class="si">%.5f</span><span class="s2"> (ms)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ready_circs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span>
 
-        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">ready_circs</span><span class="p">,</span>
-                                                <span class="n">had_transpiled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpile_before_bind</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="n">ready_circs</span><span class="p">,</span> <span class="n">had_transpiled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpile_before_bind</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">param_bindings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_qobj</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_clean_parameterized_run_config</span><span class="p">()</span>
@@ -645,45 +666,50 @@
                 <span class="n">circ_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">reps</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span>
                 <span class="n">circ_results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">circ_index</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="s1">&#39;expval_measurement&#39;</span> <span class="ow">in</span> <span class="n">circ_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;snapshots&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                        <span class="s1">&#39;expectation_value&#39;</span><span class="p">,</span> <span class="p">{}):</span>
-                    <span class="n">snapshot_data</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">circ_index</span><span class="p">)[</span><span class="s1">&#39;snapshots&#39;</span><span class="p">]</span>
-                    <span class="n">avg</span> <span class="o">=</span> <span class="n">snapshot_data</span><span class="p">[</span><span class="s1">&#39;expectation_value&#39;</span><span class="p">][</span><span class="s1">&#39;expval_measurement&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">avg</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                        <span class="c1"># Aer versions before 0.4 use a list snapshot format</span>
-                        <span class="c1"># which must be converted to a complex value.</span>
-                        <span class="n">avg</span> <span class="o">=</span> <span class="n">avg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">avg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;expval_measurement&quot;</span> <span class="ow">in</span> <span class="n">circ_results</span><span class="p">:</span>
+                    <span class="n">avg</span> <span class="o">=</span> <span class="n">circ_results</span><span class="p">[</span><span class="s2">&quot;expval_measurement&quot;</span><span class="p">]</span>
                     <span class="c1"># Will be replaced with just avg when eval is called later</span>
                     <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">circuit_sfns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">num_qubits</span>
-                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">DictStateFn</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">,</span>
-                                             <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span> <span class="o">*</span> <span class="n">avg</span>
+                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">DictStateFn</span><span class="p">(</span>
+                        <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">,</span>
+                        <span class="n">coeff</span><span class="o">=</span><span class="n">avg</span> <span class="o">*</span> <span class="n">op_c</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+                        <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
+                        <span class="n">from_operator</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">from_operator</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_statevector</span><span class="p">:</span>
-                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">StateFn</span><span class="p">(</span><span class="n">op_c</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">results</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">circ_index</span><span class="p">),</span>
-                                         <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span>
+                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">StateFn</span><span class="p">(</span>
+                        <span class="n">op_c</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">results</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">(</span><span class="n">circ_index</span><span class="p">),</span>
+                        <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">shots</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">_run_config</span><span class="o">.</span><span class="n">shots</span>
-                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">StateFn</span><span class="p">({</span><span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="n">shots</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">op_c</span><span class="o">.</span><span class="n">coeff</span>
-                                          <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ_index</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
-                                         <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">)</span>
+                    <span class="n">result_sfn</span> <span class="o">=</span> <span class="n">DictStateFn</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="n">shots</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">op_c</span><span class="o">.</span><span class="n">coeff</span>
+                            <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ_index</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                        <span class="p">},</span>
+                        <span class="n">is_measurement</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">,</span>
+                        <span class="n">from_operator</span><span class="o">=</span><span class="n">op_c</span><span class="o">.</span><span class="n">from_operator</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attach_results</span><span class="p">:</span>
                     <span class="n">result_sfn</span><span class="o">.</span><span class="n">execution_results</span> <span class="o">=</span> <span class="n">circ_results</span>
                 <span class="n">c_statefns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_sfn</span><span class="p">)</span>
             <span class="n">sampled_statefn_dicts</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">op_c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">c_statefns</span>
         <span class="k">return</span> <span class="n">sampled_statefn_dicts</span></div>
 
-    <span class="k">def</span> <span class="nf">_build_aer_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
-                          <span class="n">building_param_tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-                          <span class="n">input_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-                          <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
+    <span class="k">def</span> <span class="nf">_build_aer_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">circuit</span><span class="p">:</span> <span class="n">QuantumCircuit</span><span class="p">,</span>
+        <span class="n">building_param_tables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">input_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">resolve_param</span><span class="p">(</span><span class="n">inst_param</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst_param</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">None</span>
             <span class="n">param_mappings</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">inst_param</span><span class="o">.</span><span class="n">_parameter_symbols</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_params</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unexpected parameter: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unexpected parameter: </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">param_mappings</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">inst_param</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">param_mappings</span><span class="p">))</span>
 
@@ -701,13 +727,15 @@
                 <span class="n">param_index</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">gate_index</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_prepare_parameterized_run_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_bindings</span><span class="p">:</span>
-                                          <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_prepare_parameterized_run_config</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param_bindings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Parameter</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">_run_config</span><span class="o">.</span><span class="n">parameterizations</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span> <span class="ow">is</span> <span class="kc">None</span> \
-                <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_cache</span>
+        <span class="p">):</span>
 
             <span class="c1"># temporally resolve parameters of self._transpiled_circ_cache</span>
             <span class="c1"># They will be overridden in Aer from the next iterations</span>
@@ -724,8 +752,9 @@
             <span class="k">for</span> <span class="n">gate_and_param_indices</span> <span class="ow">in</span> <span class="n">building_param_tables</span><span class="p">:</span>
                 <span class="n">gate_index</span> <span class="o">=</span> <span class="n">gate_and_param_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">param_index</span> <span class="o">=</span> <span class="n">gate_and_param_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">param_tables</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
-                    <span class="p">[</span><span class="n">gate_index</span><span class="p">,</span> <span class="n">param_index</span><span class="p">],</span> <span class="n">building_param_tables</span><span class="p">[(</span><span class="n">gate_index</span><span class="p">,</span> <span class="n">param_index</span><span class="p">)]])</span>
+                <span class="n">param_tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[[</span><span class="n">gate_index</span><span class="p">,</span> <span class="n">param_index</span><span class="p">],</span> <span class="n">building_param_tables</span><span class="p">[(</span><span class="n">gate_index</span><span class="p">,</span> <span class="n">param_index</span><span class="p">)]]</span>
+                <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">quantum_instance</span><span class="o">.</span><span class="n">_run_config</span><span class="o">.</span><span class="n">parameterizations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param_tables</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpiled_circ_templates</span>
@@ -764,7 +793,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ostatnia modyfikacja 2021/07/12.
+      Ostatnia modyfikacja 2021/07/27.
 
     </p>
   </div>
@@ -799,7 +828,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

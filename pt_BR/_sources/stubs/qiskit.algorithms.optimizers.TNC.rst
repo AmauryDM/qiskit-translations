@@ -43,5 +43,6 @@
       ~TNC.is_initial_point_required
       ~TNC.is_initial_point_supported
       ~TNC.setting
+      ~TNC.settings
    
    

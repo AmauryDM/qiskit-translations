@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.utils.deprecation &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.utils.deprecation &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -350,8 +350,13 @@
 <span class="sd">    [1] https://docs.python.org/3/library/warnings.html#default-warning-filters</span>
 <span class="sd">    [2] https://www.python.org/dev/peps/pep-0565/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">deprecation_filter</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                          <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^qiskit\.*&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">UNICODE</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">deprecation_filter</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^qiskit\.*&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">UNICODE</span><span class="p">),</span>
+        <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Instead of using warnings.simple_filter() directly, the internal</span>
     <span class="c1"># _add_filter() function is used for being able to match against the</span>
@@ -368,13 +373,16 @@
 
 <div class="viewcode-block" id="deprecate_arguments"><a class="viewcode-back" href="../../../stubs/qiskit.utils.deprecate_arguments.html#qiskit.utils.deprecate_arguments">[ドキュメント]</a><span class="k">def</span> <span class="nf">deprecate_arguments</span><span class="p">(</span><span class="n">kwarg_map</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decorator to automatically alias deprecated argument names and warn upon use.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="n">_rename_kwargs</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">kwarg_map</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">wrapper</span>
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -388,6 +396,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: The decorated, deprecated callable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -396,8 +405,10 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">)</span>
                 <span class="n">wrapper</span><span class="o">.</span><span class="n">_warned</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
         <span class="n">wrapper</span><span class="o">.</span><span class="n">_warned</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="n">wrapper</span>
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -405,13 +416,14 @@
     <span class="k">for</span> <span class="n">old_arg</span><span class="p">,</span> <span class="n">new_arg</span> <span class="ow">in</span> <span class="n">kwarg_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">old_arg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">new_arg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> received both </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1"> (deprecated).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">func_name</span><span class="p">,</span> <span class="n">new_arg</span><span class="p">,</span> <span class="n">old_arg</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s2"> received both </span><span class="si">{</span><span class="n">new_arg</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">old_arg</span><span class="si">}</span><span class="s2"> (deprecated).&quot;</span><span class="p">)</span>
 
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> keyword argument </span><span class="si">{}</span><span class="s1"> is deprecated and &#39;</span>
-                          <span class="s1">&#39;replaced with </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                              <span class="n">func_name</span><span class="p">,</span> <span class="n">old_arg</span><span class="p">,</span> <span class="n">new_arg</span><span class="p">),</span>
-                          <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> keyword argument </span><span class="si">{}</span><span class="s2"> is deprecated and &quot;</span>
+                <span class="s2">&quot;replaced with </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">old_arg</span><span class="p">,</span> <span class="n">new_arg</span><span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="n">kwargs</span><span class="p">[</span><span class="n">new_arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">old_arg</span><span class="p">)</span>
 </pre></div>
@@ -431,7 +443,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -466,7 +478,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.utils.merge_adjacent_barriers &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.transpiler.passes.utils.merge_adjacent_barriers &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -369,7 +369,7 @@
 
         <span class="c1"># sorted to so that they are in the order they appear in the DAG</span>
         <span class="c1"># so ancestors/descendants makes sense</span>
-        <span class="n">barriers</span> <span class="o">=</span> <span class="p">[</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">topological_op_nodes</span><span class="p">()</span> <span class="k">if</span> <span class="n">nd</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;barrier&#39;</span><span class="p">]</span>
+        <span class="n">barriers</span> <span class="o">=</span> <span class="p">[</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">topological_op_nodes</span><span class="p">()</span> <span class="k">if</span> <span class="n">nd</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;barrier&quot;</span><span class="p">]</span>
 
         <span class="c1"># get dict of barrier merges</span>
         <span class="n">node_to_barrier_qubits</span> <span class="o">=</span> <span class="n">MergeAdjacentBarriers</span><span class="o">.</span><span class="n">_collect_potential_merges</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">barriers</span><span class="p">)</span>
@@ -382,7 +382,7 @@
 
         <span class="c1"># go over current nodes, and add them to the new dag</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">topological_op_nodes</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;barrier&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;barrier&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_to_barrier_qubits</span><span class="p">:</span>
                     <span class="n">qubits</span> <span class="o">=</span> <span class="n">node_to_barrier_qubits</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
                     <span class="c1"># qubits are stored as a set, need to convert to a list</span>
@@ -421,22 +421,23 @@
         <span class="k">for</span> <span class="n">next_barrier</span> <span class="ow">in</span> <span class="n">barriers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
 
             <span class="c1"># Ensure barriers are adjacent before checking if they are mergeable.</span>
-            <span class="k">if</span> <span class="n">dag</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">end_of_barrier</span><span class="o">.</span><span class="n">_node_id</span><span class="p">,</span>
-                                         <span class="n">next_barrier</span><span class="o">.</span><span class="n">_node_id</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dag</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">end_of_barrier</span><span class="o">.</span><span class="n">_node_id</span><span class="p">,</span> <span class="n">next_barrier</span><span class="o">.</span><span class="n">_node_id</span><span class="p">):</span>
 
                 <span class="c1"># Remove all barriers that have already been included in this new barrier from the</span>
                 <span class="c1"># set of ancestors/descendants as they will be removed from the new DAG when it is</span>
                 <span class="c1"># created.</span>
-                <span class="n">next_ancestors</span> <span class="o">=</span> <span class="p">{</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">next_barrier</span><span class="p">)</span>
-                                  <span class="k">if</span> <span class="n">nd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_barrier_nodes</span><span class="p">}</span>
-                <span class="n">next_descendants</span> <span class="o">=</span> <span class="p">{</span><span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">next_barrier</span><span class="p">)</span>
-                                    <span class="k">if</span> <span class="n">nd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_barrier_nodes</span><span class="p">}</span>
+                <span class="n">next_ancestors</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">ancestors</span><span class="p">(</span><span class="n">next_barrier</span><span class="p">)</span> <span class="k">if</span> <span class="n">nd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_barrier_nodes</span>
+                <span class="p">}</span>
+                <span class="n">next_descendants</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">nd</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">next_barrier</span><span class="p">)</span> <span class="k">if</span> <span class="n">nd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_barrier_nodes</span>
+                <span class="p">}</span>
                 <span class="n">next_qubits</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">next_barrier</span><span class="o">.</span><span class="n">qargs</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="p">(</span>
-                        <span class="ow">not</span> <span class="n">current_qubits</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_qubits</span><span class="p">)</span>
-                        <span class="ow">and</span> <span class="n">current_ancestors</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_descendants</span><span class="p">)</span>
-                        <span class="ow">and</span> <span class="n">current_descendants</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_ancestors</span><span class="p">)</span>
+                    <span class="ow">not</span> <span class="n">current_qubits</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_qubits</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="n">current_ancestors</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_descendants</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="n">current_descendants</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">next_ancestors</span><span class="p">)</span>
                 <span class="p">):</span>
 
                     <span class="c1"># can be merged</span>
@@ -490,7 +491,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -525,7 +526,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

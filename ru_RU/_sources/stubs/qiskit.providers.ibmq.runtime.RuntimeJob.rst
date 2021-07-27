@@ -17,6 +17,7 @@
       ~RuntimeJob.backend
       ~RuntimeJob.cancel
       ~RuntimeJob.cancel_result_streaming
+      ~RuntimeJob.error_message
       ~RuntimeJob.job_id
       ~RuntimeJob.logs
       ~RuntimeJob.result

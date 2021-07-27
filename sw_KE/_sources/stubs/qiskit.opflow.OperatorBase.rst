@@ -47,5 +47,6 @@
       ~OperatorBase.instance_id
       ~OperatorBase.num_qubits
       ~OperatorBase.parameters
+      ~OperatorBase.settings
    
    

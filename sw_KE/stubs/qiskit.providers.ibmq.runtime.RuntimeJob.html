@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.runtime.RuntimeJob &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.providers.ibmq.runtime.RuntimeJob &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -414,22 +414,25 @@ the results at a later time, but before the job finishes.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.cancel_result_streaming" title="qiskit.providers.ibmq.runtime.RuntimeJob.cancel_result_streaming"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cancel_result_streaming</span></code></a>()</p></td>
 <td><p>Cancel result streaming.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.job_id" title="qiskit.providers.ibmq.runtime.RuntimeJob.job_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.error_message" title="qiskit.providers.ibmq.runtime.RuntimeJob.error_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">error_message</span></code></a>()</p></td>
+<td><p>Returns the reason if the job failed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.job_id" title="qiskit.providers.ibmq.runtime.RuntimeJob.job_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id</span></code></a>()</p></td>
 <td><p>Return a unique ID identifying the job.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.logs" title="qiskit.providers.ibmq.runtime.RuntimeJob.logs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logs</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.logs" title="qiskit.providers.ibmq.runtime.RuntimeJob.logs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logs</span></code></a>()</p></td>
 <td><p>Return job logs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.result" title="qiskit.providers.ibmq.runtime.RuntimeJob.result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result</span></code></a>([timeout, wait, decoder])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.result" title="qiskit.providers.ibmq.runtime.RuntimeJob.result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result</span></code></a>([timeout, wait, decoder])</p></td>
 <td><p>Return the results of the job.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.status" title="qiskit.providers.ibmq.runtime.RuntimeJob.status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">status</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.status" title="qiskit.providers.ibmq.runtime.RuntimeJob.status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">status</span></code></a>()</p></td>
 <td><p>Return the status of the job.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.stream_results" title="qiskit.providers.ibmq.runtime.RuntimeJob.stream_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stream_results</span></code></a>(callback[, decoder])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.stream_results" title="qiskit.providers.ibmq.runtime.RuntimeJob.stream_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stream_results</span></code></a>(callback[, decoder])</p></td>
 <td><p>Start streaming job results.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.wait_for_final_state" title="qiskit.providers.ibmq.runtime.RuntimeJob.wait_for_final_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_final_state</span></code></a>([timeout, wait])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.RuntimeJob.wait_for_final_state" title="qiskit.providers.ibmq.runtime.RuntimeJob.wait_for_final_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_for_final_state</span></code></a>([timeout, wait])</p></td>
 <td><p>Poll the job status until it progresses to a final state such as <code class="docutils literal notranslate"><span class="pre">DONE</span></code> or <code class="docutils literal notranslate"><span class="pre">ERROR</span></code>.</p></td>
 </tr>
 </tbody>
@@ -505,6 +508,20 @@ the results at a later time, but before the job finishes.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The job creation date as a datetime object, in local time, or
 <code class="docutils literal notranslate"><span class="pre">None</span></code> if creation date is not available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.providers.ibmq.runtime.RuntimeJob.error_message">
+<code class="sig-name descname">error_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/runtime/runtime_job.html#RuntimeJob.error_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.runtime.RuntimeJob.error_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the reason if the job failed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Error message string or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -607,9 +624,6 @@ the results at a later time, but before the job finishes.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Status of this job.</p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="qiskit.providers.ibmq.IBMQError.html#qiskit.providers.ibmq.IBMQError" title="qiskit.providers.ibmq.IBMQError"><strong>IBMQError</strong></a> -- If an unknown status is returned from the server.</p>
-</dd>
 </dl>
 </dd></dl>
 
@@ -692,7 +706,7 @@ The callback function will receive 2 positional parameters:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -730,7 +744,7 @@ The callback function will receive 2 positional parameters:</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -56,6 +56,7 @@
       ~AND.fredkin
       ~AND.from_qasm_file
       ~AND.from_qasm_str
+      ~AND.get_instructions
       ~AND.h
       ~AND.hamiltonian
       ~AND.has_register

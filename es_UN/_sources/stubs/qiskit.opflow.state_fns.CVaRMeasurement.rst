@@ -57,5 +57,6 @@
       ~CVaRMeasurement.num_qubits
       ~CVaRMeasurement.parameters
       ~CVaRMeasurement.primitive
+      ~CVaRMeasurement.settings
    
    

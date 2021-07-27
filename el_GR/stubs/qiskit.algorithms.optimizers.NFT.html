@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.NFT &mdash; Τεκμηρίωση του Qiskit - 0.27.0</title>
+  <title>qiskit.algorithms.optimizers.NFT &mdash; Τεκμηρίωση του Qiskit - 0.28.0</title>
   
 
   
@@ -332,7 +332,7 @@
 <h1>qiskit.algorithms.optimizers.NFT<a class="headerlink" href="#qiskit-algorithms-optimizers-nft" title="Μόνιμος σύνδεσμος σε αυτήν την κεφαλίδα">¶</a></h1>
 <dl class="py class">
 <dt id="qiskit.algorithms.optimizers.NFT">
-<em class="property">class </em><code class="sig-name descname">NFT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reset_interval</span><span class="o">=</span><span class="default_value">32</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">NFT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reset_interval</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Nakanishi-Fujii-Todo algorithm.</p>
 <p>See <a class="reference external" href="https://arxiv.org/abs/1903.12166">https://arxiv.org/abs/1903.12166</a></p>
 <p>Built out using scipy framework, for details, please refer to
@@ -345,6 +345,8 @@
 <li><p><strong>disp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – disp</p></li>
 <li><p><strong>reset_interval</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The minimum estimates directly once
 in <code class="docutils literal notranslate"><span class="pre">reset_interval</span></code> times.</p></li>
+<li><p><strong>options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – A dictionary of solver options.</p></li>
+<li><p><strong>kwargs</strong> – additional kwargs for scipy.optimize.minimize.</p></li>
 </ul>
 </dd>
 </dl>
@@ -361,7 +363,7 @@ arXiv preprint arXiv:1903.12166.</p>
 </dl>
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NFT.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reset_interval</span><span class="o">=</span><span class="default_value">32</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT.__init__"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.__init__" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxiter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxfev</span><span class="o">=</span><span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">disp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reset_interval</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT.__init__"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.__init__" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Built out using scipy framework, for details, please refer to
 <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html</a>.</p>
 <dl class="field-list simple">
@@ -372,6 +374,8 @@ arXiv preprint arXiv:1903.12166.</p>
 <li><p><strong>disp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – disp</p></li>
 <li><p><strong>reset_interval</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The minimum estimates directly once
 in <code class="docutils literal notranslate"><span class="pre">reset_interval</span></code> times.</p></li>
+<li><p><strong>options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – A dictionary of solver options.</p></li>
+<li><p><strong>kwargs</strong> – additional kwargs for scipy.optimize.minimize.</p></li>
 </ul>
 </dd>
 </dl>
@@ -395,11 +399,11 @@ arXiv preprint arXiv:1903.12166.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.__init__" title="qiskit.algorithms.optimizers.NFT.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([maxiter, maxfev, disp, reset_interval])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.__init__" title="qiskit.algorithms.optimizers.NFT.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([maxiter, maxfev, disp, …])</p></td>
 <td><p>Built out using scipy framework, for details, please refer to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html</a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.get_support_level" title="qiskit.algorithms.optimizers.NFT.get_support_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_support_level</span></code></a>()</p></td>
-<td><p>return support level dictionary</p></td>
+<td><p>Return support level dictionary</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.gradient_num_diff" title="qiskit.algorithms.optimizers.NFT.gradient_num_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gradient_num_diff</span></code></a>(x_center, f, epsilon[, …])</p></td>
 <td><p>We compute the gradient with the numeric differentiation in the parallel way, around the point x_center.</p></td>
@@ -467,6 +471,9 @@ arXiv preprint arXiv:1903.12166.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.setting" title="qiskit.algorithms.optimizers.NFT.setting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setting</span></code></a></p></td>
 <td><p>Return setting</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.algorithms.optimizers.NFT.settings" title="qiskit.algorithms.optimizers.NFT.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>The optimizer settings in a dictionary format.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -477,8 +484,8 @@ arXiv preprint arXiv:1903.12166.</p>
 
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NFT.get_support_level">
-<code class="sig-name descname">get_support_level</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT.get_support_level"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.get_support_level" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
-<dd><p>return support level dictionary</p>
+<code class="sig-name descname">get_support_level</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.get_support_level" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<dd><p>Return support level dictionary</p>
 </dd></dl>
 
 <dl class="py method">
@@ -572,7 +579,7 @@ around the point x_center.</p>
 
 <dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NFT.optimize">
-<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_vars</span></em>, <em class="sig-param"><span class="n">objective_function</span></em>, <em class="sig-param"><span class="n">gradient_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_bounds</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_point</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/algorithms/optimizers/nft.html#NFT.optimize"><span class="viewcode-link">[πηγή]</span></a><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.optimize" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_vars</span></em>, <em class="sig-param"><span class="n">objective_function</span></em>, <em class="sig-param"><span class="n">gradient_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_bounds</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_point</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.optimize" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Perform optimization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Παράμετροι</dt>
@@ -638,6 +645,25 @@ a set of key/values when the given optimizer is constructed.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="qiskit.algorithms.optimizers.NFT.settings">
+<em class="property">property </em><code class="sig-name descname">settings</code><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.settings" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
+<dd><p>The optimizer settings in a dictionary format.</p>
+<p>The settings can for instance be used for JSON-serialization (if all settings are
+serializable, which e.g. doesn’t hold per default for callables), such that the
+optimizer object can be reconstructed as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">settings</span>
+<span class="c1"># JSON serialize and send to another server</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClass</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Επιστρεφόμενος τύπος</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.algorithms.optimizers.NFT.wrap_function">
 <em class="property">static </em><code class="sig-name descname">wrap_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.algorithms.optimizers.NFT.wrap_function" title="Μόνιμος σύνδεσμος σε αυτόν τον ορισμό">¶</a></dt>
 <dd><p>Wrap the function to implicitly inject the args at the call of the function.</p>
@@ -686,7 +712,7 @@ a set of key/values when the given optimizer is constructed.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Τελευταία ενημέρωση στις 2021/07/12.
+      Τελευταία ενημέρωση στις 2021/07/27.
 
     </p>
   </div>
@@ -724,7 +750,7 @@ a set of key/values when the given optimizer is constructed.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.result.ProbDistribution &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.result.ProbDistribution &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -222,9 +222,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -233,25 +233,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -332,19 +332,29 @@
 <dt id="qiskit.result.ProbDistribution">
 <em class="property">class </em><code class="sig-name descname">ProbDistribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">shots</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/result/distributions/probability.html#ProbDistribution"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.result.ProbDistribution" title="Ссылка на это определение">¶</a></dt>
 <dd><p>A generic dict-like class for probability distributions.</p>
-<div class="admonition warning">
-<p class="admonition-title">Предупреждение</p>
-<p>This is an unsupported class in the current 0.17.x release series. It
-is present for compatibility with the qiskit-ibmq-provider’s beta
-qiskit runtime support, but this interface isn’t guaranteed to be
-stable when moving to &gt;=0.18.0 and likely will change.</p>
-</div>
 <p>Builds a probability distribution object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) – Input probability data.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) – <p>Input probability data. Where the keys
+represent a measured classical value and the value is a
+float for the probability of that result.
+The keys can be one of several formats:</p>
+<blockquote>
+<div><ul>
+<li><p>A hexadecimal string of the form <code class="docutils literal notranslate"><span class="pre">&quot;0x4a&quot;</span></code></p></li>
+<li><p>A bit string e.g. <code class="docutils literal notranslate"><span class="pre">'0b1011'</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;01011&quot;</span></code></p></li>
+<li><p>An integer</p></li>
+</ul>
+</div></blockquote>
+</p></li>
 <li><p><strong>shots</strong> (<em>int</em>) – Number of shots the distribution was derived from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Исключение</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input keys are not a string or int</p></li>
+<li><p><strong>ValueError</strong> – If the string format of the keys is incorrect</p></li>
 </ul>
 </dd>
 </dl>
@@ -355,8 +365,25 @@ stable when moving to &gt;=0.18.0 and likely will change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Параметры</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>dict</em>) – Input probability data.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) – <p>Input probability data. Where the keys
+represent a measured classical value and the value is a
+float for the probability of that result.
+The keys can be one of several formats:</p>
+<blockquote>
+<div><ul>
+<li><p>A hexadecimal string of the form <code class="docutils literal notranslate"><span class="pre">&quot;0x4a&quot;</span></code></p></li>
+<li><p>A bit string e.g. <code class="docutils literal notranslate"><span class="pre">'0b1011'</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;01011&quot;</span></code></p></li>
+<li><p>An integer</p></li>
+</ul>
+</div></blockquote>
+</p></li>
 <li><p><strong>shots</strong> (<em>int</em>) – Number of shots the distribution was derived from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Исключение</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input keys are not a string or int</p></li>
+<li><p><strong>ValueError</strong> – If the string format of the keys is incorrect</p></li>
 </ul>
 </dd>
 </dl>
@@ -372,17 +399,23 @@ stable when moving to &gt;=0.18.0 and likely will change.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.__init__" title="qiskit.result.ProbDistribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(data[, shots])</p></td>
 <td><p>Builds a probability distribution object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.clear" title="qiskit.result.ProbDistribution.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.binary_probabilities" title="qiskit.result.ProbDistribution.binary_probabilities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binary_probabilities</span></code></a>([num_bits])</p></td>
+<td><p>Build a probabilities dictionary with binary string keys</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.clear" title="qiskit.result.ProbDistribution.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.copy" title="qiskit.result.ProbDistribution.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.copy" title="qiskit.result.ProbDistribution.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.fromkeys" title="qiskit.result.ProbDistribution.fromkeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromkeys</span></code></a>([value])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.fromkeys" title="qiskit.result.ProbDistribution.fromkeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromkeys</span></code></a>([value])</p></td>
 <td><p>Create a new dictionary with keys from iterable and values set to value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.get" title="qiskit.result.ProbDistribution.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(key[, default])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.get" title="qiskit.result.ProbDistribution.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(key[, default])</p></td>
 <td><p>Return the value for key if key is in the dictionary, else default.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.hex_probabilities" title="qiskit.result.ProbDistribution.hex_probabilities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hex_probabilities</span></code></a>()</p></td>
+<td><p>Build a probabilities dictionary with hexadecimal string keys</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.result.ProbDistribution.items" title="qiskit.result.ProbDistribution.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>()</p></td>
 <td><p></p></td>
@@ -408,6 +441,29 @@ stable when moving to &gt;=0.18.0 and likely will change.</p>
 </tbody>
 </table>
 <dl class="py method">
+<dt id="qiskit.result.ProbDistribution.binary_probabilities">
+<code class="sig-name descname">binary_probabilities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_bits</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/result/distributions/probability.html#ProbDistribution.binary_probabilities"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.result.ProbDistribution.binary_probabilities" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Build a probabilities dictionary with binary string keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры</dt>
+<dd class="field-odd"><p><strong>num_bits</strong> (<em>int</em>) – number of bits in the binary bitstrings (leading
+zeros will be padded). If None, the length will be derived
+from the largest key present.</p>
+</dd>
+<dt class="field-even">Результат</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary where the keys are binary strings in the format</dt><dd><p><code class="docutils literal notranslate"><span class="pre">&quot;0110&quot;</span></code></p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Тип результата</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="qiskit.result.ProbDistribution.clear">
 <code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None.  Remove all items from D.<a class="headerlink" href="#qiskit.result.ProbDistribution.clear" title="Ссылка на это определение">¶</a></dt>
 <dd></dd></dl>
@@ -427,6 +483,24 @@ stable when moving to &gt;=0.18.0 and likely will change.</p>
 <dt id="qiskit.result.ProbDistribution.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">/</span></em><span class="sig-paren">)</span><a class="headerlink" href="#qiskit.result.ProbDistribution.get" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Return the value for key if key is in the dictionary, else default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.result.ProbDistribution.hex_probabilities">
+<code class="sig-name descname">hex_probabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/result/distributions/probability.html#ProbDistribution.hex_probabilities"><span class="viewcode-link">[исходный код]</span></a><a class="headerlink" href="#qiskit.result.ProbDistribution.hex_probabilities" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Build a probabilities dictionary with hexadecimal string keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Результат</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary where the keys are hexadecimal strings in the</dt><dd><p>format <code class="docutils literal notranslate"><span class="pre">&quot;0x1a&quot;</span></code></p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Тип результата</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -502,7 +576,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -540,7 +614,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

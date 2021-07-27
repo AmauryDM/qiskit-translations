@@ -39,6 +39,8 @@
       ~DAGCircuit.gate_nodes
       ~DAGCircuit.has_calibration_for
       ~DAGCircuit.idle_wires
+      ~DAGCircuit.is_predecessor
+      ~DAGCircuit.is_successor
       ~DAGCircuit.layers
       ~DAGCircuit.longest_path
       ~DAGCircuit.multi_qubit_ops

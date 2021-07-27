@@ -47,5 +47,6 @@
       ~Operator.num_qubits
       ~Operator.qargs
       ~Operator.rtol
+      ~Operator.settings
    
    

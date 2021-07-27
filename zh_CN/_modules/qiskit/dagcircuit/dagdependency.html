@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.dagcircuit.dagdependency &mdash; Qiskit 0.27.0 文档</title>
+  <title>qiskit.dagcircuit.dagdependency &mdash; Qiskit 0.28.0 文档</title>
   
 
   
@@ -344,6 +344,7 @@
 <span class="kn">from</span> <span class="nn">qiskit.dagcircuit.exceptions</span> <span class="kn">import</span> <span class="n">DAGDependencyError</span>
 <span class="kn">from</span> <span class="nn">qiskit.dagcircuit.dagdepnode</span> <span class="kn">import</span> <span class="n">DAGDepNode</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators</span> <span class="kn">import</span> <span class="n">Operator</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 
 
 <div class="viewcode-block" id="DAGDependency"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency">[文档]</a><span class="k">class</span> <span class="nc">DAGDependency</span><span class="p">:</span>
@@ -409,7 +410,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_calibrations</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;dt&#39;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;dt&quot;</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">global_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -424,15 +425,14 @@
 <span class="sd">            angle (float, ParameterExpression)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">qiskit.circuit.parameterexpression</span> <span class="kn">import</span> <span class="n">ParameterExpression</span>  <span class="c1"># needed?</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_global_phase</span> <span class="o">=</span> <span class="n">angle</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Set the phase to the [-2 * pi, 2 * pi] interval</span>
+            <span class="c1"># Set the phase to the [0, 2π) interval</span>
             <span class="n">angle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">angle</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_global_phase</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">elif</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_global_phase</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">%</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_global_phase</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
@@ -462,24 +462,26 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Networkx is needed to use to_networkx(). It &quot;</span>
-                              <span class="s2">&quot;can be installed with &#39;pip install networkx&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;Networkx&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DAG dependency&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install networkx&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
         <span class="n">dag_networkx</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nodes</span><span class="p">():</span>
             <span class="n">dag_networkx</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">topological_nodes</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">dest_id</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> \
-                    <span class="bp">self</span><span class="o">.</span><span class="n">get_in_edges</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">dest_id</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_in_edges</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">):</span>
                 <span class="n">dag_networkx</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">source_id</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">dest_id</span><span class="p">),</span> <span class="o">**</span><span class="n">edge</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dag_networkx</span></div>
 
 <div class="viewcode-block" id="DAGDependency.to_retworkx"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.to_retworkx">[文档]</a>    <span class="k">def</span> <span class="nf">to_retworkx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the DAGDependency in retworkx format.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns the DAGDependency in retworkx format.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span></div>
 
 <div class="viewcode-block" id="DAGDependency.size"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.size">[文档]</a>    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the number of gates in the circuit&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of gates in the circuit&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DAGDependency.depth"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.depth">[文档]</a>    <span class="k">def</span> <span class="nf">depth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -598,10 +600,11 @@
 <span class="sd">            List: corresponding to the label.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="p">[(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">src_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
-                <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-                <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">out_edges</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">src_node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">out_edges</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+        <span class="p">]</span></div>
 
 <div class="viewcode-block" id="DAGDependency.get_in_edges"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.get_in_edges">[文档]</a>    <span class="k">def</span> <span class="nf">get_in_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -686,9 +689,7 @@
         <span class="k">def</span> <span class="nf">_key</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">sort_key</span>
 
-        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">rx</span><span class="o">.</span><span class="n">lexicographical_topological_sort</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="p">,</span>
-            <span class="n">key</span><span class="o">=</span><span class="n">_key</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">rx</span><span class="o">.</span><span class="n">lexicographical_topological_sort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">_key</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="DAGDependency.add_op_node"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.add_op_node">[文档]</a>    <span class="k">def</span> <span class="nf">add_op_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">qargs</span><span class="p">,</span> <span class="n">cargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a DAGDepNode to the graph and update the edges.</span>
@@ -698,7 +699,7 @@
 <span class="sd">            qargs (list[Qubit]): list of qubits on which the operation acts</span>
 <span class="sd">            cargs (list[Clbit]): list of classical wires to attach to.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;measure&#39;</span><span class="p">]</span>
+        <span class="n">directives</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;measure&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">operation</span><span class="o">.</span><span class="n">_directive</span> <span class="ow">and</span> <span class="n">operation</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">directives</span><span class="p">:</span>
             <span class="n">qindices_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">qargs</span><span class="p">:</span>
@@ -716,9 +717,17 @@
             <span class="n">qindices_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">cindices_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">new_node</span> <span class="o">=</span> <span class="n">DAGDepNode</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span>
-                              <span class="n">cargs</span><span class="o">=</span><span class="n">cargs</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">operation</span><span class="o">.</span><span class="n">condition</span><span class="p">,</span> <span class="n">successors</span><span class="o">=</span><span class="p">[],</span>
-                              <span class="n">predecessors</span><span class="o">=</span><span class="p">[],</span> <span class="n">qindices</span><span class="o">=</span><span class="n">qindices_list</span><span class="p">,</span> <span class="n">cindices</span><span class="o">=</span><span class="n">cindices_list</span><span class="p">)</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="n">DAGDepNode</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;op&quot;</span><span class="p">,</span>
+            <span class="n">op</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">operation</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span>
+            <span class="n">cargs</span><span class="o">=</span><span class="n">cargs</span><span class="p">,</span>
+            <span class="n">successors</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">predecessors</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">qindices</span><span class="o">=</span><span class="n">qindices_list</span><span class="p">,</span>
+            <span class="n">cindices</span><span class="o">=</span><span class="n">cindices_list</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_multi_graph_node</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_edges</span><span class="p">()</span></div>
 
@@ -773,7 +782,8 @@
         <span class="n">direct_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct_predecessors</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gather_pred</span><span class="p">(</span><span class="n">node_id</span><span class="p">,</span> <span class="n">direct_pred</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">predecessors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="n">merge_no_duplicates</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">predecessors</span><span class="p">)))</span>
+            <span class="n">merge_no_duplicates</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">predecessors</span><span class="p">))</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -790,8 +800,9 @@
         <span class="c1"># Check the commutation relation with reachable node, it adds edges if it does not commute</span>
         <span class="k">for</span> <span class="n">prev_node_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_node_id</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">prev_node_id</span><span class="p">)</span><span class="o">.</span><span class="n">reachable</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_does_commute</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">prev_node_id</span><span class="p">),</span> <span class="n">max_node</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">prev_node_id</span><span class="p">,</span> <span class="n">max_node_id</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;commute&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">prev_node_id</span><span class="p">),</span> <span class="n">max_node</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">prev_node_id</span><span class="p">,</span> <span class="n">max_node_id</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;commute&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_list_pred</span><span class="p">(</span><span class="n">max_node_id</span><span class="p">)</span>
                 <span class="n">list_predecessors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">max_node_id</span><span class="p">)</span><span class="o">.</span><span class="n">predecessors</span>
                 <span class="k">for</span> <span class="n">pred_id</span> <span class="ow">in</span> <span class="n">list_predecessors</span><span class="p">:</span>
@@ -809,7 +820,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gather_succ</span><span class="p">(</span><span class="n">node_id</span><span class="p">,</span> <span class="n">direct_successors</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">successors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="n">merge_no_duplicates</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">successors</span><span class="p">))</span>
+                <span class="n">merge_no_duplicates</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">get_node_data</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">.</span><span class="n">successors</span><span class="p">)</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="DAGDependency.copy"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.copy">[文档]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -829,7 +841,7 @@
             <span class="n">dag</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">dag</span></div>
 
-<div class="viewcode-block" id="DAGDependency.draw"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.draw">[文档]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;color&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="DAGDependency.draw"><a class="viewcode-back" href="../../../stubs/qiskit.dagcircuit.DAGDependency.html#qiskit.dagcircuit.DAGDependency.draw">[文档]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;color&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws the DAGDependency graph.</span>
 
@@ -847,8 +859,8 @@
 <span class="sd">                otherwise None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">qiskit.visualization.dag_visualization</span> <span class="kn">import</span> <span class="n">dag_drawer</span>
-        <span class="k">return</span> <span class="n">dag_drawer</span><span class="p">(</span><span class="n">dag</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-                          <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span></div></div>
+
+        <span class="k">return</span> <span class="n">dag_drawer</span><span class="p">(</span><span class="n">dag</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span></div></div>
 
 
 <span class="k">def</span> <span class="nf">merge_no_duplicates</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
@@ -890,19 +902,18 @@
     <span class="c1"># if and only if the qubits are different.</span>
     <span class="c1"># TODO: qubits can be the same if conditions are identical and</span>
     <span class="c1"># the non-conditional gates commute.</span>
-    <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">condition</span> <span class="ow">or</span> <span class="n">node2</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span>
-        <span class="n">intersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">qarg1</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qarg2</span><span class="p">))</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="n">intersection</span>
+    <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span> <span class="ow">and</span> <span class="n">node2</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node1</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">condition</span> <span class="ow">or</span> <span class="n">node2</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span>
+            <span class="n">intersection</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">qarg1</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qarg2</span><span class="p">))</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="n">intersection</span>
 
     <span class="c1"># Commutation for non-unitary or parameterized or opaque ops</span>
     <span class="c1"># (e.g. measure, reset, directives or pulse gates)</span>
     <span class="c1"># if and only if the qubits and clbits are different.</span>
-    <span class="n">non_unitaries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;measure&#39;</span><span class="p">,</span> <span class="s1">&#39;reset&#39;</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">]</span>
+    <span class="n">non_unitaries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="s2">&quot;reset&quot;</span><span class="p">,</span> <span class="s2">&quot;initialize&quot;</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_unknown_commutator</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">_directive</span> <span class="ow">or</span>
-                <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">non_unitaries</span> <span class="ow">or</span>
-                <span class="n">n</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">is_parameterized</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">_directive</span> <span class="ow">or</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">non_unitaries</span> <span class="ow">or</span> <span class="n">n</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">is_parameterized</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">_unknown_commutator</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_unknown_commutator</span><span class="p">(</span><span class="n">node2</span><span class="p">):</span>
         <span class="n">intersection_q</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">qarg1</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qarg2</span><span class="p">))</span>
@@ -910,7 +921,7 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">intersection_q</span> <span class="ow">or</span> <span class="n">intersection_c</span><span class="p">)</span>
 
     <span class="c1"># Known non-commuting gates (TODO: add more).</span>
-    <span class="n">non_commute_gates</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">}]</span>
+    <span class="n">non_commute_gates</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">}]</span>
     <span class="k">if</span> <span class="n">qarg1</span> <span class="o">==</span> <span class="n">qarg2</span> <span class="ow">and</span> <span class="p">({</span><span class="n">node1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">node2</span><span class="o">.</span><span class="n">name</span><span class="p">}</span> <span class="ow">in</span> <span class="n">non_commute_gates</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
@@ -921,12 +932,17 @@
     <span class="n">qarg1</span> <span class="o">=</span> <span class="p">[</span><span class="n">qarg</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">node1</span><span class="o">.</span><span class="n">qargs</span><span class="p">]</span>
     <span class="n">qarg2</span> <span class="o">=</span> <span class="p">[</span><span class="n">qarg</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">node2</span><span class="o">.</span><span class="n">qargs</span><span class="p">]</span>
 
-    <span class="n">id_op</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">qbit_num</span><span class="p">))</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">qbit_num</span>
+    <span class="n">id_op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">qbit_num</span><span class="p">)</span>
 
-    <span class="n">op12</span> <span class="o">=</span> <span class="n">id_op</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qarg1</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">node2</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qarg2</span><span class="p">)</span>
-    <span class="n">op21</span> <span class="o">=</span> <span class="n">id_op</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">node2</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qarg2</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qarg1</span><span class="p">)</span>
+    <span class="n">op1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">qarg1</span><span class="p">))</span>
+    <span class="n">op2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">node2</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">qarg2</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">op12</span> <span class="o">==</span> <span class="n">op21</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">Operator</span><span class="o">.</span><span class="n">_einsum_matmul</span><span class="p">(</span><span class="n">id_op</span><span class="p">,</span> <span class="n">op1</span><span class="p">,</span> <span class="n">qarg1</span><span class="p">)</span>
+    <span class="n">op12</span> <span class="o">=</span> <span class="n">Operator</span><span class="o">.</span><span class="n">_einsum_matmul</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">op2</span><span class="p">,</span> <span class="n">qarg2</span><span class="p">,</span> <span class="n">right_mul</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">op21</span> <span class="o">=</span> <span class="n">Operator</span><span class="o">.</span><span class="n">_einsum_matmul</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">op2</span><span class="p">,</span> <span class="n">qarg2</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">qbit_num</span><span class="p">,</span> <span class="n">right_mul</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">op12</span><span class="p">,</span> <span class="n">op21</span><span class="p">)</span>
 </pre></div>
 
              </article>
@@ -944,7 +960,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最后更新于 2021/07/12.
+      最后更新于 2021/07/27.
 
     </p>
   </div>
@@ -980,7 +996,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

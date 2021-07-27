@@ -54,5 +54,6 @@
       ~EvolvedOp.num_qubits
       ~EvolvedOp.parameters
       ~EvolvedOp.primitive
+      ~EvolvedOp.settings
    
    

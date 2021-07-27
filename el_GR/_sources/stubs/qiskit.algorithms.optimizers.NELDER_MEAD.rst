@@ -43,5 +43,6 @@
       ~NELDER_MEAD.is_initial_point_required
       ~NELDER_MEAD.is_initial_point_supported
       ~NELDER_MEAD.setting
+      ~NELDER_MEAD.settings
    
    

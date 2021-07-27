@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quantum Information (qiskit.quantum_info) &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>Quantum Information (qiskit.quantum_info) &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -42,7 +42,7 @@
     <link rel="index" title="Indeks" href="../genindex.html" />
     <link rel="search" title="Pencarian" href="../search.html" />
     <link rel="next" title="qiskit.quantum_info.Operator" href="../stubs/qiskit.quantum_info.Operator.html" />
-    <link rel="prev" title="qiskit.qobj.PulseLibraryItem" href="../stubs/qiskit.qobj.PulseLibraryItem.html" /> 
+    <link rel="prev" title="QPY serialization (qiskit.circuit.qpy_serialization)" href="qpy.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -352,16 +352,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.CNOTDihedral.html#qiskit.quantum_info.CNOTDihedral" title="qiskit.quantum_info.CNOTDihedral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CNOTDihedral</span></code></a>([data, num_qubits, validate])</p></td>
 <td><p>An N-qubit operator from the CNOT-Dihedral group.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable" title="qiskit.quantum_info.PauliTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PauliTable</span></code></a>(data)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.PauliList.html#qiskit.quantum_info.PauliList" title="qiskit.quantum_info.PauliList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PauliList</span></code></a>(data)</p></td>
+<td><p>List of N-qubit Pauli operators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.PauliTable.html#qiskit.quantum_info.PauliTable" title="qiskit.quantum_info.PauliTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PauliTable</span></code></a>(data)</p></td>
 <td><p>Symplectic representation of a list Pauli matrices.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.StabilizerTable.html#qiskit.quantum_info.StabilizerTable" title="qiskit.quantum_info.StabilizerTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StabilizerTable</span></code></a>(data[, phase])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.StabilizerTable.html#qiskit.quantum_info.StabilizerTable" title="qiskit.quantum_info.StabilizerTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StabilizerTable</span></code></a>(data[, phase])</p></td>
 <td><p>Symplectic representation of a list Stabilizer matrices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.pauli_basis.html#qiskit.quantum_info.pauli_basis" title="qiskit.quantum_info.pauli_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pauli_basis</span></code></a>(num_qubits[, weight])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.pauli_basis.html#qiskit.quantum_info.pauli_basis" title="qiskit.quantum_info.pauli_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pauli_basis</span></code></a>(num_qubits[, weight])</p></td>
 <td><p>Return the ordered PauliTable for the n-qubit Pauli basis.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.pauli_group.html#qiskit.quantum_info.pauli_group" title="qiskit.quantum_info.pauli_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pauli_group</span></code></a>(number_of_qubits[, case])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.pauli_group.html#qiskit.quantum_info.pauli_group" title="qiskit.quantum_info.pauli_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pauli_group</span></code></a>(number_of_qubits[, case])</p></td>
 <td><p>DEPRECATED: Return the Pauli group with 4^n elements.</p></td>
 </tr>
 </tbody>
@@ -380,6 +383,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.DensityMatrix.html#qiskit.quantum_info.DensityMatrix" title="qiskit.quantum_info.DensityMatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DensityMatrix</span></code></a>(data[, dims])</p></td>
 <td><p>DensityMatrix class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.quantum_info.StabilizerState.html#qiskit.quantum_info.StabilizerState" title="qiskit.quantum_info.StabilizerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StabilizerState</span></code></a>(data[, validate])</p></td>
+<td><p>StabilizerState class.</p></td>
 </tr>
 </tbody>
 </table>
@@ -568,7 +574,7 @@
         <a href="../stubs/qiskit.quantum_info.Operator.html" class="btn btn-neutral float-right" title="qiskit.quantum_info.Operator" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="../stubs/qiskit.qobj.PulseLibraryItem.html" class="btn btn-neutral" title="qiskit.qobj.PulseLibraryItem" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="qpy.html" class="btn btn-neutral" title="QPY serialization (qiskit.circuit.qpy_serialization)" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -582,7 +588,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -630,7 +636,7 @@
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

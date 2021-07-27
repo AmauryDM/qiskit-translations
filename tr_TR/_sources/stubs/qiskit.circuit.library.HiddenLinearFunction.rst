@@ -56,6 +56,7 @@
       ~HiddenLinearFunction.fredkin
       ~HiddenLinearFunction.from_qasm_file
       ~HiddenLinearFunction.from_qasm_str
+      ~HiddenLinearFunction.get_instructions
       ~HiddenLinearFunction.h
       ~HiddenLinearFunction.hamiltonian
       ~HiddenLinearFunction.has_register

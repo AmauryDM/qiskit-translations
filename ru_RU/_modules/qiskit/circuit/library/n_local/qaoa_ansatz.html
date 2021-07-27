@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.n_local.qaoa_ansatz &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.circuit.library.n_local.qaoa_ansatz &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -332,18 +332,14 @@
 
 <span class="sd">&quot;&quot;&quot;A generalized QAOA quantum circuit with a support of custom initial states and mixers.&quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=cyclic-import</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.evolved_operator_ansatz</span> <span class="kn">import</span> <span class="n">EvolvedOperatorAnsatz</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.parametervector</span> <span class="kn">import</span> <span class="n">ParameterVector</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.quantumcircuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.quantumregister</span> <span class="kn">import</span> <span class="n">QuantumRegister</span>
-<span class="kn">from</span> <span class="nn">..blueprintcircuit</span> <span class="kn">import</span> <span class="n">BlueprintCircuit</span>
 
 
-<div class="viewcode-block" id="QAOAAnsatz"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.QAOAAnsatz.html#qiskit.circuit.library.QAOAAnsatz">[документация]</a><span class="k">class</span> <span class="nc">QAOAAnsatz</span><span class="p">(</span><span class="n">BlueprintCircuit</span><span class="p">):</span>
+<div class="viewcode-block" id="QAOAAnsatz"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.QAOAAnsatz.html#qiskit.circuit.library.QAOAAnsatz">[документация]</a><span class="k">class</span> <span class="nc">QAOAAnsatz</span><span class="p">(</span><span class="n">EvolvedOperatorAnsatz</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A generalized QAOA quantum circuit with a support of custom initial states and mixers.</span>
 
 <span class="sd">    References:</span>
@@ -352,12 +348,14 @@
 <span class="sd">            `arXiv:1411.4028 &lt;https://arxiv.org/pdf/1411.4028&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="QAOAAnsatz.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.QAOAAnsatz.html#qiskit.circuit.library.QAOAAnsatz.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">cost_operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">mixer_operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;qaoa&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="QAOAAnsatz.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.circuit.library.QAOAAnsatz.html#qiskit.circuit.library.QAOAAnsatz.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cost_operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">initial_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mixer_operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;QAOA&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            cost_operator (OperatorBase, optional): The operator representing the cost of</span>
@@ -391,61 +389,49 @@
     <span class="k">def</span> <span class="nf">_check_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_operator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_operator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The operator representing the cost of &quot;</span>
-                                     <span class="s2">&quot;the optimization problem is not set&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The operator representing the cost of the optimization problem is not set&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The integer parameter reps, which determines the depth &quot;</span>
-                                     <span class="s2">&quot;of the circuit, needs to be &gt;= 1 but has value </span><span class="si">{}</span><span class="s2">&quot;</span>
-                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reps</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The integer parameter reps, which determines the depth &quot;</span>
+                    <span class="s2">&quot;of the circuit, needs to be &gt;= 0 but has value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reps</span><span class="p">)</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The number of qubits of the initial state </span><span class="si">{}</span><span class="s2"> does not match &quot;</span>
-                                     <span class="s2">&quot;the number of qubits of the cost operator </span><span class="si">{}</span><span class="s2">&quot;</span>
-                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The number of qubits of the initial state </span><span class="si">{}</span><span class="s2"> does not match &quot;</span>
+                    <span class="s2">&quot;the number of qubits of the cost operator </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">raise_on_failure</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The number of qubits of the mixer </span><span class="si">{}</span><span class="s2"> does not match &quot;</span>
-                                     <span class="s2">&quot;the number of qubits of the cost operator </span><span class="si">{}</span><span class="s2">&quot;</span>
-                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The number of qubits of the mixer </span><span class="si">{}</span><span class="s2"> does not match &quot;</span>
+                    <span class="s2">&quot;the number of qubits of the cost operator </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">valid</span>
 
-    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Build the circuit.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_configuration</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="c1"># calculate bounds, num_parameters, mixer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_parameters</span><span class="p">()</span>
-
-        <span class="c1"># parameterize circuit and build it</span>
-        <span class="n">param_vector</span> <span class="o">=</span> <span class="n">ParameterVector</span><span class="p">(</span><span class="s2">&quot;θ&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span><span class="p">)</span>
-        <span class="n">circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_circuit</span><span class="p">(</span><span class="n">param_vector</span><span class="p">)</span>
-
-        <span class="c1"># append(replace) the circuit to this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_reset_registers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the registers and qubits to the new size.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_qregs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_qubits</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_qubit_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">qr</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">qr</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the number of qubits, specified by the size of the cost operator.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_operator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_operator</span><span class="o">.</span><span class="n">num_qubits</span>
+        <span class="k">return</span> <span class="mi">0</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
@@ -468,59 +454,15 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span>
 
-    <span class="k">def</span> <span class="nf">_calculate_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculated internal parameters of the circuit to be built.&quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">OperatorBase</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mixer</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mixer</span><span class="o">.</span><span class="n">num_parameters</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> \
-                           <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mixer</span><span class="o">.</span><span class="n">num_parameters</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mixer</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mixer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">operators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The operators that are evolved in this circuit.</span>
 
-    <span class="k">def</span> <span class="nf">_construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Construct a parameterized circuit.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Incorrect number of angles: expecting </span><span class="si">{}</span><span class="s1">, but </span><span class="si">{}</span><span class="s1"> given.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_num_parameters</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-            <span class="p">))</span>
-
-        <span class="c1"># local imports to avoid circular imports</span>
-        <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">CircuitStateFn</span>
-        <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">CircuitOp</span><span class="p">,</span> <span class="n">EvolutionFactory</span>
-        <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">OperatorBase</span>
-
-        <span class="n">circuit_op</span> <span class="o">=</span> <span class="n">CircuitStateFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span><span class="p">)</span>
-
-        <span class="c1"># iterate over layers</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reps</span><span class="p">):</span>
-            <span class="c1"># the first [:self._reps] parameters are used for the cost operator,</span>
-            <span class="c1"># so we apply them here</span>
-            <span class="n">circuit_op</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cost_operator</span> <span class="o">*</span> <span class="n">parameters</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="o">.</span><span class="n">exp_i</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit_op</span><span class="p">)</span>
-            <span class="n">mixer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mixer</span><span class="p">,</span> <span class="n">OperatorBase</span><span class="p">):</span>
-                <span class="n">mixer</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">OperatorBase</span><span class="p">,</span> <span class="n">mixer</span><span class="p">)</span>
-                <span class="c1"># we apply beta parameter in case of operator based mixer.</span>
-                <span class="n">circuit_op</span> <span class="o">=</span> <span class="p">(</span><span class="n">mixer</span> <span class="o">*</span> <span class="n">parameters</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span><span class="p">])</span><span class="o">.</span><span class="n">exp_i</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit_op</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># mixer as a quantum circuit that can be parameterized</span>
-                <span class="n">mixer</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">mixer</span><span class="p">)</span>
-                <span class="n">num_params</span> <span class="o">=</span> <span class="n">mixer</span><span class="o">.</span><span class="n">num_parameters</span>
-                <span class="c1"># the remaining [self._p:] parameters are used for the mixer,</span>
-                <span class="c1"># there may be multiple layers, so parameters are grouped by layers.</span>
-                <span class="n">param_values</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> <span class="n">num_params</span> <span class="o">*</span> <span class="n">idx</span><span class="p">:</span>
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">_reps</span> <span class="o">+</span> <span class="n">num_params</span> <span class="o">*</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-                <span class="n">param_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mixer</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">param_values</span><span class="p">))</span>
-                <span class="n">mixer</span> <span class="o">=</span> <span class="n">mixer</span><span class="o">.</span><span class="n">assign_parameters</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span>
-                <span class="n">circuit_op</span> <span class="o">=</span> <span class="n">CircuitOp</span><span class="p">(</span><span class="n">mixer</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit_op</span><span class="p">)</span>
-
-        <span class="n">evolution</span> <span class="o">=</span> <span class="n">EvolutionFactory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cost_operator</span><span class="p">)</span>
-        <span class="n">circuit_op</span> <span class="o">=</span> <span class="n">evolution</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">circuit_op</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">circuit_op</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">()</span>
+<span class="sd">        Returns:</span>
+<span class="sd">             List[Union[OperatorBase, QuantumCircuit]]: The operators to be evolved (and circuits)</span>
+<span class="sd">                in this ansatz.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_operator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixer_operator</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cost_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -540,9 +482,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cost_operator</span> <span class="o">=</span> <span class="n">cost_operator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
-
-        <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">cost_operator</span><span class="o">.</span><span class="n">num_qubits</span> <span class="k">if</span> <span class="n">cost_operator</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_registers</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">reps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -578,7 +517,6 @@
 
     <span class="c1"># we can&#39;t directly specify OperatorBase as a return type, it causes a circular import</span>
     <span class="c1"># and pylint objects if return type is not documented</span>
-    <span class="c1"># pylint: disable=missing-return-type-doc</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mixer_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns an optional mixer operator expressed as an operator or a quantum circuit.</span>
@@ -593,10 +531,13 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># local imports to avoid circular imports</span>
             <span class="kn">from</span> <span class="nn">qiskit.opflow</span> <span class="kn">import</span> <span class="n">I</span><span class="p">,</span> <span class="n">X</span>
+
             <span class="c1"># Mixer is just a sum of single qubit X&#39;s on each qubit. Evolving by this operator</span>
             <span class="c1"># will simply produce rx&#39;s on each qubit.</span>
-            <span class="n">mixer_terms</span> <span class="o">=</span> <span class="p">[(</span><span class="n">I</span> <span class="o">^</span> <span class="n">left</span><span class="p">)</span> <span class="o">^</span> <span class="n">X</span> <span class="o">^</span> <span class="p">(</span><span class="n">I</span> <span class="o">^</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="n">left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-                           <span class="k">for</span> <span class="n">left</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)]</span>
+            <span class="n">mixer_terms</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">I</span> <span class="o">^</span> <span class="n">left</span><span class="p">)</span> <span class="o">^</span> <span class="n">X</span> <span class="o">^</span> <span class="p">(</span><span class="n">I</span> <span class="o">^</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="n">left</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">left</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">]</span>
             <span class="n">mixer</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mixer_terms</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">mixer</span>
 
@@ -630,7 +571,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -665,7 +606,7 @@
          <script src="../../../../../_static/language_data.js"></script>
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

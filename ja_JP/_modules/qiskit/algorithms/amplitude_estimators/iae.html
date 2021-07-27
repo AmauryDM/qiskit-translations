@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.amplitude_estimators.iae &mdash; Qiskit 0.27.0 ドキュメント</title>
+  <title>qiskit.algorithms.amplitude_estimators.iae &mdash; Qiskit 0.28.0 ドキュメント</title>
   
 
   
@@ -318,8 +318,7 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <h1>qiskit.algorithms.amplitude_estimators.iae のソースコード</h1><div class="highlight"><pre>
-<span></span>
-<span class="c1"># This code is part of Qiskit.</span>
+<span></span><span class="c1"># This code is part of Qiskit.</span>
 <span class="c1">#</span>
 <span class="c1"># (C) Copyright IBM 2018, 2020.</span>
 <span class="c1">#</span>
@@ -367,13 +366,14 @@
 <span class="sd">             `arXiv:quant-ph/0005055 &lt;http://arxiv.org/abs/quant-ph/0005055&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IterativeAmplitudeEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.__init__">[ドキュメント]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">epsilon_target</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">confint_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span>
-                 <span class="n">min_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-                 <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="IterativeAmplitudeEstimation.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.__init__">[ドキュメント]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">epsilon_target</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">confint_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span>
+        <span class="n">min_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The output of the algorithm is an estimate for the amplitude `a`, that with at least</span>
 <span class="sd">        probability 1 - alpha has an error of epsilon. The number of A operator calls scales</span>
@@ -396,14 +396,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># validate ranges of input arguments</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">epsilon_target</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The target epsilon must be in (0, 0.5], but is </span><span class="si">{</span><span class="n">epsilon_target</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The target epsilon must be in (0, 0.5], but is </span><span class="si">{</span><span class="n">epsilon_target</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The confidence level alpha must be in (0, 1), but is </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The confidence level alpha must be in (0, 1), but is </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">confint_method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;chernoff&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">}:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The confidence interval method must be chernoff or beta, but &#39;</span>
-                             <span class="sa">f</span><span class="s1">&#39;is </span><span class="si">{</span><span class="n">confint_method</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">confint_method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;chernoff&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The confidence interval method must be chernoff or beta, but &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;is </span><span class="si">{</span><span class="n">confint_method</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
@@ -426,8 +428,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_instance</span>
 
     <span class="nd">@quantum_instance</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span>
-                                                       <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quantum_instance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumInstance</span><span class="p">,</span> <span class="n">BaseBackend</span><span class="p">,</span> <span class="n">Backend</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set quantum instance.</span>
 
 <span class="sd">        Args:</span>
@@ -455,8 +458,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
 
-    <span class="k">def</span> <span class="nf">_find_next_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper_half_circle</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">theta_interval</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-                     <span class="n">min_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_find_next_k</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">upper_half_circle</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">theta_interval</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">min_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Find the largest integer k_next, such that the interval (4 * k_next + 2)*theta_interval</span>
 <span class="sd">        lies completely in [0, pi] or [pi, 2pi], for theta_interval = (theta_lower, theta_upper).</span>
 
@@ -475,7 +483,7 @@
 <span class="sd">            AlgorithmError: if min_ratio is smaller or equal to 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">min_ratio</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">AlgorithmError</span><span class="p">(</span><span class="s1">&#39;min_ratio must be larger than 1 to ensure convergence&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AlgorithmError</span><span class="p">(</span><span class="s2">&quot;min_ratio must be larger than 1 to ensure convergence&quot;</span><span class="p">)</span>
 
         <span class="c1"># initialize variables</span>
         <span class="n">theta_l</span><span class="p">,</span> <span class="n">theta_u</span> <span class="o">=</span> <span class="n">theta_interval</span>
@@ -506,8 +514,9 @@
         <span class="c1"># if we do not find a feasible k, return the old one</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">upper_half_circle</span>
 
-<div class="viewcode-block" id="IterativeAmplitudeEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.construct_circuit">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span>
-                          <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<div class="viewcode-block" id="IterativeAmplitudeEstimation.construct_circuit"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.construct_circuit">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">construct_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">measurement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct the circuit :math:`\mathcal{Q}^k \mathcal{A} |0\rangle`.</span>
 
 <span class="sd">        The A operator is the unitary specifying the QAE problem and Q the associated Grover</span>
@@ -522,9 +531,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The circuit implementing :math:`\mathcal{Q}^k \mathcal{A} |0\rangle`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">estimation_problem</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
-                         <span class="n">estimation_problem</span><span class="o">.</span><span class="n">grover_operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
-        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;circuit&#39;</span><span class="p">)</span>
+        <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">grover_operator</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;circuit&quot;</span><span class="p">)</span>
 
         <span class="c1"># add classical register if needed</span>
         <span class="k">if</span> <span class="n">measurement</span><span class="p">:</span>
@@ -547,11 +558,12 @@
 
         <span class="k">return</span> <span class="n">circuit</span></div>
 
-    <span class="k">def</span> <span class="nf">_good_state_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span>
-                                <span class="n">counts_or_statevector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                <span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_good_state_probability</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">problem</span><span class="p">:</span> <span class="n">EstimationProblem</span><span class="p">,</span>
+        <span class="n">counts_or_statevector</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get the probability to measure &#39;1&#39; in the last qubit.</span>
 
 <span class="sd">        Args:</span>
@@ -583,12 +595,13 @@
                 <span class="n">bitstr</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)[</span><span class="o">-</span><span class="n">num_state_qubits</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">objectives</span> <span class="o">=</span> <span class="p">[</span><span class="n">bitstr</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">problem</span><span class="o">.</span><span class="n">objective_qubits</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">problem</span><span class="o">.</span><span class="n">is_good_state</span><span class="p">(</span><span class="n">objectives</span><span class="p">):</span>
-                    <span class="n">prob</span> <span class="o">=</span> <span class="n">prob</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="n">prob</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
             <span class="k">return</span> <span class="n">prob</span>
 
-<div class="viewcode-block" id="IterativeAmplitudeEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.estimate">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;IterativeAmplitudeEstimationResult&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="IterativeAmplitudeEstimation.estimate"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.IterativeAmplitudeEstimation.html#qiskit.algorithms.IterativeAmplitudeEstimation.estimate">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">estimate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">estimation_problem</span><span class="p">:</span> <span class="n">EstimationProblem</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;IterativeAmplitudeEstimationResult&quot;</span><span class="p">:</span>
         <span class="c1"># initialize memory variables</span>
         <span class="n">powers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># list of powers k: Q^k, (called &#39;k&#39; in paper)</span>
         <span class="n">ratios</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of multiplication factors (called &#39;q&#39; in paper)</span>
@@ -598,8 +611,9 @@
         <span class="n">num_one_shots</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># maximum number of rounds</span>
-        <span class="n">max_rounds</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">8</span>
-                                <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">max_rounds</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
         <span class="n">upper_half_circle</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># initially theta is in the upper half-circle</span>
 
         <span class="c1"># for statevector we can directly return the probability to measure 1</span>
@@ -620,8 +634,9 @@
             <span class="n">a_confidence_interval</span> <span class="o">=</span> <span class="p">[</span><span class="n">prob</span><span class="p">,</span> <span class="n">prob</span><span class="p">]</span>  <span class="c1"># type: List[float]</span>
             <span class="n">a_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_confidence_interval</span><span class="p">)</span>
 
-            <span class="n">theta_i_interval</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a_i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># type: ignore</span>
-                                <span class="k">for</span> <span class="n">a_i</span> <span class="ow">in</span> <span class="n">a_confidence_interval</span><span class="p">]</span>
+            <span class="n">theta_i_interval</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a_i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="k">for</span> <span class="n">a_i</span> <span class="ow">in</span> <span class="n">a_confidence_interval</span>  <span class="c1"># type: ignore</span>
+            <span class="p">]</span>
             <span class="n">theta_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta_i_interval</span><span class="p">)</span>
             <span class="n">num_oracle_queries</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># no Q-oracle call, only a single one to A</span>
 
@@ -634,9 +649,12 @@
                 <span class="n">num_iterations</span> <span class="o">+=</span> <span class="mi">1</span>
 
                 <span class="c1"># get the next k</span>
-                <span class="n">k</span><span class="p">,</span> <span class="n">upper_half_circle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_next_k</span><span class="p">(</span><span class="n">powers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">upper_half_circle</span><span class="p">,</span>
-                                                         <span class="n">theta_intervals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
-                                                         <span class="n">min_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span><span class="p">)</span>
+                <span class="n">k</span><span class="p">,</span> <span class="n">upper_half_circle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_next_k</span><span class="p">(</span>
+                    <span class="n">powers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">upper_half_circle</span><span class="p">,</span>
+                    <span class="n">theta_intervals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
+                    <span class="n">min_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_ratio</span><span class="p">,</span>
+                <span class="p">)</span>
 
                 <span class="c1"># store the variables</span>
                 <span class="n">powers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
@@ -652,8 +670,9 @@
                 <span class="c1"># calculate the probability of measuring &#39;1&#39;, &#39;prob&#39; is a_i in the paper</span>
                 <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="n">circuit</span><span class="o">.</span><span class="n">num_ancillas</span>
                 <span class="c1"># type: ignore</span>
-                <span class="n">one_counts</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_good_state_probability</span><span class="p">(</span><span class="n">estimation_problem</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span>
-                                                                <span class="n">num_qubits</span><span class="p">)</span>
+                <span class="n">one_counts</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_good_state_probability</span><span class="p">(</span>
+                    <span class="n">estimation_problem</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">num_qubits</span>
+                <span class="p">)</span>
 
                 <span class="n">num_one_shots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">one_counts</span><span class="p">)</span>
 
@@ -665,19 +684,21 @@
                 <span class="n">round_shots</span> <span class="o">=</span> <span class="n">shots</span>
                 <span class="n">round_one_counts</span> <span class="o">=</span> <span class="n">one_counts</span>
                 <span class="k">if</span> <span class="n">num_iterations</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">while</span> <span class="n">powers</span><span class="p">[</span><span class="n">num_iterations</span> <span class="o">-</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">powers</span><span class="p">[</span><span class="n">num_iterations</span><span class="p">]</span> \
-                            <span class="ow">and</span> <span class="n">num_iterations</span> <span class="o">&gt;=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">while</span> <span class="p">(</span>
+                        <span class="n">powers</span><span class="p">[</span><span class="n">num_iterations</span> <span class="o">-</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">powers</span><span class="p">[</span><span class="n">num_iterations</span><span class="p">]</span>
+                        <span class="ow">and</span> <span class="n">num_iterations</span> <span class="o">&gt;=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="p">):</span>
                         <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
                         <span class="n">round_shots</span> <span class="o">+=</span> <span class="n">shots</span>
                         <span class="n">round_one_counts</span> <span class="o">+=</span> <span class="n">num_one_shots</span><span class="p">[</span><span class="o">-</span><span class="n">j</span><span class="p">]</span>
 
                 <span class="c1"># compute a_min_i, a_max_i</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confint_method</span> <span class="o">==</span> <span class="s1">&#39;chernoff&#39;</span><span class="p">:</span>
-                    <span class="n">a_i_min</span><span class="p">,</span> <span class="n">a_i_max</span> <span class="o">=</span> <span class="n">_chernoff_confint</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">round_shots</span><span class="p">,</span> <span class="n">max_rounds</span><span class="p">,</span>
-                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confint_method</span> <span class="o">==</span> <span class="s2">&quot;chernoff&quot;</span><span class="p">:</span>
+                    <span class="n">a_i_min</span><span class="p">,</span> <span class="n">a_i_max</span> <span class="o">=</span> <span class="n">_chernoff_confint</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">round_shots</span><span class="p">,</span> <span class="n">max_rounds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>  <span class="c1"># &#39;beta&#39;</span>
-                    <span class="n">a_i_min</span><span class="p">,</span> <span class="n">a_i_max</span> <span class="o">=</span> <span class="n">_clopper_pearson_confint</span><span class="p">(</span><span class="n">round_one_counts</span><span class="p">,</span> <span class="n">round_shots</span><span class="p">,</span>
-                                                                <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">/</span> <span class="n">max_rounds</span><span class="p">)</span>
+                    <span class="n">a_i_min</span><span class="p">,</span> <span class="n">a_i_max</span> <span class="o">=</span> <span class="n">_clopper_pearson_confint</span><span class="p">(</span>
+                        <span class="n">round_one_counts</span><span class="p">,</span> <span class="n">round_shots</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">/</span> <span class="n">max_rounds</span>
+                    <span class="p">)</span>
 
                 <span class="c1"># compute theta_min_i, theta_max_i</span>
                 <span class="k">if</span> <span class="n">upper_half_circle</span><span class="p">:</span>
@@ -694,8 +715,8 @@
                 <span class="n">theta_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">theta_l</span><span class="p">,</span> <span class="n">theta_u</span><span class="p">])</span>
 
                 <span class="c1"># compute a_u_i, a_l_i</span>
-                <span class="n">a_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">theta_u</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-                <span class="n">a_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">theta_l</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">a_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">theta_u</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="n">a_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">theta_l</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="n">a_u</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">a_u</span><span class="p">)</span>
                 <span class="n">a_l</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">a_l</span><span class="p">)</span>
                 <span class="n">a_intervals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">a_l</span><span class="p">,</span> <span class="n">a_u</span><span class="p">])</span>
@@ -716,8 +737,9 @@
         <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval</span> <span class="o">=</span> <span class="n">confidence_interval</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">estimation_processed</span> <span class="o">=</span> <span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">estimation</span><span class="p">)</span>
-        <span class="n">confidence_interval</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">confidence_interval</span><span class="p">)</span>
+        <span class="n">confidence_interval</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">estimation_problem</span><span class="o">.</span><span class="n">post_processing</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">confidence_interval</span>
+        <span class="p">)</span>
         <span class="n">result</span><span class="o">.</span><span class="n">confidence_interval_processed</span> <span class="o">=</span> <span class="n">confidence_interval</span>
         <span class="n">result</span><span class="o">.</span><span class="n">epsilon_estimated_processed</span> <span class="o">=</span> <span class="p">(</span><span class="n">confidence_interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">confidence_interval</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">result</span><span class="o">.</span><span class="n">estimate_intervals</span> <span class="o">=</span> <span class="n">a_intervals</span>
@@ -834,8 +856,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_confidence_interval_processed</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<span class="k">def</span> <span class="nf">_chernoff_confint</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_rounds</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span>
-                      <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_chernoff_confint</span><span class="p">(</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_rounds</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Compute the Chernoff confidence interval for `shots` i.i.d. Bernoulli trials.</span>
 
 <span class="sd">    The confidence interval is</span>
@@ -898,7 +921,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最終更新: 2021/07/12
+      最終更新: 2021/07/27
 
     </p>
   </div>
@@ -933,7 +956,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

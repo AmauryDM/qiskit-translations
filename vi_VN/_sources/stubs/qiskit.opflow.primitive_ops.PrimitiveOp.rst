@@ -54,5 +54,6 @@
       ~PrimitiveOp.num_qubits
       ~PrimitiveOp.parameters
       ~PrimitiveOp.primitive
+      ~PrimitiveOp.settings
    
    

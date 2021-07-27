@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.quantum_info.operators.symplectic.pauli &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.quantum_info.operators.symplectic.pauli &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -335,18 +335,20 @@
 <span class="c1"># pylint: disable=invalid-name</span>
 <span class="c1"># pylint: disable=bad-docstring-quotes  # for deprecate_function decorator</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">import</span> <span class="nn">re</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_function</span>
-<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
-<span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.base_pauli</span> <span class="kn">import</span> <span class="n">BasePauli</span>
-<span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.scalar_op</span> <span class="kn">import</span> <span class="n">ScalarOp</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Instruction</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="n">IGate</span><span class="p">,</span> <span class="n">XGate</span><span class="p">,</span> <span class="n">YGate</span><span class="p">,</span> <span class="n">ZGate</span>
-<span class="kn">from</span> <span class="nn">qiskit.circuit.library.generalized_gates</span> <span class="kn">import</span> <span class="n">PauliGate</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit.barrier</span> <span class="kn">import</span> <span class="n">Barrier</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.generalized_gates</span> <span class="kn">import</span> <span class="n">PauliGate</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit.library.standard_gates</span> <span class="kn">import</span> <span class="n">IGate</span><span class="p">,</span> <span class="n">XGate</span><span class="p">,</span> <span class="n">YGate</span><span class="p">,</span> <span class="n">ZGate</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.mixins</span> <span class="kn">import</span> <span class="n">generate_apidocs</span>
+<span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.scalar_op</span> <span class="kn">import</span> <span class="n">ScalarOp</span>
+<span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.base_pauli</span> <span class="kn">import</span> <span class="n">BasePauli</span>
+<span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_function</span>
 
 
 <div class="viewcode-block" id="Pauli"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli">[docs]</a><span class="k">class</span> <span class="nc">Pauli</span><span class="p">(</span><span class="n">BasePauli</span><span class="p">):</span>
@@ -466,6 +468,8 @@
     <span class="c1"># Set the max Pauli string size before truncation</span>
     <span class="n">__truncate__</span> <span class="o">=</span> <span class="mi">50</span>
 
+    <span class="n">_VALID_LABEL_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[+-]?1?[ij]?[IXYZ]+$&quot;</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Pauli.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the Pauli.</span>
 
@@ -477,6 +481,11 @@
 <span class="sd">            data (str or tuple or Pauli or ScalarOp): input data for Pauli. If input is</span>
 <span class="sd">                a tuple it must be of the form ``(z, x)`` or (z, x, phase)`` where</span>
 <span class="sd">                ``z`` and ``x`` are boolean Numpy arrays, and phase is an integer from Z_4.</span>
+<span class="sd">                If input is a string, it must be a concatenation of a phase and a Pauli string</span>
+<span class="sd">                (e.g. &#39;XYZ&#39;, &#39;-iZIZ&#39;) where a phase string is a combination of at most three</span>
+<span class="sd">                characters from [&#39;+&#39;, &#39;-&#39;, &#39;&#39;], [&#39;1&#39;, &#39;&#39;], and [&#39;i&#39;, &#39;j&#39;, &#39;&#39;] in this order,</span>
+<span class="sd">                e.g. &#39;&#39;, &#39;-1j&#39; while a Pauli string is 1 or more characters of &#39;I&#39;, &#39;X&#39;, &#39;Y&#39; or &#39;Z&#39;,</span>
+<span class="sd">                e.g. &#39;Z&#39;, &#39;XIYY&#39;.</span>
 <span class="sd">            x (np.ndarray): DEPRECATED, symplectic x vector.</span>
 <span class="sd">            z (np.ndarray): DEPRECATED, symplectic z vector.</span>
 <span class="sd">            label (str): DEPRECATED, string label.</span>
@@ -490,7 +499,8 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                     <span class="s2">&quot;Invalid input tuple for Pauli, input tuple must be&quot;</span>
-                    <span class="s2">&quot; `(z, x, phase)` or `(z, x)`&quot;</span><span class="p">)</span>
+                    <span class="s2">&quot; `(z, x, phase)` or `(z, x)`&quot;</span>
+                <span class="p">)</span>
             <span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">,</span> <span class="n">base_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_array</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">,</span> <span class="n">base_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_label</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -515,13 +525,13 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Display representation.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;Pauli(&#39;</span><span class="si">{}</span><span class="s2">&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Pauli(&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print representation.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__truncate__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__truncate__</span><span class="p">:</span>
-            <span class="n">front</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__truncate__</span><span class="p">:]</span><span class="o">.</span><span class="n">to_label</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">front</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+            <span class="n">front</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__truncate__</span> <span class="p">:]</span><span class="o">.</span><span class="n">to_label</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">front</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_label</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -544,12 +554,9 @@
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if two Paulis are equal.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Pauli</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BasePauli</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-                <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_phase</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-                <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_z</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span>
-                <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eq</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Pauli.equiv"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.equiv">[docs]</a>    <span class="k">def</span> <span class="nf">equiv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return True if Pauli&#39;s are equivalent up to group phase.</span>
@@ -566,6 +573,11 @@
             <span class="k">except</span> <span class="n">QiskitError</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_z</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_z</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_x</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return settings.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_label</span><span class="p">()}</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Direct array access</span>
@@ -641,7 +653,8 @@
         <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Qubit index is larger than the number of qubits &quot;</span>
-                <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Cannot delete all qubits of Pauli&quot;</span><span class="p">)</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -666,8 +679,7 @@
 
         <span class="c1"># Initialize empty operator</span>
         <span class="n">ret_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">+</span> <span class="n">value</span><span class="o">.</span><span class="n">num_qubits</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ret_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
-                     <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ret_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)))</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ret_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ret_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">qubits</span><span class="p">]</span>
@@ -676,12 +688,13 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">!=</span> <span class="n">value</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Number of indices does not match number of qubits for &quot;</span>
-                <span class="s2">&quot;the inserted Pauli (</span><span class="si">{}</span><span class="s2">!=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span>
-                                                     <span class="n">value</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="s2">&quot;the inserted Pauli (</span><span class="si">{}</span><span class="s2">!=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="n">value</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ret</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
                 <span class="s2">&quot;Index is too larger for combined Pauli number of qubits &quot;</span>
-                <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="n">ret</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">qubits</span><span class="p">),</span> <span class="n">ret</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="c1"># Qubit positions for original op</span>
         <span class="n">self_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">]</span>
         <span class="n">ret</span><span class="p">[</span><span class="n">self_qubits</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
@@ -724,14 +737,12 @@
 <div class="viewcode-block" id="Pauli.to_instruction"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.to_instruction">[docs]</a>    <span class="k">def</span> <span class="nf">to_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert to Pauli circuit instruction.&quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
-        <span class="n">pauli</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
-                                      <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                      <span class="bp">self</span><span class="o">.</span><span class="n">_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                      <span class="n">full_group</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                      <span class="n">return_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">pauli</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_label</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">full_group</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_phase</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">gate</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">(),</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">(),</span>
-                    <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">(),</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">()}[</span><span class="n">pauli</span><span class="p">]</span>
+            <span class="n">gate</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="n">IGate</span><span class="p">(),</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">XGate</span><span class="p">(),</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="n">YGate</span><span class="p">(),</span> <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="n">ZGate</span><span class="p">()}[</span><span class="n">pauli</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">gate</span> <span class="o">=</span> <span class="n">PauliGate</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">phase</span><span class="p">:</span>
@@ -775,13 +786,10 @@
 <span class="sd">            ``A.dot(B) == A.compose(B, front=True)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Pauli</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Pauli</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span>
-                                     <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span>
-                                     <span class="n">front</span><span class="o">=</span><span class="n">front</span><span class="p">,</span>
-                                     <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">Pauli</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="n">front</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">))</span></div>
 
     <span class="c1"># pylint: disable=arguments-differ</span>
 <div class="viewcode-block" id="Pauli.dot"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -839,7 +847,7 @@
 <span class="sd">            bool: True if Pauli&#39;s commute, False if they anti-commute.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BasePauli</span><span class="p">):</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">commutes</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
@@ -874,17 +882,13 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            QiskitError: if the Clifford number of qubits and qargs don&#39;t match.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;qargs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.clifford</span> <span class="kn">import</span> <span class="n">Clifford</span>
 
-        <span class="k">if</span> <span class="n">qargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">qargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;qargs&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-        <span class="c1"># Convert Clifford to quantum circuits</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Clifford</span><span class="p">):</span>
-            <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">to_circuit</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="n">Pauli</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="n">Pauli</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Clifford</span><span class="p">)):</span>
             <span class="c1"># Convert to a Pauli</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -907,15 +911,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            QiskitError: if Pauli string is not valid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">_VALID_LABEL_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pauli string label &quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&quot; is not valid.&#39;</span><span class="p">)</span>
+
         <span class="c1"># Split string into coefficient and Pauli</span>
-        <span class="n">span</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[IXYZ]+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
         <span class="n">pauli</span><span class="p">,</span> <span class="n">coeff</span> <span class="o">=</span> <span class="n">_split_pauli_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-        <span class="n">coeff</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
         <span class="c1"># Convert coefficient to phase</span>
         <span class="n">phase</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">coeff</span> <span class="k">else</span> <span class="n">_phase_from_label</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Pauli string is not valid.&#39;</span><span class="p">)</span>
 
         <span class="c1"># Convert to Symplectic representation</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pauli</span><span class="p">)</span>
@@ -923,11 +926,11 @@
         <span class="n">base_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">base_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">phase</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pauli</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span>
                 <span class="n">base_x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;Z&quot;</span><span class="p">:</span>
                 <span class="n">base_z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span>
                 <span class="n">base_x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">base_z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_qubits</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">base_phase</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -937,12 +940,12 @@
     <span class="k">def</span> <span class="nf">_from_scalar_op</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert a ScalarOp to BasePauli data.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not an N-qubit identity&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s2"> is not an N-qubit identity&quot;</span><span class="p">)</span>
         <span class="n">base_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">base_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
         <span class="n">base_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_phase_from_complex</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span> <span class="o">+</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_phase_from_complex</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="mi">4</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">base_z</span><span class="p">,</span> <span class="n">base_x</span><span class="p">,</span> <span class="n">base_phase</span>
 
     <span class="nd">@classmethod</span>
@@ -970,28 +973,29 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">Instruction</span><span class="p">):</span>
             <span class="c1"># Convert other instructions to circuit definition</span>
             <span class="k">if</span> <span class="n">instr</span><span class="o">.</span><span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Cannot apply Instruction: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot apply Instruction: </span><span class="si">{</span><span class="n">instr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="c1"># Convert to circuit</span>
             <span class="n">instr</span> <span class="o">=</span> <span class="n">instr</span><span class="o">.</span><span class="n">definition</span>
 
         <span class="c1"># Initialize identity Pauli</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span>
-            <span class="n">BasePauli</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">instr</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
-                      <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">instr</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
-                      <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)))</span>
+            <span class="n">BasePauli</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">instr</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">instr</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="c1"># Add circuit global phase if specified</span>
         <span class="k">if</span> <span class="n">instr</span><span class="o">.</span><span class="n">global_phase</span><span class="p">:</span>
-            <span class="n">ret</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_phase_from_complex</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">instr</span><span class="o">.</span><span class="n">global_phase</span><span class="p">)))</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_phase_from_complex</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">instr</span><span class="o">.</span><span class="n">global_phase</span><span class="p">)))</span>
 
         <span class="c1"># Recursively apply instructions</span>
         <span class="k">for</span> <span class="n">dinstr</span><span class="p">,</span> <span class="n">qregs</span><span class="p">,</span> <span class="n">cregs</span> <span class="ow">in</span> <span class="n">instr</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cregs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s1">&#39;Cannot apply instruction with classical registers: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
-                    <span class="nb">format</span><span class="p">(</span><span class="n">dinstr</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot apply instruction with classical registers: </span><span class="si">{</span><span class="n">dinstr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dinstr</span><span class="p">,</span> <span class="n">Barrier</span><span class="p">):</span>
                 <span class="n">next_instr</span> <span class="o">=</span> <span class="n">BasePauli</span><span class="p">(</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">_from_circuit</span><span class="p">(</span><span class="n">dinstr</span><span class="p">))</span>
                 <span class="k">if</span> <span class="n">next_instr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1005,9 +1009,10 @@
 
     <span class="nd">@classmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;Initializing Pauli from `Pauli(label=l)` kwarg is deprecated as of &#39;</span>
-        <span class="s1">&#39;version 0.17.0 and will be removed no earlier than 3 months after &#39;</span>
-        <span class="s1">&#39;the release date. Use `Pauli(l)` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;Initializing Pauli from `Pauli(label=l)` kwarg is deprecated as of &quot;</span>
+        <span class="s2">&quot;version 0.17.0 and will be removed no earlier than 3 months after &quot;</span>
+        <span class="s2">&quot;the release date. Use `Pauli(l)` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">_from_label_deprecated</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
         <span class="c1"># Deprecated wrapper of `_from_label` so that a deprecation warning</span>
         <span class="c1"># can be displaced during initialization with deprecated kwarg</span>
@@ -1015,9 +1020,10 @@
 
     <span class="nd">@classmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;Initializing Pauli from `Pauli(z=z, x=x)` kwargs is deprecated as of &#39;</span>
-        <span class="s1">&#39;version 0.17.0 and will be removed no earlier than 3 months after &#39;</span>
-        <span class="s1">&#39;the release date. Use tuple initialization `Pauli((z, x))` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;Initializing Pauli from `Pauli(z=z, x=x)` kwargs is deprecated as of &quot;</span>
+        <span class="s2">&quot;version 0.17.0 and will be removed no earlier than 3 months after &quot;</span>
+        <span class="s2">&quot;the release date. Use tuple initialization `Pauli((z, x))` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">_from_array_deprecated</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="c1"># Deprecated wrapper of `_from_array` so that a deprecation warning</span>
         <span class="c1"># can be displaced during initialization with deprecated kwarg</span>
@@ -1032,8 +1038,9 @@
 
 <div class="viewcode-block" id="Pauli.from_label"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.from_label">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`from_label` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use Pauli(label) instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`from_label` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use Pauli(label) instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">from_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;DEPRECATED: Construct a Pauli from a string label.</span>
 
@@ -1051,13 +1058,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="c1"># Legacy usage from aqua</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Pauli</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pauli.sgn_prod"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.sgn_prod">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;sgn_prod is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use `dot` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;sgn_prod is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use `dot` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">sgn_prod</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Multiply two Paulis and track the phase.</span>
@@ -1076,11 +1084,11 @@
 <span class="sd">            complex: the sign of the multiplication, 1, -1, 1j or -1j</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pauli</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pauli</span><span class="p">[:],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">**</span><span class="n">pauli</span><span class="o">.</span><span class="n">phase</span></div>
+        <span class="k">return</span> <span class="n">pauli</span><span class="p">[:],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span> <span class="o">**</span> <span class="n">pauli</span><span class="o">.</span><span class="n">phase</span></div>
 
 <div class="viewcode-block" id="Pauli.to_spmatrix"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.to_spmatrix">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`to_spmatrix` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use `to_matrix(sparse=True)` instead.&#39;</span>
+        <span class="s2">&quot;`to_spmatrix` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use `to_matrix(sparse=True)` instead.&quot;</span>
     <span class="p">)</span>
     <span class="k">def</span> <span class="nf">to_spmatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -1096,10 +1104,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pauli.kron"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.kron">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`kron` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date of Qiskit Terra 0.17.0. &#39;</span>
-        <span class="s1">&#39;Use `expand` instead, but note this does not change &#39;</span>
-        <span class="s1">&#39;the operator in-place.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`kron` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date of Qiskit Terra 0.17.0. &quot;</span>
+        <span class="s2">&quot;Use `expand` instead, but note this does not change &quot;</span>
+        <span class="s2">&quot;the operator in-place.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">kron</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;DEPRECATED: Kronecker product of two paulis.</span>
 
@@ -1121,9 +1130,10 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pauli.update_z"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.update_z">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`update_z` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use `Pauli.z = val` or &#39;</span>
-        <span class="s1">&#39;`Pauli.z[indices] = val` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`update_z` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use `Pauli.z = val` or &quot;</span>
+        <span class="s2">&quot;`Pauli.z[indices] = val` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">update_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Update partial or entire z.</span>
@@ -1144,12 +1154,12 @@
         <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_np_bool</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;During updating whole z, you can not &quot;</span>
-                                  <span class="s2">&quot;change the number of qubits.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+                    <span class="s2">&quot;During updating whole z, you can not &quot;</span> <span class="s2">&quot;change the number of qubits.&quot;</span>
+                <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
@@ -1157,9 +1167,10 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pauli.update_x"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.update_x">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`update_z` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use `Pauli.x = val` or &#39;</span>
-        <span class="s1">&#39;`Pauli.x[indices] = val` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`update_z` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use `Pauli.x = val` or &quot;</span>
+        <span class="s2">&quot;`Pauli.x[indices] = val` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">update_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Update partial or entire x.</span>
@@ -1181,12 +1192,11 @@
         <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s2">&quot;During updating whole x, you can not change &quot;</span>
-                    <span class="s2">&quot;the number of qubits.&quot;</span><span class="p">)</span>
+                    <span class="s2">&quot;During updating whole x, you can not change &quot;</span> <span class="s2">&quot;the number of qubits.&quot;</span>
+                <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
@@ -1194,9 +1204,10 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pauli.insert_paulis"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.insert_paulis">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`insert_paulis` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. For similar functionality use &#39;</span>
-        <span class="s1">&#39;`Pauli.insert` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`insert_paulis` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. For similar functionality use &quot;</span>
+        <span class="s2">&quot;`Pauli.insert` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">insert_paulis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">paulis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pauli_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Insert or append pauli to the targeted indices.</span>
@@ -1225,12 +1236,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">pauli_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">paulis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
-                    <span class="s2">&quot;Please only provide either `paulis` or `pauli_labels`&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Please only provide either `paulis` or `pauli_labels`&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pauli_labels</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">pauli_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pauli_labels</span><span class="p">)</span>
             <span class="c1"># since pauli label is in reversed order.</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pauli_labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pauli_labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">paulis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 
         <span class="c1"># Insert and update self</span>
@@ -1250,8 +1260,9 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pauli.append_paulis"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.append_paulis">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`append_paulis` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. Use `Pauli.expand` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`append_paulis` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. Use `Pauli.expand` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">append_paulis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paulis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pauli_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Append pauli at the end.</span>
@@ -1263,14 +1274,13 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Pauli: self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert_paulis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
-                                  <span class="n">paulis</span><span class="o">=</span><span class="n">paulis</span><span class="p">,</span>
-                                  <span class="n">pauli_labels</span><span class="o">=</span><span class="n">pauli_labels</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert_paulis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">paulis</span><span class="o">=</span><span class="n">paulis</span><span class="p">,</span> <span class="n">pauli_labels</span><span class="o">=</span><span class="n">pauli_labels</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pauli.delete_qubits"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.delete_qubits">[docs]</a>    <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`append_paulis` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. For equivalent functionality &#39;</span>
-        <span class="s1">&#39;use `Pauli.delete` instead.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`append_paulis` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. For equivalent functionality &quot;</span>
+        <span class="s2">&quot;use `Pauli.delete` instead.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">delete_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Delete pauli at the indices.</span>
@@ -1293,8 +1303,9 @@
 
 <div class="viewcode-block" id="Pauli.pauli_single"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.pauli_single">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`pauli_single` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date.&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`pauli_single` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date.&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">pauli_single</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pauli_label</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        DEPRECATED: Generate single qubit pauli at index with pauli_label with length num_qubits.</span>
@@ -1308,8 +1319,7 @@
 <span class="sd">            Pauli: single qubit pauli</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">(</span><span class="n">pauli_label</span><span class="p">)</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span>
-                     <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)))</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">Pauli</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)))</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">phase</span>
@@ -1317,9 +1327,10 @@
 
 <div class="viewcode-block" id="Pauli.random"><a class="viewcode-back" href="../../../../../stubs/qiskit.quantum_info.Pauli.html#qiskit.quantum_info.Pauli.random">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@deprecate_function</span><span class="p">(</span>
-        <span class="s1">&#39;`random` is deprecated and will be removed no earlier than &#39;</span>
-        <span class="s1">&#39;3 months after the release date. &#39;</span>
-        <span class="s1">&#39;Use `qiskit.quantum_info.random_pauli` instead&#39;</span><span class="p">)</span>
+        <span class="s2">&quot;`random` is deprecated and will be removed no earlier than &quot;</span>
+        <span class="s2">&quot;3 months after the release date. &quot;</span>
+        <span class="s2">&quot;Use `qiskit.quantum_info.random_pauli` instead&quot;</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;DEPRECATED: Return a random Pauli on number of qubits.</span>
 
@@ -1334,6 +1345,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=cyclic-import</span>
         <span class="kn">from</span> <span class="nn">qiskit.quantum_info.operators.symplectic.random</span> <span class="kn">import</span> <span class="n">random_pauli</span>
+
         <span class="k">return</span> <span class="n">random_pauli</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">group_phase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span></div></div>
 
 
@@ -1341,26 +1353,28 @@
 <span class="c1"># Label parsing helper functions</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
 
+
 <span class="k">def</span> <span class="nf">_split_pauli_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split Pauli label into unsigned group label and coefficient label&quot;&quot;&quot;</span>
-    <span class="n">span</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[IXYZ]+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
-    <span class="n">pauli</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]:]</span>
-    <span class="n">coeff</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">span</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[IXYZ]+&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
+    <span class="n">pauli</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:]</span>
+    <span class="n">coeff</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span> <span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="k">if</span> <span class="n">span</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-        <span class="n">invalid</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[IXYZ]+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">[</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]:]))</span>
-        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Pauli string contains invalid characters &quot;</span>
-                          <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> ∉ [&#39;I&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">invalid</span><span class="p">))</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[IXYZ]+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">[</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:]))</span>
+        <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span>
+            <span class="s2">&quot;Pauli string contains invalid characters &quot;</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> ∉ [&#39;I&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">invalid</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">pauli</span><span class="p">,</span> <span class="n">coeff</span>
 
 
 <span class="k">def</span> <span class="nf">_phase_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the phase from a label&quot;&quot;&quot;</span>
     <span class="c1"># Returns None if label is invalid</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;-i&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Invalid Pauli phase label &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">phases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phases</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
 
 
 <span class="c1"># Update docstrings for API docs</span>
@@ -1382,7 +1396,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -1418,7 +1432,7 @@
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -54,5 +54,6 @@
       ~MatrixOp.num_qubits
       ~MatrixOp.parameters
       ~MatrixOp.primitive
+      ~MatrixOp.settings
    
    

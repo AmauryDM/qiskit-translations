@@ -56,6 +56,7 @@
       ~LogNormalDistribution.fredkin
       ~LogNormalDistribution.from_qasm_file
       ~LogNormalDistribution.from_qasm_str
+      ~LogNormalDistribution.get_instructions
       ~LogNormalDistribution.h
       ~LogNormalDistribution.hamiltonian
       ~LogNormalDistribution.has_register

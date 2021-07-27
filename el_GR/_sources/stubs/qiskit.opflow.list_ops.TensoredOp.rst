@@ -20,6 +20,7 @@
       ~TensoredOp.bind_parameters
       ~TensoredOp.compose
       ~TensoredOp.copy
+      ~TensoredOp.default_combo_fn
       ~TensoredOp.equals
       ~TensoredOp.eval
       ~TensoredOp.exp_i
@@ -58,5 +59,6 @@
       ~TensoredOp.num_qubits
       ~TensoredOp.oplist
       ~TensoredOp.parameters
+      ~TensoredOp.settings
    
    

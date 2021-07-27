@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.layout.noise_adaptive_layout &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.transpiler.passes.layout.noise_adaptive_layout &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -344,34 +344,34 @@
 <div class="viewcode-block" id="NoiseAdaptiveLayout"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.NoiseAdaptiveLayout.html#qiskit.transpiler.passes.NoiseAdaptiveLayout">[文件]</a><span class="k">class</span> <span class="nc">NoiseAdaptiveLayout</span><span class="p">(</span><span class="n">AnalysisPass</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Choose a noise-adaptive Layout based on current calibration data for the backend.</span>
 
-<span class="sd">    This pass associates a physical qubit (int) to each virtual qubit</span>
-<span class="sd">    of the circuit (Qubit), using calibration data.</span>
+<span class="sd">     This pass associates a physical qubit (int) to each virtual qubit</span>
+<span class="sd">     of the circuit (Qubit), using calibration data.</span>
 
-<span class="sd">    The pass implements the qubit mapping method from:</span>
-<span class="sd">    Noise-Adaptive Compiler Mappings for Noisy Intermediate-Scale Quantum Computers</span>
-<span class="sd">    Prakash Murali, Jonathan M. Baker, Ali Javadi-Abhari, Frederic T. Chong, Margaret R. Martonosi</span>
-<span class="sd">    ASPLOS 2019 (arXiv:1901.11054).</span>
+<span class="sd">     The pass implements the qubit mapping method from:</span>
+<span class="sd">     Noise-Adaptive Compiler Mappings for Noisy Intermediate-Scale Quantum Computers</span>
+<span class="sd">     Prakash Murali, Jonathan M. Baker, Ali Javadi-Abhari, Frederic T. Chong, Margaret R. Martonosi</span>
+<span class="sd">     ASPLOS 2019 (arXiv:1901.11054).</span>
 
-<span class="sd">   Methods:</span>
+<span class="sd">    Methods:</span>
 
-<span class="sd">    Ordering of edges:</span>
-<span class="sd">    Map qubits edge-by-edge in the order of decreasing frequency of occurrence in the program dag.</span>
+<span class="sd">     Ordering of edges:</span>
+<span class="sd">     Map qubits edge-by-edge in the order of decreasing frequency of occurrence in the program dag.</span>
 
-<span class="sd">    Initialization:</span>
-<span class="sd">    If an edge exists with both endpoints unmapped,</span>
-<span class="sd">    pick the best available hardware cx to execute this edge.</span>
-<span class="sd">    Iterative step:</span>
-<span class="sd">    When an edge exists with one endpoint unmapped,</span>
-<span class="sd">    map that endpoint to a location which allows</span>
-<span class="sd">    maximum reliability for CNOTs with previously mapped qubits.</span>
-<span class="sd">    In the end if there are unmapped qubits (which don&#39;t</span>
-<span class="sd">    participate in any CNOT), map them to any available</span>
-<span class="sd">    hardware qubit.</span>
+<span class="sd">     Initialization:</span>
+<span class="sd">     If an edge exists with both endpoints unmapped,</span>
+<span class="sd">     pick the best available hardware cx to execute this edge.</span>
+<span class="sd">     Iterative step:</span>
+<span class="sd">     When an edge exists with one endpoint unmapped,</span>
+<span class="sd">     map that endpoint to a location which allows</span>
+<span class="sd">     maximum reliability for CNOTs with previously mapped qubits.</span>
+<span class="sd">     In the end if there are unmapped qubits (which don&#39;t</span>
+<span class="sd">     participate in any CNOT), map them to any available</span>
+<span class="sd">     hardware qubit.</span>
 
-<span class="sd">    Notes:</span>
-<span class="sd">        even though a `layout` is not strictly a property of the DAG,</span>
-<span class="sd">        in the transpiler architecture it is best passed around between passes</span>
-<span class="sd">        by being set in `property_set`.</span>
+<span class="sd">     Notes:</span>
+<span class="sd">         even though a `layout` is not strictly a property of the DAG,</span>
+<span class="sd">         in the transpiler architecture it is best passed around between passes</span>
+<span class="sd">         by being set in `property_set`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="NoiseAdaptiveLayout.__init__"><a class="viewcode-back" href="../../../../../stubs/qiskit.transpiler.passes.NoiseAdaptiveLayout.html#qiskit.transpiler.passes.NoiseAdaptiveLayout.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend_prop</span><span class="p">):</span>
@@ -403,9 +403,9 @@
         <span class="n">backend_prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend_prop</span>
         <span class="n">edge_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ginfo</span> <span class="ow">in</span> <span class="n">backend_prop</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">ginfo</span><span class="o">.</span><span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;cx&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ginfo</span><span class="o">.</span><span class="n">gate</span> <span class="o">==</span> <span class="s2">&quot;cx&quot;</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ginfo</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;gate_error&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;gate_error&quot;</span><span class="p">:</span>
                         <span class="n">g_reliab</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span>
                         <span class="k">break</span>
                     <span class="n">g_reliab</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -421,17 +421,18 @@
         <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">backend_prop</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">nduv</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nduv</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;readout_error&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nduv</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;readout_error&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">readout_reliability</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">nduv</span><span class="o">.</span><span class="n">value</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">available_hw_qubits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
             <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">gate_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">*</span> \
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">readout_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> \
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">readout_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gate_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">readout_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">readout_reliability</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="p">)</span>
 
-        <span class="n">swap_reliabs_ro</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">digraph_floyd_warshall_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">swap_graph</span><span class="p">,</span>
-                                                          <span class="k">lambda</span> <span class="n">weight</span><span class="p">:</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="n">swap_reliabs_ro</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">digraph_floyd_warshall_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">swap_graph</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">weight</span><span class="p">:</span> <span class="n">weight</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">swap_reliabs_ro</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">swap_reliabs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">swap_reliabs_ro</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -443,9 +444,9 @@
                     <span class="n">best_reliab</span> <span class="o">=</span> <span class="mf">0.0</span>
                     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">swap_graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">:</span>
-                            <span class="n">reliab</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">swap_reliabs_ro</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+                            <span class="n">reliab</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">swap_reliabs_ro</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">reliab</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">swap_reliabs_ro</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
+                            <span class="n">reliab</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">swap_reliabs_ro</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_reliability</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span>
                         <span class="k">if</span> <span class="n">reliab</span> <span class="o">&gt;</span> <span class="n">best_reliab</span><span class="p">:</span>
                             <span class="n">best_reliab</span> <span class="o">=</span> <span class="n">reliab</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">swap_reliabs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_reliab</span>
@@ -473,7 +474,7 @@
             <span class="n">max_q</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qid1</span><span class="p">,</span> <span class="n">qid2</span><span class="p">)</span>
             <span class="n">edge_weight</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">min_q</span><span class="p">,</span> <span class="n">max_q</span><span class="p">):</span>
-                <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="p">[</span><span class="n">min_q</span><span class="p">][</span><span class="n">max_q</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="p">[</span><span class="n">min_q</span><span class="p">][</span><span class="n">max_q</span><span class="p">][</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">edge_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">min_q</span><span class="p">,</span> <span class="n">max_q</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="o">.</span><span class="n">extend_from_weighted_edge_list</span><span class="p">(</span><span class="n">edge_list</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">idx</span>
@@ -546,13 +547,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_backend_prop</span><span class="p">()</span>
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_program_graph</span><span class="p">(</span><span class="n">dag</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">swap_graph</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s1">&#39;Number of qubits greater than device.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;Number of qubits greater than device.&quot;</span><span class="p">)</span>
 
         <span class="c1"># sort by weight, then edge name for determinism (since networkx on python 3.5 returns</span>
         <span class="c1"># different order of edges)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="o">.</span><span class="n">weighted_edge_list</span><span class="p">(),</span>
-                                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                                            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prog_graph</span><span class="o">.</span><span class="n">weighted_edge_list</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span><span class="p">:</span>
             <span class="n">edge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_next_edge</span><span class="p">()</span>
@@ -561,8 +562,10 @@
             <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">q1_mapped</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">q2_mapped</span><span class="p">):</span>
                 <span class="n">best_hw_edge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_best_remaining_cx</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">best_hw_edge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span><span class="s2">&quot;CNOT(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) could not be placed &quot;</span>
-                                          <span class="s2">&quot;in selected device.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
+                        <span class="s2">&quot;CNOT(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) could not be placed &quot;</span>
+                        <span class="s2">&quot;in selected device.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">best_hw_edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">best_hw_edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">available_hw_qubits</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_hw_edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -572,7 +575,8 @@
                 <span class="k">if</span> <span class="n">best_hw_qubit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
                         <span class="s2">&quot;CNOT(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) could not be placed in selected device. &quot;</span>
-                        <span class="s2">&quot;No qubit near qr[</span><span class="si">{}</span><span class="s2">] available&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="s2">&quot;No qubit near qr[</span><span class="si">{}</span><span class="s2">] available&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">best_hw_qubit</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">available_hw_qubits</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_hw_qubit</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -580,11 +584,15 @@
                 <span class="k">if</span> <span class="n">best_hw_qubit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">TranspilerError</span><span class="p">(</span>
                         <span class="s2">&quot;CNOT(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) could not be placed in selected device. &quot;</span>
-                        <span class="s2">&quot;No qubit near qr[</span><span class="si">{}</span><span class="s2">] available&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                        <span class="s2">&quot;No qubit near qr[</span><span class="si">{}</span><span class="s2">] available&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">best_hw_qubit</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">available_hw_qubits</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_hw_qubit</span><span class="p">)</span>
-            <span class="n">new_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span>
-                         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">)]</span>
+            <span class="n">new_edges</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">)</span>
+            <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pending_program_edges</span> <span class="o">=</span> <span class="n">new_edges</span>
         <span class="k">for</span> <span class="n">qid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qarg_to_id</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">qid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prog2hw</span><span class="p">:</span>
@@ -597,7 +605,7 @@
             <span class="n">layout</span><span class="p">[</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">hwid</span>
         <span class="k">for</span> <span class="n">qreg</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">layout</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">qreg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">property_set</span><span class="p">[</span><span class="s2">&quot;layout&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span></div></div>
 </pre></div>
 
              </article>
@@ -615,7 +623,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -651,7 +659,7 @@
          <script src="../../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

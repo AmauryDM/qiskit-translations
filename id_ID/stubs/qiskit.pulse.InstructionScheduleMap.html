@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.InstructionScheduleMap &mdash; Dokumentasi Qiskit 0.27.0</title>
+  <title>qiskit.pulse.InstructionScheduleMap &mdash; Dokumentasi Qiskit 0.28.0</title>
   
 
   
@@ -365,7 +365,7 @@ requested instruction.</p>
 <td><p>Error if the given instruction is not defined.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.InstructionScheduleMap.get" title="qiskit.pulse.InstructionScheduleMap.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(instruction, qubits, *params, **kwparams)</p></td>
-<td><p>Return the defined <a class="reference internal" href="qiskit.pulse.Schedule.html#qiskit.pulse.Schedule" title="qiskit.pulse.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></a> for the given instruction on the given qubits.</p></td>
+<td><p>Return the defined <a class="reference internal" href="qiskit.pulse.Schedule.html#qiskit.pulse.Schedule" title="qiskit.pulse.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></a> or <a class="reference internal" href="qiskit.pulse.ScheduleBlock.html#qiskit.pulse.ScheduleBlock" title="qiskit.pulse.ScheduleBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code></a> for the given instruction on the given qubits.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.InstructionScheduleMap.get_parameters" title="qiskit.pulse.InstructionScheduleMap.get_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_parameters</span></code></a>(instruction, qubits)</p></td>
 <td><p>Return the list of parameters taken by the given instruction on the given qubits.</p></td>
@@ -374,7 +374,7 @@ requested instruction.</p>
 <td><p>Is the instruction defined for the given qubits?</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.pulse.InstructionScheduleMap.pop" title="qiskit.pulse.InstructionScheduleMap.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code></a>(instruction, qubits, *params, **kwparams)</p></td>
-<td><p>Remove and return the defined <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> for the given instruction on the given qubits.</p></td>
+<td><p>Remove and return the defined schedule for the given instruction on the given qubits.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.pulse.InstructionScheduleMap.qubit_instructions" title="qiskit.pulse.InstructionScheduleMap.qubit_instructions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">qubit_instructions</span></code></a>(qubits)</p></td>
 <td><p>Return a list of the instruction names that are defined by the backend for the given qubit or qubits.</p></td>
@@ -408,7 +408,7 @@ requested instruction.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>instruction</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code>]) -- The name of the instruction to add.</p></li>
 <li><p><strong>qubits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) -- The qubits which the instruction applies to.</p></li>
-<li><p><strong>schedule</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[..., <code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>]]) -- The Schedule that implements the given instruction.</p></li>
+<li><p><strong>schedule</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[..., <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code>]]]) -- The Schedule that implements the given instruction.</p></li>
 <li><p><strong>arguments</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) -- List of parameter names to create a parameter-bound schedule from the
 associated gate instruction. If <a class="reference internal" href="#qiskit.pulse.InstructionScheduleMap.get" title="qiskit.pulse.InstructionScheduleMap.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> is called with arguments rather
 than keyword arguments, this parameter list is used to map the input arguments to
@@ -447,8 +447,8 @@ parameter objects stored in the target schedule.</p></li>
 <dl class="py method">
 <dt id="qiskit.pulse.InstructionScheduleMap.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instruction</span></em>, <em class="sig-param"><span class="n">qubits</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwparams</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/instruction_schedule_map.html#InstructionScheduleMap.get"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.InstructionScheduleMap.get" title="Link permanen untuk definisi ini">¶</a></dt>
-<dd><p>Return the defined <a class="reference internal" href="qiskit.pulse.Schedule.html#qiskit.pulse.Schedule" title="qiskit.pulse.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></a> for the given instruction on
-the given qubits.</p>
+<dd><p>Return the defined <a class="reference internal" href="qiskit.pulse.Schedule.html#qiskit.pulse.Schedule" title="qiskit.pulse.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></a> or
+<a class="reference internal" href="qiskit.pulse.ScheduleBlock.html#qiskit.pulse.ScheduleBlock" title="qiskit.pulse.ScheduleBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code></a> for the given instruction on the given qubits.</p>
 <p>If all keys are not specified this method returns schedule with unbound parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameter</dt>
@@ -460,7 +460,7 @@ the given qubits.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></p>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code>]</p>
 </dd>
 <dt class="field-odd">Kembali</dt>
 <dd class="field-odd"><p>The Schedule defined for the input.</p>
@@ -483,7 +483,7 @@ the given qubits.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterExpression</span></code>]]</p>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
 </dd>
 <dt class="field-odd">Kembali</dt>
 <dd class="field-odd"><p>The names of the parameters required by the instruction.</p>
@@ -530,7 +530,7 @@ measure and reset.</p>
 <dl class="py method">
 <dt id="qiskit.pulse.InstructionScheduleMap.pop">
 <code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instruction</span></em>, <em class="sig-param"><span class="n">qubits</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwparams</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/instruction_schedule_map.html#InstructionScheduleMap.pop"><span class="viewcode-link">[sumber]</span></a><a class="headerlink" href="#qiskit.pulse.InstructionScheduleMap.pop" title="Link permanen untuk definisi ini">¶</a></dt>
-<dd><p>Remove and return the defined <code class="docutils literal notranslate"><span class="pre">Schedule</span></code> for the given instruction on the given
+<dd><p>Remove and return the defined schedule for the given instruction on the given
 qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameter</dt>
@@ -542,7 +542,7 @@ qubits.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code></p>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code>]</p>
 </dd>
 <dt class="field-odd">Kembali</dt>
 <dd class="field-odd"><p>The Schedule defined for the input.</p>
@@ -640,7 +640,7 @@ instruction has an arity greater than 1, or a flat list of ints otherwise.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Terakhir diperbarui pada 2021/07/12.
+      Terakhir diperbarui pada 2021/07/27.
 
     </p>
   </div>
@@ -678,7 +678,7 @@ instruction has an arity greater than 1, or a flat list of ints otherwise.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

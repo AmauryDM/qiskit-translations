@@ -56,6 +56,7 @@
       ~InnerProduct.fredkin
       ~InnerProduct.from_qasm_file
       ~InnerProduct.from_qasm_str
+      ~InnerProduct.get_instructions
       ~InnerProduct.h
       ~InnerProduct.hamiltonian
       ~InnerProduct.has_register

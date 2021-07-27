@@ -39,6 +39,7 @@
       ~SaveProbabilitiesDict.decompositions
       ~SaveProbabilitiesDict.definition
       ~SaveProbabilitiesDict.duration
+      ~SaveProbabilitiesDict.label
       ~SaveProbabilitiesDict.params
       ~SaveProbabilitiesDict.unit
    

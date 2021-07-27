@@ -14,6 +14,7 @@
    .. autosummary::
    
       ~RuntimeProgram.__init__
+      ~RuntimeProgram.parameters
       ~RuntimeProgram.to_dict
    
    
@@ -28,9 +29,9 @@
       ~RuntimeProgram.creation_date
       ~RuntimeProgram.description
       ~RuntimeProgram.interim_results
+      ~RuntimeProgram.is_public
       ~RuntimeProgram.max_execution_time
       ~RuntimeProgram.name
-      ~RuntimeProgram.parameters
       ~RuntimeProgram.program_id
       ~RuntimeProgram.return_values
       ~RuntimeProgram.version

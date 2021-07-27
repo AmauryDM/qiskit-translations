@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.dag_visualization &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.visualization.dag_visualization &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -340,16 +340,18 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">VisualizationError</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
     <span class="n">HAS_PIL</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">HAS_PIL</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-<div class="viewcode-block" id="dag_drawer"><a class="viewcode-back" href="../../../stubs/qiskit.visualization.dag_drawer.html#qiskit.visualization.dag_drawer">[docs]</a><span class="k">def</span> <span class="nf">dag_drawer</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;color&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="dag_drawer"><a class="viewcode-back" href="../../../stubs/qiskit.visualization.dag_drawer.html#qiskit.visualization.dag_drawer">[docs]</a><span class="k">def</span> <span class="nf">dag_drawer</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;color&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot the directed acyclic graph (dag) to represent operation dependencies</span>
 <span class="sd">    in a quantum circuit.</span>
 
@@ -375,7 +377,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        VisualizationError: when style is not recognized.</span>
-<span class="sd">        ImportError: when pydot or pillow are not installed.</span>
+<span class="sd">        MissingOptionalLibraryError: when pydot or pillow are not installed.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. jupyter-execute::</span>
@@ -400,106 +402,116 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">pydot</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;dag_drawer requires pydot. &quot;</span>
-                          <span class="s2">&quot;Run &#39;pip install pydot&#39;.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+        <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+            <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;PyDot&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_drawer&quot;</span><span class="p">,</span>
+            <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pydot&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
     <span class="c1"># NOTE: use type str checking to avoid potential cyclical import</span>
     <span class="c1"># the two tradeoffs ere that it will not handle subclasses and it is</span>
     <span class="c1"># slower (which doesn&#39;t matter for a visualization function)</span>
     <span class="n">type_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">dag</span><span class="p">))</span>
-    <span class="k">if</span> <span class="s1">&#39;DAGDependency&#39;</span> <span class="ow">in</span> <span class="n">type_str</span><span class="p">:</span>
-        <span class="n">graph_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dpi&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)}</span>
+    <span class="k">if</span> <span class="s2">&quot;DAGDependency&quot;</span> <span class="ow">in</span> <span class="n">type_str</span><span class="p">:</span>
+        <span class="n">graph_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dpi&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)}</span>
 
         <span class="k">def</span> <span class="nf">node_attr_func</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">&#39;plain&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;plain&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span>
                 <span class="n">n</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="n">n</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;measure&#39;</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lightblue&#39;</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;barrier&#39;</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span>
+                <span class="n">n</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;measure&quot;</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lightblue&quot;</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;barrier&quot;</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
                 <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">_directive</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; (conditional)&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lightgreen&#39;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; (conditional)&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span>
                 <span class="k">return</span> <span class="n">n</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s2">&quot;Unrecognized style </span><span class="si">%s</span><span class="s2"> for the dag_drawer.&quot;</span> <span class="o">%</span> <span class="n">style</span><span class="p">)</span>
+
         <span class="n">edge_attr_func</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">bit_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">bit</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
-                      <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">cregs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-                      <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">bit</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">reg</span><span class="p">)}</span>
+        <span class="n">bit_labels</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">bit</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reg</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">qregs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">cregs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">bit</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">reg</span><span class="p">)</span>
+        <span class="p">}</span>
 
-        <span class="n">graph_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dpi&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)}</span>
+        <span class="n">graph_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dpi&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)}</span>
 
         <span class="k">def</span> <span class="nf">node_attr_func</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">&#39;plain&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;plain&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span>
                 <span class="n">n</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;op&#39;</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;lightblue&#39;</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;in&#39;</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">wire</span><span class="p">]</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;out&#39;</span><span class="p">:</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">wire</span><span class="p">]</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
-                    <span class="n">n</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lightblue&quot;</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;in&quot;</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">wire</span><span class="p">]</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;out&quot;</span><span class="p">:</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">wire</span><span class="p">]</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;filled&quot;</span>
+                    <span class="n">n</span><span class="p">[</span><span class="s2">&quot;fillcolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
                 <span class="k">return</span> <span class="n">n</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s1">&#39;Invalid style </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">style</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">VisualizationError</span><span class="p">(</span><span class="s2">&quot;Invalid style </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">style</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">edge_attr_func</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span>
             <span class="n">e</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">e</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span>
+            <span class="n">e</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bit_labels</span><span class="p">[</span><span class="n">edge</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">e</span>
 
-    <span class="n">dot_str</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span><span class="n">node_attr_func</span><span class="p">,</span> <span class="n">edge_attr_func</span><span class="p">,</span>
-                                      <span class="n">graph_attrs</span><span class="p">)</span>
+    <span class="n">dot_str</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">_multi_graph</span><span class="o">.</span><span class="n">to_dot</span><span class="p">(</span><span class="n">node_attr_func</span><span class="p">,</span> <span class="n">edge_attr_func</span><span class="p">,</span> <span class="n">graph_attrs</span><span class="p">)</span>
     <span class="n">dot</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_str</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-        <span class="n">extension</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">dot</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">extension</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;ipykernel&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;spyder&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;ipykernel&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;spyder&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PIL</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">&quot;dag_drawer requires pillow for drawing in jupyter directly. &quot;</span>
-                <span class="s2">&quot;Run &#39;pip install pillow&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pillow&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_drawer&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pillow&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
-            <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="s1">&#39;dag.png&#39;</span><span class="p">)</span>
+            <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="s2">&quot;dag.png&quot;</span><span class="p">)</span>
             <span class="n">dot</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
-            <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">test_image</span><span class="p">:</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">test_image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">image</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PIL</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">&quot;dag_drawer requires pillow for drawing to a window directly. &quot;</span>
-                <span class="s2">&quot;Run &#39;pip install pillow&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pillow&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_drawer&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pillow&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
-            <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="s1">&#39;dag.png&#39;</span><span class="p">)</span>
+            <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="s2">&quot;dag.png&quot;</span><span class="p">)</span>
             <span class="n">dot</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
             <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
             <span class="n">image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -522,7 +534,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -558,7 +570,7 @@
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

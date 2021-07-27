@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.managed.ManagedJobSet &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.providers.ibmq.managed.ManagedJobSet &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -406,7 +406,7 @@ date and time is used.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.managed.ManagedJobSet.retrieve_jobs" title="qiskit.providers.ibmq.managed.ManagedJobSet.retrieve_jobs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">retrieve_jobs</span></code></a>(provider[, refresh])</p></td>
 <td><p>Retrieve previously submitted jobs in this set.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.managed.ManagedJobSet.run" title="qiskit.providers.ibmq.managed.ManagedJobSet.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(experiment_list, backend, executor, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.managed.ManagedJobSet.run" title="qiskit.providers.ibmq.managed.ManagedJobSet.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(experiment_list, backend, executor[, ...])</p></td>
 <td><p>Execute a list of circuits or pulse schedules on a backend.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.managed.ManagedJobSet.statuses" title="qiskit.providers.ibmq.managed.ManagedJobSet.statuses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statuses</span></code></a>()</p></td>
@@ -664,7 +664,7 @@ Otherwise return the cached value.</p></li>
 
 <dl class="py method">
 <dt id="qiskit.providers.ibmq.managed.ManagedJobSet.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">experiment_list</span></em>, <em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">executor</span></em>, <em class="sig-param"><span class="n">job_share_level</span></em>, <em class="sig-param"><span class="n">job_tags</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">run_config</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/managed/managedjobset.html#ManagedJobSet.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.managed.ManagedJobSet.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">experiment_list</span></em>, <em class="sig-param"><span class="n">backend</span></em>, <em class="sig-param"><span class="n">executor</span></em>, <em class="sig-param"><span class="n">job_share_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">job_tags</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">run_config</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/managed/managedjobset.html#ManagedJobSet.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.managed.ManagedJobSet.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a list of circuits or pulse schedules on a backend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -672,7 +672,7 @@ Otherwise return the cached value.</p></li>
 <li><p><strong>experiment_list</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code>]]]) -- Circuit(s) or pulse schedule(s) to execute.</p></li>
 <li><p><strong>backend</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">IBMQBackend</span></code>) -- Backend to execute the experiments on.</p></li>
 <li><p><strong>executor</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadPoolExecutor</span></code>) -- The thread pool used to submit jobs asynchronously.</p></li>
-<li><p><strong>job_share_level</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ApiJobShareLevel</span></code>) -- Job share level.</p></li>
+<li><p><strong>job_share_level</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ApiJobShareLevel</span></code>]) -- Job share level.</p></li>
 <li><p><strong>job_tags</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) -- Tags to be assigned to the job.</p></li>
 <li><p><strong>run_config</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) -- Additional arguments used to configure the Qobj
 assembly. Refer to the <a class="reference internal" href="qiskit.compiler.assemble.html#qiskit.compiler.assemble" title="qiskit.compiler.assemble"><code class="xref py py-func docutils literal notranslate"><span class="pre">qiskit.compiler.assemble()</span></code></a> documentation
@@ -811,7 +811,7 @@ associated with this job set.</p></li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -849,7 +849,7 @@ associated with this job set.</p></li>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

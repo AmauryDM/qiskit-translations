@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.builder.pad &mdash; Qiskit 0.27.0 Dokumentation</title>
+  <title>qiskit.pulse.builder.pad &mdash; Qiskit 0.28.0 Dokumentation</title>
   
 
   
@@ -331,38 +331,15 @@
 <dl class="py function">
 <dt id="qiskit.pulse.builder.pad">
 <code class="sig-name descname">pad</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">chs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/pulse/builder.html#pad"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#qiskit.pulse.builder.pad" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Pad all available timeslots with delays upon exiting context.</p>
+<dd><p>Deprecated. Pad all available timeslots with delays upon exiting context.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameter</dt>
 <dd class="field-odd"><p><strong>chs</strong> (<a class="reference internal" href="qiskit.pulse.channels.html#qiskit.pulse.channels.Channel" title="qiskit.pulse.channels.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a>) – Channels to pad with delays. Defaults to all channels in context
 if none are supplied.</p>
 </dd>
-</dl>
-<p>Examples:</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">pulse</span>
-
-<span class="n">d0</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">DriveChannel</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">d1</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">DriveChannel</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">pulse</span><span class="o">.</span><span class="n">build</span><span class="p">()</span> <span class="k">as</span> <span class="n">pulse_prog</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">pulse</span><span class="o">.</span><span class="n">pad</span><span class="p">():</span>
-        <span class="k">with</span> <span class="n">pulse</span><span class="o">.</span><span class="n">align_right</span><span class="p">():</span>
-            <span class="c1"># this pulse will start at t=0</span>
-            <span class="n">pulse</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">d0</span><span class="p">)</span>
-            <span class="c1"># this pulse will start at t=80</span>
-            <span class="c1"># a delay will be inserted from t=0 to t=80</span>
-            <span class="n">pulse</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">d1</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">pulse_prog</span><span class="o">.</span><span class="n">ch_start_time</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span> <span class="o">==</span> <span class="n">pulse_prog</span><span class="o">.</span><span class="n">ch_start_time</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">pulse_prog</span><span class="o">.</span><span class="n">ch_stop_time</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span> <span class="o">==</span> <span class="n">pulse_prog</span><span class="o">.</span><span class="n">ch_stop_time</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-<dl class="field-list simple">
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p>None</p>
+</dd>
 <dt class="field-odd">Rückgabetyp</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractContextManager</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]</p>
 </dd>
@@ -396,7 +373,7 @@ if none are supplied.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Zuletzt aktualisiert am 2021/07/12.
+      Zuletzt aktualisiert am 2021/07/27.
 
     </p>
   </div>
@@ -434,7 +411,7 @@ if none are supplied.</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

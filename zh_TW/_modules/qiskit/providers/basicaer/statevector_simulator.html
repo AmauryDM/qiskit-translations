@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.basicaer.statevector_simulator &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.providers.basicaer.statevector_simulator &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -356,78 +356,62 @@
 <div class="viewcode-block" id="StatevectorSimulatorPy"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.basicaer.StatevectorSimulatorPy.html#qiskit.providers.basicaer.StatevectorSimulatorPy">[文件]</a><span class="k">class</span> <span class="nc">StatevectorSimulatorPy</span><span class="p">(</span><span class="n">QasmSimulatorPy</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Python statevector simulator.&quot;&quot;&quot;</span>
 
-    <span class="n">MAX_QUBITS_MEMORY</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s1">&#39;memory&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span>
+    <span class="n">MAX_QUBITS_MEMORY</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">local_hardware_info</span><span class="p">()[</span><span class="s2">&quot;memory&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span>
 
     <span class="n">DEFAULT_CONFIGURATION</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="s1">&#39;statevector_simulator&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;backend_version&#39;</span><span class="p">:</span> <span class="s1">&#39;1.1.0&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;n_qubits&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">MAX_QUBITS_MEMORY</span><span class="p">),</span>
-        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://github.com/Qiskit/qiskit-terra&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;simulator&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;conditional&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;open_pulse&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s1">&#39;max_shots&#39;</span><span class="p">:</span> <span class="mi">65536</span><span class="p">,</span>
-        <span class="s1">&#39;coupling_map&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;A Python statevector simulator for qobj files&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;basis_gates&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;u1&#39;</span><span class="p">,</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span> <span class="s1">&#39;u3&#39;</span><span class="p">,</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span> <span class="s1">&#39;sx&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;unitary&#39;</span><span class="p">],</span>
-        <span class="s1">&#39;gates&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;backend_name&quot;</span><span class="p">:</span> <span class="s2">&quot;statevector_simulator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;backend_version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.1.0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_qubits&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">MAX_QUBITS_MEMORY</span><span class="p">),</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/Qiskit/qiskit-terra&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;simulator&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conditional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;open_pulse&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;max_shots&quot;</span><span class="p">:</span> <span class="mi">65536</span><span class="p">,</span>
+        <span class="s2">&quot;coupling_map&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A Python statevector simulator for qobj files&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;basis_gates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;u1&quot;</span><span class="p">,</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span> <span class="s2">&quot;u3&quot;</span><span class="p">,</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;sx&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;cx&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;unitary&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;gates&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u1&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u1(lambda) q { U(0,0,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u1(lambda) q { U(0,0,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u2&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u2(phi,lambda) q { U(pi/2,phi,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u2(phi,lambda) q { U(pi/2,phi,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;u3&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;lambda&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate u3(theta,phi,lambda) q { U(theta,phi,lambda) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;u3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate u3(theta,phi,lambda) q { U(theta,phi,lambda) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rz&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate rz(phi) q { U(0,0,phi) q; }&quot;</span><span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;rz&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate rz(phi) q { U(0,0,phi) q; }&#39;</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sx&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate sx(phi) q { U(pi/2,7*pi/2,pi/2) q; }&quot;</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;sx&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate sx(phi) q { U(pi/2,7*pi/2,pi/2) q; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate x q { U(pi,7*pi/2,pi/2) q; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;cx&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate cx c,t { CX c,t; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;gate id a { U(0,0,0) a; }&#39;</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;unitary&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">],</span>
-                <span class="s1">&#39;qasm_def&#39;</span><span class="p">:</span> <span class="s1">&#39;unitary(matrix) q1, q2,...&#39;</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate x q { U(pi,7*pi/2,pi/2) q; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;cx&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate cx c,t { CX c,t; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;gate id a { U(0,0,0) a; }&quot;</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unitary&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">],</span> <span class="s2">&quot;qasm_def&quot;</span><span class="p">:</span> <span class="s2">&quot;unitary(matrix) q1, q2,...&quot;</span><span class="p">},</span>
+        <span class="p">],</span>
     <span class="p">}</span>
 
     <span class="c1"># Override base class value to return the final state vector</span>
     <span class="n">SHOW_FINAL_STATE</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="StatevectorSimulatorPy.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.basicaer.StatevectorSimulatorPy.html#qiskit.providers.basicaer.StatevectorSimulatorPy.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">configuration</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">configuration</span> <span class="ow">or</span> <span class="n">QasmBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_CONFIGURATION</span><span class="p">)),</span>
-                         <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">configuration</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">configuration</span> <span class="ow">or</span> <span class="n">QasmBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_CONFIGURATION</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">fields</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qobj</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Semantic validations of the qobj which cannot be done via schemas.</span>
@@ -439,19 +423,21 @@
         <span class="n">num_qubits</span> <span class="o">=</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">n_qubits</span>
         <span class="n">max_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">n_qubits</span>
         <span class="k">if</span> <span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="n">max_qubits</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span><span class="s1">&#39;Number of qubits </span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">+</span>
-                                <span class="s1">&#39;is greater than maximum (</span><span class="si">{}</span><span class="s1">) &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_qubits</span><span class="p">)</span> <span class="o">+</span>
-                                <span class="s1">&#39;for &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()))</span>
+            <span class="k">raise</span> <span class="n">BasicAerError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Number of qubits </span><span class="si">{</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2"> is greater than maximum (</span><span class="si">{</span><span class="n">max_qubits</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;for &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s1">&quot;.&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. Setting shots=1.&#39;</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. Setting shots=1.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
             <span class="n">qobj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="n">qobj</span><span class="o">.</span><span class="n">experiments</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;shots&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. &#39;</span>
-                            <span class="s1">&#39;Setting shots=1 for circuit &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;shots&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; only supports 1 shot. &#39;</span> <span class="s1">&#39;Setting shots=1 for circuit &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+                    <span class="n">name</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="n">experiment</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shots</span> <span class="o">=</span> <span class="mi">1</span></div>
 </pre></div>
 
@@ -470,7 +456,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -506,7 +492,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

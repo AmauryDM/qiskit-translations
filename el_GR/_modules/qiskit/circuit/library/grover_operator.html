@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.circuit.library.grover_operator &mdash; Τεκμηρίωση του Qiskit - 0.27.0</title>
+  <title>qiskit.circuit.library.grover_operator &mdash; Τεκμηρίωση του Qiskit - 0.28.0</title>
   
 
   
@@ -335,6 +335,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">AncillaRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 <span class="kn">from</span> <span class="nn">qiskit.quantum_info</span> <span class="kn">import</span> <span class="n">Statevector</span><span class="p">,</span> <span class="n">Operator</span><span class="p">,</span> <span class="n">DensityMatrix</span>
 <span class="kn">from</span> <span class="nn">.standard_gates</span> <span class="kn">import</span> <span class="n">MCXGate</span>
 
@@ -412,7 +413,7 @@
 <span class="sd">        &gt;&gt;&gt; oracle = QuantumCircuit(2)</span>
 <span class="sd">        &gt;&gt;&gt; oracle.z(0)  # good state = first qubit is |1&gt;</span>
 <span class="sd">        &gt;&gt;&gt; grover_op = GroverOperator(oracle, insert_barriers=True)</span>
-<span class="sd">        &gt;&gt;&gt; grover_op.draw()</span>
+<span class="sd">        &gt;&gt;&gt; grover_op.decompose().draw()</span>
 <span class="sd">                 ┌───┐ ░ ┌───┐ ░ ┌───┐          ┌───┐      ░ ┌───┐</span>
 <span class="sd">        state_0: ┤ Z ├─░─┤ H ├─░─┤ X ├───────■──┤ X ├──────░─┤ H ├</span>
 <span class="sd">                 └───┘ ░ ├───┤ ░ ├───┤┌───┐┌─┴─┐├───┤┌───┐ ░ ├───┤</span>
@@ -424,7 +425,7 @@
 <span class="sd">        &gt;&gt;&gt; state_preparation = QuantumCircuit(1)</span>
 <span class="sd">        &gt;&gt;&gt; state_preparation.ry(0.2, 0)  # non-uniform state preparation</span>
 <span class="sd">        &gt;&gt;&gt; grover_op = GroverOperator(oracle, state_preparation)</span>
-<span class="sd">        &gt;&gt;&gt; grover_op.draw()</span>
+<span class="sd">        &gt;&gt;&gt; grover_op.decompose().draw()</span>
 <span class="sd">                 ┌───┐┌──────────┐┌───┐┌───┐┌───┐┌─────────┐</span>
 <span class="sd">        state_0: ┤ Z ├┤ RY(-0.2) ├┤ X ├┤ Z ├┤ X ├┤ RY(0.2) ├</span>
 <span class="sd">                 └───┘└──────────┘└───┘└───┘└───┘└─────────┘</span>
@@ -437,7 +438,7 @@
 <span class="sd">        &gt;&gt;&gt; state_preparation.ry(0.5, 3)</span>
 <span class="sd">        &gt;&gt;&gt; grover_op = GroverOperator(oracle, state_preparation,</span>
 <span class="sd">        ... reflection_qubits=reflection_qubits)</span>
-<span class="sd">        &gt;&gt;&gt; grover_op.draw()</span>
+<span class="sd">        &gt;&gt;&gt; grover_op.decompose().draw()</span>
 <span class="sd">                                              ┌───┐          ┌───┐</span>
 <span class="sd">        state_0: ──────────────────────■──────┤ X ├───────■──┤ X ├──────────■────────────────</span>
 <span class="sd">                                       │      └───┘       │  └───┘          │</span>
@@ -451,7 +452,7 @@
 <span class="sd">        &gt;&gt;&gt; mark_state = Statevector.from_label(&#39;011&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; diffuse_operator = 2 * DensityMatrix.from_label(&#39;000&#39;) - Operator.from_label(&#39;III&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; grover_op = GroverOperator(oracle=mark_state, zero_reflection=diffuse_operator)</span>
-<span class="sd">        &gt;&gt;&gt; grover_op.draw(fold=70)</span>
+<span class="sd">        &gt;&gt;&gt; grover_op.decompose().draw(fold=70)</span>
 <span class="sd">                 ┌─────────────────┐      ┌───┐                          »</span>
 <span class="sd">        state_0: ┤0                ├──────┤ H ├──────────────────────────»</span>
 <span class="sd">                 │                 │┌─────┴───┴─────┐     ┌───┐          »</span>
@@ -477,13 +478,16 @@
 <span class="sd">            `arXiv:quant-ph/0005055 &lt;http://arxiv.org/abs/quant-ph/0005055&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GroverOperator.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.library.GroverOperator.html#qiskit.circuit.library.GroverOperator.__init__">[τεκμηρίωση]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oracle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">],</span>
-                 <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">zero_reflection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">DensityMatrix</span><span class="p">,</span> <span class="n">Operator</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">reflection_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">mcx_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;noancilla&#39;</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Q&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="GroverOperator.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.circuit.library.GroverOperator.html#qiskit.circuit.library.GroverOperator.__init__">[τεκμηρίωση]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">oracle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">],</span>
+        <span class="n">state_preparation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">zero_reflection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">DensityMatrix</span><span class="p">,</span> <span class="n">Operator</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reflection_qubits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">insert_barriers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">mcx_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;noancilla&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Q&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            oracle: The phase oracle implementing a reflection about the bad state. Note that this</span>
@@ -502,11 +506,13 @@
         <span class="c1"># store inputs</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">oracle</span><span class="p">,</span> <span class="n">Statevector</span><span class="p">):</span>
             <span class="kn">from</span> <span class="nn">qiskit.circuit.library</span> <span class="kn">import</span> <span class="n">Diagonal</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+
             <span class="n">oracle</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">oracle</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_oracle</span> <span class="o">=</span> <span class="n">oracle</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zero_reflection</span><span class="p">,</span> <span class="p">(</span><span class="n">Operator</span><span class="p">,</span> <span class="n">DensityMatrix</span><span class="p">)):</span>
             <span class="kn">from</span> <span class="nn">qiskit.circuit.library</span> <span class="kn">import</span> <span class="n">Diagonal</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+
             <span class="n">zero_reflection</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">zero_reflection</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">diagonal</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_zero_reflection</span> <span class="o">=</span> <span class="n">zero_reflection</span>
 
@@ -543,7 +549,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_preparation</span>
 
         <span class="n">num_state_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_ancillas</span>
-        <span class="n">hadamards</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+        <span class="n">hadamards</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H&quot;</span><span class="p">)</span>
         <span class="c1"># apply Hadamards only on reflection qubits, rest will cancel out</span>
         <span class="n">hadamards</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reflection_qubits</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">hadamards</span>
@@ -555,41 +561,58 @@
 
     <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">num_state_qubits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_ancillas</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">))</span>
-        <span class="n">num_ancillas</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span>
-                                  <span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span>
-                                  <span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">])</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;state&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Q&quot;</span><span class="p">)</span>
+        <span class="n">num_ancillas</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_ancillas</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">num_ancillas</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">AncillaRegister</span><span class="p">(</span><span class="n">num_ancillas</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ancilla&#39;</span><span class="p">))</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">AncillaRegister</span><span class="p">(</span><span class="n">num_ancillas</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ancilla&quot;</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_barriers</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span>
-                     <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span>
+            <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
+            <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_barriers</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_reflection</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_barriers</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_preparation</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
         <span class="c1"># minus sign</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">global_phase</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span></div>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">global_phase</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="o">*</span><span class="n">circuit</span><span class="o">.</span><span class="n">qregs</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">circuit_wrapped</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">to_gate</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">QiskitError</span><span class="p">:</span>
+            <span class="n">circuit_wrapped</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit_wrapped</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <span class="c1"># TODO use the oracle compiler or the bit string oracle</span>
-<span class="k">def</span> <span class="nf">_zero_reflection</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">mcx_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
-    <span class="n">qr_state</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">)</span>
-    <span class="n">reflection</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qr_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;S_0&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_zero_reflection</span><span class="p">(</span>
+    <span class="n">num_state_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">mcx_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+    <span class="n">qr_state</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="n">num_state_qubits</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">)</span>
+    <span class="n">reflection</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qr_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;S_0&quot;</span><span class="p">)</span>
 
     <span class="n">num_ancillas</span> <span class="o">=</span> <span class="n">MCXGate</span><span class="o">.</span><span class="n">get_num_ancilla_qubits</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mcx_mode</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">num_ancillas</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="n">AncillaRegister</span><span class="p">(</span><span class="n">num_ancillas</span><span class="p">,</span> <span class="s1">&#39;ancilla&#39;</span><span class="p">)</span>
+        <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="n">AncillaRegister</span><span class="p">(</span><span class="n">num_ancillas</span><span class="p">,</span> <span class="s2">&quot;ancilla&quot;</span><span class="p">)</span>
         <span class="n">reflection</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">qr_ancilla</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">qr_ancilla</span> <span class="o">=</span> <span class="p">[]</span>
@@ -621,7 +644,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Τελευταία ενημέρωση στις 2021/07/12.
+      Τελευταία ενημέρωση στις 2021/07/27.
 
     </p>
   </div>
@@ -656,7 +679,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

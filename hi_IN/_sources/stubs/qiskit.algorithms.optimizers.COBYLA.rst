@@ -43,5 +43,6 @@
       ~COBYLA.is_initial_point_required
       ~COBYLA.is_initial_point_supported
       ~COBYLA.setting
+      ~COBYLA.settings
    
    

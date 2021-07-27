@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.accountprovider &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.providers.ibmq.accountprovider &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -435,7 +435,7 @@
                                          <span class="o">**</span><span class="n">credentials</span><span class="o">.</span><span class="n">connection_parameters</span><span class="p">())</span>
 
         <span class="c1"># Initialize the internal list of backends.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_backends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_remote_backends</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__backends</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IBMQBackend</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="n">IBMQBackendService</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backends</span> <span class="o">=</span> <span class="n">IBMQDeprecatedBackendService</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
 
@@ -449,6 +449,26 @@
                           <span class="s1">&#39;random&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random</span><span class="p">,</span>
                           <span class="s1">&#39;experiment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">,</span>
                           <span class="s1">&#39;runtime&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runtime</span><span class="p">}</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_backends</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IBMQBackend</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the backends for the provider, if not loaded.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, IBMQBackend]: the backends</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__backends</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__backends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_remote_backends</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__backends</span>
+
+    <span class="nd">@_backends</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">_backends</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IBMQBackend</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets the value for the account&#39;s backends.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: the backends</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__backends</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="AccountProvider.backends"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.ibmq.AccountProvider.html#qiskit.providers.ibmq.AccountProvider.backends">[docs]</a>    <span class="k">def</span> <span class="nf">backends</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -501,9 +521,9 @@
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">decode_backend_configuration</span><span class="p">(</span><span class="n">raw_config</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">raw_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;open_pulse&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
                     <span class="n">config</span> <span class="o">=</span> <span class="n">PulseBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_config</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
                     <span class="n">config</span> <span class="o">=</span> <span class="n">QasmBackendConfiguration</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_config</span><span class="p">)</span>
                 <span class="n">backend_cls</span> <span class="o">=</span> <span class="n">IBMQSimulator</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">simulator</span> <span class="k">else</span> <span class="n">IBMQBackend</span>
                 <span class="n">ret</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">backend_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">backend_cls</span><span class="p">(</span>
@@ -535,6 +555,7 @@
             <span class="n">rep_delay</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">transpiler_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">measurement_error_mitigation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">use_measure_esp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="o">**</span><span class="n">run_config</span><span class="p">:</span> <span class="n">Dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;runtime_job.RuntimeJob&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Execute the input circuit(s) on a backend using the runtime service.</span>
@@ -583,6 +604,11 @@
 
 <span class="sd">            measurement_error_mitigation: Whether to apply measurement error mitigation.</span>
 
+<span class="sd">            use_measure_esp: Whether to use excited state promoted (ESP) readout for measurements</span>
+<span class="sd">                which are the final instruction on a qubit. ESP readout can offer higher fidelity</span>
+<span class="sd">                than standard measurement sequences. See</span>
+<span class="sd">                `here &lt;https://arxiv.org/pdf/2008.08571.pdf&gt;`_.</span>
+
 <span class="sd">            **run_config: Extra arguments used to configure the circuit execution.</span>
 
 <span class="sd">        Returns:</span>
@@ -609,6 +635,8 @@
             <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;rep_delay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rep_delay</span>
         <span class="k">if</span> <span class="n">transpiler_options</span><span class="p">:</span>
             <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;transpiler_options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">transpiler_options</span>
+        <span class="k">if</span> <span class="n">use_measure_esp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;use_measure_esp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">use_measure_esp</span>
 
         <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;circuit-runner&#39;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
@@ -751,7 +779,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -786,7 +814,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

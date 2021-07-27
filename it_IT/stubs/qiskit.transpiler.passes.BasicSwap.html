@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.passes.BasicSwap &mdash; Qiskit 0.27.0 documentazione</title>
+  <title>qiskit.transpiler.passes.BasicSwap &mdash; Qiskit 0.28.0 documentazione</title>
   
 
   
@@ -231,7 +231,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contribuire a Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Domande Frequenti</a></li>
 </ul>
 <p><span class="caption-text">Librerie</span></p>
 <ul>
@@ -338,16 +338,24 @@ one or more swaps in front to make it compatible.</p>
 <p>BasicSwap initializer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
-<dd class="field-odd"><p><strong>coupling_map</strong> (<a class="reference internal" href="qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap" title="qiskit.transpiler.CouplingMap"><em>CouplingMap</em></a>) – Directed graph represented a coupling map.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coupling_map</strong> (<a class="reference internal" href="qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap" title="qiskit.transpiler.CouplingMap"><em>CouplingMap</em></a>) – Directed graph represented a coupling map.</p></li>
+<li><p><strong>fake_run</strong> (<em>bool</em>) – if true, it only pretend to do routing, i.e., no
+swap is effectively added.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="qiskit.transpiler.passes.BasicSwap.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coupling_map</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/routing/basic_swap.html#BasicSwap.__init__"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.BasicSwap.__init__" title="Link a questa definizione">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coupling_map</span></em>, <em class="sig-param"><span class="n">fake_run</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/transpiler/passes/routing/basic_swap.html#BasicSwap.__init__"><span class="viewcode-link">[sorgente]</span></a><a class="headerlink" href="#qiskit.transpiler.passes.BasicSwap.__init__" title="Link a questa definizione">¶</a></dt>
 <dd><p>BasicSwap initializer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parametri</dt>
-<dd class="field-odd"><p><strong>coupling_map</strong> (<a class="reference internal" href="qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap" title="qiskit.transpiler.CouplingMap"><em>CouplingMap</em></a>) – Directed graph represented a coupling map.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coupling_map</strong> (<a class="reference internal" href="qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap" title="qiskit.transpiler.CouplingMap"><em>CouplingMap</em></a>) – Directed graph represented a coupling map.</p></li>
+<li><p><strong>fake_run</strong> (<em>bool</em>) – if true, it only pretend to do routing, i.e., no
+swap is effectively added.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -359,7 +367,7 @@ one or more swaps in front to make it compatible.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.BasicSwap.__init__" title="qiskit.transpiler.passes.BasicSwap.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(coupling_map)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.BasicSwap.__init__" title="qiskit.transpiler.passes.BasicSwap.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(coupling_map[, fake_run])</p></td>
 <td><p>BasicSwap initializer.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.transpiler.passes.BasicSwap.name" title="qiskit.transpiler.passes.BasicSwap.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
@@ -460,7 +468,7 @@ but cannot modify the property set (but it can be read).</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Ultimo aggiornamento 2021/07/12.
+      Ultimo aggiornamento 2021/07/27.
 
     </p>
   </div>
@@ -498,7 +506,7 @@ but cannot modify the property set (but it can be read).</p>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

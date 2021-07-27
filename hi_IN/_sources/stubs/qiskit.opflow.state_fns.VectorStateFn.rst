@@ -54,5 +54,6 @@
       ~VectorStateFn.num_qubits
       ~VectorStateFn.parameters
       ~VectorStateFn.primitive
+      ~VectorStateFn.settings
    
    

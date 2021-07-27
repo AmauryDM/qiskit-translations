@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.gradients.hessian_base &mdash; documentación de Qiskit - 0.27.0</title>
+  <title>qiskit.opflow.gradients.hessian_base &mdash; documentación de Qiskit - 0.28.0</title>
   
 
   
@@ -338,12 +338,10 @@
 <span class="kn">from</span> <span class="nn">.derivative_base</span> <span class="kn">import</span> <span class="n">DerivativeBase</span>
 
 
-<div class="viewcode-block" id="HessianBase"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.HessianBase.html#qiskit.opflow.gradients.HessianBase">[documentos]</a><span class="k">class</span> <span class="nc">HessianBase</span><span class="p">(</span><span class="n">DerivativeBase</span><span class="p">):</span>  <span class="c1"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="HessianBase"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.HessianBase.html#qiskit.opflow.gradients.HessianBase">[documentos]</a><span class="k">class</span> <span class="nc">HessianBase</span><span class="p">(</span><span class="n">DerivativeBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for the Hessian of an expected value.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="HessianBase.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.HessianBase.html#qiskit.opflow.gradients.HessianBase.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">hess_method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CircuitGradient</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;param_shift&#39;</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="HessianBase.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.gradients.HessianBase.html#qiskit.opflow.gradients.HessianBase.__init__">[documentos]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hess_method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CircuitGradient</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;param_shift&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            hess_method: The method used to compute the state/probability gradient. Can be either</span>
@@ -357,23 +355,28 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hess_method</span><span class="p">,</span> <span class="n">CircuitGradient</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span> <span class="o">=</span> <span class="n">hess_method</span>
-        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s1">&#39;param_shift&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s2">&quot;param_shift&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_gradients</span> <span class="kn">import</span> <span class="n">ParamShift</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span> <span class="o">=</span> <span class="n">ParamShift</span><span class="p">()</span>
 
-        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s1">&#39;fin_diff&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s2">&quot;fin_diff&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_gradients</span> <span class="kn">import</span> <span class="n">ParamShift</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+            <span class="n">epsilon</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span> <span class="o">=</span> <span class="n">ParamShift</span><span class="p">(</span><span class="n">analytic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s1">&#39;lin_comb&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">hess_method</span> <span class="o">==</span> <span class="s2">&quot;lin_comb&quot;</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">.circuit_gradients</span> <span class="kn">import</span> <span class="n">LinComb</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">_hess_method</span> <span class="o">=</span> <span class="n">LinComb</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized input provided for `hess_method`. Please provide&quot;</span>
-                             <span class="s2">&quot; a CircuitGradient object or one of the pre-defined string&quot;</span>
-                             <span class="s2">&quot; arguments: {&#39;param_shift&#39;, &#39;fin_diff&#39;, &#39;lin_comb&#39;}. &quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized input provided for `hess_method`. Please provide&quot;</span>
+                <span class="s2">&quot; a CircuitGradient object or one of the pre-defined string&quot;</span>
+                <span class="s2">&quot; arguments: {&#39;param_shift&#39;, &#39;fin_diff&#39;, &#39;lin_comb&#39;}. &quot;</span>
+            <span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">hess_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CircuitGradient</span><span class="p">:</span>
@@ -401,7 +404,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Actualizado por última vez en 2021/07/12.
+      Actualizado por última vez en 2021/07/27.
 
     </p>
   </div>
@@ -436,7 +439,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

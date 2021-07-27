@@ -20,6 +20,7 @@
       ~ComposedOp.bind_parameters
       ~ComposedOp.compose
       ~ComposedOp.copy
+      ~ComposedOp.default_combo_fn
       ~ComposedOp.equals
       ~ComposedOp.eval
       ~ComposedOp.exp_i
@@ -59,5 +60,6 @@
       ~ComposedOp.num_qubits
       ~ComposedOp.oplist
       ~ComposedOp.parameters
+      ~ComposedOp.settings
    
    

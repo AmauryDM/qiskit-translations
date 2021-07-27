@@ -58,6 +58,7 @@
       ~TwoLocal.from_qasm_file
       ~TwoLocal.from_qasm_str
       ~TwoLocal.get_entangler_map
+      ~TwoLocal.get_instructions
       ~TwoLocal.get_unentangled_qubits
       ~TwoLocal.h
       ~TwoLocal.hamiltonian

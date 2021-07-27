@@ -54,5 +54,6 @@
       ~PauliOp.num_qubits
       ~PauliOp.parameters
       ~PauliOp.primitive
+      ~PauliOp.settings
    
    

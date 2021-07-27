@@ -56,6 +56,7 @@
       ~Diagonal.fredkin
       ~Diagonal.from_qasm_file
       ~Diagonal.from_qasm_str
+      ~Diagonal.get_instructions
       ~Diagonal.h
       ~Diagonal.hamiltonian
       ~Diagonal.has_register

@@ -43,5 +43,6 @@
       ~CG.is_initial_point_required
       ~CG.is_initial_point_supported
       ~CG.setting
+      ~CG.settings
    
    

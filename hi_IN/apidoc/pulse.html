@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pulse (qiskit.pulse) &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>Pulse (qiskit.pulse) &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -394,7 +394,7 @@ noise in a quantum system.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.library.discrete.html#module-qiskit.pulse.library.discrete" title="qiskit.pulse.library.discrete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">library.discrete</span></code></a></p></td>
 <td><p>Module for builtin discrete pulses.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.Waveform.html#qiskit.pulse.Waveform" title="qiskit.pulse.Waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Waveform</span></code></a>(samples[, name, epsilon])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.Waveform.html#qiskit.pulse.Waveform" title="qiskit.pulse.Waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Waveform</span></code></a>(samples[, name, epsilon, ...])</p></td>
 <td><p>A pulse specified completely by complex-valued samples; each sample is played for the duration of the backend cycle-time, dt.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.Constant.html#qiskit.pulse.Constant" title="qiskit.pulse.Constant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Constant</span></code></a>(duration, amp[, name])</p></td>
@@ -406,8 +406,8 @@ noise in a quantum system.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.Gaussian.html#qiskit.pulse.Gaussian" title="qiskit.pulse.Gaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gaussian</span></code></a>(duration, amp, sigma[, name])</p></td>
 <td><p>A truncated pulse envelope shaped according to the Gaussian function whose mean is centered at the center of the pulse (duration / 2):</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.GaussianSquare.html#qiskit.pulse.GaussianSquare" title="qiskit.pulse.GaussianSquare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianSquare</span></code></a>(duration, amp, sigma, width)</p></td>
-<td><p>A square pulse with a Gaussian shaped risefall on either side:</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.GaussianSquare.html#qiskit.pulse.GaussianSquare" title="qiskit.pulse.GaussianSquare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianSquare</span></code></a>(duration, amp, sigma[, ...])</p></td>
+<td><p>A square pulse with a Gaussian shaped risefall on both sides. Either risefall_sigma_ratio</p></td>
 </tr>
 </tbody>
 </table>
@@ -601,7 +601,7 @@ interface.</p>
 <td><p>Return <code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code> for <code class="docutils literal notranslate"><span class="pre">qubit</span></code> on the active builder backend.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.builder.control_channels.html#qiskit.pulse.builder.control_channels" title="qiskit.pulse.builder.control_channels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">control_channels</span></code></a>(*qubits)</p></td>
-<td><p>Return <code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code> for <code class="docutils literal notranslate"><span class="pre">qubit</span></code> on the active builder backend.</p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code> for <code class="docutils literal notranslate"><span class="pre">qubit</span></code> on the active builder backend.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.builder.drive_channel.html#qiskit.pulse.builder.drive_channel" title="qiskit.pulse.builder.drive_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drive_channel</span></code></a>(qubit)</p></td>
 <td><p>Return <code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code> for <code class="docutils literal notranslate"><span class="pre">qubit</span></code> on the active builder backend.</p></td>
@@ -744,10 +744,10 @@ be used to align all pulses as late as possible in a pulse program.</p>
 <td><p>Shift the frequency of inputs channels on entry into context and undo on exit.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.builder.inline.html#qiskit.pulse.builder.inline" title="qiskit.pulse.builder.inline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inline</span></code></a>()</p></td>
-<td><p>Inline all instructions within this context into the parent context, inheriting the scheduling policy of the parent context.</p></td>
+<td><p>Deprecated.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.builder.pad.html#qiskit.pulse.builder.pad" title="qiskit.pulse.builder.pad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pad</span></code></a>(*chs)</p></td>
-<td><p>Pad all available timeslots with delays upon exiting context.</p></td>
+<td><p>Deprecated.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../stubs/qiskit.pulse.builder.phase_offset.html#qiskit.pulse.builder.phase_offset" title="qiskit.pulse.builder.phase_offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_offset</span></code></a>(phase, *channels)</p></td>
 <td><p>Shift the phase of input channels on entry into context and undo on exit.</p></td>
@@ -863,7 +863,7 @@ how the program is built.</p>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">FakeArmonk</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="n">pulse</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span> <span class="k">as</span> <span class="n">u3_sched</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of qubit in backend: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of qubits in backend: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">()))</span>
 
     <span class="n">samples</span> <span class="o">=</span> <span class="mi">160</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{}</span><span class="s1"> samples in </span><span class="si">{}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -876,7 +876,7 @@ how the program is built.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of qubit in backend: 
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of qubits in backend: 1
 There are 160 samples in 3.5555555555555554e-08 seconds
 There are 1e-06 seconds in 4500 samples.
 </pre></div>
@@ -941,7 +941,7 @@ There are 1e-06 seconds in 4500 samples.
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -998,7 +998,7 @@ There are 1e-06 seconds in 4500 samples.
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -54,5 +54,6 @@
       ~CircuitOp.num_qubits
       ~CircuitOp.parameters
       ~CircuitOp.primitive
+      ~CircuitOp.settings
    
    

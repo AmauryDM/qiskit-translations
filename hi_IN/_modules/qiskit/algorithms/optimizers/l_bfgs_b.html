@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.l_bfgs_b &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.algorithms.optimizers.l_bfgs_b &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -332,11 +332,17 @@
 
 <span class="sd">&quot;&quot;&quot;Limited-memory BFGS Bound optimizer.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span> <span class="k">as</span> <span class="n">sciopt</span>
-<span class="kn">from</span> <span class="nn">.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">OptimizerSupportLevel</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qiskit.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecate_arguments</span>
+
+<span class="kn">from</span> <span class="nn">.scipy_optimizer</span> <span class="kn">import</span> <span class="n">SciPyOptimizer</span>
 
 
-<div class="viewcode-block" id="L_BFGS_B"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B">[docs]</a><span class="k">class</span> <span class="nc">L_BFGS_B</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
+<div class="viewcode-block" id="L_BFGS_B"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B">[docs]</a><span class="k">class</span> <span class="nc">L_BFGS_B</span><span class="p">(</span><span class="n">SciPyOptimizer</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Limited-memory BFGS Bound optimizer.</span>
 
@@ -357,23 +363,32 @@
 
 <span class="sd">    Uses scipy.optimize.fmin_l_bfgs_b.</span>
 <span class="sd">    For further detail, please refer to</span>
-<span class="sd">    https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fmin_l_bfgs_b.html</span>
+<span class="sd">    https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;maxfun&#39;</span><span class="p">,</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">,</span> <span class="s1">&#39;factr&#39;</span><span class="p">,</span> <span class="s1">&#39;iprint&#39;</span><span class="p">,</span> <span class="s1">&#39;epsilon&#39;</span><span class="p">]</span>
+    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;maxfun&quot;</span><span class="p">,</span> <span class="s2">&quot;maxiter&quot;</span><span class="p">,</span> <span class="s2">&quot;ftol&quot;</span><span class="p">,</span> <span class="s2">&quot;iprint&quot;</span><span class="p">,</span> <span class="s2">&quot;eps&quot;</span><span class="p">]</span>
 
     <span class="c1"># pylint: disable=unused-argument</span>
-<div class="viewcode-block" id="L_BFGS_B.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">maxfun</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15000</span><span class="p">,</span>
-                 <span class="n">factr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-                 <span class="n">iprint</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-08</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="L_BFGS_B.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B.__init__">[docs]</a>    <span class="nd">@deprecate_arguments</span><span class="p">({</span><span class="s2">&quot;epsilon&quot;</span><span class="p">:</span> <span class="s2">&quot;eps&quot;</span><span class="p">})</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">maxfun</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15000</span><span class="p">,</span>
+        <span class="n">ftol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span>
+        <span class="n">factr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">iprint</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-08</span><span class="p">,</span>
+        <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-08</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_evals_grouped</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            maxfun: Maximum number of function evaluations.</span>
 <span class="sd">            maxiter: Maximum number of iterations.</span>
-<span class="sd">            factr: The iteration stops when (f\^k - f\^{k+1})/max{\|f\^k\|,</span>
+<span class="sd">            ftol: The iteration stops when (f\^k - f\^{k+1})/max{\|f\^k\|,\|f\^{k+1}\|,1} &lt;= ftol.</span>
+<span class="sd">            factr: (DEPRECATED) The iteration steps when (f\^k - f\^{k+1})/max{\|f\^k\|,</span>
 <span class="sd">                \|f\^{k+1}\|,1} &lt;= factr * eps, where eps is the machine precision,</span>
 <span class="sd">                which is automatically generated by the code. Typical values for</span>
 <span class="sd">                factr are: 1e12 for low accuracy; 1e7 for moderate accuracy;</span>
@@ -386,40 +401,33 @@
 <span class="sd">                details of every iteration except n-vectors; iprint = 100 print also the</span>
 <span class="sd">                changes of active set and final x; iprint &gt; 100 print details of</span>
 <span class="sd">                every iteration including x and g.</span>
-<span class="sd">            epsilon: Step size used when approx_grad is True, for numerically</span>
+<span class="sd">            eps: If jac is approximated, use this value for the step size.</span>
+<span class="sd">            epsilon: (DEPRECATED) Step size used when approx_grad is True, for numerically</span>
 <span class="sd">                calculating the gradient</span>
+<span class="sd">            options: A dictionary of solver options.</span>
+<span class="sd">            max_evals_grouped: Max number of default gradient evaluations performed simultaneously.</span>
+<span class="sd">            kwargs: additional kwargs for scipy.optimize.minimize.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">factr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;L_BFGS_B.__init__() keyword argument factr is deprecated and replaced with ftol. &quot;</span>
+                <span class="s2">&quot;The relationship between the two is ftol = factr * numpy.finfo(float).eps. &quot;</span>
+                <span class="s2">&quot;See https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ftol</span> <span class="o">=</span> <span class="n">factr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_OPTIONS</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span></div>
-
-<div class="viewcode-block" id="L_BFGS_B.get_support_level"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B.get_support_level">[docs]</a>    <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return support level dictionary &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
-        <span class="p">}</span></div>
-
-<div class="viewcode-block" id="L_BFGS_B.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.L_BFGS_B.html#qiskit.algorithms.optimizers.L_BFGS_B.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span>
-                         <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">gradient_function</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_evals_grouped</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">epsilon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="s1">&#39;epsilon&#39;</span><span class="p">]</span>
-            <span class="n">gradient_function</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">wrap_function</span><span class="p">(</span><span class="n">Optimizer</span><span class="o">.</span><span class="n">gradient_num_diff</span><span class="p">,</span>
-                                                        <span class="p">(</span><span class="n">objective_function</span><span class="p">,</span>
-                                                         <span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_evals_grouped</span><span class="p">))</span>
-
-        <span class="n">approx_grad</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gradient_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">sciopt</span><span class="o">.</span><span class="n">fmin_l_bfgs_b</span><span class="p">(</span><span class="n">objective_function</span><span class="p">,</span>
-                                              <span class="n">initial_point</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">variable_bounds</span><span class="p">,</span>
-                                              <span class="n">fprime</span><span class="o">=</span><span class="n">gradient_function</span><span class="p">,</span>
-                                              <span class="n">approx_grad</span><span class="o">=</span><span class="n">approx_grad</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;funcalls&#39;</span><span class="p">]</span></div></div>
+                <span class="n">options</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+            <span class="n">max_evals_grouped</span><span class="o">=</span><span class="n">max_evals_grouped</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
              </article>
@@ -437,7 +445,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -473,7 +481,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

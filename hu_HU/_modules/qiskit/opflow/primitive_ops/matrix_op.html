@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.primitive_ops.matrix_op &mdash; Qiskit 0.27.0 dokumentáció</title>
+  <title>qiskit.opflow.primitive_ops.matrix_op &mdash; Qiskit 0.28.0 dokumentáció</title>
   
 
   
@@ -351,14 +351,15 @@
 
 
 <div class="viewcode-block" id="MatrixOp"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp">[docs]</a><span class="k">class</span> <span class="nc">MatrixOp</span><span class="p">(</span><span class="n">PrimitiveOp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Class for Operators represented by matrices, backed by Terra&#39;s ``Operator`` module.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Class for Operators represented by matrices, backed by Terra&#39;s ``Operator`` module.&quot;&quot;&quot;</span>
 
     <span class="n">primitive</span><span class="p">:</span> <span class="n">Operator</span>
 
-<div class="viewcode-block" id="MatrixOp.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">primitive</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">spmatrix</span><span class="p">,</span> <span class="n">Operator</span><span class="p">],</span>
-                 <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MatrixOp.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">primitive</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">spmatrix</span><span class="p">,</span> <span class="n">Operator</span><span class="p">],</span>
+        <span class="n">coeff</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            primitive: The matrix-like object which defines the behavior of the underlying function.</span>
@@ -376,18 +377,20 @@
             <span class="n">primitive</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">primitive</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">Operator</span><span class="p">):</span>
-            <span class="n">type_hints</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="n">MatrixOp</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;primitive&#39;</span><span class="p">)</span>
+            <span class="n">type_hints</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="n">MatrixOp</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;primitive&quot;</span><span class="p">)</span>
             <span class="n">valid_cls</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">type_hints</span><span class="o">.</span><span class="n">__args__</span><span class="p">]</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MatrixOp can only be instantiated with </span><span class="si">{</span><span class="n">valid_cls</span><span class="si">}</span><span class="s2">, &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;not &#39;</span><span class="si">{</span><span class="n">primitive_orig</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;MatrixOp can only be instantiated with </span><span class="si">{</span><span class="n">valid_cls</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;not &#39;</span><span class="si">{</span><span class="n">primitive_orig</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">primitive</span><span class="o">.</span><span class="n">input_dims</span><span class="p">()</span> <span class="o">==</span> <span class="n">primitive</span><span class="o">.</span><span class="n">output_dims</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot handle non-square matrices yet.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot handle non-square matrices yet.&quot;</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="n">coeff</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MatrixOp.primitive_strings"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.primitive_strings">[docs]</a>    <span class="k">def</span> <span class="nf">primitive_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;Matrix&#39;</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Matrix&quot;</span><span class="p">}</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -396,18 +399,20 @@
 <div class="viewcode-block" id="MatrixOp.add"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;MatrixOp&quot;</span><span class="p">,</span> <span class="n">SummedOp</span><span class="p">]:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Sum over operators with different numbers of qubits, </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">, is not well &#39;</span>
-                <span class="s1">&#39;defined&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">))</span>
+                <span class="s2">&quot;Sum over operators with different numbers of qubits, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">, is not well &quot;</span>
+                <span class="s2">&quot;defined&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
 
         <span class="c1"># Terra&#39;s Operator cannot handle ParameterExpressions</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">))</span>
 
         <span class="c1"># Covers Paulis, Circuits, and all else.</span>
         <span class="k">return</span> <span class="n">SummedOp</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span></div>
@@ -418,27 +423,29 @@
 <div class="viewcode-block" id="MatrixOp.equals"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="o">^</span> \
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="o">^</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="ow">and</span> \
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">ParameterExpression</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">primitive</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">primitive</span></div>
 
-    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MatrixOp&#39;</span><span class="p">:</span>
-        <span class="n">identity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_expand_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MatrixOp&quot;</span><span class="p">:</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="n">identity</span><span class="p">)),</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MatrixOp.tensor"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.tensor">[docs]</a>    <span class="k">def</span> <span class="nf">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;MatrixOp&quot;</span><span class="p">,</span> <span class="n">TensoredOp</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">),</span>
-                            <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">),</span> <span class="n">coeff</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">TensoredOp</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MatrixOp.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span>
-                <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
+<div class="viewcode-block" id="MatrixOp.compose"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">,</span> <span class="n">permutation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">front</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
 
         <span class="n">new_self</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_shorter_operator_and_permute</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">permutation</span><span class="p">)</span>
         <span class="n">new_self</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">MatrixOp</span><span class="p">,</span> <span class="n">new_self</span><span class="p">)</span>
@@ -446,8 +453,10 @@
         <span class="k">if</span> <span class="n">front</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">new_self</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">MatrixOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span><span class="n">new_self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                            <span class="n">coeff</span><span class="o">=</span><span class="n">new_self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatrixOp</span><span class="p">(</span>
+                <span class="n">new_self</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">front</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">coeff</span><span class="o">=</span><span class="n">new_self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">MatrixOp</span><span class="p">,</span> <span class="n">new_self</span><span class="p">)</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
@@ -475,8 +484,9 @@
         <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">new_matrix_size</span><span class="p">)</span>
 
         <span class="c1"># extend the indices to match the size of the new matrix</span>
-        <span class="n">permutation</span> \
-            <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">permutation</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">new_matrix_size</span><span class="p">)))</span> <span class="o">+</span> <span class="n">permutation</span>
+        <span class="n">permutation</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">permutation</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">new_matrix_size</span><span class="p">)))</span> <span class="o">+</span> <span class="n">permutation</span>
+        <span class="p">)</span>
 
         <span class="c1"># decompose permutation into sequence of transpositions</span>
         <span class="n">transpositions</span> <span class="o">=</span> <span class="n">arithmetic</span><span class="o">.</span><span class="n">transpositions</span><span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
@@ -493,7 +503,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">prim_str</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="p">,</span> <span class="n">prim_str</span><span class="p">)</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> * </span><span class="si">{</span><span class="n">prim_str</span><span class="si">}</span><span class="s2">&quot;</span>
 
 <div class="viewcode-block" id="MatrixOp.eval"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.primitive_ops.MatrixOp.html#qiskit.opflow.primitive_ops.MatrixOp.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -516,8 +526,9 @@
             <span class="n">front</span> <span class="o">=</span> <span class="n">StateFn</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">is_measurement</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">front</span><span class="o">.</span><span class="n">distributive</span><span class="p">:</span>
-            <span class="n">new_front</span> <span class="o">=</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span>
-                                        <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">])</span>
+            <span class="n">new_front</span> <span class="o">=</span> <span class="n">front</span><span class="o">.</span><span class="n">combo_fn</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">front_elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">front_elem</span> <span class="ow">in</span> <span class="n">front</span><span class="o">.</span><span class="n">oplist</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">OperatorStateFn</span><span class="p">):</span>
             <span class="n">new_front</span> <span class="o">=</span> <span class="n">OperatorStateFn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">front</span><span class="o">.</span><span class="n">to_matrix_op</span><span class="p">())</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -555,7 +566,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Utolsó frissítés 2021/07/12.
+      Utolsó frissítés 2021/07/27.
 
     </p>
   </div>
@@ -590,7 +601,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.ibmq.runtime.IBMRuntimeService &mdash; Qiskit 0.27.0 documentation</title>
+  <title>qiskit.providers.ibmq.runtime.IBMRuntimeService &mdash; Qiskit 0.28.0 documentation</title>
   
 
   
@@ -229,7 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../qc_intro.html">Quantum computing in a nutshell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro_tutorial1.html">Utangulizi wa Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Contributing to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing_to_qiskit.html">Kuchangia katika Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 </ul>
@@ -346,7 +346,7 @@ authorized users can invoke these quantum programs by simply passing in paramete
 <span class="kn">from</span> <span class="nn">qiskit.providers.ibmq</span> <span class="kn">import</span> <span class="n">RunnerResult</span>
 
 <span class="n">provider</span> <span class="o">=</span> <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">ibmq_montreal</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">ibmq_qasm_simulator</span>
 
 <span class="c1"># List all available programs.</span>
 <span class="n">provider</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">pprint_programs</span><span class="p">()</span>
@@ -357,12 +357,18 @@ authorized users can invoke these quantum programs by simply passing in paramete
 <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="c1"># Execute the circuit using the &quot;circuit-runner&quot; program.</span>
-<span class="n">program_inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;circuits&#39;</span><span class="p">:</span> <span class="n">circuit</span><span class="p">,</span> <span class="s1">&#39;measurement_error_mitigation&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="c1"># Set the &quot;circuit-runner&quot; program parameters</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">program</span><span class="p">(</span><span class="n">program_id</span><span class="o">=</span><span class="s2">&quot;circuit-runner&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
+<span class="n">params</span><span class="o">.</span><span class="n">circuits</span> <span class="o">=</span> <span class="n">qc</span>
+<span class="n">params</span><span class="o">.</span><span class="n">measurement_error_mitigation</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Configure backend options</span>
 <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;backend_name&#39;</span><span class="p">:</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()}</span>
+
+<span class="c1"># Execute the circuit using the &quot;circuit-runner&quot; program.</span>
 <span class="n">job</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">program_id</span><span class="o">=</span><span class="s2">&quot;circuit-runner&quot;</span><span class="p">,</span>
                            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-                           <span class="n">inputs</span><span class="o">=</span><span class="n">program_inputs</span><span class="p">)</span>
+                           <span class="n">inputs</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 
 <span class="c1"># Get runtime job result.</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">RunnerResult</span><span class="p">)</span>
@@ -412,8 +418,8 @@ canceling job.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.job" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job</span></code></a>(job_id)</p></td>
 <td><p>Retrieve a runtime job.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jobs</span></code></a>([limit, skip])</p></td>
-<td><p>Retrieve all runtime jobs.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jobs</span></code></a>([limit, skip, pending])</p></td>
+<td><p>Retrieve all runtime jobs, subject to optional filtering.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.logout" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.logout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logout</span></code></a>()</p></td>
 <td><p>Clears authorization cache on the server.</p></td>
@@ -430,7 +436,10 @@ canceling job.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.run" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(program_id, options, inputs[, callback, ...])</p></td>
 <td><p>Execute the runtime program.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.upload_program" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.upload_program"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upload_program</span></code></a>(data[, metadata, name, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.set_program_visibility" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.set_program_visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_program_visibility</span></code></a>(program_id, public)</p></td>
+<td><p>Sets a program's visibility.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.upload_program" title="qiskit.providers.ibmq.runtime.IBMRuntimeService.upload_program"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upload_program</span></code></a>(data[, metadata, name, ...])</p></td>
 <td><p>Upload a runtime program.</p></td>
 </tr>
 </tbody>
@@ -501,13 +510,16 @@ canceling job.</p>
 
 <dl class="py method">
 <dt id="qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs">
-<code class="sig-name descname">jobs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/runtime/ibm_runtime_service.html#IBMRuntimeService.jobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve all runtime jobs.</p>
+<code class="sig-name descname">jobs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">skip</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pending</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/runtime/ibm_runtime_service.html#IBMRuntimeService.jobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all runtime jobs, subject to optional filtering.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>limit</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) -- Number of jobs to retrieve.</p></li>
 <li><p><strong>skip</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) -- Starting index for the job retrieval.</p></li>
+<li><p><strong>pending</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]) -- Filter by job pending state. If <code class="docutils literal notranslate"><span class="pre">True</span></code>, 'QUEUED' and 'RUNNING'
+jobs are included. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, 'DONE', 'CANCELLED' and 'ERROR' jobs
+are included.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -528,7 +540,7 @@ authorization information. This method is used to force the server
 to clear its cache.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Invoking this method ONLY when your access level to the runtime
+<p>Invoke this method ONLY when your access level to the runtime
 service has changed - for example, the first time your account is
 given the authority to upload a program.</p>
 </div>
@@ -611,7 +623,7 @@ return the cached value.</p>
 <li><p><strong>program_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) -- Program ID.</p></li>
 <li><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>) -- Runtime options that control the execution environment.
 Currently the only available option is <code class="docutils literal notranslate"><span class="pre">backend_name</span></code>, which is required.</p></li>
-<li><p><strong>inputs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>) -- Program input parameters. These input values are passed
+<li><p><strong>inputs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterNamespace</span></code>]) -- Program input parameters. These input values are passed
 to the runtime program.</p></li>
 <li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) -- <p>Callback function to be invoked for any interim results.
 The callback function will receive 2 positional parameters:</p>
@@ -634,6 +646,30 @@ The callback function will receive 2 positional parameters:</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>IBMQInputValueError</strong> -- If input is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="qiskit.providers.ibmq.runtime.IBMRuntimeService.set_program_visibility">
+<code class="sig-name descname">set_program_visibility</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">program_id</span></em>, <em class="sig-param"><span class="n">public</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qiskit/providers/ibmq/runtime/ibm_runtime_service.html#IBMRuntimeService.set_program_visibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qiskit.providers.ibmq.runtime.IBMRuntimeService.set_program_visibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a program's visibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>program_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) -- Program ID.</p></li>
+<li><p><strong>public</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) -- If <code class="docutils literal notranslate"><span class="pre">True</span></code>, make the program visible to all.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, make the program visible to just your account.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeJobNotFound</strong> -- if program not found (404)</p></li>
+<li><p><strong>QiskitRuntimeError</strong> -- if update failed (401, 403)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -723,7 +759,7 @@ not specified via <cite>metadata</cite>.</p></li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Last updated on 2021/07/12.
+      Last updated on 2021/07/27.
 
     </p>
   </div>
@@ -761,7 +797,7 @@ not specified via <cite>metadata</cite>.</p></li>
          <script src="../_static/language_data.js"></script>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

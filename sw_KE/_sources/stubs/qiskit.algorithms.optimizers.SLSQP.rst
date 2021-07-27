@@ -43,5 +43,6 @@
       ~SLSQP.is_initial_point_required
       ~SLSQP.is_initial_point_supported
       ~SLSQP.setting
+      ~SLSQP.settings
    
    

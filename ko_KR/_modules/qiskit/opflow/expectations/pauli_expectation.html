@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.opflow.expectations.pauli_expectation &mdash; Qiskit 0.27.0 문서</title>
+  <title>qiskit.opflow.expectations.pauli_expectation &mdash; Qiskit 0.28.0 문서</title>
   
 
   
@@ -223,7 +223,7 @@
 </ul>
 <p><span class="caption-text">전문</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팀의 내용</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">핵심적인 양자 컴퓨팅의 내용</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Qiskit 소개</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contributing_to_qiskit.html">Qiskit 에 기여하기</a></li>
@@ -371,7 +371,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span> <span class="o">=</span> <span class="n">AbelianGrouper</span><span class="p">()</span> <span class="k">if</span> <span class="n">group_paulis</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="PauliExpectation.convert"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.PauliExpectation.html#qiskit.opflow.expectations.PauliExpectation.convert">[문서]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperatorBase</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Accepts an Operator and returns a new Operator with the Pauli measurements replaced by</span>
+        <span class="sd">&quot;&quot;&quot;Accepts an Operator and returns a new Operator with the Pauli measurements replaced by</span>
 <span class="sd">        diagonal Pauli post-rotation based measurements so they can be evaluated by sampling and</span>
 <span class="sd">        averaging.</span>
 
@@ -381,15 +381,20 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The converted operator.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">OperatorStateFn</span><span class="p">)</span> <span class="ow">and</span> <span class="n">operator</span><span class="o">.</span><span class="n">is_measurement</span><span class="p">:</span>
             <span class="c1"># Change to Pauli representation if necessary</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="p">(</span><span class="n">ListOp</span><span class="p">,</span> <span class="n">PrimitiveOp</span><span class="p">))</span>
                 <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="p">,</span> <span class="n">PauliSumOp</span><span class="p">)</span>
-                <span class="ow">and</span> <span class="p">{</span><span class="s2">&quot;Pauli&quot;</span><span class="p">}</span> <span class="o">!=</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="p">{</span><span class="s2">&quot;Pauli&quot;</span><span class="p">,</span> <span class="s2">&quot;SparsePauliOp&quot;</span><span class="p">}</span> <span class="o">&lt;</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive_strings</span><span class="p">()</span>
             <span class="p">):</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Measured Observable is not composed of only Paulis, converting to &#39;</span>
-                               <span class="s1">&#39;Pauli representation, which can be expensive.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Measured Observable is not composed of only Paulis, converting to &quot;</span>
+                    <span class="s2">&quot;Pauli representation, which can be expensive.&quot;</span>
+                <span class="p">)</span>
                 <span class="c1"># Setting massive=False because this conversion is implicit. User can perform this</span>
                 <span class="c1"># action on the Observable with massive=True explicitly if they so choose.</span>
                 <span class="n">pauli_obsv</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">to_pauli_op</span><span class="p">(</span><span class="n">massive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -404,20 +409,18 @@
             <span class="n">cob</span> <span class="o">=</span> <span class="n">PauliBasisChange</span><span class="p">(</span><span class="n">replacement_fn</span><span class="o">=</span><span class="n">PauliBasisChange</span><span class="o">.</span><span class="n">measurement_replacement_fn</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">cob</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">operator</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">operator</span></div>
 
 <div class="viewcode-block" id="PauliExpectation.compute_variance"><a class="viewcode-back" href="../../../../stubs/qiskit.opflow.expectations.PauliExpectation.html#qiskit.opflow.expectations.PauliExpectation.compute_variance">[문서]</a>    <span class="k">def</span> <span class="nf">compute_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exp_op</span><span class="p">:</span> <span class="n">OperatorBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-
         <span class="k">def</span> <span class="nf">sum_variance</span><span class="p">(</span><span class="n">operator</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ComposedOp</span><span class="p">):</span>
                 <span class="n">sfdict</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">measurement</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">oplist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">average</span> <span class="o">=</span> <span class="n">measurement</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">sfdict</span><span class="p">)</span>
-                <span class="n">variance</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([(</span><span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="n">measurement</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">average</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-                                <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sfdict</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+                <span class="n">variance</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="n">measurement</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">average</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sfdict</span><span class="o">.</span><span class="n">primitive</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">)</span>
                 <span class="k">return</span> <span class="n">operator</span><span class="o">.</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">variance</span>
 
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">ListOp</span><span class="p">):</span>
@@ -443,7 +446,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/12
+      최종 업데이트: 2021/07/27
 
     </p>
   </div>
@@ -478,7 +481,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

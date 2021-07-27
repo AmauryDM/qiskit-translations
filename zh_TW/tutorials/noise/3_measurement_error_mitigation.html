@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>測量誤差緩解 &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>測量誤差緩解 &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -576,7 +576,7 @@ div.rendered_html tbody tr:hover {
 <h1>測量誤差緩解<a class="headerlink" href="#測量誤差緩解" title="本標題的永久連結">¶</a></h1>
 <section id="簡介">
 <h2>簡介<a class="headerlink" href="#簡介" title="本標題的永久連結">¶</a></h2>
-<p>The measurement calibration is used to mitigate measurement errors. The main idea is to prepare all <span class="math notranslate nohighlight">\(2^n\)</span> basis input states and compute the probability of measuring counts in the other basis states. From these calibrations, it is possible to correct the average results of another experiment of interest. This notebook gives examples for how to use the <code class="docutils literal notranslate"><span class="pre">ignis.mitigation.measurement</span></code> module.</p>
+<p>測量校準是用來減輕測量誤差。 主要的做法是準備所有 <span class="math notranslate nohighlight">\(2^n\)</span> 基底輸入狀態並計算其他基底狀態下測得的機率。 從這些校準中，可以更正另一個我們感興趣的實驗之平均結果。 此記事本提供了範例說明如何使用 <code class="docutils literal notranslate"><span class="pre">ignis.mitigation.measuret</span></code> 模組。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -599,9 +599,9 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </section>
-<section id="3-Qubit-Example-of-the-Calibration-Matrices">
-<h2>3 Qubit Example of the Calibration Matrices<a class="headerlink" href="#3-Qubit-Example-of-the-Calibration-Matrices" title="本標題的永久連結">¶</a></h2>
-<p>Assume that we would like to generate a calibration matrix for the 3 qubits Q2, Q3 and Q4 in a 5-qubit Quantum Register [Q0,Q1,Q2,Q3,Q4].</p>
+<section id="三量子位元的校準矩陣範例">
+<h2>三量子位元的校準矩陣範例<a class="headerlink" href="#三量子位元的校準矩陣範例" title="本標題的永久連結">¶</a></h2>
+<p>假設我們要為五量子位元暫存器 [Q0,Q1,Q2,Q3,Q4] 中的三個量子位元Q2、Q3 和 Q4 生成校準矩陣。</p>
 <p>由於我們有 3 個量子位元，所以有 <span class="math notranslate nohighlight">\(2^3=8\)</span> 種可能的量子態。</p>
 </section>
 <section id="產生測量校準電路">
@@ -612,7 +612,7 @@ div.rendered_html tbody tr:hover {
 <ul class="simple">
 <li><p><strong>qubit_list:</strong> 是要對以下執行測量更正的量子位元清單，或：</p></li>
 <li><p><strong>qr (QuantumRegister):</strong> 一個量子暫存器，或：</p></li>
-<li><p><strong>cr (ClassicalRegister):</strong> A classical register.</p></li>
+<li><p><strong>cr (ClassicalRegister):</strong> 一個古典暫存器。</p></li>
 </ul>
 <p>此外，我們還可以提供一個字串 <strong>circlabel</strong>，它會被新增在電路名稱的開頭，以進行唯一識別。</p>
 <p>例如，在此情況中，輸入是一個包含量子位元 Q2, Q3 和 Q4 的五量子位元的 <code class="docutils literal notranslate"><span class="pre">QuantumRegister</span></code>:</p>
@@ -628,7 +628,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>Print the <span class="math notranslate nohighlight">\(2^3=8\)</span> state labels (for the 3 qubits Q2,Q3,Q4):</p>
+<p>列印 <span class="math notranslate nohighlight">\(2^3=8\)</span> 個狀態標籤(對應於其3量子位元 Q2,Q3,Q4)：</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -650,7 +650,7 @@ div.rendered_html tbody tr:hover {
 </section>
 <section id="計算校準矩陣">
 <h2>計算校準矩陣<a class="headerlink" href="#計算校準矩陣" title="本標題的永久連結">¶</a></h2>
-<p>If we do not apply any noise, then the calibration matrix is expected to be the <span class="math notranslate nohighlight">\(8 \times 8\)</span> identity matrix.</p>
+<p>如果我們不添加任何雜訊，那麽校準矩陣應等於 <span class="math notranslate nohighlight">\(8 \times 8\)</span> 個單位矩陣。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -788,12 +788,12 @@ Average Measurement Fidelity of Q0: 0.825000
 </pre></div></div>
 </div>
 </section>
-<section id="Applying-the-Calibration">
-<h2>Applying the Calibration<a class="headerlink" href="#Applying-the-Calibration" title="本標題的永久連結">¶</a></h2>
-<p>We now perform another experiment and correct the measured results.</p>
+<section id="套用校準">
+<h2>套用校準<a class="headerlink" href="#套用校準" title="本標題的永久連結">¶</a></h2>
+<p>我們現在進行另一個實驗，並更正測量結果。</p>
 </section>
-<section id="Correct-Measurement-Noise-on-a-3Q-GHZ-State">
-<h2>Correct Measurement Noise on a 3Q GHZ State<a class="headerlink" href="#Correct-Measurement-Noise-on-a-3Q-GHZ-State" title="本標題的永久連結">¶</a></h2>
+<section id="修正對三量子位元-GHZ-狀態的量測雜訊">
+<h2>修正對三量子位元 GHZ 狀態的量測雜訊<a class="headerlink" href="#修正對三量子位元-GHZ-狀態的量測雜訊" title="本標題的永久連結">¶</a></h2>
 <p>作為範例，我們以三個量子位元 Q2、Q3 和 Q4 的 GHZ 狀態開始:</p>
 <div class="math notranslate nohighlight">
 \[\mid GHZ \rangle = \frac{\mid{000} \rangle + \mid{111} \rangle}{\sqrt{2}}\]</div>
@@ -823,7 +823,7 @@ Average Measurement Fidelity of Q0: 0.825000
 &lt;qiskit.circuit.instructionset.InstructionSet at 0x7f869dce3040&gt;
 </pre></div></div>
 </div>
-<p>We now execute the calibration circuits (with the noise model above):</p>
+<p>我們現在以上方的雜訊模型執行校準電路:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -834,7 +834,7 @@ Average Measurement Fidelity of Q0: 0.825000
 </pre></div>
 </div>
 </div>
-<p>We now compute the results without any error mitigation and with the mitigation, namely after applying the calibration matrix to the results.</p>
+<p>我們現在計算沒有任何誤差緩解和有誤差緩解的結果，也就是在我們將校準矩陣套用至結果以後。</p>
 <p>There are two fitting methods for applying the calibration (if no method is defined, then ‘least_squares’ is used). - <strong>‘pseudo_inverse’</strong>, which is a direct inversion of the calibration matrix, - <strong>‘least_squares’</strong>, which constrains to have physical probabilities.</p>
 <p>The raw data to be corrected can be given in a number of forms:</p>
 <ul class="simple">
@@ -1173,7 +1173,7 @@ Q3/Q4 Calibration Matrix
 &lt;qiskit.circuit.instructionset.InstructionSet at 0x7f869e0dc400&gt;
 </pre></div></div>
 </div>
-<p>We now execute the calibration circuits (with the noise model above):</p>
+<p>我們現在以上方的雜訊模型執行校準電路:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
@@ -1420,7 +1420,7 @@ OrderedDict([   (&#39;aux_operator_eigenvalues&#39;, None),
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -1441,12 +1441,12 @@ OrderedDict([   (&#39;aux_operator_eigenvalues&#39;, None),
               <ul>
 <li><a class="reference internal" href="#">測量誤差緩解</a><ul>
 <li><a class="reference internal" href="#簡介">簡介</a></li>
-<li><a class="reference internal" href="#3-Qubit-Example-of-the-Calibration-Matrices">3 Qubit Example of the Calibration Matrices</a></li>
+<li><a class="reference internal" href="#三量子位元的校準矩陣範例">三量子位元的校準矩陣範例</a></li>
 <li><a class="reference internal" href="#產生測量校準電路">產生測量校準電路</a></li>
 <li><a class="reference internal" href="#計算校準矩陣">計算校準矩陣</a></li>
 <li><a class="reference internal" href="#分析結果">分析結果</a></li>
-<li><a class="reference internal" href="#Applying-the-Calibration">Applying the Calibration</a></li>
-<li><a class="reference internal" href="#Correct-Measurement-Noise-on-a-3Q-GHZ-State">Correct Measurement Noise on a 3Q GHZ State</a><ul>
+<li><a class="reference internal" href="#套用校準">套用校準</a></li>
+<li><a class="reference internal" href="#修正對三量子位元-GHZ-狀態的量測雜訊">修正對三量子位元 GHZ 狀態的量測雜訊</a><ul>
 <li><a class="reference internal" href="#Applying-to-a-reduced-subset-of-qubits">Applying to a reduced subset of qubits</a></li>
 </ul>
 </li>
@@ -1473,7 +1473,7 @@ OrderedDict([   (&#39;aux_operator_eigenvalues&#39;, None),
          <script src="../../_static/thebelab-helper.js"></script>
          <script src="../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

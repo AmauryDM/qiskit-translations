@@ -39,6 +39,7 @@
       ~SetStatevector.decompositions
       ~SetStatevector.definition
       ~SetStatevector.duration
+      ~SetStatevector.label
       ~SetStatevector.params
       ~SetStatevector.unit
    

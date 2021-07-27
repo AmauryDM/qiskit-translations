@@ -48,6 +48,7 @@
       ~Clifford.dim
       ~Clifford.num_qubits
       ~Clifford.qargs
+      ~Clifford.settings
       ~Clifford.stabilizer
       ~Clifford.table
    

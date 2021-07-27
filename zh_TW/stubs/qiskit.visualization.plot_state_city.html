@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.visualization.plot_state_city &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.visualization.plot_state_city &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -352,7 +352,7 @@ it is redundant.</p></li>
 <li><p><strong>ax_imag</strong> (<em>matplotlib.axes.Axes</em>) – An optional Axes object to be used for
 the visualization output. If none is specified a new matplotlib
 Figure will be created and used. If this is specified without an
-ax_imag only the real component plot will be generated.
+ax_real only the imaginary component plot will be generated.
 Additionally, if specified there will be no returned Figure since
 it is redundant.</p></li>
 </ul>
@@ -366,7 +366,7 @@ it is redundant.</p></li>
 </dd>
 <dt class="field-even">丟出</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ImportError</strong> – Requires matplotlib.</p></li>
+<li><p><a class="reference internal" href="qiskit.aqua.MissingOptionalLibraryError.html#qiskit.aqua.MissingOptionalLibraryError" title="qiskit.aqua.MissingOptionalLibraryError"><strong>MissingOptionalLibraryError</strong></a> – Requires matplotlib.</p></li>
 <li><p><strong>ValueError</strong> – When 『color』 is not a list of len=2.</p></li>
 <li><p><a class="reference internal" href="qiskit.visualization.VisualizationError.html#qiskit.visualization.VisualizationError" title="qiskit.visualization.VisualizationError"><strong>VisualizationError</strong></a> – if input is not a valid N-qubit state.</p></li>
 </ul>
@@ -424,7 +424,7 @@ it is redundant.</p></li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -463,7 +463,7 @@ it is redundant.</p></li>
          <script src="../_static/thebelab-helper.js"></script>
          <script src="../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

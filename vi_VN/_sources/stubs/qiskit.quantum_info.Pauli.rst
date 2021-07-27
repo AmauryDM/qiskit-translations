@@ -61,6 +61,7 @@
       ~Pauli.num_qubits
       ~Pauli.phase
       ~Pauli.qargs
+      ~Pauli.settings
       ~Pauli.x
       ~Pauli.z
    

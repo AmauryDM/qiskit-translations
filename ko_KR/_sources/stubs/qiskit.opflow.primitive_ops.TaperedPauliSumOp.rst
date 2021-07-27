@@ -59,6 +59,7 @@
       ~TaperedPauliSumOp.num_qubits
       ~TaperedPauliSumOp.parameters
       ~TaperedPauliSumOp.primitive
+      ~TaperedPauliSumOp.settings
       ~TaperedPauliSumOp.z2_symmetries
    
    

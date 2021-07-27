@@ -56,6 +56,7 @@
       ~GMS.fredkin
       ~GMS.from_qasm_file
       ~GMS.from_qasm_str
+      ~GMS.get_instructions
       ~GMS.h
       ~GMS.hamiltonian
       ~GMS.has_register

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.validation.jsonschema.schema_validation &mdash; Qiskit 0.27.0 दिग्दर्शिका</title>
+  <title>qiskit.validation.jsonschema.schema_validation &mdash; Qiskit 0.28.0 दिग्दर्शिका</title>
   
 
   
@@ -342,13 +342,14 @@
 
 
 <span class="n">_DEFAULT_SCHEMA_PATHS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;backend_configuration&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/backend_configuration_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;backend_properties&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/backend_properties_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;backend_status&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/backend_status_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;default_pulse_configuration&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/default_pulse_configuration_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;job_status&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/job_status_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;qobj&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/qobj_schema.json&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="s1">&#39;schemas/result_schema.json&#39;</span><span class="p">}</span>
+    <span class="s2">&quot;backend_configuration&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/backend_configuration_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;backend_properties&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/backend_properties_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;backend_status&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/backend_status_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;default_pulse_configuration&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/default_pulse_configuration_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;job_status&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/job_status_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;qobj&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/qobj_schema.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="s2">&quot;schemas/result_schema.json&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 <span class="c1"># Schema and Validator storage</span>
 <span class="n">_SCHEMAS</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">_VALIDATORS</span> <span class="o">=</span> <span class="p">{}</span>
@@ -357,14 +358,14 @@
 <span class="k">def</span> <span class="nf">_load_schema</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Loads the QObj schema for use in future validations.</span>
 
-<span class="sd">   Caches schema in _SCHEMAS module attribute.</span>
+<span class="sd">    Caches schema in _SCHEMAS module attribute.</span>
 
-<span class="sd">   Args:</span>
-<span class="sd">        file_path(str): Path to schema.</span>
-<span class="sd">        name(str): Given name for schema. Defaults to file_path filename</span>
-<span class="sd">            without schema.</span>
-<span class="sd">   Return:</span>
-<span class="sd">        schema(dict): Loaded schema.</span>
+<span class="sd">    Args:</span>
+<span class="sd">         file_path(str): Path to schema.</span>
+<span class="sd">         name(str): Given name for schema. Defaults to file_path filename</span>
+<span class="sd">             without schema.</span>
+<span class="sd">    Return:</span>
+<span class="sd">         schema(dict): Loaded schema.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># filename without extension</span>
@@ -376,8 +377,7 @@
     <span class="k">return</span> <span class="n">_SCHEMAS</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">_get_validator</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                   <span class="n">validator_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">validator_kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_validator</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validator_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">validator_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate validator for JSON schema.</span>
 
 <span class="sd">    Args:</span>
@@ -419,7 +419,7 @@
 
 <span class="k">def</span> <span class="nf">_load_schemas_and_validators</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Load all default schemas into `_SCHEMAS`.&quot;&quot;&quot;</span>
-    <span class="n">schema_base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;../..&#39;</span><span class="p">)</span>
+    <span class="n">schema_base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;../..&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">_DEFAULT_SCHEMA_PATHS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">_load_schema</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">schema_base_path</span><span class="p">,</span> <span class="n">path</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">_get_validator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -429,8 +429,7 @@
 <span class="n">_load_schemas_and_validators</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="validate_json_against_schema"><a class="viewcode-back" href="../../../../stubs/qiskit.validation.jsonschema.validate_json_against_schema.html#qiskit.validation.jsonschema.validate_json_against_schema">[docs]</a><span class="k">def</span> <span class="nf">validate_json_against_schema</span><span class="p">(</span><span class="n">json_dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span>
-                                 <span class="n">err_msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="validate_json_against_schema"><a class="viewcode-back" href="../../../../stubs/qiskit.validation.jsonschema.validate_json_against_schema.html#qiskit.validation.jsonschema.validate_json_against_schema">[docs]</a><span class="k">def</span> <span class="nf">validate_json_against_schema</span><span class="p">(</span><span class="n">json_dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">err_msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Validates JSON dict against a schema.</span>
 
 <span class="sd">    Args:</span>
@@ -446,12 +445,15 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        SchemaValidationError: Raised if validation fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The jsonschema validation included in qiskit-terra is &quot;</span>
-                  <span class="s2">&quot;deprecated and will be removed in a future release. &quot;</span>
-                  <span class="s2">&quot;If you&#39;re relying on this schema validation you should &quot;</span>
-                  <span class="s2">&quot;pull the schemas from the Qiskit/ibmq-schemas and directly &quot;</span>
-                  <span class="s2">&quot;validate your payloads with that&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                  <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The jsonschema validation included in qiskit-terra is &quot;</span>
+        <span class="s2">&quot;deprecated and will be removed in a future release. &quot;</span>
+        <span class="s2">&quot;If you&#39;re relying on this schema validation you should &quot;</span>
+        <span class="s2">&quot;pull the schemas from the Qiskit/ibmq-schemas and directly &quot;</span>
+        <span class="s2">&quot;validate your payloads with that&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">schema_name</span> <span class="o">=</span> <span class="n">schema</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">_SCHEMAS</span><span class="p">[</span><span class="n">schema_name</span><span class="p">]</span>
@@ -480,8 +482,10 @@
             <span class="n">jsonschema</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">json_dict</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">jsonschema</span><span class="o">.</span><span class="n">ValidationError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">err_msg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">err_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;JSON failed validation. Set Qiskit log level to &quot;</span>
-                           <span class="s2">&quot;DEBUG for further information.&quot;</span><span class="p">)</span>
+                <span class="n">err_msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;JSON failed validation. Set Qiskit log level to &quot;</span>
+                    <span class="s2">&quot;DEBUG for further information.&quot;</span>
+                <span class="p">)</span>
             <span class="n">newerr</span> <span class="o">=</span> <span class="n">SchemaValidationError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
             <span class="n">newerr</span><span class="o">.</span><span class="n">__cause__</span> <span class="o">=</span> <span class="n">_SummaryValidationError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">newerr</span></div>
@@ -528,29 +532,28 @@
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_pad</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_pad</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">level</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span>
-        <span class="n">padded_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">padding</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">padded_lines</span><span class="p">)</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="s2">&quot;  &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">level</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">padded_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">padding</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">padded_lines</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_format_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_format</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">return</span> <span class="s1">&#39;.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&quot;</span>
 
-            <span class="k">return</span> <span class="s1">&#39;[</span><span class="si">{}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">]&quot;</span>
 
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&lt;root&gt;&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_format</span><span class="p">,</span> <span class="n">path</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_format</span><span class="p">,</span> <span class="n">path</span><span class="p">)))</span>
 
-    <span class="n">_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> failed @ </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> because of:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">err</span><span class="o">.</span><span class="n">validator</span><span class="p">,</span> <span class="n">_format_path</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">absolute_path</span><span class="p">)))</span>
+    <span class="n">_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="n">validator</span><span class="si">}</span><span class="s2">&#39; failed @ &#39;</span><span class="si">{</span><span class="n">_format_path</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">absolute_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; because of:&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">err</span><span class="o">.</span><span class="n">context</span><span class="p">:</span>
         <span class="n">_print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">message</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">suberr</span> <span class="ow">in</span> <span class="n">err</span><span class="o">.</span><span class="n">context</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_causes</span><span class="p">(</span><span class="n">suberr</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_format_causes</span><span class="p">(</span><span class="n">suberr</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 </pre></div>
 
              </article>
@@ -568,7 +571,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      अंतिम बार सम्पादित 2021/07/12.
+      अंतिम बार सम्पादित 2021/07/27.
 
     </p>
   </div>
@@ -604,7 +607,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

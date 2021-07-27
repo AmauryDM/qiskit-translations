@@ -39,6 +39,7 @@
       ~SaveExpectationValueVariance.decompositions
       ~SaveExpectationValueVariance.definition
       ~SaveExpectationValueVariance.duration
+      ~SaveExpectationValueVariance.label
       ~SaveExpectationValueVariance.params
       ~SaveExpectationValueVariance.unit
    

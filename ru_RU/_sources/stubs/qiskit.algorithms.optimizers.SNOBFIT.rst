@@ -43,5 +43,6 @@
       ~SNOBFIT.is_initial_point_required
       ~SNOBFIT.is_initial_point_supported
       ~SNOBFIT.setting
+      ~SNOBFIT.settings
    
    

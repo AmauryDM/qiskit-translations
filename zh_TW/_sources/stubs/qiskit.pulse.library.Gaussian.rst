@@ -31,6 +31,7 @@ qiskit.pulse.library.Gaussian
    
       ~Gaussian.amp
       ~Gaussian.id
+      ~Gaussian.limit_amplitude
       ~Gaussian.parameters
       ~Gaussian.sigma
    

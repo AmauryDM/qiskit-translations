@@ -56,6 +56,7 @@
       ~RawFeatureVector.fredkin
       ~RawFeatureVector.from_qasm_file
       ~RawFeatureVector.from_qasm_str
+      ~RawFeatureVector.get_instructions
       ~RawFeatureVector.h
       ~RawFeatureVector.hamiltonian
       ~RawFeatureVector.has_register

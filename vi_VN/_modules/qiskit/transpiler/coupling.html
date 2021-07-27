@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.transpiler.coupling &mdash; Tài liệu Qiskit 0.27.0</title>
+  <title>qiskit.transpiler.coupling &mdash; Tài liệu Qiskit 0.28.0</title>
   
 
   
@@ -344,6 +344,7 @@
 <span class="kn">import</span> <span class="nn">scipy.sparse.csgraph</span> <span class="k">as</span> <span class="nn">cs</span>
 <span class="kn">import</span> <span class="nn">retworkx</span> <span class="k">as</span> <span class="nn">rx</span>
 <span class="kn">from</span> <span class="nn">qiskit.transpiler.exceptions</span> <span class="kn">import</span> <span class="n">CouplingError</span>
+<span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">MissingOptionalLibraryError</span>
 
 
 <div class="viewcode-block" id="CouplingMap"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap">[docs]</a><span class="k">class</span> <span class="nc">CouplingMap</span><span class="p">:</span>
@@ -405,7 +406,8 @@
             <span class="k">raise</span> <span class="n">CouplingError</span><span class="p">(</span><span class="s2">&quot;Physical qubits should be integers.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">physical_qubit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">physical_qubits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CouplingError</span><span class="p">(</span>
-                <span class="s2">&quot;The physical qubit </span><span class="si">%s</span><span class="s2"> is already in the coupling graph&quot;</span> <span class="o">%</span> <span class="n">physical_qubit</span><span class="p">)</span>
+                <span class="s2">&quot;The physical qubit </span><span class="si">%s</span><span class="s2"> is already in the coupling graph&quot;</span> <span class="o">%</span> <span class="n">physical_qubit</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">physical_qubit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dist_matrix</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># invalidate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_qubit_list</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># invalidate</span>
@@ -514,10 +516,12 @@
 <span class="sd">            CouplingError: When there is no path between physical_qubit1, physical_qubit2.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">digraph_dijkstra_shortest_paths</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">physical_qubit1</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">physical_qubit2</span><span class="p">,</span> <span class="n">as_undirected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">physical_qubit1</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">physical_qubit2</span><span class="p">,</span> <span class="n">as_undirected</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">paths</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CouplingError</span><span class="p">(</span>
-                <span class="s2">&quot;Nodes </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2"> are not connected&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">physical_qubit1</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">physical_qubit2</span><span class="p">)))</span>
+                <span class="sa">f</span><span class="s2">&quot;Nodes </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">physical_qubit1</span><span class="p">)</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">physical_qubit2</span><span class="p">)</span><span class="si">}</span><span class="s2"> are not connected&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">paths</span><span class="p">[</span><span class="n">physical_qubit2</span><span class="p">]</span></div>
 
     <span class="nd">@property</span>
@@ -582,18 +586,17 @@
         <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">reduced_cmap</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-        <span class="n">mat</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span>
-                            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">reduced_qubits</span><span class="p">,</span> <span class="n">reduced_qubits</span><span class="p">))</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">reduced_qubits</span><span class="p">,</span> <span class="n">reduced_qubits</span><span class="p">))</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">cs</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">mat</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">CouplingError</span><span class="p">(</span><span class="s1">&#39;coupling_map must be connected.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CouplingError</span><span class="p">(</span><span class="s2">&quot;coupling_map must be connected.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">CouplingMap</span><span class="p">(</span><span class="n">reduced_cmap</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CouplingMap.from_full"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap.from_full">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_full</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a fully connected coupling map on n qubits.&quot;&quot;&quot;</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bidirectional</span><span class="p">:</span>
             <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_mesh_graph</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -607,37 +610,36 @@
 <div class="viewcode-block" id="CouplingMap.from_line"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap.from_line">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a fully connected coupling map on n qubits.&quot;&quot;&quot;</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
-        <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_path_graph</span><span class="p">(</span>
-            <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;line&quot;</span><span class="p">)</span>
+        <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_path_graph</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cmap</span></div>
 
 <div class="viewcode-block" id="CouplingMap.from_ring"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap.from_ring">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_ring</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a fully connected coupling map on n qubits.&quot;&quot;&quot;</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ring&#39;</span><span class="p">)</span>
-        <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_cycle_graph</span><span class="p">(</span>
-            <span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;ring&quot;</span><span class="p">)</span>
+        <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_cycle_graph</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cmap</span></div>
 
 <div class="viewcode-block" id="CouplingMap.from_grid"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap.from_grid">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_grid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return qubits connected on a grid of num_rows x num_columns.&quot;&quot;&quot;</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">)</span>
         <span class="n">cmap</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">rx</span><span class="o">.</span><span class="n">generators</span><span class="o">.</span><span class="n">directed_grid_graph</span><span class="p">(</span>
-            <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span><span class="p">)</span>
+            <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">bidirectional</span><span class="o">=</span><span class="n">bidirectional</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">cmap</span></div>
 
 <div class="viewcode-block" id="CouplingMap.largest_connected_component"><a class="viewcode-back" href="../../../stubs/qiskit.transpiler.CouplingMap.html#qiskit.transpiler.CouplingMap.largest_connected_component">[docs]</a>    <span class="k">def</span> <span class="nf">largest_connected_component</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a set of qubits in the largest connected component.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">rx</span><span class="o">.</span><span class="n">strongly_connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">rx</span><span class="o">.</span><span class="n">weakly_connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a string representation of the coupling graph.&quot;&quot;&quot;</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edges</span><span class="p">():</span>
             <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;[&quot;</span>
-            <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edges</span><span class="p">()])</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">dst</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="k">for</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edges</span><span class="p">()])</span>
             <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;]&quot;</span>
         <span class="k">return</span> <span class="n">string</span>
 
@@ -653,18 +655,28 @@
 <span class="sd">            PIL.Image: Drawn coupling map.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ImportError: when pydot or pillow are not installed.</span>
+<span class="sd">            MissingOptionalLibraryError: when pydot or pillow are not installed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">pydot</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pydot&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;coupling map drawer&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pydot&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+        <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;CouplingMap.draw requires pydot and pillow. &quot;</span>
-                              <span class="s2">&quot;Run &#39;pip install pydot pillow&#39;.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="k">raise</span> <span class="n">MissingOptionalLibraryError</span><span class="p">(</span>
+                <span class="n">libname</span><span class="o">=</span><span class="s2">&quot;pillow&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;coupling map drawer&quot;</span><span class="p">,</span>
+                <span class="n">pip_install</span><span class="o">=</span><span class="s2">&quot;pip install pillow&quot;</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
         <span class="n">dot_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">to_dot</span><span class="p">()</span>
         <span class="n">dot</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_str</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">png</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_png</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s1">&#39;neato&#39;</span><span class="p">)</span>
+        <span class="n">png</span> <span class="o">=</span> <span class="n">dot</span><span class="o">.</span><span class="n">create_png</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;neato&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">png</span><span class="p">))</span></div></div>
 </pre></div>
@@ -684,7 +696,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Cập nhật mới nhất vào 2021/07/12.
+      Cập nhật mới nhất vào 2021/07/27.
 
     </p>
   </div>
@@ -719,7 +731,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

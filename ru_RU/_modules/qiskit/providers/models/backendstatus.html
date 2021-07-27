@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.providers.models.backendstatus &mdash; документация Qiskit 0.27.0</title>
+  <title>qiskit.providers.models.backendstatus &mdash; документация Qiskit 0.28.0</title>
   
 
   
@@ -219,9 +219,9 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">Главная страница документации</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Вступление</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc_intro.html">Коротко о квантовых вычислениях</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../intro_tutorial1.html">Введение в Qiskit</a></li>
@@ -230,25 +230,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Local Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Библиотеки</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/circuit_library.html">Библиотека цепей</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Справочники по API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aer.html">Qiskit симулятор (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ignis.html">Qiskit эксперименты (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/aqua.html">Модули Qiskit Application (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Провайдер)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Инструкция по миграции Qiskit Applications (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../aqua_migration.html">Инструкция по миграции Qiskit Applications (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Устранение неполадок</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Коды ошибок IBM Quantum API</a></li>
 </ul>
 
             
@@ -332,22 +332,29 @@
 
 <span class="sd">&quot;&quot;&quot;Class for backend status.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">html</span>
 <span class="kn">from</span> <span class="nn">qiskit.exceptions</span> <span class="kn">import</span> <span class="n">QiskitError</span>
 
 
 <div class="viewcode-block" id="BackendStatus"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.BackendStatus.html#qiskit.providers.models.BackendStatus">[документация]</a><span class="k">class</span> <span class="nc">BackendStatus</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Class representing Backend Status.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="BackendStatus.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.BackendStatus.html#qiskit.providers.models.BackendStatus.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend_name</span><span class="p">,</span> <span class="n">backend_version</span><span class="p">,</span> <span class="n">operational</span><span class="p">,</span>
-                 <span class="n">pending_jobs</span><span class="p">,</span> <span class="n">status_msg</span><span class="p">):</span>
+<div class="viewcode-block" id="BackendStatus.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.providers.models.BackendStatus.html#qiskit.providers.models.BackendStatus.__init__">[документация]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">backend_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">backend_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">operational</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">pending_jobs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">status_msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a BackendStatus object</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            backend_name (str): The backend&#39;s name</span>
-<span class="sd">            backend_version (str): The backend&#39;s version of the form X.Y.Z</span>
-<span class="sd">            operational (bool): True if the backend is operational</span>
-<span class="sd">            pending_jobs (int): The number of pending jobs on the backend</span>
-<span class="sd">            status_msg (str): The status msg for the backend</span>
+<span class="sd">            backend_name: The backend&#39;s name</span>
+<span class="sd">            backend_version: The backend&#39;s version of the form X.Y.Z</span>
+<span class="sd">            operational: True if the backend is operational</span>
+<span class="sd">            pending_jobs: The number of pending jobs on the backend</span>
+<span class="sd">            status_msg: The status msg for the backend</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            QiskitError: If the backend version is in an invalid format</span>
@@ -356,7 +363,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">backend_version</span> <span class="o">=</span> <span class="n">backend_version</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operational</span> <span class="o">=</span> <span class="n">operational</span>
         <span class="k">if</span> <span class="n">pending_jobs</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s1">&#39;Pending jobs must be &gt;=0&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">QiskitError</span><span class="p">(</span><span class="s2">&quot;Pending jobs must be &gt;=0&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pending_jobs</span> <span class="o">=</span> <span class="n">pending_jobs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status_msg</span> <span class="o">=</span> <span class="n">status_msg</span></div>
 
@@ -386,7 +393,25 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BackendStatus</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return html representation of the object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Representation used in Jupyter notebook and other IDE&#39;s that call the method</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rpr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+        <span class="n">html_code</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;pre&gt;</span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">rpr</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/pre&gt;&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;name&lt;/b&gt;: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">backend_name</span><span class="si">}</span><span class="s2">&lt;br/&gt;&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;version&lt;/b&gt;: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">backend_version</span><span class="si">}</span><span class="s2">,&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; &lt;b&gt;pending jobs&lt;/b&gt;: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pending_jobs</span><span class="si">}</span><span class="s2">&lt;br/&gt;&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;status&lt;/b&gt;: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status_msg</span><span class="si">}</span><span class="s2">&lt;br/&gt;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">html_code</span></div>
 </pre></div>
 
              </article>
@@ -404,7 +429,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Обновлено: 2021/07/12.
+      Обновлено: 2021/07/27.
 
     </p>
   </div>
@@ -439,7 +464,7 @@
          <script src="../../../../_static/language_data.js"></script>
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

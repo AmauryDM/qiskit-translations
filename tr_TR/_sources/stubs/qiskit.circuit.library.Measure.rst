@@ -39,6 +39,7 @@
       ~Measure.decompositions
       ~Measure.definition
       ~Measure.duration
+      ~Measure.label
       ~Measure.params
       ~Measure.unit
    

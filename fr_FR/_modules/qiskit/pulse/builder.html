@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.pulse.builder &mdash; Documentation Qiskit 0.27.0</title>
+  <title>qiskit.pulse.builder &mdash; Documentation Qiskit 0.28.0</title>
   
 
   
@@ -219,36 +219,36 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Documentation homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Page d'accueil de la documentation</a></li>
 </ul>
-<p><span class="caption-text">Frontmatter</span></p>
+<p><span class="caption-text">Avant propos</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../qc_intro.html">L’informatique quantique en bref</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Introduction to Qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro_tutorial1.html">Introduction à Qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing_to_qiskit.html">Contribuer à Qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Local Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration locale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Questions fréquentes</a></li>
 </ul>
-<p><span class="caption-text">Libraries</span></p>
+<p><span class="caption-text">Bibliothèques</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/circuit_library.html">Circuit Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/circuit_library.html">Bibliothèque de circuits</a></li>
 </ul>
-<p><span class="caption-text">API References</span></p>
+<p><span class="caption-text">Références de l'API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/terra.html">Qiskit (Terra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aer.html">Qiskit Simulator (Aer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ignis.html">Qiskit Experiments (Ignis)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aqua.html">Qiskit Application Modules (Aqua)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Provider)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aer.html">Simulateur Qiskit (Aer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ignis.html">Expériences Qiskit (Ignis)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/aqua.html">Modules d'applications Qiskit (Aqua)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/ibmq-provider.html">Qiskit IBM Quantum (Fournisseur)</a></li>
 </ul>
-<p><span class="caption-text">Qiskit Applications (Aqua) Migration Guide</span></p>
+<p><span class="caption-text">Guide de migration des applications Qiskit (Aqua)</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../aqua_migration.html">Qiskit Applications (Aqua) Migration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aqua_migration.html">Guide de migration des applications Qiskit (Aqua)</a></li>
 </ul>
-<p><span class="caption-text">Troubleshooting</span></p>
+<p><span class="caption-text">Déboggage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">IBM Quantum API error codes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://quantum-computing.ibm.com/lab/docs/iql/manage/errors">Codes d'erreur de l'API IBM Quantum</a></li>
 </ul>
 
             
@@ -531,7 +531,7 @@
     <span class="n">Tuple</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
-    <span class="n">NewType</span>
+    <span class="n">NewType</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -547,26 +547,29 @@
     <span class="n">macros</span><span class="p">,</span>
     <span class="n">library</span><span class="p">,</span>
     <span class="n">transforms</span><span class="p">,</span>
+    <span class="n">utils</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">qiskit.pulse.instructions</span> <span class="kn">import</span> <span class="n">directives</span>
-<span class="kn">from</span> <span class="nn">qiskit.pulse.schedule</span> <span class="kn">import</span> <span class="n">Schedule</span>
+<span class="kn">from</span> <span class="nn">qiskit.pulse.schedule</span> <span class="kn">import</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span>
+<span class="kn">from</span> <span class="nn">qiskit.pulse.transforms.alignments</span> <span class="kn">import</span> <span class="n">AlignmentKind</span>
 
 <span class="c1">#: contextvars.ContextVar[BuilderContext]: active builder</span>
 <span class="n">BUILDER_CONTEXTVAR</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">(</span><span class="s2">&quot;backend&quot;</span><span class="p">)</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=invalid-name</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>  <span class="c1"># pylint: disable=invalid-name</span>
 
-<span class="n">StorageLocation</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;StorageLocation&#39;</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">MemorySlot</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">RegisterSlot</span><span class="p">])</span>
+<span class="n">StorageLocation</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;StorageLocation&quot;</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">MemorySlot</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">RegisterSlot</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">_compile_lazy_circuit_before</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span>
-                                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_compile_lazy_circuit_before</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Decorator thats schedules and calls the lazily compiled circuit before</span>
 <span class="sd">    executing the decorated builder method.&quot;&quot;&quot;</span>
+
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">wrapper</span>
 
 
@@ -574,26 +577,36 @@
     <span class="sd">&quot;&quot;&quot;Decorator a function to raise if it is called without a builder with a</span>
 <span class="sd">    set backend.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BackendNotSet</span><span class="p">(</span>
-                <span class="s1">&#39;This function requires the builder to &#39;</span>
-                <span class="s1">&#39;have a &quot;backend&quot; set.&#39;</span><span class="p">)</span>
+                <span class="s2">&quot;This function requires the builder to &quot;</span> <span class="s1">&#39;have a &quot;backend&quot; set.&#39;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">wrapper</span>
 
 
-<span class="k">class</span> <span class="nc">_PulseBuilder</span><span class="p">():</span>
+<span class="k">class</span> <span class="nc">_PulseBuilder</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Builder context class.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">schedule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">default_alignment</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
-                 <span class="n">default_transpiler_settings</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">default_circuit_scheduler_settings</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">__alignment_kinds__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="n">transforms</span><span class="o">.</span><span class="n">AlignLeft</span><span class="p">(),</span>
+        <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="n">transforms</span><span class="o">.</span><span class="n">AlignRight</span><span class="p">(),</span>
+        <span class="s2">&quot;sequential&quot;</span><span class="p">:</span> <span class="n">transforms</span><span class="o">.</span><span class="n">AlignSequential</span><span class="p">(),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScheduleBlock</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_alignment</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AlignmentKind</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">default_transpiler_settings</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_circuit_scheduler_settings</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the builder context.</span>
 
 <span class="sd">        .. note::</span>
@@ -606,16 +619,17 @@
 <span class="sd">        Args:</span>
 <span class="sd">            backend (Union[Backend, BaseBackend]): Input backend to use in</span>
 <span class="sd">                builder. If not set certain functionality will be unavailable.</span>
-<span class="sd">            schedule: Initital schedule to build on. If not supplied</span>
-<span class="sd">                a schedule will be created.</span>
-<span class="sd">            name: Name of pulse program to be built. Only used if `schedule`</span>
-<span class="sd">                is not ``None``.</span>
-<span class="sd">            default_alignment: Default scheduling alignment policy for the</span>
-<span class="sd">                builder. One of &#39;left&#39;, &#39;right&#39;, &#39;sequential&#39;, or an alignment</span>
-<span class="sd">                contextmanager.</span>
+<span class="sd">            block: Initital ``ScheduleBlock`` to build on.</span>
+<span class="sd">            name: Name of pulse program to be built.</span>
+<span class="sd">            default_alignment: Default scheduling alignment for builder.</span>
+<span class="sd">                One of ``left``, ``right``, ``sequential`` or an instance of</span>
+<span class="sd">                :class:`~qiskit.pulse.transforms.alignments.AlignmentKind` subclass.</span>
 <span class="sd">            default_transpiler_settings: Default settings for the transpiler.</span>
 <span class="sd">            default_circuit_scheduler_settings: Default settings for the</span>
 <span class="sd">                circuit to pulse scheduler.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PulseError: When invalid ``default_alignment`` or `block` is specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#: BaseBackend: Backend instance for context builder.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="n">backend</span>
@@ -623,28 +637,47 @@
         <span class="c1">#: Union[None, ContextVar]: Token for this ``_PulseBuilder``&#39;s ``ContextVar``.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend_ctx_token</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="c1">#: pulse.Schedule: Active schedule of BuilderContext.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_context_schedule</span> <span class="o">=</span> <span class="kc">None</span>
-
         <span class="c1">#: QuantumCircuit: Lazily constructed quantum circuit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="c1"># ContextManager: Default alignment context.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_default_alignment_context</span> <span class="o">=</span> <span class="n">_align</span><span class="p">(</span><span class="n">default_alignment</span><span class="p">)</span>
+        <span class="c1">#: Dict[str, Any]: Transpiler setting dictionary.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transpiler_settings</span> <span class="o">=</span> <span class="n">default_transpiler_settings</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_transpiler_settings</span> <span class="o">=</span> <span class="n">default_transpiler_settings</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="c1">#: Dict[str, Any]: Scheduler setting dictionary.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_scheduler_settings</span> <span class="o">=</span> <span class="n">default_circuit_scheduler_settings</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">default_circuit_scheduler_settings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">default_circuit_scheduler_settings</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_scheduler_settings</span> <span class="o">=</span> \
-            <span class="n">default_circuit_scheduler_settings</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="c1">#: List[ScheduleBlock]: Stack of context.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># pulse.Schedule: Root program context-schedule</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_schedule</span> <span class="o">=</span> <span class="n">schedule</span> <span class="ow">or</span> <span class="n">Schedule</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="c1">#: str: Name of the output program</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">Schedule</span><span class="p">())</span>
+        <span class="c1"># Add root block if provided. Schedule will be built on top of this.</span>
+        <span class="k">if</span> <span class="n">block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+                <span class="n">root_block</span> <span class="o">=</span> <span class="n">block</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
+                <span class="n">root_block</span> <span class="o">=</span> <span class="n">ScheduleBlock</span><span class="p">()</span>
+                <span class="n">root_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Call</span><span class="p">(</span><span class="n">subroutine</span><span class="o">=</span><span class="n">block</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Input `block` type </span><span class="si">{</span><span class="n">block</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is &quot;</span>
+                    <span class="s2">&quot;not a valid format. Specify a pulse program.&quot;</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root_block</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
+        <span class="c1"># Set default alignment context</span>
+        <span class="n">alignment</span> <span class="o">=</span> <span class="n">_PulseBuilder</span><span class="o">.</span><span class="n">__alignment_kinds__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">default_alignment</span><span class="p">,</span> <span class="n">default_alignment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alignment</span><span class="p">,</span> <span class="n">AlignmentKind</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Given `default_alignment` </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">default_alignment</span><span class="p">)</span><span class="si">}</span><span class="s2"> is &quot;</span>
+                <span class="s2">&quot;not a valid transformation. Set one of &quot;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_PulseBuilder</span><span class="o">.</span><span class="n">__alignment_kinds__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="s2">&quot;or set an instance of `AlignmentKind` subclass.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">alignment</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScheduleBlock</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Enter this builder context and yield either the supplied schedule</span>
 <span class="sd">        or the schedule created for the user.</span>
 
@@ -652,13 +685,14 @@
 <span class="sd">            The schedule that the builder will build on.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend_ctx_token</span> <span class="o">=</span> <span class="n">BUILDER_CONTEXTVAR</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_default_alignment_context</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schedule</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="n">output</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">return</span> <span class="n">output</span>
 
     <span class="nd">@_compile_lazy_circuit_before</span>
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Exit the builder context and compile the built pulse program.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_default_alignment_context</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
         <span class="n">BUILDER_CONTEXTVAR</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend_ctx_token</span><span class="p">)</span>
 
@@ -671,10 +705,27 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">context_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the current context schedule.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_schedule</span>
+    <span class="nd">@_compile_lazy_circuit_before</span>
+    <span class="k">def</span> <span class="nf">push_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alignment</span><span class="p">:</span> <span class="n">AlignmentKind</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Push new context to the stack.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ScheduleBlock</span><span class="p">(</span><span class="n">alignment_context</span><span class="o">=</span><span class="n">alignment</span><span class="p">))</span>
+
+    <span class="nd">@_compile_lazy_circuit_before</span>
+    <span class="k">def</span> <span class="nf">pop_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScheduleBlock</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Pop the last context from the stack.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;The root context cannot be popped out.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScheduleBlock</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get current context.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            New instruction can be added by `.append_block` or `.append_instruction` method.</span>
+<span class="sd">            Use above methods rather than directly accessing to the current context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@_requires_backend</span>
@@ -705,37 +756,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_scheduler_settings</span> <span class="o">=</span> <span class="n">settings</span>
 
     <span class="nd">@_compile_lazy_circuit_before</span>
-    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScheduleBlock</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Compile and output the built pulse program.&quot;&quot;&quot;</span>
         <span class="c1"># Not much happens because we currently compile as we build.</span>
         <span class="c1"># This should be offloaded to a true compilation module</span>
         <span class="c1"># once we define a more sophisticated IR.</span>
-        <span class="n">program</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context_schedule</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">Schedule</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">program</span>
 
-    <span class="nd">@_compile_lazy_circuit_before</span>
-    <span class="k">def</span> <span class="nf">set_context_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context_schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the current context&#39;s schedule for the builder.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_context_schedule</span> <span class="o">=</span> <span class="n">context_schedule</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
 
-    <span class="nd">@_compile_lazy_circuit_before</span>
-    <span class="k">def</span> <span class="nf">append_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context_schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add a :class:`Schedule` to the builder&#39;s context schedule.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            context_schedule: Schedule to append to the current context schedule.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">context_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context_schedule</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="nd">@_compile_lazy_circuit_before</span>
-    <span class="k">def</span> <span class="nf">append_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Instruction</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add an instruction to the builder&#39;s context schedule.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            instruction: Instruction to append.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">context_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_compile_lazy_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call a context QuantumCircuit (lazy circuit) and append the output pulse schedule</span>
@@ -746,34 +777,50 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span><span class="p">:</span>
             <span class="n">lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span>
             <span class="c1"># reset lazy circuit</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_circuit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">call_schedule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_compile_circuit</span><span class="p">(</span><span class="n">lazy_circuit</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_circuit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">call_subroutine</span><span class="p">(</span><span class="n">subroutine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compile_circuit</span><span class="p">(</span><span class="n">lazy_circuit</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_compile_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circ</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schedule</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Take a QuantumCircuit and output the pulse schedule associated with the circuit.&quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">qiskit.compiler</span> <span class="k">as</span> <span class="nn">compiler</span>  <span class="c1"># pylint: disable=cyclic-import</span>
 
-        <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span>
-                                                <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
-                                                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">transpiler_settings</span><span class="p">)</span>
-        <span class="n">sched</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span>
-                                  <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
-                                  <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit_scheduler_settings</span><span class="p">)</span>
+        <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">transpiler_settings</span><span class="p">)</span>
+        <span class="n">sched</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
+            <span class="n">transpiled_circuit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">circuit_scheduler_settings</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">sched</span>
 
-    <span class="k">def</span> <span class="nf">call_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Call a schedule and append to the builder&#39;s context schedule.</span>
+    <span class="k">def</span> <span class="nf">_new_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new circuit for lazy circuit scheduling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
 
-<span class="sd">        The schedule is just appended to the context schedule as-is.</span>
-<span class="sd">        Use :meth:`~call_subroutine` method to define the schedule as a subroutine.</span>
+    <span class="nd">@_compile_lazy_circuit_before</span>
+    <span class="k">def</span> <span class="nf">append_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Instruction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add an instruction to the builder&#39;s context schedule.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            instruction: Instruction to append.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">append_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">call_subroutine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">subroutine</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">],</span>
-                        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="n">value_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kw_params</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">):</span>
+    <span class="nd">@_compile_lazy_circuit_before</span>
+    <span class="k">def</span> <span class="nf">append_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context_block</span><span class="p">:</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a :class:`ScheduleBlock` to the builder&#39;s context schedule.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            context_block: ScheduleBlock to append to the current context block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ignore empty context</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">context_block</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_context_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context_block</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call_subroutine</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subroutine</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">value_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterExpression</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kw_params</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call a schedule or circuit defined outside of the current scope.</span>
 
 <span class="sd">        The ``subroutine`` is appended to the context schedule as a call instruction.</span>
@@ -792,16 +839,29 @@
 <span class="sd">                these parameters are updated with the same assigned value.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            PulseError: If specified parameter is not contained in the subroutine.</span>
+<span class="sd">            PulseError:</span>
+<span class="sd">                - When specified parameter is not contained in the subroutine</span>
+<span class="sd">                - When input subroutine is not valid data format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subroutine</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
             <span class="n">subroutine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compile_circuit</span><span class="p">(</span><span class="n">subroutine</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subroutine</span><span class="o">.</span><span class="n">instructions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">value_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">value_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">empty_subroutine</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subroutine</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subroutine</span><span class="o">.</span><span class="n">instructions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">empty_subroutine</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subroutine</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subroutine</span><span class="o">.</span><span class="n">blocks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">empty_subroutine</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Subroutine type </span><span class="si">{</span><span class="n">subroutine</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is &quot;</span>
+                <span class="s2">&quot;not valid data format. Call QuantumCircuit, &quot;</span>
+                <span class="s2">&quot;Schedule, or ScheduleBlock.&quot;</span>
+            <span class="p">)</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">empty_subroutine</span><span class="p">:</span>
             <span class="n">param_value_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">assigned_value</span> <span class="ow">in</span> <span class="n">kw_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">param_objs</span> <span class="o">=</span> <span class="n">subroutine</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
@@ -810,68 +870,19 @@
                         <span class="n">param_value_map</span><span class="p">[</span><span class="n">param_obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">assigned_value</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s1">&#39;Parameter </span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s1"> is not defined in the target subroutine. &#39;</span>
-                        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">subroutine</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span><span class="si">}</span><span class="s1"> can be specified.&#39;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">&quot;Parameter </span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2"> is not defined in the target subroutine. &quot;</span>
+                        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">subroutine</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span><span class="si">}</span><span class="s1"> can be specified.&#39;</span>
+                    <span class="p">)</span>
 
-            <span class="n">param_value_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">value_dict</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value_dict</span><span class="p">:</span>
+                <span class="n">param_value_map</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">value_dict</span><span class="p">)</span>
+
             <span class="n">call_def</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Call</span><span class="p">(</span><span class="n">subroutine</span><span class="p">,</span> <span class="n">param_value_map</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">append_instruction</span><span class="p">(</span><span class="n">call_def</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">new_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new circuit for lazy circuit scheduling.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">)</span>
-
     <span class="nd">@_requires_backend</span>
-    <span class="k">def</span> <span class="nf">call_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                     <span class="n">circ</span><span class="p">:</span> <span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span>
-                     <span class="n">lazy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Deprecated.</span>
-
-<span class="sd">        Call a circuit in the pulse program.</span>
-<span class="sd">        The circuit is assumed to be defined on physical qubits.</span>
-
-<span class="sd">        If ``lazy == True`` this circuit will extend a lazily constructed</span>
-<span class="sd">        quantum circuit. When an operation occurs that breaks the underlying</span>
-<span class="sd">        circuit scheduling assumptions such as adding a pulse instruction or</span>
-<span class="sd">        changing the alignment context the circuit will be</span>
-<span class="sd">        transpiled and scheduled into pulses with the current active settings.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            circ: Circuit to call.</span>
-<span class="sd">            lazy: If false the circuit will be transpiled and pulse scheduled</span>
-<span class="sd">                immediately. Otherwise, it will extend the active lazy circuit</span>
-<span class="sd">                as defined above.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Calling ``call_circuit`` is being deprecated. &#39;</span>
-                      <span class="s1">&#39;Use ``call_subroutine`` method instead. &#39;</span>
-                      <span class="s1">&#39;New method stores the circuit as a ``Call`` instruction &#39;</span>
-                      <span class="s1">&#39;after scheduling.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">lazy</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_call_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_call_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">_call_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circ</span><span class="p">):</span>
-        <span class="c1"># TODO deprecate this with call circuits</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_circuit</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">creg</span> <span class="ow">in</span> <span class="n">circ</span><span class="o">.</span><span class="n">cregs</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span><span class="o">.</span><span class="n">add_register</span><span class="p">(</span><span class="n">creg</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">circuit</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">CircuitError</span><span class="p">:</span>
-                <span class="k">pass</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="nd">@_requires_backend</span>
-    <span class="k">def</span> <span class="nf">call_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">gate</span><span class="p">:</span> <span class="n">circuit</span><span class="o">.</span><span class="n">Gate</span><span class="p">,</span>
-                  <span class="n">qubits</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
-                  <span class="n">lazy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">call_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">:</span> <span class="n">circuit</span><span class="o">.</span><span class="n">Gate</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">lazy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call the circuit ``gate`` in the pulse program.</span>
 
 <span class="sd">        The qubits are assumed to be defined on physical qubits.</span>
@@ -903,18 +914,19 @@
 
     <span class="k">def</span> <span class="nf">_call_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate</span><span class="p">,</span> <span class="n">qargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_circuit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_circuit</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">qargs</span><span class="o">=</span><span class="n">qargs</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="build"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.build.html#qiskit.pulse.builder.build">[docs]</a><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-          <span class="n">schedule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="n">default_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span>
-          <span class="n">default_transpiler_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="n">default_circuit_scheduler_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-          <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">Schedule</span><span class="p">]:</span>
+<div class="viewcode-block" id="build"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.build.html#qiskit.pulse.builder.build">[docs]</a><span class="k">def</span> <span class="nf">build</span><span class="p">(</span>
+    <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScheduleBlock</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_alignment</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AlignmentKind</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">default_transpiler_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_circuit_scheduler_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">ScheduleBlock</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Create a context manager for launching the imperative pulse builder DSL.</span>
 
 <span class="sd">    To enter a building context and starting building a pulse program:</span>
@@ -943,13 +955,10 @@
 <span class="sd">    Args:</span>
 <span class="sd">        backend (Union[Backend, BaseBackend]): A Qiskit backend. If not supplied certain</span>
 <span class="sd">            builder functionality will be unavailable.</span>
-<span class="sd">        schedule: a *mutable* pulse Schedule in which your pulse program will</span>
-<span class="sd">            be built.</span>
-<span class="sd">        name: Name of pulse program to be built. Only used if `schedule`</span>
-<span class="sd">            is not ``None``.</span>
+<span class="sd">        schedule: A pulse ``ScheduleBlock`` in which your pulse program will be built.</span>
+<span class="sd">        name: Name of pulse program to be built.</span>
 <span class="sd">        default_alignment: Default scheduling alignment for builder.</span>
-<span class="sd">            One of ``left``, ``right``, ``sequential`` or an alignment</span>
-<span class="sd">            contextmanager.</span>
+<span class="sd">            One of ``left``, ``right``, ``sequential`` or an alignment context.</span>
 <span class="sd">        default_transpiler_settings: Default settings for the transpiler.</span>
 <span class="sd">        default_circuit_scheduler_settings: Default settings for the</span>
 <span class="sd">            circuit to pulse scheduler.</span>
@@ -959,14 +968,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_PulseBuilder</span><span class="p">(</span>
         <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
-        <span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span>
+        <span class="n">block</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="n">default_alignment</span><span class="o">=</span><span class="n">default_alignment</span><span class="p">,</span>
         <span class="n">default_transpiler_settings</span><span class="o">=</span><span class="n">default_transpiler_settings</span><span class="p">,</span>
-        <span class="n">default_circuit_scheduler_settings</span><span class="o">=</span><span class="n">default_circuit_scheduler_settings</span><span class="p">)</span></div>
+        <span class="n">default_circuit_scheduler_settings</span><span class="o">=</span><span class="n">default_circuit_scheduler_settings</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 <span class="c1"># Builder Utilities</span>
+
+
 <span class="k">def</span> <span class="nf">_active_builder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">_PulseBuilder</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Get the active builder in the active context.</span>
 
@@ -981,9 +993,10 @@
         <span class="k">return</span> <span class="n">BUILDER_CONTEXTVAR</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">LookupError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">NoActiveBuilder</span><span class="p">(</span>
-            <span class="s1">&#39;A Pulse builder function was called outside of &#39;</span>
-            <span class="s1">&#39;a builder context. Try calling within a builder &#39;</span>
-            <span class="s1">&#39;context, eg., &quot;with pulse.build() as schedule: ...&quot;.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="s2">&quot;A Pulse builder function was called outside of &quot;</span>
+            <span class="s2">&quot;a builder context. Try calling within a builder &quot;</span>
+            <span class="s1">&#39;context, eg., &quot;with pulse.build() as schedule: ...&quot;.&#39;</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
 
 
 <div class="viewcode-block" id="active_backend"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.active_backend.html#qiskit.pulse.builder.active_backend">[docs]</a><span class="k">def</span> <span class="nf">active_backend</span><span class="p">():</span>
@@ -999,14 +1012,30 @@
     <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">backend</span>
     <span class="k">if</span> <span class="n">builder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">BackendNotSet</span><span class="p">(</span>
-            <span class="s1">&#39;This function requires the active builder to &#39;</span>
-            <span class="s1">&#39;have a &quot;backend&quot; set.&#39;</span><span class="p">)</span>
+            <span class="s2">&quot;This function requires the active builder to &quot;</span> <span class="s1">&#39;have a &quot;backend&quot; set.&#39;</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">builder</span></div>
 
 
-<span class="k">def</span> <span class="nf">append_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Call a schedule by appending to the active builder&#39;s context schedule.&quot;&quot;&quot;</span>
-    <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">append_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">append_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Call a schedule by appending to the active builder&#39;s context block.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        schedule: Schedule to append.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PulseError: When input `schedule` is invalid data format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schedule</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">):</span>
+        <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Call</span><span class="p">(</span><span class="n">subroutine</span><span class="o">=</span><span class="n">schedule</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+        <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Input program </span><span class="si">{</span><span class="n">schedule</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is not &quot;</span>
+            <span class="s2">&quot;acceptable program format. Input `Schedule` or &quot;</span>
+            <span class="s2">&quot;`ScheduleBlock`.&quot;</span>
+        <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">append_instruction</span><span class="p">(</span><span class="n">instruction</span><span class="p">:</span> <span class="n">instructions</span><span class="o">.</span><span class="n">Instruction</span><span class="p">):</span>
@@ -1102,8 +1131,7 @@
     <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">active_backend</span><span class="p">()</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">get_qubit_channels</span><span class="p">(</span><span class="n">qubit</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">_qubits_to_channels</span><span class="p">(</span><span class="o">*</span><span class="n">channels_or_qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">]</span>
-                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_qubits_to_channels</span><span class="p">(</span><span class="o">*</span><span class="n">channels_or_qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Returns the unique channels of the input qubits.&quot;&quot;&quot;</span>
     <span class="n">channels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">channel_or_qubit</span> <span class="ow">in</span> <span class="n">channels_or_qubits</span><span class="p">:</span>
@@ -1113,8 +1141,8 @@
             <span class="n">channels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">channel_or_qubit</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
-                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a &quot;Channel&quot; or &#39;</span>
-                <span class="s1">&#39;qubit (integer).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel_or_qubit</span><span class="p">))</span>
+                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a &quot;Channel&quot; or &#39;</span> <span class="s2">&quot;qubit (integer).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">channel_or_qubit</span><span class="p">)</span>
+            <span class="p">)</span>
     <span class="k">return</span> <span class="n">channels</span>
 
 
@@ -1140,8 +1168,7 @@
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">transpiler_settings</span><span class="p">)</span></div>
 
 
-<span class="c1"># pylint: disable=invalid-name</span>
-<div class="viewcode-block" id="active_circuit_scheduler_settings"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.active_circuit_scheduler_settings.html#qiskit.pulse.builder.active_circuit_scheduler_settings">[docs]</a><span class="k">def</span> <span class="nf">active_circuit_scheduler_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="active_circuit_scheduler_settings"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.active_circuit_scheduler_settings.html#qiskit.pulse.builder.active_circuit_scheduler_settings">[docs]</a><span class="k">def</span> <span class="nf">active_circuit_scheduler_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;Return the current active builder context&#39;s circuit scheduler settings.</span>
 
 <span class="sd">    Examples:</span>
@@ -1165,57 +1192,9 @@
 
 
 <span class="c1"># Contexts</span>
-<span class="k">def</span> <span class="nf">_transform_context</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Schedule</span><span class="p">],</span> <span class="n">Schedule</span><span class="p">],</span>
-                       <span class="o">**</span><span class="n">transform_kwargs</span><span class="p">:</span> <span class="n">Any</span>
-                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;A transform context generator, decorator.</span>
-
-<span class="sd">    Decorator accepts a transformation function, and then decorates a new</span>
-<span class="sd">    ContextManager function.</span>
-
-<span class="sd">    When the context is entered it creates a new schedule, sets it as the</span>
-<span class="sd">    builder&#39;s context schedule and then yields.</span>
-
-<span class="sd">    Finally it will reset the initial builder&#39;s context schedule after exiting</span>
-<span class="sd">    the context and apply the decorated transform function to the</span>
-<span class="sd">    context Schedule. The output transformed schedule will then be</span>
-<span class="sd">    appended to the initial builder&#39;s context schedule. This effectively builds a stack</span>
-<span class="sd">    of builder&#39;s context schedules that is automatically collapsed upon exiting the context.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        transform: Transform to decorate as context.</span>
-<span class="sd">        transform_kwargs: Additional override keyword arguments for the</span>
-<span class="sd">            decorated transform.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        A function that generates a new transformation ``ContextManager``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-        <span class="nd">@contextmanager</span>
-        <span class="k">def</span> <span class="nf">wrapped_transform</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
-            <span class="n">context_schedule</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">context_schedule</span>
-            <span class="n">transform_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">()</span>
-            <span class="n">builder</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">transform_schedule</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">yield</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="n">builder</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
-                <span class="n">transformed_schedule</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
-                    <span class="n">transform_schedule</span><span class="p">,</span>
-                    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">transform_kwargs</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="n">builder</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">context_schedule</span><span class="p">)</span>
-                <span class="n">builder</span><span class="o">.</span><span class="n">append_schedule</span><span class="p">(</span><span class="n">transformed_schedule</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">wrapped_transform</span>
-
-    <span class="k">return</span> <span class="n">wrap</span>
 
 
-<div class="viewcode-block" id="align_left"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_left.html#qiskit.pulse.builder.align_left">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">align_left</span><span class="p">)</span>
+<div class="viewcode-block" id="align_left"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_left.html#qiskit.pulse.builder.align_left">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">align_left</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Left alignment pulse scheduling context.</span>
 
@@ -1237,13 +1216,24 @@
 <span class="sd">                pulse.play(pulse.Constant(100, 1.0), d0)</span>
 <span class="sd">                # this pulse will start at t=0</span>
 <span class="sd">                pulse.play(pulse.Constant(20, 1.0), d1)</span>
+<span class="sd">        pulse_prog = pulse.transforms.block_to_schedule(pulse_prog)</span>
 
 <span class="sd">        assert pulse_prog.ch_start_time(d0) == pulse_prog.ch_start_time(d1)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignLeft</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="align_right"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_right.html#qiskit.pulse.builder.align_right">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">align_right</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">align_right</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="align_right"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_right.html#qiskit.pulse.builder.align_right">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">align_right</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AlignmentKind</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Right alignment pulse scheduling context.</span>
 
 <span class="sd">    Pulse instructions within this context are scheduled as late as possible</span>
@@ -1264,13 +1254,24 @@
 <span class="sd">                pulse.play(pulse.Constant(100, 1.0), d0)</span>
 <span class="sd">                # this pulse will start at t=80</span>
 <span class="sd">                pulse.play(pulse.Constant(20, 1.0), d1)</span>
+<span class="sd">        pulse_prog = pulse.transforms.block_to_schedule(pulse_prog)</span>
 
 <span class="sd">        assert pulse_prog.ch_stop_time(d0) == pulse_prog.ch_stop_time(d1)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignRight</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="align_sequential"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_sequential.html#qiskit.pulse.builder.align_sequential">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">align_sequential</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">align_sequential</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="align_sequential"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_sequential.html#qiskit.pulse.builder.align_sequential">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">align_sequential</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">AlignmentKind</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Sequential alignment pulse scheduling context.</span>
 
 <span class="sd">    Pulse instructions within this context are scheduled sequentially in time</span>
@@ -1291,14 +1292,24 @@
 <span class="sd">                pulse.play(pulse.Constant(100, 1.0), d0)</span>
 <span class="sd">                # this pulse will also start at t=100</span>
 <span class="sd">                pulse.play(pulse.Constant(20, 1.0), d1)</span>
+<span class="sd">        pulse_prog = pulse.transforms.block_to_schedule(pulse_prog)</span>
 
 <span class="sd">        assert pulse_prog.ch_stop_time(d0) == pulse_prog.ch_start_time(d1)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignSequential</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span></div>
 
 
-<span class="c1"># pylint: disable=unused-argument</span>
-<div class="viewcode-block" id="align_equispaced"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_equispaced.html#qiskit.pulse.builder.align_equispaced">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">align_equispaced</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">align_equispaced</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="align_equispaced"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_equispaced.html#qiskit.pulse.builder.align_equispaced">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">align_equispaced</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AlignmentKind</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Equispaced alignment pulse scheduling context.</span>
 
 <span class="sd">    Pulse instructions within this context are scheduled with the same interval spacing such that</span>
@@ -1331,17 +1342,27 @@
 <span class="sd">    Args:</span>
 <span class="sd">        duration: Duration of this context. This should be larger than the schedule duration.</span>
 
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+
 <span class="sd">    Notes:</span>
 <span class="sd">        The scheduling is performed for sub-schedules within the context rather than</span>
 <span class="sd">        channel-wise. If you want to apply the equispaced context for each channel,</span>
 <span class="sd">        you should use the context independently for channels.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignEquispaced</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span></div>
 
 
-<span class="c1"># pylint: disable=unused-argument</span>
-<div class="viewcode-block" id="align_func"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_func.html#qiskit.pulse.builder.align_func">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">align_func</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">align_func</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-               <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="align_func"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.align_func.html#qiskit.pulse.builder.align_func">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">align_func</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ParameterExpression</span><span class="p">],</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AlignmentKind</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Callback defined alignment pulse scheduling context.</span>
 
 <span class="sd">    Pulse instructions within this context are scheduled at the location specified by</span>
@@ -1382,113 +1403,103 @@
 <span class="sd">            The returned value should be defined within [0, 1].</span>
 <span class="sd">            The pulse index starts from 1.</span>
 
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+
 <span class="sd">    Notes:</span>
 <span class="sd">        The scheduling is performed for sub-schedules within the context rather than</span>
 <span class="sd">        channel-wise. If you want to apply the numerical context for each channel,</span>
 <span class="sd">        you need to apply the context independently to channels.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignFunc</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_align</span><span class="p">(</span><span class="n">alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;General alignment context. Used by the :class:`_Builder` to choose the</span>
-<span class="sd">    default alignment policy.</span>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">general_transforms</span><span class="p">(</span><span class="n">alignment_context</span><span class="p">:</span> <span class="n">AlignmentKind</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Arbitrary alignment transformation defined by a subclass instance of</span>
+<span class="sd">    :class:`~qiskit.pulse.transforms.alignments.AlignmentKind`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        alignment: Alignment scheduling policy to follow.</span>
-<span class="sd">            One of &quot;left&quot;, &quot;right&quot; or &quot;sequential&quot;.</span>
+<span class="sd">        alignment_context: Alignment context instance that defines schedule transformation.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        An alignment context that will schedule the instructions it contains</span>
-<span class="sd">        according to the selected alignment policy upon exiting the context.</span>
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        exceptions.PulseError: If an unsupported alignment context is selected.</span>
+<span class="sd">        PulseError: When input ``alignment_context`` is not ``AlignmentKind`` subclasses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">alignment</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">align_left</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">alignment</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">align_right</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">alignment</span> <span class="o">==</span> <span class="s1">&#39;sequential&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">align_sequential</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span><span class="s1">&#39;Alignment &quot;</span><span class="si">{}</span><span class="s1">&quot; is not &#39;</span>
-                                    <span class="s1">&#39;supported.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alignment</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alignment_context</span><span class="p">,</span> <span class="n">AlignmentKind</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span><span class="s2">&quot;Input alignment context is not `AlignmentKind` subclass.&quot;</span><span class="p">)</span>
+
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">alignment_context</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">append_block</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="inline"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.inline.html#qiskit.pulse.builder.inline">[docs]</a><span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="inline"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.inline.html#qiskit.pulse.builder.inline">[docs]</a><span class="nd">@utils</span><span class="o">.</span><span class="n">deprecated_functionality</span>
+<span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">inline</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Inline all instructions within this context into the parent context,</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated. Inline all instructions within this context into the parent context,</span>
 <span class="sd">    inheriting the scheduling policy of the parent context.</span>
-
-<span class="sd">    Examples:</span>
-
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">        from qiskit import pulse</span>
-
-<span class="sd">        d0 = pulse.DriveChannel(0)</span>
-<span class="sd">        d1 = pulse.DriveChannel(1)</span>
-<span class="sd">        d2 = pulse.DriveChannel(2)</span>
-
-<span class="sd">        with pulse.build() as pulse_prog:</span>
-<span class="sd">            # will be ignored due to internal grouping</span>
-<span class="sd">            with pulse.align_left():</span>
-<span class="sd">                pulse.play(pulse.Constant(10, 1.0), d0)</span>
-<span class="sd">                with pulse.inline():</span>
-<span class="sd">                    with pulse.align_right():</span>
-<span class="sd">                        # this pulse will start at t=0</span>
-<span class="sd">                        pulse.play(pulse.Constant(100, 1.0), d1)</span>
-<span class="sd">                        # this pulse will also start at t=0</span>
-<span class="sd">                        pulse.play(pulse.Constant(20, 1.0), d2)</span>
-
-<span class="sd">        assert (pulse_prog.ch_start_time(d0) ==</span>
-<span class="sd">                pulse_prog.ch_start_time(d1) ==</span>
-<span class="sd">                pulse_prog.ch_start_time(d2))</span>
 
 <span class="sd">    .. warning:: This will cause all scheduling directives within this context</span>
 <span class="sd">        to be ignored.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_flatten</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">_flatten</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">inst</span>
+
     <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
-    <span class="n">context_schedule</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">context_schedule</span>
-    <span class="n">transform_schedule</span> <span class="o">=</span> <span class="n">Schedule</span><span class="p">()</span>
-    <span class="n">builder</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">transform_schedule</span><span class="p">)</span>
+
+    <span class="c1"># set a placeholder</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">AlignLeft</span><span class="p">())</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">finally</span><span class="p">:</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">_compile_lazy_circuit</span><span class="p">()</span>
-        <span class="n">builder</span><span class="o">.</span><span class="n">set_context_schedule</span><span class="p">(</span><span class="n">context_schedule</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="n">transform_schedule</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
-            <span class="n">append_instruction</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span></div>
+        <span class="n">placeholder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">pop_context</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">_flatten</span><span class="p">(</span><span class="n">placeholder</span><span class="p">):</span>
+            <span class="n">builder</span><span class="o">.</span><span class="n">append_instruction</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="pad"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.pad.html#qiskit.pulse.builder.pad">[docs]</a><span class="nd">@_transform_context</span><span class="p">(</span><span class="n">transforms</span><span class="o">.</span><span class="n">pad</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="pad"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.pad.html#qiskit.pulse.builder.pad">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">pad</span><span class="p">(</span><span class="o">*</span><span class="n">chs</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>  <span class="c1"># pylint: disable=unused-argument</span>
-    <span class="sd">&quot;&quot;&quot;Pad all available timeslots with delays upon exiting context.</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated. Pad all available timeslots with delays upon exiting context.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        chs: Channels to pad with delays. Defaults to all channels in context</span>
 <span class="sd">            if none are supplied.</span>
 
-<span class="sd">    Examples:</span>
-
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">        from qiskit import pulse</span>
-
-<span class="sd">        d0 = pulse.DriveChannel(0)</span>
-<span class="sd">        d1 = pulse.DriveChannel(1)</span>
-
-<span class="sd">        with pulse.build() as pulse_prog:</span>
-<span class="sd">            with pulse.pad():</span>
-<span class="sd">                with pulse.align_right():</span>
-<span class="sd">                    # this pulse will start at t=0</span>
-<span class="sd">                    pulse.play(pulse.Constant(100, 1.0), d0)</span>
-<span class="sd">                    # this pulse will start at t=80</span>
-<span class="sd">                    # a delay will be inserted from t=0 to t=80</span>
-<span class="sd">                    pulse.play(pulse.Constant(20, 1.0), d1)</span>
-<span class="sd">        assert pulse_prog.ch_start_time(d0) == pulse_prog.ch_start_time(d1)</span>
-<span class="sd">        assert pulse_prog.ch_stop_time(d0) == pulse_prog.ch_stop_time(d1)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    Yields:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;Context-wise padding is being deprecated. Requested padding is being ignored. &quot;</span>
+        <span class="s2">&quot;Now the pulse builder generate a program in `ScheduleBlock` representation. &quot;</span>
+        <span class="s2">&quot;The padding with delay as a blocker is no longer necessary for this program. &quot;</span>
+        <span class="s2">&quot;However, if you still want delays, you can convert the output program &quot;</span>
+        <span class="s2">&quot;into `Schedule` representation by calling &quot;</span>
+        <span class="s2">&quot;`qiskit.pulse.transforms.target_qobj_transform`. Then, you can apply &quot;</span>
+        <span class="s2">&quot;`qiskit.pulse.transforms.pad` to the converted schedule. &quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="transpiler_settings"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.transpiler_settings.html#qiskit.pulse.builder.transpiler_settings">[docs]</a><span class="nd">@contextmanager</span>
@@ -1511,8 +1522,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
     <span class="n">curr_transpiler_settings</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">transpiler_settings</span>
-    <span class="n">builder</span><span class="o">.</span><span class="n">transpiler_settings</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">ChainMap</span><span class="p">(</span>
-        <span class="n">settings</span><span class="p">,</span> <span class="n">curr_transpiler_settings</span><span class="p">)</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">transpiler_settings</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">ChainMap</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">curr_transpiler_settings</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">finally</span><span class="p">:</span>
@@ -1540,7 +1550,8 @@
     <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
     <span class="n">curr_circuit_scheduler_settings</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">circuit_scheduler_settings</span>
     <span class="n">builder</span><span class="o">.</span><span class="n">circuit_scheduler_settings</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">ChainMap</span><span class="p">(</span>
-        <span class="n">settings</span><span class="p">,</span> <span class="n">curr_circuit_scheduler_settings</span><span class="p">)</span>
+        <span class="n">settings</span><span class="p">,</span> <span class="n">curr_circuit_scheduler_settings</span>
+    <span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">finally</span><span class="p">:</span>
@@ -1548,9 +1559,7 @@
 
 
 <div class="viewcode-block" id="phase_offset"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.phase_offset.html#qiskit.pulse.builder.phase_offset">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">phase_offset</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="o">*</span><span class="n">channels</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">phase_offset</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="n">channels</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Shift the phase of input channels on entry into context and undo on exit.</span>
 
 <span class="sd">    Examples:</span>
@@ -1586,10 +1595,9 @@
 
 
 <div class="viewcode-block" id="frequency_offset"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.frequency_offset.html#qiskit.pulse.builder.frequency_offset">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">frequency_offset</span><span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                     <span class="o">*</span><span class="n">channels</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span>
-                     <span class="n">compensate_phase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">frequency_offset</span><span class="p">(</span>
+    <span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="n">channels</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">compensate_phase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Shift the frequency of inputs channels on entry into context and undo on exit.</span>
 
 <span class="sd">    Examples:</span>
@@ -1627,7 +1635,11 @@
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">builder</span> <span class="o">=</span> <span class="n">_active_builder</span><span class="p">()</span>
-    <span class="n">t0</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">context_schedule</span><span class="o">.</span><span class="n">duration</span>
+    <span class="c1"># TODO: Need proper implementation of compensation. t0 may depend on the parent context.</span>
+    <span class="c1">#  For example, the instruction position within the equispaced context depends on</span>
+    <span class="c1">#  the current total number of instructions, thus adding more instruction after</span>
+    <span class="c1">#  offset context may change the t0 when the parent context is transformed.</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span><span class="o">.</span><span class="n">duration</span>
 
     <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
         <span class="n">shift_frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span>
@@ -1635,7 +1647,7 @@
         <span class="k">yield</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">compensate_phase</span><span class="p">:</span>
-            <span class="n">duration</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">context_schedule</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">t0</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span><span class="o">.</span><span class="n">duration</span> <span class="o">-</span> <span class="n">t0</span>
             <span class="n">dt</span> <span class="o">=</span> <span class="n">active_backend</span><span class="p">()</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span>
             <span class="n">accumulated_phase</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">((</span><span class="n">duration</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">frequency</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
@@ -1707,7 +1719,7 @@
 
 
 <div class="viewcode-block" id="control_channels"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.control_channels.html#qiskit.pulse.builder.control_channels">[docs]</a><span class="k">def</span> <span class="nf">control_channels</span><span class="p">(</span><span class="o">*</span><span class="n">qubits</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">chans</span><span class="o">.</span><span class="n">ControlChannel</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return ``AcquireChannel`` for ``qubit`` on the active builder backend.</span>
+    <span class="sd">&quot;&quot;&quot;Return ``ControlChannel`` for ``qubit`` on the active builder backend.</span>
 
 <span class="sd">    Return the secondary drive channel for the given qubit -- typically</span>
 <span class="sd">    utilized for controlling multi-qubit interactions.</span>
@@ -1737,8 +1749,7 @@
 
 
 <span class="c1"># Base Instructions</span>
-<div class="viewcode-block" id="delay"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.delay.html#qiskit.pulse.builder.delay">[docs]</a><span class="k">def</span> <span class="nf">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-          <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="delay"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.delay.html#qiskit.pulse.builder.delay">[docs]</a><span class="k">def</span> <span class="nf">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">Channel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Delay on a ``channel`` for a ``duration``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1760,8 +1771,9 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="play"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.play.html#qiskit.pulse.builder.play">[docs]</a><span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="n">pulse</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">library</span><span class="o">.</span><span class="n">Pulse</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-         <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="play"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.play.html#qiskit.pulse.builder.play">[docs]</a><span class="k">def</span> <span class="nf">play</span><span class="p">(</span>
+    <span class="n">pulse</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">library</span><span class="o">.</span><span class="n">Pulse</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Play a ``pulse`` on a ``channel``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1786,11 +1798,12 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Play</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="acquire"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.acquire.html#qiskit.pulse.builder.acquire">[docs]</a><span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-            <span class="n">qubit_or_channel</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">],</span>
-            <span class="n">register</span><span class="p">:</span> <span class="n">StorageLocation</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">configuration</span><span class="o">.</span><span class="n">Kernel</span><span class="p">,</span>
-                              <span class="n">configuration</span><span class="o">.</span><span class="n">Discriminator</span><span class="p">]):</span>
+<div class="viewcode-block" id="acquire"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.acquire.html#qiskit.pulse.builder.acquire">[docs]</a><span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span>
+    <span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">qubit_or_channel</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">],</span>
+    <span class="n">register</span><span class="p">:</span> <span class="n">StorageLocation</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">configuration</span><span class="o">.</span><span class="n">Kernel</span><span class="p">,</span> <span class="n">configuration</span><span class="o">.</span><span class="n">Discriminator</span><span class="p">],</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Acquire for a ``duration`` on a ``channel`` and store the result</span>
 <span class="sd">    in a ``register``.</span>
 
@@ -1828,18 +1841,18 @@
         <span class="n">qubit_or_channel</span> <span class="o">=</span> <span class="n">chans</span><span class="o">.</span><span class="n">AcquireChannel</span><span class="p">(</span><span class="n">qubit_or_channel</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">MemorySlot</span><span class="p">):</span>
-        <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span>
-            <span class="n">duration</span><span class="p">,</span> <span class="n">qubit_or_channel</span><span class="p">,</span> <span class="n">mem_slot</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">))</span>
+        <span class="n">append_instruction</span><span class="p">(</span>
+            <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">qubit_or_channel</span><span class="p">,</span> <span class="n">mem_slot</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">register</span><span class="p">,</span> <span class="n">chans</span><span class="o">.</span><span class="n">RegisterSlot</span><span class="p">):</span>
-        <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span>
-            <span class="n">duration</span><span class="p">,</span> <span class="n">qubit_or_channel</span><span class="p">,</span> <span class="n">reg_slot</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">))</span>
+        <span class="n">append_instruction</span><span class="p">(</span>
+            <span class="n">instructions</span><span class="o">.</span><span class="n">Acquire</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">qubit_or_channel</span><span class="p">,</span> <span class="n">reg_slot</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
-            <span class="s1">&#39;Register of type: &quot;</span><span class="si">{}</span><span class="s1">&quot; is not supported&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">register</span><span class="p">)))</span></div>
+        <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Register of type: &quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">register</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot; is not supported&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="set_frequency"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.set_frequency.html#qiskit.pulse.builder.set_frequency">[docs]</a><span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                  <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="set_frequency"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.set_frequency.html#qiskit.pulse.builder.set_frequency">[docs]</a><span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Set the ``frequency`` of a pulse ``channel``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1861,8 +1874,7 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">SetFrequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="shift_frequency"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.shift_frequency.html#qiskit.pulse.builder.shift_frequency">[docs]</a><span class="k">def</span> <span class="nf">shift_frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                    <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shift_frequency"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.shift_frequency.html#qiskit.pulse.builder.shift_frequency">[docs]</a><span class="k">def</span> <span class="nf">shift_frequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shift the ``frequency`` of a pulse ``channel``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1885,8 +1897,7 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">ShiftFrequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="set_phase"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.set_phase.html#qiskit.pulse.builder.set_phase">[docs]</a><span class="k">def</span> <span class="nf">set_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-              <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="set_phase"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.set_phase.html#qiskit.pulse.builder.set_phase">[docs]</a><span class="k">def</span> <span class="nf">set_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Set the ``phase`` of a pulse ``channel``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1911,8 +1922,7 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">SetPhase</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="shift_phase"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.shift_phase.html#qiskit.pulse.builder.shift_phase">[docs]</a><span class="k">def</span> <span class="nf">shift_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="shift_phase"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.shift_phase.html#qiskit.pulse.builder.shift_phase">[docs]</a><span class="k">def</span> <span class="nf">shift_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">chans</span><span class="o">.</span><span class="n">PulseChannel</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shift the ``phase`` of a pulse ``channel``.</span>
 
 <span class="sd">    Examples:</span>
@@ -1936,8 +1946,7 @@
     <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">ShiftPhase</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="snapshot"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.snapshot.html#qiskit.pulse.builder.snapshot">[docs]</a><span class="k">def</span> <span class="nf">snapshot</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-             <span class="n">snapshot_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;statevector&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="snapshot"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.snapshot.html#qiskit.pulse.builder.snapshot">[docs]</a><span class="k">def</span> <span class="nf">snapshot</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">snapshot_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;statevector&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Simulator snapshot.</span>
 
 <span class="sd">    Examples:</span>
@@ -1953,8 +1962,7 @@
 <span class="sd">        label: Label for snapshot.</span>
 <span class="sd">        snapshot_type: Type of snapshot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">append_instruction</span><span class="p">(</span>
-        <span class="n">instructions</span><span class="o">.</span><span class="n">Snapshot</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">snapshot_type</span><span class="o">=</span><span class="n">snapshot_type</span><span class="p">))</span></div>
+    <span class="n">append_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="o">.</span><span class="n">Snapshot</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">snapshot_type</span><span class="o">=</span><span class="n">snapshot_type</span><span class="p">))</span></div>
 
 
 <span class="k">def</span> <span class="nf">call_schedule</span><span class="p">(</span><span class="n">schedule</span><span class="p">:</span> <span class="n">Schedule</span><span class="p">):</span>
@@ -1980,8 +1988,11 @@
 <span class="sd">    Args:</span>
 <span class="sd">        Schedule to call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;``call_schedule`` is being deprecated. &#39;</span>
-                  <span class="s1">&#39;``call`` function can take both a schedule and a circuit.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;``call_schedule`` is being deprecated. &quot;</span>
+        <span class="s2">&quot;``call`` function can take both a schedule and a circuit.&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">call</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
 
@@ -2026,16 +2037,21 @@
 <span class="sd">    Args:</span>
 <span class="sd">        Circuit to call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;``call_circuit`` is being deprecated. &#39;</span>
-                  <span class="s1">&#39;``call`` function can take both a schedule and a circuit.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;``call_circuit`` is being deprecated. &quot;</span>
+        <span class="s2">&quot;``call`` function can take both a schedule and a circuit.&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">call</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.call.html#qiskit.pulse.builder.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">],</span>
-         <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="n">value_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterValueType</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-         <span class="o">**</span><span class="n">kw_params</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">):</span>
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.call.html#qiskit.pulse.builder.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">],</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">value_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ParameterValueType</span><span class="p">,</span> <span class="n">ParameterValueType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kw_params</span><span class="p">:</span> <span class="n">ParameterValueType</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Call the ``target`` within the currently active builder context with arbitrary</span>
 <span class="sd">    parameters which will be assigned to the target program.</span>
 
@@ -2108,9 +2124,10 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        exceptions.PulseError: If the input ``target`` type is not supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Schedule</span><span class="p">,</span> <span class="n">ScheduleBlock</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">PulseError</span><span class="p">(</span>
-            <span class="s1">&#39;Target of type &quot;</span><span class="si">{}</span><span class="s1">&quot; is not supported.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)))</span>
+            <span class="sa">f</span><span class="s1">&#39;Target of type &quot;</span><span class="si">{</span><span class="n">target</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&quot; is not supported.&#39;</span>
+        <span class="p">)</span>
 
     <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_subroutine</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_params</span><span class="p">)</span></div>
 
@@ -2152,7 +2169,9 @@
 <span class="sd">                pulse.play(pulse.Constant(10, 1.0), d0)</span>
 <span class="sd">                pulse.play(pulse.Constant(10, 1.0), d1)</span>
 
-<span class="sd">        barrier_pulse_prog = transforms.remove_directives(barrier_pulse_prog)</span>
+<span class="sd">        barrier_pulse_prog = transforms.target_qobj_transform(barrier_pulse_prog)</span>
+<span class="sd">        aligned_pulse_prog = transforms.target_qobj_transform(aligned_pulse_prog)</span>
+
 <span class="sd">        assert barrier_pulse_prog == aligned_pulse_prog</span>
 
 <span class="sd">    The barrier allows the pulse compiler to take care of more advanced</span>
@@ -2230,7 +2249,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Callable: The wrapped ``func``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">func_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+    <span class="n">func_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
 
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2239,15 +2258,16 @@
         <span class="k">with</span> <span class="n">build</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">_builder</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">func_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">built</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">_builder</span><span class="o">.</span><span class="n">call_schedule</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
+        <span class="n">_builder</span><span class="o">.</span><span class="n">call_subroutine</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span>
 
     <span class="k">return</span> <span class="n">wrapper</span>
 
 
-<div class="viewcode-block" id="measure"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.measure.html#qiskit.pulse.builder.measure">[docs]</a><span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="n">qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span>
-            <span class="n">registers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StorageLocation</span><span class="p">],</span> <span class="n">StorageLocation</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StorageLocation</span><span class="p">],</span> <span class="n">StorageLocation</span><span class="p">]:</span>
+<div class="viewcode-block" id="measure"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.measure.html#qiskit.pulse.builder.measure">[docs]</a><span class="k">def</span> <span class="nf">measure</span><span class="p">(</span>
+    <span class="n">qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">registers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StorageLocation</span><span class="p">],</span> <span class="n">StorageLocation</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">StorageLocation</span><span class="p">],</span> <span class="n">StorageLocation</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Measure a qubit within the currently active builder context.</span>
 
 <span class="sd">    At the pulse level a measurement is composed of both a stimulus pulse and</span>
@@ -2321,11 +2341,12 @@
         <span class="n">qubits</span><span class="o">=</span><span class="n">qubits</span><span class="p">,</span>
         <span class="n">inst_map</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span><span class="o">.</span><span class="n">instruction_schedule_map</span><span class="p">,</span>
         <span class="n">meas_map</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">meas_map</span><span class="p">,</span>
-        <span class="n">qubit_mem_slots</span><span class="o">=</span><span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">register</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">register</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">registers</span><span class="p">)})</span>
+        <span class="n">qubit_mem_slots</span><span class="o">=</span><span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">register</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">register</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">registers</span><span class="p">)},</span>
+    <span class="p">)</span>
 
     <span class="c1"># note this is not a subroutine.</span>
     <span class="c1"># just a macro to automate combination of stimulus and acquisition.</span>
-    <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_schedule</span><span class="p">(</span><span class="n">measure_sched</span><span class="p">)</span>
+    <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_subroutine</span><span class="p">(</span><span class="n">measure_sched</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">registers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -2366,17 +2387,17 @@
         <span class="n">qubits</span><span class="o">=</span><span class="n">qubits</span><span class="p">,</span>
         <span class="n">inst_map</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">defaults</span><span class="p">()</span><span class="o">.</span><span class="n">instruction_schedule_map</span><span class="p">,</span>
         <span class="n">meas_map</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">configuration</span><span class="p">()</span><span class="o">.</span><span class="n">meas_map</span><span class="p">,</span>
-        <span class="n">qubit_mem_slots</span><span class="o">=</span><span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">qubit</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">})</span>
+        <span class="n">qubit_mem_slots</span><span class="o">=</span><span class="p">{</span><span class="n">qubit</span><span class="p">:</span> <span class="n">qubit</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">},</span>
+    <span class="p">)</span>
 
     <span class="c1"># note this is not a subroutine.</span>
     <span class="c1"># just a macro to automate combination of stimulus and acquisition.</span>
-    <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_schedule</span><span class="p">(</span><span class="n">measure_sched</span><span class="p">)</span>
+    <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_subroutine</span><span class="p">(</span><span class="n">measure_sched</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">registers</span></div>
 
 
-<div class="viewcode-block" id="delay_qubits"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.delay_qubits.html#qiskit.pulse.builder.delay_qubits">[docs]</a><span class="k">def</span> <span class="nf">delay_qubits</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="o">*</span><span class="n">qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]):</span>
+<div class="viewcode-block" id="delay_qubits"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.delay_qubits.html#qiskit.pulse.builder.delay_qubits">[docs]</a><span class="k">def</span> <span class="nf">delay_qubits</span><span class="p">(</span><span class="n">duration</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">qubits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Insert delays on all of the :class:`channels.Channel`\s that correspond</span>
 <span class="sd">    to the input ``qubits`` at the same time.</span>
 
@@ -2400,9 +2421,8 @@
 <span class="sd">        qubits: Physical qubits to delay on. Delays will be inserted based on</span>
 <span class="sd">            the channels returned by :func:`pulse.qubit_channels`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">qubit_chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-        <span class="n">qubit_channels</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">))</span>
-    <span class="k">with</span> <span class="n">align_left</span><span class="p">():</span>
+    <span class="n">qubit_chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">qubit_channels</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">align_left</span><span class="p">():</span>  <span class="c1"># pylint: disable=not-context-manager</span>
         <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">qubit_chans</span><span class="p">:</span>
             <span class="n">delay</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span></div>
 
@@ -2464,7 +2484,7 @@
     <span class="n">_active_builder</span><span class="p">()</span><span class="o">.</span><span class="n">call_gate</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="n">lazy</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="cx"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.cx.html#qiskit.pulse.builder.cx">[docs]</a><span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="n">control</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="cx"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.cx.html#qiskit.pulse.builder.cx">[docs]</a><span class="k">def</span> <span class="nf">cx</span><span class="p">(</span><span class="n">control</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;Call a :class:`~qiskit.circuit.library.standard_gates.CXGate` on the</span>
 <span class="sd">    input physical qubits.</span>
 
@@ -2489,7 +2509,7 @@
     <span class="n">call_gate</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">CXGate</span><span class="p">(),</span> <span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="u1"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u1.html#qiskit.pulse.builder.u1">[docs]</a><span class="k">def</span> <span class="nf">u1</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="u1"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u1.html#qiskit.pulse.builder.u1">[docs]</a><span class="k">def</span> <span class="nf">u1</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;Call a :class:`~qiskit.circuit.library.standard_gates.U1Gate` on the</span>
 <span class="sd">    input physical qubit.</span>
 
@@ -2516,7 +2536,7 @@
     <span class="n">call_gate</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">U1Gate</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">qubit</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="u2"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u2.html#qiskit.pulse.builder.u2">[docs]</a><span class="k">def</span> <span class="nf">u2</span><span class="p">(</span><span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="u2"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u2.html#qiskit.pulse.builder.u2">[docs]</a><span class="k">def</span> <span class="nf">u2</span><span class="p">(</span><span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;Call a :class:`~qiskit.circuit.library.standard_gates.U2Gate` on the</span>
 <span class="sd">    input physical qubit.</span>
 
@@ -2543,7 +2563,7 @@
     <span class="n">call_gate</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">U2Gate</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">lam</span><span class="p">),</span> <span class="n">qubit</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="u3"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u3.html#qiskit.pulse.builder.u3">[docs]</a><span class="k">def</span> <span class="nf">u3</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="u3"><a class="viewcode-back" href="../../../stubs/qiskit.pulse.builder.u3.html#qiskit.pulse.builder.u3">[docs]</a><span class="k">def</span> <span class="nf">u3</span><span class="p">(</span><span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lam</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;Call a :class:`~qiskit.circuit.library.standard_gates.U3Gate` on the</span>
 <span class="sd">    input physical qubit.</span>
 
@@ -2610,7 +2630,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      Mis à jour le 2021/07/12.
+      Mis à jour le 2021/07/27.
 
     </p>
   </div>
@@ -2645,7 +2665,7 @@
          <script src="../../../_static/language_data.js"></script>
          <script src="../../../_static/thebelab-helper.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

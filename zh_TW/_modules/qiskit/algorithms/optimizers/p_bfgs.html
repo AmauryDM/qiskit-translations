@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qiskit.algorithms.optimizers.p_bfgs &mdash; Qiskit 0.27.0 說明文件</title>
+  <title>qiskit.algorithms.optimizers.p_bfgs &mdash; Qiskit 0.28.0 說明文件</title>
   
 
   
@@ -332,22 +332,23 @@
 
 <span class="sd">&quot;&quot;&quot;Parallelized Limited-memory BFGS optimizer&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span> <span class="k">as</span> <span class="n">sciopt</span>
 
 <span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">algorithm_globals</span>
 <span class="kn">from</span> <span class="nn">qiskit.utils.validation</span> <span class="kn">import</span> <span class="n">validate_min</span>
-<span class="kn">from</span> <span class="nn">.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span><span class="p">,</span> <span class="n">OptimizerSupportLevel</span>
+
+<span class="kn">from</span> <span class="nn">.scipy_optimizer</span> <span class="kn">import</span> <span class="n">SciPyOptimizer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="P_BFGS"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS">[文件]</a><span class="k">class</span> <span class="nc">P_BFGS</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
+<div class="viewcode-block" id="P_BFGS"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS">[文件]</a><span class="k">class</span> <span class="nc">P_BFGS</span><span class="p">(</span><span class="n">SciPyOptimizer</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parallelized Limited-memory BFGS optimizer.</span>
 
@@ -361,18 +362,25 @@
 <span class="sd">    https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fmin_l_bfgs_b.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;maxfun&#39;</span><span class="p">,</span> <span class="s1">&#39;factr&#39;</span><span class="p">,</span> <span class="s1">&#39;iprint&#39;</span><span class="p">]</span>
+    <span class="n">_OPTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;maxfun&quot;</span><span class="p">,</span> <span class="s2">&quot;ftol&quot;</span><span class="p">,</span> <span class="s2">&quot;iprint&quot;</span><span class="p">]</span>
 
     <span class="c1"># pylint: disable=unused-argument</span>
-<div class="viewcode-block" id="P_BFGS.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">maxfun</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">factr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-                 <span class="n">iprint</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">max_processes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="P_BFGS.__init__"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS.__init__">[文件]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">maxfun</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">ftol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span>
+        <span class="n">factr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">iprint</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_processes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_evals_grouped</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            maxfun: Maximum number of function evaluations.</span>
-<span class="sd">            factr : The iteration stops when (f\^k - f\^{k+1})/max{\|f\^k\|,</span>
+<span class="sd">            ftol: The iteration stops when (f\^k - f\^{k+1})/max{\|f\^k\|,\|f\^{k+1}\|,1} &lt;= ftol.</span>
+<span class="sd">            factr : (DEPRECATED) The iteration stops when (f\^k - f\^{k+1})/max{\|f\^k\|,</span>
 <span class="sd">                \|f\^{k+1}|,1} &lt;= factr * eps, where eps is the machine precision,</span>
 <span class="sd">                which is automatically generated by the code. Typical values for</span>
 <span class="sd">                factr are: 1e12 for low accuracy; 1e7 for moderate accuracy;</span>
@@ -386,44 +394,65 @@
 <span class="sd">                changes of active set and final x; iprint &gt; 100 print details of</span>
 <span class="sd">                every iteration including x and g.</span>
 <span class="sd">            max_processes: maximum number of processes allowed, has a min. value of 1 if not None.</span>
+<span class="sd">            options: A dictionary of solver options.</span>
+<span class="sd">            max_evals_grouped: Max number of default gradient evaluations performed simultaneously.</span>
+<span class="sd">            kwargs: additional kwargs for scipy.optimize.minimize.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">max_processes</span><span class="p">:</span>
-            <span class="n">validate_min</span><span class="p">(</span><span class="s1">&#39;max_processes&#39;</span><span class="p">,</span> <span class="n">max_processes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="n">validate_min</span><span class="p">(</span><span class="s2">&quot;max_processes&quot;</span><span class="p">,</span> <span class="n">max_processes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">factr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;P_BFGS.__init__() keyword argument factr is deprecated and replaced with ftol. &quot;</span>
+                <span class="s2">&quot;The relationship between the two is ftol = factr * numpy.finfo(float).eps. &quot;</span>
+                <span class="s2">&quot;See https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html.&quot;</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ftol</span> <span class="o">=</span> <span class="n">factr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_OPTIONS</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="n">options</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+            <span class="n">max_evals_grouped</span><span class="o">=</span><span class="n">max_evals_grouped</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_max_processes</span> <span class="o">=</span> <span class="n">max_processes</span></div>
 
-<div class="viewcode-block" id="P_BFGS.get_support_level"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS.get_support_level">[文件]</a>    <span class="k">def</span> <span class="nf">get_support_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return support level dictionary &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
-            <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">supported</span><span class="p">,</span>
-            <span class="s1">&#39;initial_point&#39;</span><span class="p">:</span> <span class="n">OptimizerSupportLevel</span><span class="o">.</span><span class="n">required</span>
-        <span class="p">}</span></div>
-
-<div class="viewcode-block" id="P_BFGS.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS.optimize">[文件]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="P_BFGS.optimize"><a class="viewcode-back" href="../../../../stubs/qiskit.algorithms.optimizers.P_BFGS.html#qiskit.algorithms.optimizers.P_BFGS.optimize">[文件]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="n">num_procs</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">num_procs</span> <span class="o">=</span> \
+        <span class="n">num_procs</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">num_procs</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_processes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_procs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_processes</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">num_procs</span> <span class="o">=</span> <span class="n">num_procs</span> <span class="k">if</span> <span class="n">num_procs</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
 
-        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
             <span class="c1"># Changed in version 3.8: On macOS, the spawn start method is now the</span>
             <span class="c1"># default. The fork start method should be considered unsafe as it can</span>
             <span class="c1"># lead to crashes.</span>
             <span class="c1"># However P_BFGS doesn&#39;t support spawn, so we revert to single process.</span>
             <span class="n">major</span><span class="p">,</span> <span class="n">minor</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">major</span> <span class="o">&gt;</span> <span class="s1">&#39;3&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">major</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span> <span class="ow">and</span> <span class="n">minor</span> <span class="o">&gt;=</span> <span class="s1">&#39;8&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">major</span> <span class="o">&gt;</span> <span class="s2">&quot;3&quot;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">major</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span> <span class="ow">and</span> <span class="n">minor</span> <span class="o">&gt;=</span> <span class="s2">&quot;8&quot;</span><span class="p">):</span>
                 <span class="n">num_procs</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;For MacOS, python &gt;= 3.8, using only current process. &quot;</span>
-                               <span class="s2">&quot;Multiple core use not supported.&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;For MacOS, python &gt;= 3.8, using only current process. &quot;</span>
+                    <span class="s2">&quot;Multiple core use not supported.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
             <span class="n">num_procs</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;For Windows, using only current process. &quot;</span>
-                           <span class="s2">&quot;Multiple core use not supported.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;For Windows, using only current process. &quot;</span> <span class="s2">&quot;Multiple core use not supported.&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
         <span class="c1"># bounds for additional initial points in case bounds has any None values</span>
@@ -434,8 +463,9 @@
         <span class="n">high</span> <span class="o">=</span> <span class="p">[(</span><span class="n">u</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">threshold</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">variable_bounds</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">optimize_runner</span><span class="p">(</span><span class="n">_queue</span><span class="p">,</span> <span class="n">_i_pt</span><span class="p">):</span>  <span class="c1"># Multi-process sampling</span>
-            <span class="n">_sol</span><span class="p">,</span> <span class="n">_opt</span><span class="p">,</span> <span class="n">_nfev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span>
-                                               <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">_i_pt</span><span class="p">)</span>
+            <span class="n">_sol</span><span class="p">,</span> <span class="n">_opt</span><span class="p">,</span> <span class="n">_nfev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize</span><span class="p">(</span>
+                <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">_i_pt</span>
+            <span class="p">)</span>
             <span class="n">_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">_sol</span><span class="p">,</span> <span class="n">_opt</span><span class="p">,</span> <span class="n">_nfev</span><span class="p">))</span>
 
         <span class="c1"># Start off as many other processes running the optimize (can be 0)</span>
@@ -446,11 +476,12 @@
             <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
             <span class="n">proc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-        <span class="c1"># While the one _optimize in this process below runs the other processes will</span>
-        <span class="c1"># be running to. This one runs</span>
+        <span class="c1"># While the one optimize in this process below runs the other processes will</span>
+        <span class="c1"># be running too. This one runs</span>
         <span class="c1"># with the supplied initial point. The process ones have their own random one</span>
-        <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">nfev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span>
-                                        <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
+        <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">nfev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize</span><span class="p">(</span>
+            <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span>
+        <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
             <span class="c1"># For each other process we wait now for it to finish and see if it has</span>
@@ -463,17 +494,17 @@
 
         <span class="k">return</span> <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">nfev</span></div>
 
-    <span class="k">def</span> <span class="nf">_optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span>
-                         <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">)</span>
-
-        <span class="n">approx_grad</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gradient_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">sciopt</span><span class="o">.</span><span class="n">fmin_l_bfgs_b</span><span class="p">(</span><span class="n">objective_function</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">,</span>
-                                              <span class="n">bounds</span><span class="o">=</span><span class="n">variable_bounds</span><span class="p">,</span>
-                                              <span class="n">fprime</span><span class="o">=</span><span class="n">gradient_function</span><span class="p">,</span>
-                                              <span class="n">approx_grad</span><span class="o">=</span><span class="n">approx_grad</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">sol</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;funcalls&#39;</span><span class="p">]</span></div>
+    <span class="k">def</span> <span class="nf">_optimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_vars</span><span class="p">,</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">gradient_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">variable_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_point</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+            <span class="n">num_vars</span><span class="p">,</span> <span class="n">objective_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">variable_bounds</span><span class="p">,</span> <span class="n">initial_point</span>
+        <span class="p">)</span></div>
 </pre></div>
 
              </article>
@@ -491,7 +522,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      最後更新於 2021/07/12。
+      最後更新於 2021/07/27。
 
     </p>
   </div>
@@ -527,7 +558,7 @@
          <script src="../../../../_static/thebelab-helper.js"></script>
          <script src="../../../../_static/translations.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
          <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
          <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
          <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>

@@ -44,5 +44,6 @@
       ~ScalarOp.num_qubits
       ~ScalarOp.qargs
       ~ScalarOp.rtol
+      ~ScalarOp.settings
    
    
