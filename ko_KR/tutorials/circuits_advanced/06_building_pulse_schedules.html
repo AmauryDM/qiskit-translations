@@ -576,7 +576,7 @@ div.rendered_html tbody tr:hover {
 <h1>펄스 스케줄 구성하기<a class="headerlink" href="#펄스-스케줄-구성하기" title="제목 주소">¶</a></h1>
 <p>펄스 게이트는 회로 게이트에 대한 낮은 레벨(low-level)의 정확한 표현을 정의한다. 하나의 연산은 다수의 낮은 레벨 명령들로 구성된 펄스 프로그램으로 구현될 수 있다. 펄스 게이트에 대해서 자세히 배우려면 이 <a class="reference internal" href="05_pulse_gates.html"><span class="doc">문서</span></a> 를 참고하라. 이 페이지에서는 펄스 프로그램을 어떻게 만드는지에 대해 자세히 다룬다.</p>
 <p>참고: IBM 장치의 경우, 펄스 프로그램들이 게이트를 설명하는 서브루틴으로써 사용되고 있다. 예전에는 일부 장치들만 이 형식으로 전체 프로그램들을 받아들였지만, 이는 2021년 12월에 종료될 것이다. 다른 공급자들은 여전히 이 형식의 프로그램을 받아들일 수도 있다. 프로그램이 어떻게 사용되는지에 상관 없이, 프로그램을 작성하는 구문은 동일하다. 어떻게 하는지 읽어보라!</p>
-<p>Pulse programs, which are called <code class="docutils literal notranslate"><span class="pre">Schedule</span></code>s, describe instruction sequences for the control electronics. We build <code class="docutils literal notranslate"><span class="pre">Schedule</span></code>s using the Pulse Builder. It’s easy to initialize a schedule:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Schedule</span></code>들이라 불리는 펄스 프로그램은 전자 제어를 위한 명령어 순서이다. Pulse Builder를 사용하여 <code class="docutils literal notranslate"><span class="pre">Schedule</span></code>들을 구축한다. 스케줄을 쉽게 시작시킬 수 있다.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -601,7 +601,7 @@ div.rendered_html tbody tr:hover {
 Schedule(, name=&#34;my_example&#34;)
 </pre></div></div>
 </div>
-<p>You can see that there are no instructions yet. The next section of this page will explain each of the instructions you might add to a schedule, and the last section will describe various <em>alignment contexts</em>, which determine how instructions are placed in time relative to one another.</p>
+<p>아직 명령어가 없다는 것을 알 수 있다. 이 페이지의 다음 절에서는 스케줄에 추가할 수 있는 각 명령어를 설명하고, 마지막 절에서는 다양한 <em>정렬 컨텍스트</em> 를 설명하며, 이 컨텍스트는 명령어가 시간 순서에 따라 상대적으로 배치되는 방법을 결정한다.</p>
 </section>
 <section id="Schedule-명령어">
 <h1><code class="docutils literal notranslate"><span class="pre">Schedule</span></code> 명령어<a class="headerlink" href="#Schedule-명령어" title="제목 주소">¶</a></h1>
@@ -612,15 +612,15 @@ Schedule(, name=&#34;my_example&#34;)
 <li><p><a class="reference external" href="#shift_phase">shift_phase(phase, channel)</a></p></li>
 <li><p><a class="reference external" href="#acquire">acquire(duration, channel, mem_slot, reg_slot)</a></p></li>
 </ul>
-<p>Each instruction type has its own set of operands. As you can see above, they each include at least one <code class="docutils literal notranslate"><span class="pre">Channel</span></code> to specify where the instruction will be applied.</p>
-<p><strong>Channels</strong> are labels for signal lines from the control hardware to the quantum chip.</p>
+<p>각 명령어 유형은 고유한 피연산자 집합이 있다. 위에서 볼 수 있듯이, 이들은 명령어가 어디에 적용될 것인가를 지정하기 위해 적어도 하나의 <code class="docutils literal notranslate"><span class="pre">Channel</span></code> 을 포함하고 있다.</p>
+<p><strong>Channels</strong> 는 제어 하드웨어에서 양자 칩까지의 신호 라인에 대한 레이블이다.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code>s are typically used for <em>driving</em> single qubit rotations,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code>s are typically used for multi-qubit gates or additional drive lines for tunable qubits,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MeasureChannel</span></code>s are specific to transmitting pulses which stimulate readout, and</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code>s are used to trigger digitizers which collect readout signals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code>들은 일반적으로 단일 큐비트의 회전을 <em>driving</em> 하는데 사용되고,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code>들은 일반적으로 다중 큐비트 게이트 또는 조정 가능한 큐비트의 추가 드라이브 라인에 사용되고,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MeasureChannel</span></code>들은 신호를 읽도록 하는 펄스의 전송에 한정되며,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code>들은 읽은 (아날로그 신호를 디지털 신호로 바꾸어) 신호를 수집하는 디지타이저(digitizer)를 동작시키는데 사용된다.</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code>s, <code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code>s, and <code class="docutils literal notranslate"><span class="pre">MeasureChannel</span></code>s are all <code class="docutils literal notranslate"><span class="pre">PulseChannel</span></code>s; this means that they support <em>transmitting</em> pulses, whereas the <code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code> is a receive channel only and cannot play waveforms.</p>
+<p><code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code>들, <code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code>들 그리고 <code class="docutils literal notranslate"><span class="pre">MeasureChannel</span></code>들은 모두 <code class="docutils literal notranslate"><span class="pre">PulseChannel</span></code>들이다. 이는 그들이 펄스의 <em>전송</em> 을 지원하는 반면, <code class="docutils literal notranslate"><span class="pre">AcquireChannel</span></code>은 수신 채널일 뿐 파형을 발생시킬 수는 없다는 뜻이다.</p>
 <p>For the following examples, we will create one <code class="docutils literal notranslate"><span class="pre">DriveChannel</span></code> instance for each <code class="docutils literal notranslate"><span class="pre">Instruction</span></code> that accepts a <code class="docutils literal notranslate"><span class="pre">PulseChannel</span></code>. Channels take one integer <code class="docutils literal notranslate"><span class="pre">index</span></code> argument. Except for <code class="docutils literal notranslate"><span class="pre">ControlChannel</span></code>s, the index maps trivially to the qubit label.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -1065,7 +1065,7 @@ the signal sent to the qubit is demonstrated by the right side of the image belo
   <div role="contentinfo">
     <p>
         &copy; Copyright 2021, Qiskit Development Team.
-      최종 업데이트: 2021/07/27
+      최종 업데이트: 2021/07/28
 
     </p>
   </div>
